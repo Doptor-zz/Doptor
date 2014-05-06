@@ -1,7 +1,7 @@
 {
 	"name": "doptor/doptor",
 	"description": "The Doptor CMS.",
-	"keywords": ["doptor", "cms"],
+	"keywords": ["doptor", "cms", "laravel"],
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.1.*",
