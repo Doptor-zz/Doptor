@@ -1,0 +1,23 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+@font-face {
+	font-family: 'MuseoSans500Regular';
+	src: url('../fonts/MuseoSans_500-webfont.eot');
+	src: url('../fonts/MuseoSans_500-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/MuseoSans_500-webfont.woff') format('woff'),
+			 url('../fonts/MuseoSans_500-webfont.ttf') format('truetype'),
+			 url('../fonts/MuseoSans_500-webfont.svg#MuseoSans500Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	}
+
+@font-face {
+	font-family: 'MuseoSans500Italic';
+	src: url('../fonts/MuseoSans_500_Italic-webfont.eot');
+	src: url('../fonts/MuseoSans_500_Italic-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/MuseoSans_500_Italic-webfont.woff') format('woff'),
+			 url('../fonts/MuseoSans_500_Italic-webfont.ttf') format('truetype'),
+			 url('../fonts/MuseoSans_500_Italic-webfont.svg#MuseoSans500Italic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	}

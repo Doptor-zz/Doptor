@@ -1,0 +1,166 @@
+html, body {
+	height:100%;
+	}
+body {
+	position: relative;
+	background:#fcfdf9 url(../images/pattern.gif);
+	font: 12px/20px 'MuseoSans500Regular', Arial, sans-serif;
+	color: #888;
+	-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+	-webkit-text-size-adjust: 100%;
+	}
+
+#wrapper {
+	background:url(../images/coming-soon/light.png) 50% 0 no-repeat;
+	min-height:100%;
+	}
+	
+/* Header */	
+#cs-header {
+	height:209px;
+	text-align:center;
+	}
+	#cs-header .cs-logo {
+		padding:36px 0 0 0;
+		}
+
+/* Content */
+#cs-content-wrapper {
+	padding-bottom:90px;
+	}		
+	
+/* Title */		
+#cs-content-wrapper h2 {
+	text-align:center;
+	font-size:16px;
+	margin:0 0 .8em 0;
+	font-weight:normal;
+	line-height:1.2em;
+	color:#8d8d8d;
+	text-transform:uppercase;
+	}
+
+/* Countdown */
+#count {
+	padding-top:78px;
+	}
+	.holder {
+		float:left;
+		width:166px;
+		padding-left:34px;
+		margin-right:29px;
+		background:url(../images/coming-soon-divider.png) 0 42px no-repeat;
+		}
+	#count .holder:first-child {
+		padding-left:32px;
+		background:none;
+		}
+	
+	.number {
+		display:block;
+		width:166px;
+		height:93px;
+		font-size:38px;
+		line-height:96px;
+		overflow:hidden;
+		color:#9eb91e;
+		font-family: 'MuseoSans500Regular', Arial, sans-serif;
+		text-shadow:0 1px 1px #fff;
+		background:url(../images/number.png) 0 0 no-repeat;
+		margin-bottom:15px;
+		letter-spacing:70px;
+		text-indent:27px;
+		text-align:center;
+		}
+	.desc {
+		font-size:14px;
+		text-align:center;
+		}
+
+/* Footer */
+#cs-footer {
+	position:relative;
+	height:30px;
+	text-align:center;
+	padding:10px 0 18px 0;
+	color:#8d8d8d;
+	font-size:12px;
+	margin-top:-60px;
+	}
+	#cs-footer small {
+		font-size:1em;
+		padding-right:50px;
+		}
+	#cs-footer a {
+		color:#8d8d8d;
+		text-decoration:underline;
+		padding:0 3px;
+		}
+	#cs-footer a:hover {
+		text-decoration:none;
+		}
+		
+/* Home */
+#home-button {
+	display:block;
+	position:fixed;
+	left:0;
+	top:113px;
+	}
+	#home-button a {
+		display:block;
+		width:45px;
+		height:52px;
+		background:url(../images/home-icon.png) 0 0 no-repeat;
+		}
+
+/* Media Queries
+---------------------------------------- */			
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	
+	.holder {
+		padding-left:12px;
+		margin-right:5px;
+		}
+	#count .holder:first-child {
+		padding-left:10px;
+		}
+
+	}
+
+@media only screen and (max-width: 767px) {
+	
+	/* Header */	
+	#cs-header {
+		height:169px;
+		}
+		
+	/* Countdown */
+	#count {
+		padding-top:48px;
+		}	
+	.holder {
+		float:none;
+		background:none;
+		text-align:center;
+		padding:0;
+		margin:0 auto;
+		}
+	#count .holder:first-child {
+		padding:0;
+		}
+	.number {
+		margin:0 auto 10px auto;
+		}
+	.desc {
+		margin-bottom:20px;
+		}
+	
+	}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	
+	
+	
+	
+	}

@@ -1,0 +1,265 @@
+/*
+* Skeleton V1.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 6/20/2012
+*/
+
+
+/* Table of Contents
+==================================================
+    #Base 960 Grid
+    #Tablet (Portrait)
+    #Mobile (Portrait)
+    #Mobile (Landscape)
+    #Clearing */
+
+
+
+/* #Base 960 Grid
+================================================== */
+
+    .container                                  { position: relative; width: 960px; margin: 0 auto; padding: 0; }
+    .grid_1,
+		.grid_2,
+		.grid_3,
+		.grid_4,
+		.grid_5,
+		.grid_6,
+		.grid_7,
+		.grid_8,
+		.grid_9,
+		.grid_10,
+		.grid_11,
+		.grid_12	{float: left; display: inline; margin-left: 10px; margin-right: 10px;}
+    .row                                        { margin-bottom: 20px; }
+
+    /* Nested Column Classes */
+    .container .alpha               { margin-left: 0 !important; }
+    .container .omega               { margin-right: 0 !important; }
+
+	
+		/* Base Grid */
+		.container .grid_1 					{ width: 60px;  }
+		.container .grid_2 					{ width: 140px; }
+		.container .grid_3 					{ width: 220px; }
+		.container .grid_4 					{ width: 300px; }
+		.container .grid_5 					{ width: 380px; }
+		.container .grid_6 					{ width: 460px; }
+		.container .grid_7 					{ width: 540px; }	
+		.container .grid_8 					{ width: 620px; }
+		.container .grid_9 					{ width: 700px; }
+		.container .grid_10 				{ width: 780px; }	
+		.container .grid_11 				{ width: 860px; }	
+		.container .grid_12 				{ width: 940px; }
+		
+		/* Prefix Extra Space >> 12 Columns */
+		.container .prefix_1 				{ padding-left: 80px;  }
+		.container .prefix_2 				{ padding-left: 160px; }
+		.container .prefix_3 				{ padding-left: 240px; }
+		.container .prefix_4 				{ padding-left: 320px; }
+		.container .prefix_5 				{ padding-left: 400px; }
+		.container .prefix_6 				{ padding-left: 480px; }
+		.container .prefix_7 				{ padding-left: 560px; }
+		.container .prefix_8 				{ padding-left: 640px; }
+		.container .prefix_9 				{ padding-left: 720px; }
+		.container .prefix_10 			{ padding-left: 800px; }
+		.container .prefix_11 			{ padding-left: 880px; }
+		
+		.container .prefix_1_2 {padding-left:30px;}
+		
+		/* Suffix Extra Space >> 12 Columns */
+		.container .suffix_1 				{ padding-right:80px; }
+		.container .suffix_2 				{ padding-right:160px; }
+		.container .suffix_3 				{ padding-right:240px; }
+		.container .suffix_4 				{ padding-right:320px; }
+		.container .suffix_5 				{ padding-right:400px; }
+		.container .suffix_6 				{ padding-right:480px; }
+		.container .suffix_7 				{ padding-right:560px; }
+		.container .suffix_8 				{ padding-right:640px; }
+		.container .suffix_9 				{ padding-right:720px; }
+		.container .suffix_10 			{ padding-right:800px; }
+		.container .suffix_11 			{ padding-right:880px; }
+		
+		.container .suffix_1_2 				{ padding-right:40px; }
+
+
+
+/* #Tablet (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 768px */
+
+    @media only screen and (min-width: 768px) and (max-width: 959px) {
+        .container                                  { width: 768px; }
+        .grid_1,
+				.grid_2,
+				.grid_3,
+				.grid_4,
+				.grid_5,
+				.grid_6,
+				.grid_7,
+				.grid_8,
+				.grid_9,
+				.grid_10,
+				.grid_11,
+				.grid_12 { margin-left: 10px; margin-right: 10px;  }
+
+        .container .grid_1 				{ width: 44px;  }
+				.container .grid_2 			  { width: 108px; }
+				.container .grid_3 				{ width: 172px; }
+				.container .grid_4 				{ width: 236px; }
+				.container .grid_5 				{ width: 300px; }
+				.container .grid_6 			  { width: 364px; }
+				.container .grid_7 				{ width: 428px; }	
+				.container .grid_8 				{ width: 492px; }
+				.container .grid_9 				{ width: 556px; }
+				.container .grid_10 			{ width: 620px; }	
+				.container .grid_11 			{ width: 684px; }	
+				.container .grid_12 			{ width: 748px; }
+					
+				
+				/* Prefix Extra Space >> 12 Columns */
+				.container .prefix_1 			{ padding-left: 64px;  }
+				.container .prefix_2 			{ padding-left: 128px; }
+				.container .prefix_3 			{ padding-left: 192px; }
+				.container .prefix_4 			{ padding-left: 256px; }
+				.container .prefix_5 			{ padding-left: 320px; }
+				.container .prefix_6 			{ padding-left: 384px; }
+				.container .prefix_7 			{ padding-left: 448px; }
+				.container .prefix_8 			{ padding-left: 512px; }
+				.container .prefix_9 			{ padding-left: 576px; }
+				.container .prefix_10 		{ padding-left: 640px; }
+				.container .prefix_11 		{ padding-left: 704px; }
+				
+				.container .prefix_1_2 			{ padding-left: 22px;  }
+				
+				
+				/* Suffix Extra Space >> 12 Columns */
+				.container .suffix_1 			{ padding-right: 64px;  }
+				.container .suffix_2 			{ padding-right: 128px; }
+				.container .suffix_3 			{ padding-right: 192px; }
+				.container .suffix_4 			{ padding-right: 256px; }
+				.container .suffix_5 			{ padding-right: 320px; }
+				.container .suffix_6 			{ padding-right: 384px; }
+				.container .suffix_7 			{ padding-right: 448px; }
+				.container .suffix_8 			{ padding-right: 512px; }
+				.container .suffix_9 			{ padding-right: 576px; }
+				.container .suffix_10 		{ padding-right: 640px; }
+				.container .suffix_11 		{ padding-right: 704px; }
+				
+				.container .suffix_1_2 			{ padding-right: 22px;  }
+				}
+
+
+/*  #Mobile (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 320px */
+
+    @media only screen and (max-width: 767px) {
+        .container { width: 300px; }
+        .container .grid_1,
+				.container .grid_2,
+				.container .grid_3,
+				.container .grid_4,
+				.container .grid_5,
+				.container .grid_6,
+				.container .grid_7,
+				.container .grid_8,
+				.container .grid_9,
+				.container .grid_10,
+				.container .grid_11,
+				.container .grid_12 {  width: 300px; margin: 0 0 30px 0;}
+
+
+        /* Prefix Extra Space >> 12 Columns */
+				.container .prefix_1_2,
+        .container .prefix_1,
+        .container .prefix_2,
+        .container .prefix_3,
+        .container .prefix_4,
+        .container .prefix_5,
+        .container .prefix_6,
+        .container .prefix_7,
+        .container .prefix_8,
+        .container .prefix_9,
+        .container .prefix_11,
+        .container .prefix_11 { padding-left: 0; }
+				
+				/* Suffix Extra Space >> 12 Columns */
+				.container .suffix_1_2
+        .container .suffix_1,
+        .container .suffix_2,
+        .container .suffix_3,
+        .container .suffix_4,
+        .container .suffix_5,
+        .container .suffix_6,
+        .container .suffix_7,
+        .container .suffix_8,
+        .container .suffix_9,
+        .container .suffix_11,
+        .container .suffix_11 { padding-right: 0; }
+
+    }
+
+
+/* #Mobile (Landscape)
+================================================== */
+
+    /* Note: Design for a width of 480px */
+
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+        .container { width: 420px; }
+        .container .grid_1,
+				.container .grid_2,
+				.container .grid_3,
+				.container .grid_4,
+				.container .grid_5,
+				.container .grid_6,
+				.container .grid_7,
+				.container .grid_8,
+				.container .grid_9,
+				.container .grid_10,
+				.container .grid_11,
+				.container .grid_12 { width: 420px; margin: 0 0 30px 0; }
+				
+    }
+
+
+/* #Clearing
+================================================== */
+
+    /* Self Clearing Goodness */
+    .container:after { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; }
+
+    /* Use clearfix class on parent to clear nested columns,
+    or wrap each row of columns in a <div class="row"> */
+    .clearfix:before,
+    .clearfix:after,
+    .row:before,
+    .row:after {
+      content: '\0020';
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0; }
+    .row:after,
+    .clearfix:after {
+      clear: both; }
+    .row,
+    .clearfix {
+      zoom: 1; }
+
+    /* You can also use a <br class="clear" /> to clear columns */
+    .clear {
+      clear: both;
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }

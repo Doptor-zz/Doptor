@@ -1,0 +1,131 @@
+body {
+	background:#333 url(../images/dark_wood.png) repeat !important;
+}
+.navbar-inverse .navbar-inner {
+	background-color: #191818 !important;
+}
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+	background-color: #111111 !important;
+	
+	color: #FFFFFF !important;
+}
+.leftbar {
+	background: #000 !important;
+}
+.admin-info {
+	background:#121e25 !important;
+	color:#fff !important;
+}
+.left-secondary-nav, .left-nav {
+	background:#cbb28b !important;
+}
+.left-primary-nav ul li.active a {
+	background:#cbb28b !important;
+	color: #DA3610 !important;
+}
+.left-primary-nav {
+	background: #674511 !important;
+}
+.main-wrapper {
+	background: #eee url(../images/retina_wood.png) repeat !important;
+}
+.navbar .nav > li > .dropdown-menu:after {
+	border-bottom: 6px solid #333 !important;
+}
+.dropdown-menu {
+	background-color: #333 ;
+	background-color:rgba(255, 255, 255, 0.5) ;
+}
+.page-header, .widget-header {
+	color:#333 !important;
+	border-bottom:#666 1px solid;
+}
+.notify-h {
+	color:#fff !important;
+}
+.copyright {
+	color:#fff !important;
+}
+.side-head {
+	border-bottom: rgba(000, 000, 000, 0.2) 1px solid !important;
+	box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset !important;
+	color: #554225 !important;
+}
+.accordion-nav > li {
+	border-bottom: rgba(000, 000, 000, 0.3) 1px solid;
+}
+.accordion-nav > li > a {
+	box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.2);
+	color:#572c15;
+}
+.accordion-nav > li a:hover {
+	background:#fff;
+	color:#da3610;
+}
+.accordion-nav > li a span {
+	color:#000;
+}
+.accordion-nav li li a {
+	border-top:rgba(000, 000, 000, 0.3) 1px solid;
+	box-shadow:0 -1px 0 rgba(255, 255, 255, 0.2) inset;
+	color:#572c15;
+}
+.accordion-nav li ul {
+	border-top:rgba(000, 000, 000, 0.3) 1px solid;
+	box-shadow:0 -1px 0 rgba(255, 255, 255, 0.2) inset;
+}
+.accordion-nav li img {
+	border-radius:4px;
+	background:#fff;
+	padding:2px;
+}
+.accordion-nav li li img {
+	top:5px !important;
+}
+.notification-nav .dropdown-menu {
+	background:#4d4d4d ;
+	background-color:rgba(000, 000, 000, 0.8) ;
+}
+.gray, .light-gray {
+	background: #ddd;
+	background: rgba(255, 255, 255, .5);
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+	background-color: #ccc;
+	background:rgba(000, 000, 000, .2);
+}
+.nav-tabs li a {
+	background: #ddd;
+	background:rgba(255, 255, 255, .5);
+}
+.nav-tabs {
+	border-bottom: 3px solid #ccc;
+	border-bottom: rgba(000, 000, 000, .2) 3px solid;
+}
+.tab-widget .tab-content {
+	background:#FFFFFF;
+	background:rgba(255, 255, 255, .5);
+	border: 1px solid #ccc;
+	border: rgba(000, 000, 000, .2) 1px solid;
+}
+.form-signin {
+	border: 2px solid #000;
+}
+.board-widgets-head {
+	background: #F5F5F5;
+	background:rgba(255, 255, 255, .5);
+}
+.breadcrumb {
+	background:#DDDDDD;
+	background:rgba(255, 255, 255, .5);
+}
+
+
+.post_list, .user_list, .ticket_list {
+    background: none;}
+	
+	
+.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
+    background-color: #F9F9F9;
+	background:rgba(255, 255, 255, .5);
+}

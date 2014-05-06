@@ -1,0 +1,14 @@
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="<%= id %>"><%= label %></label>
+  <div class="controls controls-row">
+    <select id="<%= id %>" name="<%= id %>" class="<%= selectbasic1inputsize %> span5"><% _.each(selectbasic1options, function(option) { %>
+      <option><%= option %></option><% }); %>
+    </select>
+
+    <select id="<%= id2 %>" name="<%= id2 %>" class="<%= selectbasic2inputsize %> span5"><% _.each(selectbasic2options, function(option) { %>
+      <option><%= option %></option><% }); %>
+    </select>
+
+  </div>
+</div>
