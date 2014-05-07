@@ -1,3 +1,7 @@
+# Warning
+There are files missing in the repository. It is not available for installation yet. Keep watching this space to get updated !
+
+
 ## Doptor
 
 Doptor is an Integrated and well-designed Content Management System (CMS) provides an end user with the tools to build and maintain a sustainable web presence. For a serious company, having a maintainable website is extremely important and the effectiveness of such a site depends on the ease of use and power of the backend CMS. 
