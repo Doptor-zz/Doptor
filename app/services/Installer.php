@@ -27,7 +27,6 @@ class Installer {
      */
     public function dbConnection($input)
     {
-        @ini_set('max_execution_time', 300);
         $incompatible = $this->checkCompatibility();
 
         if ($incompatible) {

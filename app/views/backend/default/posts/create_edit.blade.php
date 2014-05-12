@@ -1,10 +1,7 @@
 @section('styles')
     {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
-    <link rel="stylesheet" href="{{ URL::to('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
-    <link rel="stylesheet" href="{{ URL::to('assets/backend/default/plugins/jquery-ui/jquery-ui.css') }}" />
-    <!-- elFinder CSS (REQUIRED) -->
-    <link rel="stylesheet" type="text/css" href="{{ URL::to('assets/backend/default/plugins/elfinder/css/elfinder.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ URL::to('assets/backend/default/plugins/elfinder/css/theme.css')}}">
+    {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ HTML::style('assets/backend/default/plugins/jquery-ui/jquery-ui.css') }}
     <style>
         .modal.fade.in {
         }
@@ -221,9 +218,6 @@
     {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}">
     {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}">
     @parent
-    <!-- elFinder JS (REQUIRED) -->
-    <script src="{{ URL::to('assets/backend/default/plugins/elfinder/js/elfinder.min.js')}}"></script>
-
     <script>
         jQuery(document).ready(function() {
             $('#datetimepicker_start').datetimepicker({

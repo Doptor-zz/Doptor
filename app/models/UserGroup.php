@@ -46,6 +46,7 @@ class UserGroup extends Eloquent {
                     'form-categories' => 'Form Categories',
                     'form-builder'    => 'Form Builder',
                     'module-builder'  => 'Module Builder',
+                    'report-builder'  => 'Report Builder',
                 ),
                 'others' => array(
                     'theme-manager'   => array(

@@ -25,29 +25,6 @@ class MediaManagerController extends BaseController {
     }
 
     /**
-     * Display a listing of the media_manager.
-     *
-     * @return Response
-     */
-    // public function index()
-    // {
-    //     $media_entries = MediaEntry::get();
-
-    //     if (Request::ajax()) {
-    //         $this->layout = View::make('backend.'.$this->current_theme.'._layouts._modal');
-    //         $ajax = true;
-    //     } else {
-    //         $ajax = false;
-    //     }
-
-    //     $this->layout->title = 'Media Manager';
-
-    //     $this->layout->content = View::make('backend.'.$this->current_theme.'.media_manager.index')
-    //                                     ->with('media_entries', $media_entries)
-    //                                     ->with('ajax', $ajax);
-    // }
-
-    /**
      * Show the form for creating a new media_entry.
      *
      * @return Response

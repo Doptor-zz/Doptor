@@ -110,8 +110,9 @@ return array(
 		'Cartalyst\Sentry\SentryServiceProvider',
 		'Creolab\LaravelModules\ServiceProvider',
 		'Robbo\Presenter\PresenterServiceProvider',
-	    'Intervention\Image\ImageServiceProvider',
-	    'Menu\MenuServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
+		'Menu\MenuServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
 	),
 
 	/*
@@ -179,8 +180,9 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
-	    'Image' => 'Intervention\Image\Facades\Image',
-	    'Menus' => 'Menu\Menu',
+		'Image'  => 'Intervention\Image\Facades\Image',
+		'Menus'  => 'Menu\Menu',
+		'PDF'    => 'Barryvdh\DomPDF\Facade',
 
 	),
 

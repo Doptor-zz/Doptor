@@ -9,8 +9,13 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use Input, View;
+use DB;
+use Input;
+use Response;
+use Str;
+use View;
 use Module;
+use PDF;
 
 class ReportBuilderController extends AdminController {
 
@@ -27,43 +32,28 @@ class ReportBuilderController extends AdminController {
                                         ->with('modules', $modules);
     }
 
+    /**
+     * Create the report
+     * @return Response
+     */
     public function postIndex()
     {
         $input = Input::all();
-        // dd($input);
-        $module = Module::find($input['module_name']);
 
-        $module_fields = array();
-        foreach ($input as $key => $value) {
-            if (str_contains($key, 'fields_')) {
-                $key = str_replace('fields_', '', $key);
-                $module_fields[$key] = $value;
-            }
+        if (isset($input['csv-report'])) {
+            return $this->csvReport($input);
+        } elseif (isset($input['pdf-report'])) {
+            return $this->pdfReport($input);;
+        } else {
+            return $this->printHtml($input);
         }
-        // dd($module_fields);
-        $entries = \DB::table("module_{$module->table}")->get();
-
-        $output = '';
-        $output = fopen('php://output', 'w');
-        foreach ($entries as $entry) {
-            // dd($entry->name23123);
-            $fields = array();
-            foreach ($module_fields as $field => $name) {
-                // dd($entry->{$field});
-                $fields[] = $entry->{$field};
-            }
-            fputcsv($output, $fields);
-        }
-        fclose($output);
-        $csv = ob_get_clean();
-        $headers = array(
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="ExportFileName.csv"',
-        );
-
-        return \Response::make(rtrim($csv, "\n"), 200, $headers);
     }
 
+    /**
+     * Get all the fields that are available in a module
+     * @param  integer $id Module ID
+     * @return array     The fields in the module
+     */
     public function getModuleFields($id)
     {
         $module = Module::find($id);
@@ -72,7 +62,135 @@ class ReportBuilderController extends AdminController {
         $fields = $config['fields'];
         $field_names = (isset($config['field_names'])) ? $config['field_names'] : $fields;
 
-        return array_combine($fields, $field_names);
+        $fieldAndNames = array_combine($fields, $field_names);
+
+        $fieldAndNames['created_at'] = 'Created At';
+        $fieldAndNames['updated_at'] = 'Updated At';
+
+        return $fieldAndNames;
     }
 
+    /**
+     * Get only the required fields from the input
+     * @param  array $input Input
+     * @return array
+     */
+    public function requiredFields($input)
+    {
+        $required_fields = array();
+        foreach ($input as $key => $value) {
+            // Get only the input, that are fields in the module
+            if (str_contains($key, 'fields_')) {
+                $key = str_replace('fields_', '', $key);
+                $required_fields[$key] = $value;
+            }
+        }
+        return $required_fields;
+    }
+
+    /**
+     * Get the entries based on the input
+     * @param  array $input
+     * @param  Collection $module
+     * @return Collection
+     */
+    public function moduleEntries($input, $module)
+    {
+        $entries = DB::table("module_{$module->table}")
+                        ->where(function($query) use ($input) {
+                            if ($input['start_date'] != '') {
+                                $query->where('created_at', '>', $input['start_date']);
+                            }
+                        })
+                        ->where(function($query) use ($input) {
+                            if ($input['start_date'] != '') {
+                                $query->where('created_at', '<', $input['start_date']);
+                            }
+                        })
+                        ->get();
+        return $entries;
+    }
+
+    /**
+     * Generate a CSV report
+     * @param  array $input           Input
+     * @return string
+     */
+    public function csvReport($input)
+    {
+        $module = Module::find($input['module_name']);
+
+        $output = '';
+        $output = fopen('php://output', 'w');
+
+        $required_fields = $this->requiredFields($input);
+
+        // Put the name of the fields in CSV
+        fputcsv($output, $required_fields);
+
+        $entries = $this->moduleEntries($input, $module);
+
+        foreach ($entries as $entry) {
+            $fields = array();
+            foreach ($required_fields as $field => $name) {
+                $fields[] = $entry->{$field};
+            }
+            fputcsv($output, $fields);
+        }
+        fclose($output);
+
+        $csv = ob_get_clean();
+
+        $filename = ($input['title']!='') ? Str::slug($input['title'], '_') : Str::slug($module->name, '_');
+        $headers = array(
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.csv"'
+        );
+
+        return Response::make(rtrim($csv, "\n"), 200, $headers);
+    }
+
+    /**
+     * Generate a PDF report
+     * @param  array $input    Input
+     * @return string
+     */
+    public function pdfReport($input)
+    {
+        $module = Module::find($input['module_name']);
+        $required_fields = $this->requiredFields($input);
+
+        $entries = $this->moduleEntries($input, $module);
+
+        $data = array(
+                'title'           => $input['title'],
+                'required_fields' => $required_fields,
+                'entries'         => $entries,
+                'isPdf'           => true
+            );
+
+        $filename = ($input['title']!='') ? Str::slug($input['title'], '_') : Str::slug($module->name, '_');
+
+        $pdf = PDF::loadView('backend.'.$this->current_theme.'.report_builders.print', $data);
+        return $pdf->download("{$filename}.pdf");
+    }
+
+    /**
+     * Generate a HTML document for printing
+     * @param  array $input Input
+     * @return View
+     */
+    public function printHtml($input)
+    {
+        $module = Module::find($input['module_name']);
+        $required_fields = $this->requiredFields($input);
+
+        $entries = $this->moduleEntries($input, $module);
+
+        return View::make('backend.'.$this->current_theme.'.report_builders.print')
+                        ->with('title', $input['title'])
+                        ->with('required_fields', $required_fields)
+                        ->with('entries', $entries)
+                        ->with('isPdf', false);
+    }
 }

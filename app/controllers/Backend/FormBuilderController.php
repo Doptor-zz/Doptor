@@ -17,8 +17,6 @@ class FormBuilderController extends AdminController {
      */
     public function index()
     {
-
-
         $forms = \BuiltForm::with('cat')->get();
         $this->layout->title = 'All Built Forms';
         $this->layout->content = \View::make('backend.'.$this->current_theme.'.formbuilders.index')

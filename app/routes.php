@@ -111,6 +111,10 @@ Route::group(array('prefix' => 'backend'), function() {
     Route::post('theme-manager/apply/{id}', array('uses'=>'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply', 'as'=>'backend.theme-manager.apply'));
     Route::resource('theme-manager', 'Components\ThemeManager\Controllers\Backend\ThemeManagerController');
 
+    Route::get('report-builder', 'Backend\ReportBuilderController@index');
+    Route::post('report-builder', array('uses'=>'Backend\ReportBuilderController@postIndex', 'as'=>'backend.report-builder.store'));
+    Route::get('report-builder/module-fields/{id}', 'Backend\ReportBuilderController@getModuleFields');
+
 });
 
 /*

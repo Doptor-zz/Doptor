@@ -144,6 +144,9 @@
                     @if (can_access_menu($current_user, array('module-builder')))
                         <li><a href="{{ URL::to('backend/module-builder') }}">Module Builder</a></li>
                     @endif
+                    @if (can_access_menu($current_user, array('report-builder')))
+                        <li><a href="{{ URL::to('backend/report-builder') }}">Report Builder</a></li>
+                    @endif
                 </ul>
             </li>
             @endif
