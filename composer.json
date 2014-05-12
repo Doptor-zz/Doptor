@@ -1,12 +1,12 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
+	"name": "doptor/doptor",
+	"description": "A Laravel Based CMS",
+	"keywords": ["framework", "laravel", "cms"],
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.1.*",
-        "cartalyst/sentry": "2.0.*",
-        "robclancy/presenter": "1.2.*",
+        	"cartalyst/sentry": "2.0.*",
+        	"robclancy/presenter": "1.2.*",
 		"davejamesmiller/laravel-breadcrumbs": "~2.1.0",
 		"creolab/laravel-modules": "dev-master",
 		"intervention/image": "dev-master",
