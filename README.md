@@ -2,9 +2,8 @@ Introduction
 --------------
 Doptor is a Laravel 4 based CMS. Find out more about doptor by reading below. ;)
 
-![alt tag](https://github.com/Doptor/Doptor/blob/master/screenshots/doptor_frontend.jpg)
-![alt tag](https://github.com/Doptor/Doptor/blob/master/screenshots/doptor_backend.jpg)
-
+<img src="https://github.com/Doptor/Doptor/blob/master/screenshots/doptor_frontend.jpg" />
+<img src="https://github.com/Doptor/Doptor/blob/master/screenshots/doptor_backend.jpg" />
 
 About Doptor
 --------------
