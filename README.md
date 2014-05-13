@@ -31,7 +31,7 @@ Visit www.doptor.org
 
 Note
 --------------
-Doptor is under heavy development and major changes will be pushed from time to time. Your are most welcomed to test Doptor, however it is strictly not recommended for Doptor to be used in Production Environment until it reach a stable release.
+Doptor is under heavy development and major changes will be pushed from time to time. You are most welcomed to test Doptor CMS, however it is strictly not recommended for Doptor CMS to be used in Production Environment until it reach a stable release.
 
 Contributing To Doptor
 --------------
