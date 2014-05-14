@@ -171,9 +171,9 @@ class Installer {
         }
 
         if (app()->environment() == 'local') {
-            $file = base_path() . '/.env.local.php';
+            $file =  app_path() . '/config/' . '.env.local.php';
         } else {
-            $file = base_path() . '/.env.php';
+            $file =  app_path() . '/config/' . '.env.php';
         }
         file_put_contents($file, "<?php \n\n return " . var_export($_ENV, true) . ";");
     }
