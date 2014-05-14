@@ -54,14 +54,6 @@ if (Schema::hasTable('modules')) {
     }
 }
 
-// Delete all the installation files
-Event::listen('installer.delete', function() {
-    if (app()->environment() != 'local') {
-        File::deleteDirectory('app/views/install');
-        File::deleteDirectory('assets/shared/install');
-        File::delete('app/controllers/InstallController.php');
-    }
-});
 /*
 |--------------------------------------------------------------------------
 | Application Error Logger
@@ -121,6 +113,18 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require The Events File
+|--------------------------------------------------------------------------
+|
+| we will load the events file for the application. This gives us
+| a nice separate location to store our events in one place
+|
+*/
+require app_path().'/events.php';
+
 
 Validator::extend('alpha_spaces', function($attribute, $value)
 {
