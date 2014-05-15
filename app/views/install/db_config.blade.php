@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th scope="row"><label for="db_host">Database Host</label></th>
-                <td><input name="DB_HOST" id="db_host" type="text" size="25" value="localhost" /></td>
+                <td><input name="DB_HOST" id="db_host" type="text" size="25" value="127.0.0.1" /></td>
                 <td>You should be able to get this info from your web host, if <code>localhost</code> does not work.</td>
             </tr>
         </table>
