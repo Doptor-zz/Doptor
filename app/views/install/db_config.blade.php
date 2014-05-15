@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th scope="row"><label for="password">Password</label></th>
-                <td><input name="DB_PASSWORD" id="password" type="text" size="25" value="root" /></td>
+                <td><input name="DB_PASSWORD" id="password" type="password" size="25" value="" /></td>
                 <td>&hellip;and your MySQL password.</td>
             </tr>
             <tr>
