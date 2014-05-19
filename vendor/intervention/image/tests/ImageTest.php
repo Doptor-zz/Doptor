@@ -65,6 +65,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
     }
 
     /**
+     * @expectedException Intervention\Image\Exception\ImageNotFoundException
+     */
+    public function testConstructorWithNonAsciiCharacters()
+    {
+        // file does not exists but path string should NOT be considered
+        // as binary data. (should _NOT_ throw InvalidImageDataStringException)
+        $img = new Image('public/Über.jpg');
+    }
+
+    /**
      * @expectedException Intervention\Image\Exception\InvalidImageTypeException
      */
     public function testContructorWithPathInvalidType()
@@ -534,6 +544,31 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#ffffff', $img->pickColor(3, 50, 'hex'));
         $this->assertEquals('#ffa600', $img->pickColor(799, 649, 'hex'));
+
+        // resize with emerging transparent area
+        $img = $this->getTestImage();
+        $img->resizeCanvas(900, 700, 'center', false, array(0, 0, 0, 0));
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 900);
+        $this->assertEquals($img->height, 700);
+        $transparency_1 = $img->pickColor(0, 0, 'array');
+        $transparency_2 = $img->pickColor(899, 699, 'array');
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $transparency_1);
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $transparency_2);
+
+        // preserve transparency when resizing canvas
+        $img = new Image('public/circle.png');
+        $img->resizeCanvas(40, 40, 'center');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 40);
+        $this->assertEquals($img->height, 40);
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $img->pickColor(0, 0, 'array'));
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.8), $img->pickColor(20, 20, 'array'));
+
     }
 
     public function testCropImage()
@@ -699,10 +734,10 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testInsertImage()
     {
-        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $watermark = Image::canvas(16, 16, '#0000ff'); // create watermark
 
         // top-left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -711,9 +746,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(16, 16, 'hex'));
-        $img->reset();
 
         // top-left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -722,9 +757,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(9, 9, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(10, 10, 'hex'));
-        $img->reset();
 
         // top anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -733,9 +768,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(23, 15, 'hex'));
-        $img->reset();
 
         // top anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -744,9 +779,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(18, 10, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(31, 26, 'hex'));
-        $img->reset();
 
         // top-right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -755,9 +790,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(15, 0, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(31, 0, 'hex'));
-        $img->reset();
 
         // top-right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -766,9 +801,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(6, 9, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(21, 25, 'hex'));
-        $img->reset();
 
         // left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -777,9 +812,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(0, 7, 'hex'));
-        $img->reset();
 
         // left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -788,9 +823,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(25, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(10, 17, 'hex'));
-        $img->reset();
 
         // right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -799,9 +834,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(31, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(15, 15, 'hex'));
-        $img->reset();
 
         // right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -810,9 +845,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(21, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(5, 18, 'hex'));
-        $img->reset();
 
         // bottom-left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -821,9 +856,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(0, 15, 'hex'));
-        $img->reset();
 
         // bottom-left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -832,9 +867,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(10, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(9, 20, 'hex'));
-        $img->reset();
 
         // bottom anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -843,9 +878,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(8, 16, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(8, 15, 'hex'));
-        $img->reset();
 
         // bottom anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -854,9 +889,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(18, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(17, 21, 'hex'));
-        $img->reset();
 
         // bottom-right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -865,9 +900,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(16, 16, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(15, 16, 'hex'));
-        $img->reset();
 
         // bottom-right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -876,9 +911,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(21, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(22, 22, 'hex'));
-        $img->reset();
 
         // center anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'center');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -887,9 +922,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(8, 7, 'hex'));
-        $img->reset();
 
         // center anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'center');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -898,7 +933,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(31, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(18, 17, 'hex'));
-        $img->reset();
     }
 
     public function testInsertAfterResize()
@@ -1293,7 +1327,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
     }
 
-    public function testTextImage()
+    public function testLegacyTextImage()
     {
         $img = $this->getTestImage();
         $img = $img->text('Fox', 10, 10, 16, '000000', 0, null);
@@ -1304,6 +1338,33 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         $img = $img->text('Fox', 10, 10, 16, array(155, 155, 155), 0, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testTextImage()
+    {
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('a85e0d2329957b27b3cf4c3f21721c45', $img->checksum());
+
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40, function($font) {
+            $font->align('center');
+            $font->valign('top');
+            $font->color('000000');
+        });
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('86c9fa152b5b3e1a637cb17b70a6edfc', $img->checksum());
+
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40, function($font) {
+            $font->align('right');
+            $font->valign('middle');
+            $font->file(2);
+            $font->color('000000');
+        });
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('870034642cfd26ebd165ca0de5a8c12c', $img->checksum());
     }
 
     public function testRectangleImage()
@@ -1370,6 +1431,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testResetImage()
     {
         $img = $this->getTestImage();
+        $img->backup();
         $img->resize(300, 200);
         $img->reset();
         $this->assertInternalType('int', $img->width);
@@ -1381,6 +1443,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testResetEmptyImage()
     {
         $img = new Image(null, 800, 600, '#0000ff');
+        $img->backup();
         $img->resize(300, 200);
         $img->fill('#00ff00');
         $img->reset();
@@ -1389,6 +1452,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
         $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\ImageBackupNotAvailableException
+     */
+    public function testResetImageWithoutBackup()
+    {
+        $img = $this->getTestImage();
+        $img->reset();
     }
 
     public function testBackup()
@@ -1415,6 +1487,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 10);
         $this->assertEquals($img->height, 10);
         $this->assertEquals('#00ff00', $img->pickColor(0, 0, 'hex'));
+    }
+
+    public function testBackupKeepTransparency($value='')
+    {
+        $img = new Image('public/circle.png');
+        $img->backup();
+        $img->reset();
+        $transparent = array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0);
+        $this->assertEquals($transparent, $img->pickColor(0, 0, 'array'));
     }
 
     public function testLimitColors()
@@ -1488,17 +1569,29 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->save($save_as);
         $this->assertFileExists($save_as);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test2');
         @unlink($save_as);
 
         $save_as = 'public/test2.png';
         $img = $this->getTestImage();
         $img->save($save_as, 80);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.png');
+        $this->assertEquals($img->extension, 'png');
+        $this->assertEquals($img->filename, 'test2');
         $this->assertFileExists($save_as);
         @unlink($save_as);
 
         $save_as = 'public/test2.jpg';
         $img = $this->getTestImage();
         $img->save($save_as, 0);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test2');
         $this->assertFileExists($save_as);
         @unlink($save_as);
     }
@@ -1593,11 +1686,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $color);
         $this->assertEquals($color, 0);
 
+        $color = $img->parseColor('rgba(0,0,0,0)');
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 2130706432);
+
         $color = $img->parseColor('rgba(0,0,0,0.5)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1073741824);
 
         $color = $img->parseColor('rgba(255, 0, 0, 0.5)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1090453504);
+
+        $color = $img->parseColor(array(0, 0, 0, 0.5));
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1073741824);
+
+        $color = $img->parseColor(array(0, 0, 0, 0));
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 2130706432);
     }
 
     /**
@@ -1703,7 +1810,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // data-url encoding
         $data = Image::make('public/circle.png')->encode('data-url');
-        $encoded = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAChklEQVRo3uXavUscQRjH8c+t2MhhcUhiKolYiDFXCIKFNkoqrYL/gyT/UV4sTZ3CgI2SIhBBsJBwWKjEYCEptLmzSpFi5ny56Hm+nLdjvt3e7t4+v52ZnWee3xTcHyMYxiAG0I8SivF8FUc4xD72sI3KfTy8cMf7y5jAOMZu+R+b2MA6th5ayCSmMXPujd+VKlaxhm/tFjKKOcyiR3s4wRcs40erN3Xd4AHzeIMpdGsf3XiBl/G4cl9CnmABb+PgfShK8aUVsYvaXYQMxlZ4rXOU0YefOL6NkLqIVzrPUBSze5WYribdKS8i6jxHb/wA1FoVstDh7tSsZQr43oqQ+Tiw80pZyBAqzYSMxi5VyrEQeCakN7/rP2QNF8zF5ss7QzFWlwmZFGbsVJiNMf8jZFr70o520BNjviCkLCSAqTETYz8VMuH+stiHpBhjPxUynqAI52PPhJXdWMJCxjCSCcvT1BnOhOQwdQYzoVCQOgOZUO1Inf5M/vOqVihl0pw/Gilmj0AEwjxSfQQ6qpmwSEmdo0yoxabOYSYUlFNnPxOq4qmzlwlr39TZzoRqxGbCIjZRqc8jGwkL2eBsYbUuzfmkGmM/FbIlmCypsRpjv1BFWRNMllQ4iTHjYqXxF54KJksKfMan+kFj0riMnQRE7MRYXdYinNVSp3Iu5B2+NhNCmFeKYuErhyxhsfHHq/yRXcEhyltBewUf3MDoqQmeXZ/gFOWBNbzHwWUnm3mIx7FlenPQMitRxJUJ7nWu7rHg2RU6OGaWYnc6aHZRKz57TfDsjgSn6KGqLjvC12nRNR57q0LqVISU/08cN+3a/XAiTHYfNXxim/HfbqppJPltTpfR0Y1nfwGRl30LQuetpgAAAABJRU5ErkJggg==';
+        $encoded = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACrUlEQVRogeXav09TURjG8Q/XuBDCQIjiRCQMBLUDCQkDLBgnnAz/A9H/yB+MOjto4gJxMJGEhIGYhgGIGAfjAEthcnB4aYFrW9rb0vbE79b7o/d57rnnnPe87xnSPWYxgylMYgJjGDk/X8ExfuEIh9hDuRsPH+rw/hIWMI+5gv+xg21sYbeokKJGFrGMxy7eeKdUsIFNfGn35naNPMRTrGC43Ye1yBk+4gO+tXrTrTYesIrnWMLttqS1x208wKPz3y31oVaM3MEaXojO2yvGxEsbwQFOm118nZEp0QrPuiKtGCWM4ztOGl3UzEjVxJOuyirGtDBzoIGZRkbuGBwTVe5jVAwA/3xmjYys6e/n1IhpMdJ+zZ+oZ2RVdOxBpSQihCujWd7IQ/FJ9XJ0KsI9Ed78rh7Ichc8Fc036EwLrTUuG1kUM3YqrAjNuGpk2c2FHTfBsNCMCyMlEQCmxmOhvWZkQfei2F4yIrTXjMz3T0vHzBNGZhVfFA0Cc5jNxPI0dWYyERymzlQmEgWpM5mJbEfqTGQGP65qhbFMmvNHnpF80JgsmcgnpU4lE4uU1DnORC42dX5lIqGcOkeZyIqnzmEm1r6ps5eJbMROv5V0wA7K1Xlku59KOmSbi4XVljTnk4rQXjOyK4osqbHhvMp1OUTZFEWWVDgTmnE10/gDd0WRJQXe4131Rz5o/ID9nsopxr7QWiOf+63mUpd6Iqc4L/H58oF62fiyWKOUeiCoCG+xnj/YqD5yICpEg5bQ/oTX2ij0nIqa3bioFA0Cm3iFn/VONqshnoiWGdX/lvkkTDQMcK+r6p6Imt2Q/vWZt+JzqtsSVVqps5+Kmt2xqBT1KuuyL0anddfU2Glv50NZhPx/RL+5qd0PZ2KyeyM3xDbjv91Ukyf5bU716OvGs7+Rl30L8vF70gAAAABJRU5ErkJggg==';
         $this->assertEquals($data, $encoded);
     }
 
@@ -1751,6 +1858,112 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#ffa601', $img->pickColor(6, 6, 'hex'));
         $this->assertEquals('#ffa601', $img->pickColor(21, 21, 'hex'));
 
+        $img = Image::make('public/trim.png');
+        $img->trim('transparent');
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#ffa601', $img->pickColor(21, 21, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('top', 'bottom'));
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(25, 0, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('left', 'right'));
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#f6a609', $img->pickColor(0, 24, 'hex'));
+        $this->assertEquals('#00aef0', $img->pickColor(27, 49, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('bottom', 'right'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#4eaca7', $img->pickColor(38, 20, 'hex'));
+        $this->assertEquals('#88aa71', $img->pickColor(28, 38, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('bottom', 'left'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#b8a844', $img->pickColor(0, 22, 'hex'));
+        $this->assertEquals('#b8a844', $img->pickColor(11, 11, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('top', 'left'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#f6a609', $img->pickColor(14, 0, 'hex'));
+        $this->assertEquals('#b8a844', $img->pickColor(0, 16, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('top', 'right'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#f6a609', $img->pickColor(24, 0, 'hex'));
+        $this->assertEquals('#b8a844', $img->pickColor(11, 11, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('top', 'right', 'bottom'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#f6a609', $img->pickColor(24, 0, 'hex'));
+        $this->assertEquals('#b8a844', $img->pickColor(11, 11, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('right', 'bottom', 'left'));
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#b8a844', $img->pickColor(0, 22, 'hex'));
+        $this->assertEquals('#b8a844', $img->pickColor(27, 27, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('bottom', 'left', 'top'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#f6a609', $img->pickColor(13, 0, 'hex'));
+        $this->assertEquals('#88aa71', $img->pickColor(0, 17, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('left', 'top', 'right'));
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#f6a609', $img->pickColor(13, 0, 'hex'));
+        $this->assertEquals('#ffa601', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#88aa71', $img->pickColor(0, 17, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('bottom'));
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 24, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('right'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', 'right');
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('bottom-right', 'right');
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
+
         $img = Image::make('public/mask1.png');
         $img->trim('bottom-right');
         $this->assertEquals($img->width, 17);
@@ -1772,34 +1985,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('rgba(255, 255, 255, 0.72)', $img->pickColor(6, 6, 'rgba'));
         $this->assertEquals('rgba(0, 0, 0, 0.00)', $img->pickColor(19, 19, 'rgba'));
 
-        $img = Image::make('public/trim.png');
-        $img->trim('top-left', array('top', 'bottom'));
-        $this->assertEquals($img->width, 50);
-        $this->assertEquals($img->height, 28);
-        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
-        $this->assertEquals('#f6a609', $img->pickColor(25, 0, 'hex'));
-
-        $img = Image::make('public/trim.png');
-        $img->trim('top-left', array('left', 'right'));
-        $this->assertEquals($img->width, 28);
-        $this->assertEquals($img->height, 50);
-        $this->assertEquals('#f6a609', $img->pickColor(0, 24, 'hex'));
-        $this->assertEquals('#00aef0', $img->pickColor(27, 49, 'hex'));
-
-        $img = Image::make('public/trim.png');
-        $img->trim('top-left', array('bottom'));
-        $this->assertEquals($img->width, 50);
-        $this->assertEquals($img->height, 39);
-        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
-        $this->assertEquals('#f6a609', $img->pickColor(11, 24, 'hex'));
-
-        $img = Image::make('public/trim.png');
-        $img->trim('top-left', array('right'));
-        $this->assertEquals($img->width, 39);
-        $this->assertEquals($img->height, 50);
-        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
-        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
-
         $img = Image::make('public/mask2.png');
         $img->trim('transparent', array('TOP', 'BOTTOM'));
         $this->assertEquals($img->width, 32);
@@ -1812,12 +1997,446 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 16);
         $this->assertEquals($img->height, 16);
 
-        $img = Image::make('public/trim.png');
-        $img->trim('top-left', 'right');
-        $this->assertEquals($img->width, 39);
+        // trim selfmade image
+        $img = Image::canvas(1, 1, '000000');
+        $img->resizeCanvas(25, 25, 'center', false, 'ffffff');
+        $this->assertEquals($img->width, 25);
+        $this->assertEquals($img->height, 25);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $img->trim();
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        // try to trim non-transparent image with transparency
+        $img = Image::make('public/gradient.png');
+        $img->trim('transparent', null);
+        $this->assertEquals($img->width, 50);
         $this->assertEquals($img->height, 50);
-        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
-        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
+    }
+
+    public function testTrimWithTolerance()
+    {
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, '808080');
+        $canvas->resizeCanvas(11, 11, 'center', false, 'ffffff');
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#808080', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(); // trim without tolerance (should trim away ffffff)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#808080', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30); // trim with 40 tolerance (should not touch 808080)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#808080', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50); // trim with 50 tolerance (should only leave 000000)
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 100); // trim with 100 tolerance (should leave image as is)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#000000', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#808080', $img->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, '804040');
+        $canvas->resizeCanvas(11, 11, 'center', false, 'ffffff');
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#804040', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(); // trim without tolerance (should trim away ffffff)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30); // trim with 40 tolerance (should not touch 804040)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50); // trim with 50 tolerance (should not touch 804040)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 80); // trim with 80 tolerance (should only leave 000000)
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 100); // trim with 100 tolerance (should leave image as is)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#000000', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+
+        // prepare test image
+        $canvas = Image::canvas(1, 1, 'ffffff'); // core
+        $canvas->resizeCanvas(5, 5, 'center', false, 'd90000'); // 85%
+        $canvas->resizeCanvas(11, 11, 'center', false, '008000'); // 50%
+        $canvas->resizeCanvas(16, 16, 'center', false, '333333'); // 20%
+        $canvas->resizeCanvas(20, 20, 'center', false, '000000'); // outer
+        $this->assertEquals($canvas->width, 20);
+        $this->assertEquals($canvas->height, 20);
+        $this->assertEquals('#ffffff', $canvas->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $canvas->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $canvas->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $canvas->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $canvas->pickColor(0, 0, 'hex'));
+        
+        $img = clone $canvas;
+        $img->trim(); // trim without tolerance (should only trim outer)
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#ffffff', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 19); // trim with 19% tolerance (should leave 20%)
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#ffffff', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 20); // trim with 20% tolerance (should trim 20% and leave 50%)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#ffffff', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 49); // trim with 49% tolerance (should leave 49%)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#ffffff', $img->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50); // trim with 50% tolerance (should trim 50% and leave 85%)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#ffffff', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 84); // trim with 84% tolerance (should leave 85%)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#ffffff', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 85); // trim with 85% tolerance (should trim 85% and leave core)
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 100); // trim with 100% tolerance (should leave image as is)
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left'); // trim without tolerance (should only trim right outer)
+        $this->assertEquals($img->width, 18);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(7, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 19); // trim with 19% tolerance (should leave 20%)
+        $this->assertEquals($img->width, 18);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(7, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 20); // trim with 20% tolerance (should trim 20% and leave 50%)
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(5, 9, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 49); // trim with 49% tolerance (should leave 50%)
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(5, 9, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 50); // trim with 50% tolerance (should trim 50% and leave 85%)
+        $this->assertEquals($img->width, 13);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(2, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(0, 9, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 84); // trim with 84% tolerance (should leave 85%)
+        $this->assertEquals($img->width, 13);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(2, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(0, 9, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 85); // trim with 85% tolerance (should trim 85% and leave core)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(0, 8, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, 'left', 100); // trim with 100% tolerance (should leave image as is)
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('#ffffff', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#d90000', $img->pickColor(7, 7, 'hex'));
+        $this->assertEquals('#008000', $img->pickColor(4, 4, 'hex'));
+        $this->assertEquals('#333333', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, array(255, 255, 255, 0.5));
+        $canvas->resizeCanvas(11, 11, 'center', false, array(0, 0, 0, 0));
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $canvas->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $canvas->pickColor(3, 3, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $canvas->pickColor(5, 5, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null);
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $img->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(2, 2, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 40);
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $img->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(2, 2, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 50);
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(0, 0, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 100);
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $img->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $img->pickColor(3, 3, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(5, 5, 'rgba'));
+
+        // trim gradient
+        $canvas = Image::make('public/gradient.png');
+
+        $img = clone $canvas;
+        $img->trim();
+        $this->assertEquals($img->width, 46);
+        $this->assertEquals($img->height, 46);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 10);
+        $this->assertEquals($img->width, 38);
+        $this->assertEquals($img->height, 38);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 20);
+        $this->assertEquals($img->width, 34);
+        $this->assertEquals($img->height, 34);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30);
+        $this->assertEquals($img->width, 30);
+        $this->assertEquals($img->height, 30);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 40);
+        $this->assertEquals($img->width, 26);
+        $this->assertEquals($img->height, 26);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50);
+        $this->assertEquals($img->width, 22);
+        $this->assertEquals($img->height, 22);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 60);
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 70);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 80);
+        $this->assertEquals($img->width, 12);
+        $this->assertEquals($img->height, 12);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 90);
+        $this->assertEquals($img->width, 8);
+        $this->assertEquals($img->height, 8);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\TrimToleranceOutOfBoundsException
+     */
+    public function testTrimToleranceOutOfBounds()
+    {
+        $img = new Image;
+        $img->trim(null, null, 200);
+    }
+
+    public function testTrimWithFeather()
+    {
+        $canvas = Image::make('public/trim.png');
+
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 20; // must respect original dimensions of image
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+
+        $img = clone $canvas;
+        $feather = -5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = -10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        // trim only left and right with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('left', 'right'), null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 50);
+
+        // trim only top and bottom with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('top', 'bottom'), null, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        // trim with tolerance and feather
+        $canvas = Image::make('public/gradient.png');
+
+        $img = clone $canvas;
+        $feather = 2;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->width, 38 + $feather * 2);
+        $this->assertEquals($img->height, 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->width, 38 + $feather * 2);
+        $this->assertEquals($img->height, 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10; // should respect original dimensions
+        $img->trim(null, null, 20, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
     }
 
     public function testEncoded()
@@ -1832,5 +2451,12 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->destroy();
         $this->assertEquals(get_resource_type($img->resource), 'Unknown');
+    }
+
+    public function testChecksum()
+    {
+        $img = new Image('public/circle.png');
+        $checksum = $img->checksum();
+        $this->assertEquals($checksum, '149432c4e99e8bf8c295afb85be64e78');
     }
 }

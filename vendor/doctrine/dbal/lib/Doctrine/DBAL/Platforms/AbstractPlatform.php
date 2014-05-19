@@ -724,24 +724,31 @@ abstract class AbstractPlatform
      */
     public function getTrimExpression($str, $pos = self::TRIM_UNSPECIFIED, $char = false)
     {
-        $posStr = '';
-        $trimChar = ($char != false) ? $char . ' FROM ' : '';
+        $expression = '';
 
         switch ($pos) {
             case self::TRIM_LEADING:
-                $posStr = 'LEADING '.$trimChar;
+                $expression = 'LEADING ';
                 break;
 
             case self::TRIM_TRAILING:
-                $posStr = 'TRAILING '.$trimChar;
+                $expression = 'TRAILING ';
                 break;
 
             case self::TRIM_BOTH:
-                $posStr = 'BOTH '.$trimChar;
+                $expression = 'BOTH ';
                 break;
         }
 
-        return 'TRIM(' . $posStr . $str . ')';
+        if (false !== $char) {
+            $expression .= $char . ' ';
+        }
+
+        if ($pos || false !== $char) {
+            $expression .= 'FROM ';
+        }
+
+        return 'TRIM(' . $expression . $str . ')';
     }
 
     /**
@@ -2564,7 +2571,7 @@ abstract class AbstractPlatform
     /**
      * Returns the SQL snippet to drop an existing sequence.
      *
-     * @param \Doctrine\DBAL\Schema\Sequence $sequence
+     * @param Sequence|string $sequence
      *
      * @return string
      *

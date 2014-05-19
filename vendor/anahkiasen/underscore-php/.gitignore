@@ -1,3 +1,5 @@
-docs
-tests/coverage
+# Tests
+tests/.coverage
+
+# Dependencies
 vendor

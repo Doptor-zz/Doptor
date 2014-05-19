@@ -157,29 +157,54 @@ class Request extends SymfonyRequest {
 	}
 
 	/**
-	 * Determine if the request contains a given input item.
+	 * Determine if the request contains a given input item key.
+	 *
+	 * @param  string|array  $key
+	 * @return bool
+	 */
+	public function exists($key)
+	{
+		$keys = is_array($key) ? $key : func_get_args();
+
+		$input = $this->all();
+
+		foreach ($keys as $value)
+		{
+			if ( ! array_key_exists($value, $input)) return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if the request contains a non-emtpy value for an input item.
 	 *
 	 * @param  string|array  $key
 	 * @return bool
 	 */
 	public function has($key)
 	{
-		if (count(func_get_args()) > 1)
-		{
-			foreach (func_get_args() as $value)
-			{
-				if ( ! $this->has($value)) return false;
-			}
+		$keys = is_array($key) ? $key : func_get_args();
 
-			return true;
+		foreach ($keys as $value)
+		{
+			if ($this->isEmptyString($value)) return false;
 		}
 
-		if (is_bool($this->input($key)) || is_array($this->input($key)))
-		{
-			return true;
-		}
+		return true;
+	}
 
-		return trim((string) $this->input($key)) !== '';
+	/**
+	 * Determine if the given input key is an empty string for "has".
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function isEmptyString($key)
+	{
+		$boolOrArray = is_bool($this->input($key)) || is_array($this->input($key));
+
+		return ! $boolOrArray && trim((string) $this->input($key)) === '';
 	}
 
 	/**
@@ -502,7 +527,7 @@ class Request extends SymfonyRequest {
 	{
 		if ($request instanceof static) return $request;
 
-		return with($self = new static)->duplicate(
+		return with(new static)->duplicate(
 
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 
@@ -514,6 +539,8 @@ class Request extends SymfonyRequest {
 	 * Get the session associated with the request.
 	 *
 	 * @return \Illuminate\Session\Store
+	 *
+	 * @throws \RuntimeException
 	 */
 	public function session()
 	{

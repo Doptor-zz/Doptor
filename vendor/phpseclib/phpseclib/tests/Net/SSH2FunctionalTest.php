@@ -47,7 +47,7 @@ class Net_SSH2FunctionalTest extends PhpseclibFunctionalTestCase
 
     /**
     * @depends testPasswordLogin
-    * @group bug280
+    * @group github280
     */
     public function testExecWithMethodCallback($ssh)
     {
@@ -56,6 +56,6 @@ class Net_SSH2FunctionalTest extends PhpseclibFunctionalTestCase
             ->expects($this->atLeastOnce())
             ->method('callbackMethod')
             ->will($this->returnValue(true));
-        $ssh->exec('ls', array($callbackObject, 'callbackMethod'));
+        $ssh->exec('pwd', array($callbackObject, 'callbackMethod'));
     }
 }

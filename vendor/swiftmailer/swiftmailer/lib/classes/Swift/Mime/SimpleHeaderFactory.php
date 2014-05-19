@@ -55,7 +55,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_HeaderFactory
      */
     public function createMailboxHeader($name, $addresses = null)
     {
-        $header = new Swift_Mime_Header($name, $this->_encoder, $this->_grammar);
+        $header = new Swift_Mime_Headers_MailboxHeader($name, $this->_encoder, $this->_grammar);
         if (isset($addresses)) {
             $header->setFieldBodyModel($addresses);
         }
@@ -67,7 +67,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_HeaderFactory
     /**
      * Create a new Date header using $timestamp (UNIX time).
      * @param string       $name
-     * @param integer|null $timestamp
+     * @param int|null     $timestamp
      *
      * @return Swift_Mime_Header
      */

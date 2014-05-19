@@ -59,14 +59,14 @@ final class DocParser
     private $lexer;
 
     /**
-     * Current target context
+     * Current target context.
      *
      * @var string
      */
     private $target;
 
     /**
-     * Doc Parser used to collect annotation target
+     * Doc parser used to collect annotation target.
      *
      * @var \Doctrine\Common\Annotations\DocParser
      */
@@ -125,7 +125,8 @@ final class DocParser
     private $context = '';
 
     /**
-     * Hash-map for caching annotation metadata
+     * Hash-map for caching annotation metadata.
+     *
      * @var array
      */
     private static $annotationMetadata = array(
@@ -215,7 +216,7 @@ final class DocParser
     );
 
     /**
-     * Hash-map for handle types declaration
+     * Hash-map for handle types declaration.
      *
      * @var array
      */
@@ -242,6 +243,8 @@ final class DocParser
      * fully qualified class names.
      *
      * @param array $names
+     *
+     * @return void
      */
     public function setIgnoredAnnotationNames(array $names)
     {
@@ -249,9 +252,11 @@ final class DocParser
     }
 
     /**
-     * Sets ignore on not-imported annotations
+     * Sets ignore on not-imported annotations.
      *
-     * @param $bool
+     * @param boolean $bool
+     *
+     * @return void
      */
     public function setIgnoreNotImportedAnnotations($bool)
     {
@@ -262,6 +267,8 @@ final class DocParser
      * Sets the default namespaces.
      *
      * @param array $namespace
+     *
+     * @return void
      *
      * @throws \RuntimeException
      */
@@ -275,9 +282,12 @@ final class DocParser
     }
 
     /**
-     * Sets the imports
+     * Sets the imports.
      *
      * @param array $imports
+     *
+     * @return void
+     *
      * @throws \RuntimeException
      */
     public function setImports(array $imports)
@@ -289,10 +299,12 @@ final class DocParser
         $this->imports = $imports;
     }
 
-     /**
+    /**
      * Sets current target context as bitmask.
      *
      * @param integer $target
+     *
+     * @return void
      */
     public function setTarget($target)
     {
@@ -309,13 +321,9 @@ final class DocParser
      */
     public function parse($input, $context = '')
     {
-        if (false === $pos = strpos($input, '@')) {
+        $pos = $this->findInitialTokenPosition($input);
+        if ($pos === null) {
             return array();
-        }
-
-        // also parse whatever character is before the @
-        if ($pos > 0) {
-            $pos -= 1;
         }
 
         $this->context = $context;
@@ -327,11 +335,34 @@ final class DocParser
     }
 
     /**
+     * Finds the first valid annotation
+     *
+     * @param string $input The docblock string to parse
+     *
+     * @return int|null
+     */
+    private function findInitialTokenPosition($input)
+    {
+        $pos = 0;
+
+        // search for first valid annotation
+        while (($pos = strpos($input, '@', $pos)) !== false) {
+            // if the @ is preceded by a space or * it is valid
+            if ($pos === 0 || $input[$pos - 1] === ' ' || $input[$pos - 1] === '*') {
+                return $pos;
+            }
+
+            $pos++;
+        }
+    }
+
+    /**
      * Attempts to match the given token with the current lookahead token.
      * If they match, updates the lookahead token; otherwise raises a syntax error.
      *
-     * @param int $token type of Token.
-     * @return bool True if tokens match; false otherwise.
+     * @param integer $token Type of token.
+     *
+     * @return boolean True if tokens match; false otherwise.
      */
     private function match($token)
     {
@@ -349,7 +380,8 @@ final class DocParser
      * a syntax error is raised.
      *
      * @param array $tokens
-     * @return bool
+     *
+     * @return boolean
      */
     private function matchAny(array $tokens)
     {
@@ -363,8 +395,10 @@ final class DocParser
     /**
      * Generates a new syntax error.
      *
-     * @param string $expected Expected string.
-     * @param array $token Optional token.
+     * @param string     $expected Expected string.
+     * @param array|null $token    Optional token.
+     *
+     * @return void
      *
      * @throws AnnotationException
      */
@@ -389,10 +423,11 @@ final class DocParser
     }
 
     /**
-     * Attempt to check if a class exists or not. This never goes through the PHP autoloading mechanism
+     * Attempts to check if a class exists or not. This never goes through the PHP autoloading mechanism
      * but uses the {@link AnnotationRegistry} to load classes.
      *
      * @param string $fqcn
+     *
      * @return boolean
      */
     private function classExists($fqcn)
@@ -414,6 +449,8 @@ final class DocParser
      * Collects parsing metadata for a given annotation class
      *
      * @param string $name The annotation name
+     *
+     * @return void
      */
     private function collectAnnotationMetadata($name)
     {
@@ -474,7 +511,7 @@ final class DocParser
                 // collect all public properties
                 foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
                     $metadata['properties'][$property->name] = $property->name;
-                    
+
                     if (false === ($propertyComment = $property->getDocComment())) {
                         continue;
                     }
@@ -517,10 +554,12 @@ final class DocParser
     }
 
     /**
-     * Collects parsing metadata for a given attribute
+     * Collects parsing metadata for a given attribute.
      *
      * @param array     $metadata
      * @param Attribute $attribute
+     *
+     * @return void
      */
     private function collectAttributeTypeMetadata(&$metadata, Attribute $attribute)
     {
@@ -612,8 +651,9 @@ final class DocParser
      * NameSpacePart  ::= identifier | null | false | true
      * SimpleName     ::= identifier | null | false | true
      *
-     * @throws AnnotationException
      * @return mixed False if it is not a valid annotation.
+     *
+     * @throws AnnotationException
      */
     private function Annotation()
     {
@@ -643,10 +683,13 @@ final class DocParser
                 $name  = (false !== $pos)
                     ? $this->imports[$loweredAlias] . substr($name, $pos)
                     : $this->imports[$loweredAlias];
-            } elseif (isset($this->imports['__NAMESPACE__']) && $this->classExists($this->imports['__NAMESPACE__'].'\\'.$name)) {
-                 $name  = $this->imports['__NAMESPACE__'].'\\'.$name;
-                 $found = true;
-            } elseif ($this->classExists($name)) {
+            } elseif ( ! isset($this->ignoredAnnotationNames[$name])
+                && isset($this->imports['__NAMESPACE__'])
+                && $this->classExists($this->imports['__NAMESPACE__'] . '\\' . $name)
+            ) {
+                $name  = $this->imports['__NAMESPACE__'].'\\'.$name;
+                $found = true;
+            } elseif (! isset($this->ignoredAnnotationNames[$name]) && $this->classExists($name)) {
                 $found = true;
             }
 
@@ -850,8 +893,9 @@ final class DocParser
     /**
      * Constant ::= integer | string | float | boolean
      *
-     * @throws AnnotationException
      * @return mixed
+     *
+     * @throws AnnotationException
      */
     private function Constant()
     {

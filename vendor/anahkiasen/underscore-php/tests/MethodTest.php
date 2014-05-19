@@ -1,10 +1,10 @@
 <?php
-use Underscore\Method;
+namespace Underscore;
+
 use Underscore\Types\Arrays;
 use Underscore\Types\String;
-use Underscore\Underscore;
 
-class MethodTest extends UnderscoreWrapper
+class MethodTest extends UnderscoreTestCase
 {
   public function testThrowsErrorIfIncorrectMethod()
   {

@@ -72,7 +72,7 @@ class Connection implements ConnectionInterface {
 	protected $fetchMode = PDO::FETCH_ASSOC;
 
 	/**
-	 * The number of active transasctions.
+	 * The number of active transactions.
 	 *
 	 * @var int
 	 */
@@ -370,7 +370,7 @@ class Connection implements ConnectionInterface {
 	 */
 	public function unprepared($query)
 	{
-		return $this->run($query, array(), function($me, $query, $bindings)
+		return $this->run($query, array(), function($me, $query)
 		{
 			if ($me->pretending()) return true;
 
@@ -454,6 +454,8 @@ class Connection implements ConnectionInterface {
 		{
 			$this->pdo->beginTransaction();
 		}
+
+		$this->fireConnectionEvent('beganTransaction');
 	}
 
 	/**
@@ -466,6 +468,8 @@ class Connection implements ConnectionInterface {
 		if ($this->transactions == 1) $this->pdo->commit();
 
 		--$this->transactions;
+
+		$this->fireConnectionEvent('committed');
 	}
 
 	/**
@@ -485,6 +489,18 @@ class Connection implements ConnectionInterface {
 		{
 			--$this->transactions;
 		}
+
+		$this->fireConnectionEvent('rollingBack');
+	}
+
+	/**
+	 * Get the number of active transactions.
+	 *
+	 * @return int
+	 */
+	public function transactionLevel()
+	{
+		return $this->transactions;
 	}
 
 	/**
@@ -580,6 +596,20 @@ class Connection implements ConnectionInterface {
 		if (isset($this->events))
 		{
 			$this->events->listen('illuminate.query', $callback);
+		}
+	}
+
+	/**
+	 * Fire an event for this connection.
+	 *
+	 * @param  string  $event
+	 * @return void
+	 */
+	protected function fireConnectionEvent($event)
+	{
+		if (isset($this->events))
+		{
+			$this->events->fire('connection.'.$this->getName().'.'.$event, $this);
 		}
 	}
 

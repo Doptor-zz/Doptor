@@ -1,8 +1,10 @@
 <?php
-use Underscore\Types\String;
-use Underscore\Underscore;
+namespace Underscore\Types;
 
-class StringTest extends UnderscoreWrapper
+use Underscore\Underscore;
+use Underscore\UnderscoreTestCase;
+
+class StringTest extends UnderscoreTestCase
 {
   public $remove = 'foo foo bar foo kal ter son';
 

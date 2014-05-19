@@ -141,7 +141,8 @@ class CurlHandleTest extends \Guzzle\Tests\GuzzleTestCase
             'timeout was reached',
             'connection time-out',
             'connect() timed out!',
-            'failed connect to 127.0.0.1:123; connection refused'
+            'failed connect to 127.0.0.1:123; connection refused',
+            'failed to connect to 127.0.0.1 port 123: connection refused'
         );
         $this->assertTrue(in_array(strtolower($h->getError()), $errors), $h->getError() . ' was not the error');
 

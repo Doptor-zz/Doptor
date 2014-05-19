@@ -287,11 +287,11 @@ class QueryString extends Collection
             return $name . $this->valueSeparator . $value;
         }
 
-        $results = array();
+        $result = '';
         foreach ($value as $v) {
-            $results[] = $this->convertKvp($name, $v);
+            $result .= $this->convertKvp($name, $v) . $this->fieldSeparator;
         }
 
-        return implode($results, $this->fieldSeparator);
+        return rtrim($result, $this->fieldSeparator);
     }
 }

@@ -112,7 +112,6 @@ define('FILE_ASN1_TYPE_ANY',             -2);
  *
  * @package File_ASN1
  * @author  Jim Wigginton <terrafrost@php.net>
- * @version 0.3.0
  * @access  public
  */
 class File_ASN1_Element
@@ -143,7 +142,6 @@ class File_ASN1_Element
  *
  * @package File_ASN1
  * @author  Jim Wigginton <terrafrost@php.net>
- * @version 0.3.0
  * @access  public
  */
 class File_ASN1
@@ -164,7 +162,7 @@ class File_ASN1
      * @access private
      * @link http://php.net/class.datetime
      */
-    var $format = 'D, d M y H:i:s O';
+    var $format = 'D, d M Y H:i:s O';
 
     /**
      * Default date format
@@ -511,7 +509,7 @@ class File_ASN1
      */
     function asn1map($decoded, $mapping, $special = array())
     {
-        if (isset($mapping['explicit'])) {
+        if (isset($mapping['explicit']) && is_array($decoded['content'])) {
             $decoded = $decoded['content'][0];
         }
 
@@ -552,7 +550,15 @@ class File_ASN1
             case $decoded['type'] == $mapping['type']:
                 break;
             default:
-                return null;
+                // if $decoded['type'] and $mapping['type'] are both strings, but different types of strings,
+                // let it through
+                switch (true) {
+                    case $decoded['type'] < 18: // FILE_ASN1_TYPE_NUMERIC_STRING == 18
+                    case $decoded['type'] > 30: // FILE_ASN1_TYPE_BMP_STRING == 30
+                    case $mapping['type'] < 18:
+                    case $mapping['type'] > 30:
+                        return null;
+                }
         }
 
         if (isset($mapping['implicit'])) {
@@ -944,6 +950,9 @@ class File_ASN1
             case FILE_ASN1_TYPE_INTEGER:
             case FILE_ASN1_TYPE_ENUMERATED:
                 if (!isset($mapping['mapping'])) {
+                    if (is_numeric($source)) {
+                        $source = new Math_BigInteger($source);
+                    }
                     $value = $source->toBytes(true);
                 } else {
                     $value = array_search($source, $mapping['mapping']);
@@ -972,6 +981,10 @@ class File_ASN1
                             $bits[$i] = 1;
                             $size = $i;
                         }
+                    }
+
+                    if (isset($mapping['min']) && $mapping['min'] >= 1 && $size < $mapping['min']) {
+                        $size = $mapping['min'] - 1;
                     }
 
                     $offset = 8 - (($size + 1) & 7);
@@ -1087,7 +1100,12 @@ class File_ASN1
         }
 
         if (isset($mapping['cast'])) {
-            $tag = ($mapping['class'] << 6) | ($tag & 0x20) | $mapping['cast'];
+            if (isset($mapping['explicit']) || $mapping['type'] == FILE_ASN1_TYPE_CHOICE) {
+                $value = chr($tag) . $this->_encodeLength(strlen($value)) . $value;
+                $tag = ($mapping['class'] << 6) | 0x20 | $mapping['cast'];
+            } else {
+                $tag = ($mapping['class'] << 6) | (ord($temp[0]) & 0x20) | $mapping['cast'];
+            }
         }
 
         return chr($tag) . $this->_encodeLength(strlen($value)) . $value;

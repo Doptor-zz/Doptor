@@ -113,6 +113,7 @@ return array(
 		'Intervention\Image\ImageServiceProvider',
 		'Menu\MenuServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
+		'Way\Generators\GeneratorsServiceProvider',
 	),
 
 	/*

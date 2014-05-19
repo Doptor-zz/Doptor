@@ -1,0 +1,30 @@
+{
+    "name": "way/generators",
+    "description": "",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeffrey Way",
+            "email": "jeffrey@jeffrey-way.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "~4.1"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "2.0.*@dev",
+        "behat/behat": "v2.5.1",
+        "behat/mink": "v1.5.0",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver": "*",
+        "phpunit/phpunit": "3.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Way\\Generators": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

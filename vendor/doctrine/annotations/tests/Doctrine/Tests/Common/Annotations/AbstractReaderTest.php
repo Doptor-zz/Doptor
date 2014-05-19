@@ -4,6 +4,7 @@ namespace Doctrine\Tests\Common\Annotations;
 
 use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\Common\Annotations\Annotation;
+use Doctrine\Common\Annotations\Reader;
 use ReflectionClass, Doctrine\Common\Annotations\AnnotationReader;
 
 require_once __DIR__ . '/TopLevelAnnotation.php';
@@ -82,6 +83,18 @@ abstract class AbstractReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType('string',  $fooAnnot[0]->string);
         $this->assertInstanceOf('Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetAll', $barAnnot[0]->annotation);
+    }
+
+    public function testAtInDescription()
+    {
+        $reader = $this->getReader();
+        $class  = new ReflectionClass('Doctrine\Tests\Common\Annotations\Fixtures\ClassWithAtInDescriptionAndAnnotation');
+
+        $this->assertEquals(1, count($fooAnnot = $reader->getPropertyAnnotations($class->getProperty('foo'))));
+        $this->assertEquals(1, count($barAnnot = $reader->getPropertyAnnotations($class->getProperty('bar'))));
+
+        $this->assertInstanceOf('Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetPropertyMethod', $fooAnnot[0]);
+        $this->assertInstanceOf('Doctrine\Tests\Common\Annotations\Fixtures\AnnotationTargetPropertyMethod', $barAnnot[0]);
     }
 
     public function testClassWithWithDanglingComma()
@@ -239,6 +252,14 @@ abstract class AbstractReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($annot = $reader->getPropertyAnnotation(new \ReflectionProperty('Doctrine\Tests\Common\Annotations\DummyClassNonAnnotationProblem', 'foo'), $name = 'Doctrine\Tests\Common\Annotations\DummyAnnotation'));
         $this->assertInstanceOf($name, $annot);
+    }
+
+    public function testIncludeIgnoreAnnotation()
+    {
+        $reader = $this->getReader();
+
+        $reader->getPropertyAnnotations(new \ReflectionProperty('Doctrine\Tests\Common\Annotations\Fixtures\ClassWithIgnoreAnnotation', 'foo'));
+        $this->assertFalse(class_exists('Doctrine\Tests\Common\Annotations\Fixtures\IgnoreAnnotationClass', false));
     }
 
     public function testImportWithConcreteAnnotation()
@@ -604,7 +625,7 @@ class DummyClassWithEmail
  */
 class DCOM106
 {
-    
+
 }
 
 namespace Doctrine\Tests\Common\Annotations\Foo;

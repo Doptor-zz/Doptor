@@ -43,7 +43,7 @@ class ExceptionHandler
     /**
      * Registers the exception handler.
      *
-     * @param Boolean $debug
+     * @param bool    $debug
      *
      * @return ExceptionHandler The registered exception handler
      */
@@ -91,9 +91,11 @@ class ExceptionHandler
             $exception = FlattenException::create($exception);
         }
 
-        header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
-        foreach ($exception->getHeaders() as $name => $value) {
-            header($name.': '.$value, false);
+        if (!headers_sent()) {
+            header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
+            foreach ($exception->getHeaders() as $name => $value) {
+                header($name.': '.$value, false);
+            }
         }
 
         echo $this->decorate($this->getContent($exception), $this->getStylesheet($exception));

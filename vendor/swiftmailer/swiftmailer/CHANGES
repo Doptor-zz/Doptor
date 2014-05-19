@@ -1,6 +1,30 @@
 Changelog
 =========
 
+5.2.1 (2014-XX-XX)
+------------------
+
+ * n/a
+
+5.2.0 (2014-05-08)
+------------------
+
+ * fixed Swift_ByteStream_FileByteStream::read() to match to the specification
+ * fixed from-charset and to-charset arguments in mbstring_convert_encoding() usages
+ * fixed infinite loop in StreamBuffer
+ * fixed NullTransport to return the number of ignored emails instead of 0
+ * Use phpunit and mockery for unit testing (realityking)
+
+5.1.0 (2014-03-18)
+------------------
+
+ * fixed data writing to stream when sending large messages
+ * added support for libopendkim (https://github.com/xdecock/php-opendkim)
+ * merged SignedMessage and Message
+ * added Gmail XOAuth2 authentication
+ * updated the list of known mime types
+ * added NTLM authentication
+
 5.0.3 (2013-12-03)
 ------------------
 

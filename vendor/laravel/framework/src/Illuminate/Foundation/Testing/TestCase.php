@@ -173,20 +173,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	{
 		if (is_array($key)) return $this->assertViewHasAll($key);
 
-		$response = $this->client->getResponse()->original;
+		$response = $this->client->getResponse();
 
-		if ( ! $response instanceof View)
+		if ( ! isset($response->original) || ! $response->original instanceof View)
 		{
 			return $this->assertTrue(false, 'The response was not a view.');
 		}
 
 		if (is_null($value))
 		{
-			$this->assertArrayHasKey($key, $response->getData());
+			$this->assertArrayHasKey($key, $response->original->getData());
 		}
 		else
 		{
-			$this->assertEquals($value, $response->$key);
+			$this->assertEquals($value, $response->original->$key);
 		}
 	}
 
@@ -209,6 +209,24 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 				$this->assertViewHas($key, $value);
 			}
 		}
+	}
+
+	/**
+	 * Assert that the response view is missing a piece of bound data.
+	 *
+	 * @param  string  $key
+	 * @return void
+	 */
+	public function assertViewMissing($key)
+	{
+		$response = $this->client->getResponse();
+
+		if ( ! isset($response->original) || ! $response->original instanceof View)
+		{
+			return $this->assertTrue(false, 'The response was not a view.');
+		}
+
+		$this->assertArrayNotHasKey($key, $response->original->getData());
 	}
 
 	/**

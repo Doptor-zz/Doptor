@@ -237,7 +237,7 @@ class ModelsCommand extends Command {
 
 
                 $this->setProperty($name, $type, true, true);
-                $this->setMethod(Str::camel("where_".$name), '\Illuminate\Database\Query\Builder|\\'.get_class($model), array('$value'));
+                //$this->setMethod(Str::camel("where_".$name), '\Illuminate\Database\Query\Builder|\\'.get_class($model), array('$value'));
             }
         }
     }
@@ -287,14 +287,14 @@ class ModelsCommand extends Command {
                     $begin = strpos($code, 'function(');
                     $code = substr($code, $begin, strrpos($code, '}') - $begin + 1);
 
-                    foreach(array('hasMany', 'belongsToMany', 'hasOne', 'belongsTo') as $relation){
+                    foreach(array('hasMany', 'belongsToMany', 'hasOne', 'belongsTo', 'morphTo', 'morphMany', 'morphToMany') as $relation){
                         $search = '$this->'.$relation.'(';
                         if($pos = stripos($code, $search)){
                             $code = substr($code, $pos + strlen($search));
                             $arguments = explode(',', substr($code, 0, stripos($code, ')')));
                             //Remove quotes, ensure 1 \ in front of the model
                             $returnModel = "\\".ltrim(trim($arguments[0], " \"'"), "\\");
-                            if($relation === "belongsToMany" or $relation === 'hasMany'){
+                            if($relation === "belongsToMany" or $relation === 'hasMany' or $relation === 'morphMany' or $relation === 'morphToMany'){
                                 //Collection or array of models (because Collection is Arrayable)
                                 $this->setProperty($method,  '\Illuminate\Database\Eloquent\Collection|'.$returnModel.'[]', true, null);
                             }else{

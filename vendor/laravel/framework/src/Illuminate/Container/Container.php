@@ -135,7 +135,7 @@ class Container implements ArrayAccess {
 
 		// If the abstract type was already bound in this container, we will fire the
 		// rebound listener so that any objects which have already gotten resolved
-		// can have their copy of the object updated via hte listener callbacks.
+		// can have their copy of the object updated via the listener callbacks.
 		if ($bound)
 		{
 			$this->rebound($abstract);
@@ -151,7 +151,7 @@ class Container implements ArrayAccess {
 	 */
 	protected function getClosure($abstract, $concrete)
 	{
-		return function($c, $parameters) use ($abstract, $concrete)
+		return function($c, $parameters = array()) use ($abstract, $concrete)
 		{
 			$method = ($abstract == $concrete) ? 'build' : 'make';
 
@@ -455,12 +455,28 @@ class Container implements ArrayAccess {
 		// since the container should be able to resolve concretes automatically.
 		if ( ! isset($this->bindings[$abstract]))
 		{
+			if ($this->missingLeadingSlash($abstract) && isset($this->bindings['\\'.$abstract]))
+			{
+				$abstract = '\\'.$abstract;
+			}
+
 			return $abstract;
 		}
 		else
 		{
 			return $this->bindings[$abstract]['concrete'];
 		}
+	}
+
+	/**
+	 * Determine if the given abstract has a leading slash.
+	 *
+	 * @param  string  $abstract
+	 * @return bool
+	 */
+	protected function missingLeadingSlash($abstract)
+	{
+		return is_string($abstract) && strpos($abstract, '\\') !== 0;
 	}
 
 	/**
@@ -614,6 +630,7 @@ class Container implements ArrayAccess {
 	 * @param  array  $dependencies
 	 * @param  array  $parameters
 	 * @param  array
+	 * @return array
 	 */
 	protected function keyParametersByArgument(array $dependencies, array $parameters)
 	{

@@ -31,7 +31,7 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
      * @param Swift_Mime_HeaderEncoder $encoder
      * @param Swift_Mime_Grammar       $grammar
      */
-    public function __construct($name, Swift_Mime_HeaderEncoder $encoder, Swift_Mime_Grammar $grammar, Swift_Mime_Grammar $grammar)
+    public function __construct($name, Swift_Mime_HeaderEncoder $encoder, Swift_Mime_Grammar $grammar)
     {
         $this->setFieldName($name);
         $this->setEncoder($encoder);
@@ -272,7 +272,7 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
      * Produces a compliant, formatted display-name based on the string given.
      *
      * @param string  $displayName as displayed
-     * @param boolean $shorten     the first line to make remove for header name
+     * @param bool    $shorten     the first line to make remove for header name
      *
      * @return string
      */
@@ -305,7 +305,7 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
      *
      * @param string $token
      *
-     * @return boolean
+     * @return bool
      */
     protected function tokenNeedsEncoding($token)
     {
@@ -344,17 +344,15 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
      *
      * @throws Swift_RfcComplianceException If invalid.
      */
-
-private function _assertValidAddress($address)
-{
-if (!preg_match('/' . $this->getGrammar('addr-spec') . '$/D',
-$address))
-{
-//throw new Swift_RfcComplianceException(
-// 'Address in mailbox given [' . $address .
-// '] does not comply with RFC 2822, 3.6.2.'
-// );
+    private function _assertValidAddress($address)
+    {
+        if (!preg_match('/^' . $this->getGrammar()->getDefinition('addr-spec') . '$/D',
+            $address))
+        {
+            throw new Swift_RfcComplianceException(
+                'Address in mailbox given [' . $address .
+                '] does not comply with RFC 2822, 3.6.2.'
+                );
+        }
+    }
 }
-}
-}
-?>

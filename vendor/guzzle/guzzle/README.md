@@ -22,7 +22,7 @@ The recommended way to install Guzzle is through [Composer](http://getcomposer.o
 curl -sS https://getcomposer.org/installer | php
 
 # Add Guzzle as a dependency
-php composer.phar require guzzle/guzzle:~3.7
+php composer.phar require guzzle/guzzle:~3.9
 ```
 
 After installing, you need to require Composer's autoloader:
@@ -31,14 +31,6 @@ After installing, you need to require Composer's autoloader:
 require 'vendor/autoload.php';
 ```
 
-### Installing via phar
-
-As of the 3.7.4 release, each release of Guzzle includes a "guzzle.phar" file that includes all of the files needed to
-run Guzzle and all of Guzzle's dependencies. Simply download the phar and include it in your project.
-
-You can find a list of each release and the available downloads at https://github.com/guzzle/guzzle/releases.
-
 # This is an older version
 
 This repository is for Guzzle 3.x. Guzzle 4.0, the new version of Guzzle has been released and is available at https://github.com/guzzle/guzzle.
-

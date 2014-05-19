@@ -42,7 +42,7 @@ class Image
     public $dirname;
 
     /**
-     * Trailing name component of current image filename
+     * The current basename of the image file, if instance was created from file.
      *
      * @var string
      */
@@ -56,7 +56,7 @@ class Image
     public $extension;
 
     /**
-     * Combined filename (basename and extension)
+     * The current image basename without extension, if instance was created from file.
      *
      * @var string
      */
@@ -102,15 +102,15 @@ class Image
                 // image properties come from gd image resource
                 $this->initFromResource($source);
 
-            } elseif ($this->isBinary($source)) {
-
-                // image properties come from binary image string
-                $this->initFromString($source);
-
             } elseif (filter_var($source, FILTER_VALIDATE_URL)) {
 
                 // image will be fetched from url before init
                 $this->initFromString(file_get_contents($source));
+
+            } elseif ($this->isBinary($source)) {
+
+                // image properties come from binary image string
+                $this->initFromString($source);
 
             } else {
 
@@ -261,7 +261,7 @@ class Image
         imagefill($this->resource, 0, 0, $bgcolor);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -504,8 +504,10 @@ class Image
 
         // create new canvas
         $image = imagecreatetruecolor($width, $height);
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
 
-        if ($width > $this->width || $height > $this->height) {
+        if ($width > $this->width or $height > $this->height) {
             $bgcolor = is_null($bgcolor) ? '000000' : $bgcolor;
             imagefill($image, 0, 0, $this->parseColor($bgcolor));
         }
@@ -726,9 +728,11 @@ class Image
      *
      * @param  string $base Position of the color to trim away
      * @param  array  $away Borders to trim away
+     * @param  int    $tolerance Tolerance of color comparison
+     * @param  int    $feather Amount of pixels outside (when positive) or inside (when negative) of the strict limit of the matched color
      * @return Image
      */
-    public function trim($base = null, $away = null)
+    public function trim($base = null, $away = null, $tolerance = null, $feather = 0)
     {
         // default values
         $checkTransparency = false;
@@ -738,6 +742,11 @@ class Image
             $away = array('top', 'right', 'bottom', 'left');
         } elseif (is_string($away)) {
             $away = array($away);
+        }
+
+        // lower border names
+        foreach ($away as $key => $value) {
+            $away[$key] = strtolower($value);
         }
 
         // define base color position
@@ -763,64 +772,105 @@ class Image
                 break;
         }
 
+        // define tolerance
+        $tolerance = is_numeric($tolerance) ? intval($tolerance) : 0;
+
+        if ($tolerance < 0 || $tolerance > 100) {
+            throw new Exception\TrimToleranceOutOfBoundsException(
+                'Tolerance level must be between 0 and 100'
+            );
+        } else {
+            $color_tolerance = round($tolerance * 2.55);
+            $alpha_tolerance = round($tolerance * 1.27);
+        }
+
         // pick base color
-        $color = $this->pickColor($base_x, $base_y, 'array');
+        $color = imagecolorsforindex($this->resource, imagecolorat($this->resource, $base_x, $base_y));
 
-        // search for values that are not base color
-        $x_values = array();
-        $y_values = array();
+        // compare colors
+        $colorDiffers = function ($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
 
-        for ($y=0; $y < $this->height; $y++) {
-            for ($x=0; $x < $this->width; $x++) {
+            if ($checkTransparency == true) {
 
-                $checkColor = $this->pickColor($x, $y, 'array');
+                $alpha_delta = abs(127 - $c2['alpha']);
+                return($alpha_delta > $alpha_tolerance);
 
-                if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
-                    $x_values[] = $x;
-                    $y_values[] = $y;
+            } else {
+
+                $red_delta = abs($c1['red'] - $c2['red']);
+                $green_delta = abs($c1['green'] - $c2['green']);
+                $blue_delta = abs($c1['blue'] - $c2['blue']);
+                $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
+
+                return (
+                    $red_delta > $color_tolerance or
+                    $green_delta > $color_tolerance or
+                    $blue_delta > $color_tolerance or
+                    $alpha_delta > $alpha_tolerance
+                );
+            }
+
+        };
+
+        $top_x = 0;
+        $top_y = 0;
+        $bottom_x = $this->width;
+        $bottom_y = $this->height;
+
+        // search upper part of image for colors to trim away
+        if (in_array('top', $away)) {
+            for ($y=0; $y < ceil($this->height/2); $y++) {
+                for ($x=0; $x < $this->width; $x++) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if ($colorDiffers($color, $checkColor)) {
+                        $top_y = max(0, $y - $feather);
+                        break 2;
+                    }
                 }
             }
         }
 
-        // define area to crop out
-        if (count($x_values)) {
-            sort($x_values);
-            $src_x = reset($x_values);
-            $width = end($x_values) - $src_x + 1;
+        // search left part of image for colors to trim away
+        if (in_array('left', $away)) {
+            for ($x=0; $x < ceil($this->width/2); $x++) {
+                for ($y=$top_y; $y < $this->height; $y++) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if ($colorDiffers($color, $checkColor)) {
+                        $top_x = max(0, $x - $feather);
+                        break 2;
+                    }
+                }
+            }
         }
 
-        if (count($y_values)) {
-            sort($y_values);
-            $src_y = reset($y_values);
-            $height = end($y_values) - $src_y + 1;
+        // search lower part of image for colors to trim away
+        if (in_array('bottom', $away)) {
+            for ($y=($this->height-1); $y >= floor($this->height/2)-1; $y--) {
+                for ($x=$top_x; $x < $this->width; $x++) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if ($colorDiffers($color, $checkColor)) {
+                        $bottom_y = min($this->height, $y+1 + $feather);
+                        break 2;
+                    }
+                }
+            }
         }
 
-        // check if top border should be trimmed away
-        if ( ! in_array('top', $away) &&  ! in_array('TOP', $away)) {
-            $height = $height + $src_y;
-            $src_y = 0;
+        // search right part of image for colors to trim away
+        if (in_array('right', $away)) {
+            for ($x=($this->width-1); $x >= floor($this->width/2)-1; $x--) {
+                for ($y=$top_y; $y < $bottom_y; $y++) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if ($colorDiffers($color, $checkColor)) {
+                        $bottom_x = min($this->width, $x+1 + $feather);
+                        break 2;
+                    }
+                }
+            }
         }
 
-        // check if bottom border should be trimmed away
-        if ( ! in_array('bottom', $away) &&  ! in_array('BOTTOM', $away)) {
-            $height = $this->height - $src_y;
-        }
-
-        // check if left border should be trimmed away
-        if ( ! in_array('left', $away) &&  ! in_array('LEFT', $away)) {
-            $width = $width + $src_x;
-            $src_x = 0;
-        }
-
-        // check if right border should be trimmed away
-        if ( ! in_array('right', $away) &&  ! in_array('RIGHT', $away)) {
-            $width = $this->width - $src_x;
-        }
-
-        // modify image if all values are set
-        if (isset($width) && isset($height) && isset($src_x) && isset($src_y)) {
-            $this->modify(0, 0, $src_x, $src_y, $width, $height, $width, $height);
-        }
+        // trim parts of image
+        $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
 
         return $this;
     }
@@ -1086,7 +1136,7 @@ class Image
             // fill with color
             $source = $this->parseColor($source);
         }
-        
+
         if (is_int($pos_x) && is_int($pos_y)) {
             // floodfill if exact position is defined
             imagefill($this->resource, $pos_x, $pos_y, $source);
@@ -1157,6 +1207,7 @@ class Image
      * @param  integer $pos_y
      * @param  integer $width
      * @param  integer $height
+     * @param  boolean $filled
      * @return Image
      */
     public function ellipse($color, $pos_x = 0, $pos_y = 0, $width = 10, $height = 10, $filled = true)
@@ -1183,7 +1234,50 @@ class Image
     }
 
     /**
-     * Write text in current image
+     * Compatibility method to decide old or new style of text writing
+     *
+     * @param  string  $text
+     * @param  integer $posx
+     * @param  integer $posy
+     * @param  mixed   $size_or_callback
+     * @param  string  $color
+     * @param  integer $angle
+     * @param  string  $fontfile
+     * @return Image
+     */
+    public function text($text, $posx = 0, $posy = 0, $size_or_callback = null, $color = '000000', $angle = 0, $fontfile = null)
+    {
+        if (is_numeric($size_or_callback)) {
+            return $this->legacyText($text, $posx, $posy, $size_or_callback, $color, $angle, $fontfile);
+        } else {
+            return $this->textCallback($text, $posx, $posy, $size_or_callback);
+        }
+    }
+
+    /**
+     * Write text in current image, define details via callback
+     *
+     * @param  string  $text
+     * @param  integer $posx
+     * @param  integer $posy
+     * @param  Closure $callback
+     * @return Image
+     */
+    public function textCallback($text, $posx = 0, $posy = 0, Closure $callback = null)
+    {
+        $font = new \Intervention\Image\Font($text);
+
+        if ($callback instanceof Closure) {
+            $callback($font);
+        }
+
+        $font->applyToImage($this, $posx, $posy);
+
+        return $this;
+    }
+
+    /**
+     * Legacy method to keep support of old style of text writing
      *
      * @param  string  $text
      * @param  integer $pos_x
@@ -1194,7 +1288,7 @@ class Image
      * @param  string  $fontfile
      * @return Image
      */
-    public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
+    public function legacyText($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
     {
         if (is_null($fontfile)) {
 
@@ -1414,6 +1508,8 @@ class Image
     public function backup()
     {
         $this->original = $this->cloneResource($this->resource);
+
+        return $this;
     }
 
     /**
@@ -1426,6 +1522,8 @@ class Image
         if ($this->isImageResource($this->original)) {
             is_resource($this->resource) ? imagedestroy($this->resource) : null;
             $this->initFromResource($this->original);
+        } else {
+            throw new Exception\ImageBackupNotAvailableException('backup() must be called first to use reset().');
         }
 
         return $this;
@@ -1464,10 +1562,9 @@ class Image
             case 'png':
             case 'image/png':
             case IMAGETYPE_PNG:
-                $quality = round($quality / 11.11111111111); // transform quality to png setting
                 imagealphablending($this->resource, false);
                 imagesavealpha($this->resource, true);
-                imagepng($this->resource, null, $quality);
+                imagepng($this->resource, null, -1);
                 $this->type = IMAGETYPE_PNG;
                 $this->mime = image_type_to_mime_type(IMAGETYPE_PNG);
                 break;
@@ -1539,7 +1636,7 @@ class Image
                     'r' => $color['red'],
                     'g' => $color['green'],
                     'b' => $color['blue'],
-                    'a' => $this->alpha2rgba($color['alpha'])
+                    'a' => round(1 - $color['alpha'] / 127, 2)
                 );
                 break;
         }
@@ -1630,8 +1727,11 @@ class Image
         $saved = @file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
 
         if ($saved === false) {
-            throw new Exception\ImageNotWritableException;
+            throw new Exception\ImageNotWritableException("Can't write image data to path [{$path}]");
         }
+
+        // set new file info
+        $this->setFileInfoFromPath($path);
 
         return $this;
     }
@@ -1688,31 +1788,19 @@ class Image
      */
     private function alpha2rgba($input)
     {
-        $range_input = range(0, 127);
-        $range_output = range(1, 0, 1/127);
-
-        foreach ($range_input as $key => $value) {
-            if ($value >= $input) {
-                return round($range_output[$key], 2);
-            }
-        }
-
-        return 1;
+        return round(1 - $input / 127, 2);
     }
 
     /**
-     * Checks if string contains printable characters
+     * Checks if string contains binary image data
      *
      * @param  mixed   $input
      * @return boolean
      */
     private function isBinary($input)
     {
-        if (is_resource($input)) {
-            return false;
-        }
-
-        return ( ! ctype_print($input));
+        $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), (string) $input);
+        return substr($mime, 0, 4) != 'text';
     }
 
     /**
@@ -1780,6 +1868,9 @@ class Image
     private function cloneResource($resource)
     {
         $clone = imagecreatetruecolor($this->width, $this->height);
+        imagealphablending($clone, false);
+        imagesavealpha($clone, true);
+        
         imagecopy($clone, $resource, 0, 0, 0, 0, $this->width, $this->height);
 
         return $clone;
@@ -1842,7 +1933,7 @@ class Image
         }
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1857,7 +1948,7 @@ class Image
         $this->height = imagesy($this->resource);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1883,7 +1974,7 @@ class Image
         $this->height = imagesy($this->resource);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1920,6 +2011,24 @@ class Image
     {
         is_resource($this->resource) ? imagedestroy($this->resource) : null;
         is_resource($this->original) ? imagedestroy($this->original) : null;
+    }
+
+    /**
+     * Calculates checksum of current image
+     *
+     * @return String
+     */
+    public function checksum()
+    {
+        $colors = array();
+
+        for ($x=0; $x <= ($this->width-1); $x++) {
+            for ($y=0; $y <= ($this->height-1); $y++) {
+                $colors[] = $this->pickColor($x, $y, 'int');
+            }
+        }
+
+        return md5(serialize($colors));
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
-include '_start.php';
+namespace Underscore;
 
-use Underscore\Dispatch;
+use StdClass;
 
-class DispatchTest extends UnderscoreWrapper
+class DispatchTest extends UnderscoreTestCase
 {
   // Data providers ------------------------------------------------ /
 
@@ -16,8 +16,8 @@ class DispatchTest extends UnderscoreWrapper
       array(1.2e3, 'Number'),
       array(7E-10, 'Number'),
       array(array(), 'Arrays'),
-      array(new stdClass, 'Object'),
-      array(function() { return; }, 'Functions'),
+      array(new StdClass, 'Object'),
+      array(function () { return; }, 'Functions'),
       array(NULL, 'String')
     );
   }

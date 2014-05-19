@@ -375,7 +375,7 @@ class BelongsToMany extends Relation {
 	 *
 	 * @param  array   $models
 	 * @param  string  $relation
-	 * @return void
+	 * @return array
 	 */
 	public function initRelation(array $models, $relation)
 	{
@@ -556,17 +556,19 @@ class BelongsToMany extends Relation {
 	}
 
 	/**
-	 * Sync the intermediate tables with a list of IDs.
+	 * Sync the intermediate tables with a list of IDs or collection of models.
 	 *
-	 * @param  array  $ids
+	 * @param  $ids
 	 * @param  bool   $detaching
 	 * @return array
 	 */
-	public function sync(array $ids, $detaching = true)
+	public function sync($ids, $detaching = true)
 	{
 		$changes = array(
 			'attached' => array(), 'detached' => array(), 'updated' => array()
 		);
+
+		if ($ids instanceof Collection) $ids = $ids->modelKeys();
 
 		// First we need to attach any of the associated models that are not currently
 		// in this joining table. We'll spin through the given IDs, checking to see
@@ -645,11 +647,16 @@ class BelongsToMany extends Relation {
 
 				$changes['attached'][] = (int) $id;
 			}
+
+			// Now we'll try to update an existing pivot record with the attributes that were
+			// given to the method. If the model is actually updated we will add it to the
+			// list of updated pivot records so we return them back out to the consumer.
 			elseif (count($attributes) > 0)
 			{
-				$this->updateExistingPivot($id, $attributes, $touch);
-
-				$changes['updated'][] = (int) $id;
+				if ($this->updateExistingPivot($id, $attributes, $touch))
+				{
+					$changes['updated'][] = (int) $id;
+				}
 			}
 		}
 		return $changes;
@@ -670,9 +677,11 @@ class BelongsToMany extends Relation {
 			$attributes = $this->setTimestampsOnAttach($attributes, true);
 		}
 
-		$this->newPivotStatementForId($id)->update($attributes);
+		$updated = $this->newPivotStatementForId($id)->update($attributes);
 
 		if ($touch) $this->touchIfTouching();
+
+		return $updated;
 	}
 
 	/**
@@ -698,7 +707,7 @@ class BelongsToMany extends Relation {
 	 * Create an array of records to insert into the pivot table.
 	 *
 	 * @param  array  $ids
-	 * @return void
+	 * @return array
 	 */
 	protected function createAttachRecords($ids, array $attributes)
 	{
@@ -783,7 +792,7 @@ class BelongsToMany extends Relation {
 	}
 
 	/**
-	 * Set the creation and update timstamps on an attach record.
+	 * Set the creation and update timestamps on an attach record.
 	 *
 	 * @param  array  $record
 	 * @param  bool   $exists
@@ -840,9 +849,9 @@ class BelongsToMany extends Relation {
 	 */
 	public function touchIfTouching()
 	{
-	 	if ($this->touchingParent()) $this->getParent()->touch();
+		if ($this->touchingParent()) $this->getParent()->touch();
 
-	 	if ($this->getParent()->touches($this->relationName)) $this->touch();
+		if ($this->getParent()->touches($this->relationName)) $this->touch();
 	}
 
 	/**
@@ -963,7 +972,7 @@ class BelongsToMany extends Relation {
 	}
 
 	/**
-	 * Get the key for comparing against the pareny key in "has" query.
+	 * Get the key for comparing against the parent key in "has" query.
 	 *
 	 * @return string
 	 */
@@ -993,7 +1002,7 @@ class BelongsToMany extends Relation {
 	}
 
 	/**
-	 * Get the fully qualified parent key naem.
+	 * Get the fully qualified parent key name.
 	 *
 	 * @return string
 	 */
