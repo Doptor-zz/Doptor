@@ -13,10 +13,11 @@ class HomeController extends BaseController {
 
 	public function index()
 	{
-        // $page = Page::findOrFail(1);
+        $page = Post::where('permalink', '=', 'welcome')->first();
 
 		$this->layout->title = 'Home';
-        $this->layout->content = View::make('public.'.$this->current_theme.'.index');
+        $this->layout->content = View::make('public.'.$this->current_theme.'.index')
+                                        ->with('page', $page);
 	}
 
     public function wrapper($menu_id)
