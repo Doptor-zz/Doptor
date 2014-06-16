@@ -7,7 +7,7 @@ Doptor CMS is a Laravel 4 based CMS. Find out more about doptor by reading below
 
 About Doptor CMS
 -----------------
-Doptor is an Integrated and well-designed Content Management System (CMS) and Enterprise Managemetn System (EMS) provides an end user with the tools to build and maintain a sustainable web presence. For a serious company, having a maintainable website is extremely important and the effectiveness of such a site depends on the ease of use and power of the backend CMS. 
+Doptor is an Integrated and well-designed Content Management System (CMS) and Enterprise Management System (EMS) provides an end user with the tools to build and maintain a sustainable web presence. For a serious company, having a maintainable website is extremely important and the effectiveness of such a site depends on the ease of use and power of the backend CMS. 
 
 There are many available CMS out there but they are too generalized to fit the needs of many companies. Introducing the new CMS platform for businesses, which caters to their exact need without sacrificing the power and quality of a standard platform. Through this CMS, websites can be built that aims to serve as a learning and knowledge-sharing platform for the company and act as communication tool to disseminate information to the internal and external stakeholders. 
 
