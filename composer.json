@@ -5,18 +5,18 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.1.*",
-        "cartalyst/sentry": "2.0.*",
-        "robclancy/presenter": "1.2.*",
+		"cartalyst/sentry": "2.0.*",
+		"robclancy/presenter": "1.2.*",
 		"davejamesmiller/laravel-breadcrumbs": "~2.1.0",
 		"creolab/laravel-modules": "dev-master",
 		"intervention/image": "dev-master",
 		"vespakoen/menu": "dev-master",
 		"guzzle/guzzle": "dev-master",
-		"barryvdh/laravel-dompdf": "*",
-		"way/generators": "2.*"
+		"barryvdh/laravel-dompdf": "*"
 	},
 	"require-dev": {
-        "barryvdh/laravel-ide-helper": "dev-master"
+		"way/generators": "2.*",
+		"barryvdh/laravel-ide-helper": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
