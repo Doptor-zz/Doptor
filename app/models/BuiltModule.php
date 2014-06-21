@@ -13,7 +13,7 @@ use Robbo\Presenter\PresentableInterface;
 
 class BuiltModule extends Eloquent implements PresentableInterface {
     protected $fillable = array('name', 'version', 'author', 'website', 'description', 'form_id', 'target', 'file', 'table_name');
-    protected $guarded = array('confirmed');
+    protected $guarded = array('id', 'confirmed');
 
 	/**
      * The database table used by the model.
