@@ -16,9 +16,9 @@
                     <div class="clearfix margin-bottom-10">
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('module-builder.create'))
-                                <button data-href="{{ URL::to($link_type . '/module-builder/create') }}" class="btn btn-success">
+                                <a href="{{ URL::to($link_type . '/module-builder/create') }}" class="btn btn-success">
                                     Add New <i class="icon-plus"></i>
-                                </button>
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -82,12 +82,12 @@
 @section('scripts')
     @if ($link_type == 'backend')
         <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}"></script>
-        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}"></script>
+        {{ HTML::script("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}
+        {{ HTML::script("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         @parent
-        <script src="{{ URL::to("assets/backend/default/scripts/table-managed.js") }}"></script>
+        {{ HTML::script("assets/backend/default/scripts/table-managed.js") }}
         <script>
            jQuery(document).ready(function() {
               TableManaged.init();
@@ -95,9 +95,9 @@
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
     @else
-        <script src="{{ url("assets/admin/default/js/jquery.dataTables.js") }}"></script>
+        {{ HTML::script("assets/admin/default/js/jquery.dataTables.js") }}
 
-        <script src="{{ url("assets/admin/default/js/dataTables.bootstrap.js") }}"></script>
+        {{ HTML::script("assets/admin/default/js/dataTables.bootstrap.js") }}
 
         <script>
             $(function () {

@@ -1,4 +1,5 @@
 <?php namespace Services;
+
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -9,39 +10,112 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use App, Exception, File, Input, Str, View, Redirect, Response;
-use BuiltForm, Module;
+use App;
+use BuiltForm;
+use Exception;
+use File;
+use Redirect;
+use Response;
+use Str;
+use View;
 
 class ModuleBuilder {
 
-    public static function create_module($input)
+    function __construct()
     {
-        $canonical = Str::slug($input['name'], '_');
-        $input['table_name'] = ($input['table_name']=='') ? $canonical : $input['table_name'];
-        $temp_dir = temp_path() . "/{$canonical}/{$canonical}";
+        $this->templatePath = app_path() . '/services/module_template/';
+        $this->fields = array();
+        $this->field_names = array();
+        $this->form_rendered = '';
+        $this->nav_tabs = '';
+    }
+
+    public function createModule($input)
+    {
+        $module_alias = Str::slug($input['name'], '_');
+
+        $input['table_name'] = ($input['table_name'] == '') ? $module_alias : $input['table_name'];
+        $temp_dir = temp_path() . "/{$module_alias}/{$module_alias}";
 
         // Copy the template to temporary folder
-        if (!File::exists(app_path() . '/services/module_template/')) {
-            throw new Exception('The module template directory "' . app_path() . '/services/module_template/" doesn\'t exist.' );
+        $this->copyTemplate($temp_dir);
 
+        // Generate the inner portion of the form
+        $this->generateInnerForm($input);
+
+        // Save the module configuration as json
+        $this->saveModuleConfig($input, $module_alias);
+
+        // Adjust the template files, based on the input
+        $this->adjustFiles($input, $temp_dir, $module_alias);
+
+        // Finally compress the temporary folder
+        $zip_file = $this->generateZip($module_alias);
+
+        return $zip_file;
+    }
+
+    /**
+     * Copy the module template to a temporary directory
+     * @param $temp_dir
+     * @throws \Exception
+     */
+    private function copyTemplate($temp_dir)
+    {
+        if (!File::exists($this->templatePath)) {
+            throw new Exception('The module template directory "' . $this->templatePath . '" doesn\'t exist.');
         }
-        File::copyDirectory(app_path() . '/services/module_template', $temp_dir);
 
+        File::copyDirectory(app_path() . '/services/module_template', $temp_dir);
+    }
+
+    /**
+     * @param $input
+     * @param $canonical
+     */
+    private function saveModuleConfig($input, $canonical)
+    {
+        $module_title_case = str_replace(' ', '', Str::title($input['name']));
+
+        $module_config = array(
+            'enabled'     => true,
+            'info'        => array(
+                'name'      => $input['name'],
+                'canonical' => $canonical,
+                'version'   => $input['version'],
+                'author'    => $input['author'],
+                'website'   => $input['website']
+            ),
+            'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
+            'table'       => $input['table_name'],
+            'target'      => implode('|', $input['target']),
+            'fields'      => $this->fields,
+            'field_names' => $this->field_names
+        );
+
+        // Create the config file for module
+        file_put_contents(temp_path() . "/{$canonical}/module.json", json_encode($module_config));
+    }
+
+    /**
+     * Generate the inner portion form based on the input
+     * @param $input
+     */
+    private function generateInnerForm($input)
+    {
         $selected_forms = array();
         $count = 0;
 
-        for ($i=1; $i <= $input['form-count']; $i++) {
+        for ($i = 1; $i <= $input['form-count']; $i++) {
             if (isset($input["form-{$i}"])) {
                 $selected_forms[$count++] = $input["form-{$i}"];
                 unset($input["form-{$i}"]);
             }
         }
 
-        $nav_tabs = '<ul class="nav nav-tabs">';
-        $form_rendered = '<div class="tab-content">';
+        $this->nav_tabs = '<ul class="nav nav-tabs">';
+        $this->form_rendered = '<div class="tab-content">';
 
-        $fields = array();
-        $field_names = array();
         $extra_code = '';
 
         foreach ($selected_forms as $index => $selected_form) {
@@ -54,7 +128,7 @@ class ModuleBuilder {
             $form_json = json_decode(str_replace('\\', '', $form->data), true);
 
             // Get only required information fields from the form data
-            for ($i=1; $i < sizeof($form_json); $i++) {
+            for ($i = 1; $i < sizeof($form_json); $i++) {
                 $this_form = $form_json[$i];
                 if (!isset($this_form['fields']['id']) && !isset($this_form['fields']['radios'])) {
                     continue;
@@ -71,55 +145,44 @@ class ModuleBuilder {
                 }
 
                 if (in_array($type, array('text', 'input', 'textarea', 'radio', 'select')) && !isset($this_form['fields']['buttontype'])) {
-                    $fields[] = $value;
-                    $field_names[] = $field_name;
+                    $this->fields[] = $value;
+                    $this->field_names[] = $field_name;
                 }
             }
 
-            $active = ($index==0) ? 'active' : '';
-            $nav_tabs .= '<li class="'.$active.'"><a href="#tab_1_'.$index.'" data-toggle="tab">'.$form->name.'</a></li>';
+            $active = ($index == 0) ? 'active' : '';
+            $this->nav_tabs .= '<li class="' . $active . '"><a href="#tab_1_' . $index . '" data-toggle="tab">' . $form->name . '</a></li>';
 
-            $form_rendered .= '<div class="tab-pane '.$active.'" id="tab_1_'.$index.'">';
+            $this->form_rendered .= '<div class="tab-pane ' . $active . '" id="tab_1_' . $index . '">';
             $form->rendered = str_replace("/\n/", '', $form->rendered);
             $form->rendered = str_replace("//", '', $form->rendered);
-            $form_rendered .= preg_replace("/<legend>.*?<\/legend>/", '', $form->rendered);
-            $form_rendered .= '</div>';
+            $this->form_rendered .= preg_replace("/<legend>.*?<\/legend>/", '', $form->rendered);
+            $this->form_rendered .= '</div>';
 
             $extra_code .= $form->extra_code;
         }
 
-        $form_rendered .= '</div>';
-        $nav_tabs .= '</ul>';
+        $this->form = $form;
+        $this->extra_code = $extra_code;
+        $this->form_rendered .= '</div>';
+        $this->nav_tabs .= '</ul>';
+    }
 
-        $module_config = array(
-                            'enabled'  => true,
-                            'info' => array(
-                                    'name'      => $input['name'],
-                                    'canonical' => $canonical,
-                                    'version'   => $input['version'],
-                                    'author'    => $input['author'],
-                                    'website'   => $input['website']
-                            ),
-                            'provider'    => 'App\Modules\\'.str_replace(' ', '_', Str::title($input['name'])).'\\ServiceProvider',
-                            'table'       => $input['table_name'],
-                            'target'      => implode('|', $input['target']),
-                            'fields'      => $fields,
-                            'field_names' => $field_names
-                        );
-
-        // Create the config file for module
-        file_put_contents(temp_path() . "/{$canonical}/module.json", json_encode($module_config));
-
-        // Add form content
-        $view = $nav_tabs;
+    /**
+     * Generate the complete form
+     * @return string
+     */
+    private function generateForm()
+    {
+        $view = $this->nav_tabs;
         $view .= '<?php $link_type = ($link_type=="public") ? "" : $link_type . "." ?>' . "\n";
-        $view .= '@if (!isset($entry))' ."\n";
-        $view .= '{{ Form::open(array("route"=>"{$link_type}modules.".$module_name.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) }}' ."\n";
+        $view .= '@if (!isset($entry))' . "\n";
+        $view .= '{{ Form::open(array("route"=>"{$link_type}modules.".$module_name.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
         $view .= '@else' . "\n";
         $view .= '{{ Form::open(array("route" => array("{$link_type}modules.".$module_name.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
         $view .= '@endif' . "\n";
 
-        $form_data = str_replace('<form class="form-horizontal">', '', urldecode($form_rendered));
+        $form_data = str_replace('<form class="form-horizontal">', '', urldecode($this->form_rendered));
         $view .= str_replace('</form>', '', $form_data);
 
         // Add save buttons
@@ -133,64 +196,111 @@ class ModuleBuilder {
 
         $view .= '{{ Form::close() }}';
 
-        if ($form->redirect_to == 'list') {
+        return $view;
+    }
+
+    /**
+     * @param array $targets
+     * @internal param $input
+     * @return string
+     */
+    private function generateRoutes(array $targets)
+    {
+        $routes = '';
+        foreach ($targets as $target) {
+            $target = ($target == 'public') ? '' : $target . '/';
+            $routes .= "Route::resource('{$target}modules/'.\$current_dir, 'ModuleNameBackendController');\n";
+        }
+
+        return $routes;
+    }
+
+    /**
+     * Adjust the template files according to the provided input
+     * @param $input
+     * @param $temp_dir
+     * @param $module_alias
+     */
+    private function adjustFiles($input, $temp_dir, $module_alias)
+    {
+        $module_title_case = str_replace(' ', '', Str::title($input['name']));
+
+        $this->SearchandReplace($temp_dir, 'NameOfTheModule', $input['name']);
+        $this->SearchandReplace($temp_dir, 'VersionOfTheModule', $input['version']);
+        $this->SearchandReplace($temp_dir, 'WebsiteOfTheModule', $input['website']);
+        $this->SearchandReplace($temp_dir, 'DescriptionOfTheModule', $input['description']);
+
+        // Generate the required routes
+        $routes = $this->generateRoutes($input['target']);
+        $this->SearchandReplace($temp_dir, '***ROUTES***', $routes);
+
+        // Get the complete generated form
+        $generated_form = $this->generateForm();
+        $this->SearchandReplace($temp_dir, '***FORM_CONTENT***', $generated_form);
+
+        if ($this->form->redirect_to == 'list') {
             $redirect_to = 'to($this->link . "modules/" . $this->module_name)';
-        } elseif ($form->redirect_to == 'add') {
+        } elseif ($this->form->redirect_to == 'add') {
             $redirect_to = 'to($this->link . "modules/" . $this->module_name . "/create")';
         } else {
             $redirect_to = 'back()';
         }
+        $this->SearchandReplace($temp_dir, '***REDIRECT_TO***', $redirect_to);
 
-        ModuleBuilder::SearchandReplace($temp_dir, 'NameOfTheModule', $input['name']);
-        ModuleBuilder::SearchandReplace($temp_dir, 'VersionOfTheModule', $input['version']);
-        ModuleBuilder::SearchandReplace($temp_dir, 'WebsiteOfTheModule', $input['website']);
-        ModuleBuilder::SearchandReplace($temp_dir, 'DescriptionOfTheModule', $input['description']);
-        ModuleBuilder::SearchandReplace($temp_dir, '***FORM_CONTENT***', $view);
-        ModuleBuilder::SearchandReplace($temp_dir, '***EXTRA_CODE***', str_replace('\\', '', $extra_code));
-        ModuleBuilder::SearchandReplace($temp_dir, '***REDIRECT_TO***', $redirect_to);
+        $this->SearchandReplace($temp_dir, '***EXTRA_CODE***', str_replace('\\', '', $this->extra_code));
 
-        $route = '';
-        foreach ($input['target'] as $target) {
-            $target = ($target == 'public') ? '' : $target . '/';
-            $route .= "Route::resource('{$target}modules/'.\$current_dir, 'ModuleNameBackendController');\n";
-        }
+        $this->SearchandReplace($temp_dir, 'namespace App\Modules\\Content', 'namespace App\Modules\\' . $module_title_case);
 
-        ModuleBuilder::SearchandReplace($temp_dir, '***ROUTES***', $route);
+        $this->SearchandReplace($temp_dir, 'CreateEntriesTable', 'Create' . $module_title_case . 'Table');
 
-        $input['target'] = implode(' ', $input['target']);
+        $this->SearchandReplace($temp_dir, 'ModuleEntry', 'Module' . $module_title_case);
+        $this->SearchandReplace($temp_dir, 'ModuleName', $module_title_case);
 
-        unset($input['_token']);
-        unset($input['confirmed']);
-
-        ModuleBuilder::SearchandReplace($temp_dir, 'namespace App\Modules\\Content', 'namespace App\Modules\\'.str_replace(' ', '_', Str::title($input['name'])));
-
-        ModuleBuilder::SearchandReplace($temp_dir, 'CreateEntriesTable', 'Create'.str_replace(' ', '', Str::title($input['name'])).'Table');
-
-        rename($temp_dir.'/migrations/2013_10_14_094335_create_entries_table.php', $temp_dir.'/migrations/2013_10_14_094335_create_'.$canonical.'_table.php');
-
-
-        ModuleBuilder::SearchandReplace($temp_dir, 'ModuleEntry', 'Module'.str_replace(' ', '', Str::title($input['name'])));
-        ModuleBuilder::SearchandReplace($temp_dir, 'ModuleName', str_replace(' ', '', Str::title($input['name'])));
-
-        ModuleBuilder::SearchandReplace($temp_dir, 'module_entries', 'module_'.$input['table_name']);
+        $this->SearchandReplace($temp_dir, 'module_entries', 'module_' . $input['table_name']);
 
         $table_fields = '';
-        foreach ($fields as $field) {
+        foreach ($this->fields as $field) {
             $table_fields .= "'$field',";
         }
 
-        ModuleBuilder::SearchandReplace($temp_dir, 'table_fields', $table_fields);
+        $this->SearchandReplace($temp_dir, 'table_fields', $table_fields);
 
-        // rename($temp_dir.'/controllers/ModuleNameFrontendController.php', $temp_dir.'/controllers/'.str_replace(' ', '', Str::title($input['name'])).'FrontendController.php');
-        rename($temp_dir.'/controllers/ModuleNameBackendController.php', $temp_dir.'/controllers/'.str_replace(' ', '', Str::title($input['name'])).'BackendController.php');
+        $this->renameFiles($input['name'], $temp_dir, $module_alias);
+    }
 
-        rename($temp_dir.'/models/ModuleEntry.php', $temp_dir.'/models/Module'.str_replace(' ', '', Str::title($input['name'])).'.php');
+    /**
+     * @param $module_name
+     * @param $temp_dir
+     * @param $module_alias
+     */
+    private function renameFiles($module_name, $temp_dir, $module_alias)
+    {
+        $module_title_case = str_replace(' ', '', Str::title($module_name));
 
-        // Finally compress the temporary folder
-        $zip_file = temp_path() . "/{$canonical}.zip";
-        ModuleBuilder::Zip(temp_path() . "/{$canonical}/", $zip_file, false);
-        File::deleteDirectory(temp_path() . "/{$canonical}/");
-        // $form = Module::create ($input);
+        rename($temp_dir . '/migrations/2013_10_14_094335_create_entries_table.php',
+            $temp_dir . '/migrations/2013_10_14_094335_create_' . $module_alias . '_table.php');
+
+        // rename($temp_dir.'/controllers/ModuleNameFrontendController.php',
+        // $temp_dir.'/controllers/'.$module_alias.'FrontendController.php');
+
+        rename($temp_dir . '/controllers/ModuleNameBackendController.php',
+            $temp_dir . '/controllers/' . $module_title_case . 'BackendController.php');
+
+        rename($temp_dir . '/models/ModuleEntry.php',
+            $temp_dir . '/models/Module' . $module_title_case . '.php');
+    }
+
+    /**
+     * Generate a zip file of the module
+     * @param $module_alias
+     * @return string
+     */
+    private function generateZip($module_alias)
+    {
+        $zip_file = temp_path() . "/{$module_alias}.zip";
+        $this->Zip(temp_path() . "/{$module_alias}/", $zip_file, false);
+        File::deleteDirectory(temp_path() . "/{$module_alias}/");
+
         return $zip_file;
     }
 
@@ -198,15 +308,16 @@ class ModuleBuilder {
      * Compresses a folder
      * @param [type] $source      [description]
      * @param [type] $destination [description]
+     * @return bool
      */
-    public static function Zip($source, $destination, $include_dir = true)
+    public function Zip($source, $destination, $include_dir = true)
     {
         if (!extension_loaded('zip') || !file_exists($source)) {
             return false;
         }
 
         if (file_exists($destination)) {
-            unlink ($destination);
+            unlink($destination);
         }
 
         $zip = new \ZipArchive();
@@ -218,11 +329,11 @@ class ModuleBuilder {
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
 
             if ($include_dir) {
-                $arr = explode("/",$source);
-                $maindir = $arr[count($arr)- 1];
+                $arr = explode("/", $source);
+                $maindir = $arr[count($arr) - 1];
 
                 $source = "";
-                for ($i=0; $i < count($arr) - 1; $i++) {
+                for ($i = 0; $i < count($arr) - 1; $i++) {
                     $source .= '/' . $arr[$i];
                 }
 
@@ -233,7 +344,7 @@ class ModuleBuilder {
 
             foreach ($files as $file) {
                 // Ignore "." and ".." folders
-                if( in_array(substr($file, strrpos($file, DIRECTORY_SEPARATOR)+1), array('.', '..', ':')) )
+                if (in_array(substr($file, strrpos($file, DIRECTORY_SEPARATOR) + 1), array('.', '..', ':')))
                     continue;
 
                 $file = realpath($file);
@@ -251,37 +362,37 @@ class ModuleBuilder {
         } else if (is_file($source) === true) {
             $zip->addFromString(basename($source), file_get_contents($source));
         }
+
         // die;
         return $zip->close();
     }
 
     /**
      * Recursively replace all occurences of string within a directory
-     * @param string $dir           Source Directory
-     * @param string $stringsearch  String to search
+     * @param string $dir Source Directory
+     * @param string $stringsearch String to search
      * @param string $stringreplace String to replace
+     * @return array
      */
-    public static function SearchandReplace($dir, $stringsearch, $stringreplace)
+    public function SearchandReplace($dir, $stringsearch, $stringreplace)
     {
         $listDir = array();
-        if($handler = opendir($dir)) {
-            while (($sub = readdir($handler)) !== FALSE) {
+        if ($handler = opendir($dir)) {
+            while (($sub = readdir($handler)) !== false) {
                 if ($sub != "." && $sub != ".." && $sub != "Thumb.db") {
-                    if(is_file($dir."/".$sub)) {
-                        if(substr_count($sub,'.php'))
-                        {
-                            $getfilecontents = file_get_contents($dir."/".$sub);
-                            if(substr_count($getfilecontents,$stringsearch)>0)
-                            {
-                                $replacer = str_replace($stringsearch,$stringreplace,$getfilecontents);
+                    if (is_file($dir . "/" . $sub)) {
+                        if (substr_count($sub, '.php')) {
+                            $getfilecontents = file_get_contents($dir . "/" . $sub);
+                            if (substr_count($getfilecontents, $stringsearch) > 0) {
+                                $replacer = str_replace($stringsearch, $stringreplace, $getfilecontents);
                                 // Let's make sure the file exists and is writable first.
-                                if (is_writable($dir."/".$sub)) {
-                                    if (!$handle = fopen($dir."/".$sub, 'w')) {
+                                if (is_writable($dir . "/" . $sub)) {
+                                    if (!$handle = fopen($dir . "/" . $sub, 'w')) {
                                         // echo "Cannot open file (".$dir."/".$sub.")";
                                         exit;
                                     }
-                                // Write $somecontent to our opened file.
-                                    if (fwrite($handle, $replacer) === FALSE) {
+                                    // Write $somecontent to our opened file.
+                                    if (fwrite($handle, $replacer) === false) {
                                         // echo "Cannot write to file (".$dir."/".$sub.")";
                                         exit;
                                     }
@@ -293,13 +404,14 @@ class ModuleBuilder {
                             }
                         }
                         $listDir[] = $sub;
-                    }elseif(is_dir($dir."/".$sub)){
-                        $listDir[$sub] = ModuleBuilder::SearchandReplace($dir."/".$sub,$stringsearch,$stringreplace);
+                    } elseif (is_dir($dir . "/" . $sub)) {
+                        $listDir[$sub] = $this->SearchandReplace($dir . "/" . $sub, $stringsearch, $stringreplace);
                     }
                 }
             }
             closedir($handler);
         }
+
         return $listDir;
     }
 

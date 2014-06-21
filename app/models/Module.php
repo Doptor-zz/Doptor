@@ -17,7 +17,7 @@ class Module extends Eloquent {
      */
     protected $table = 'modules';
 
-    protected $guarded = array();
+    protected $guarded = array('id');
 
     public static $rules = array(
             'name'    => 'alpha_spaces|required|unique:modules,name',
