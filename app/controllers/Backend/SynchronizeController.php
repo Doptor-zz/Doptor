@@ -32,13 +32,13 @@ class SynchronizeController extends AdminController {
     public function getIndex()
     {
         $this->layout->title = 'Synchronize';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.synchronize.index');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.synchronize.index');
     }
 
     public function getLocalToWeb()
     {
         $this->layout->title = 'Synchronize Local to Web';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.synchronize.localtoweb');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.synchronize.localtoweb');
     }
 
     public function postLocalToWeb()
@@ -50,7 +50,7 @@ class SynchronizeController extends AdminController {
     public function getWebToLocal()
     {
         $this->layout->title = 'Synchronize Web to Local';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.synchronize.webtolocal');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.synchronize.webtolocal');
     }
 
     public function postWebToLocal()

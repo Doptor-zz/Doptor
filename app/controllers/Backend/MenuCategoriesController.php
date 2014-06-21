@@ -22,7 +22,7 @@ class MenuCategoriesController extends AdminController {
 		$menu_cats = \MenuCategory::all();
 
         $this->layout->title = 'All Menu Categories';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menu_categories.index')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.index')
         								->with('menu_cats', $menu_cats);
 	}
 
@@ -35,7 +35,7 @@ class MenuCategoriesController extends AdminController {
 	{
 
         $this->layout->title = 'Create New Menu Category';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menu_categories.create_edit');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.create_edit');
 	}
 
 	/**
@@ -84,7 +84,7 @@ class MenuCategoriesController extends AdminController {
 
 		$menu_cat = MenuCategory::findOrFail($id);
         $this->layout->title = $menu_cat->title;
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menu_categories.show')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.show')
         								->with('menu_cat', $menu_cat);
 	}
 
@@ -99,7 +99,7 @@ class MenuCategoriesController extends AdminController {
 
 		$menu_cat = \MenuCategory::findOrFail($id);
         $this->layout->title = $menu_cat->name;
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menu_categories.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.create_edit')
         								->with('menu_cat', $menu_cat);
 	}
 

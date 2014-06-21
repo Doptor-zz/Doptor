@@ -22,7 +22,7 @@ class FormCategoriesController extends AdminController {
 		$form_cats = \FormCategory::all();
 
         $this->layout->title = 'All Form Categories';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.form_categories.index')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.form_categories.index')
         								->with('form_cats', $form_cats);
 	}
 
@@ -35,7 +35,7 @@ class FormCategoriesController extends AdminController {
 	{
 
         $this->layout->title = 'Create New Form Category';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.form_categories.create_edit');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.form_categories.create_edit');
 	}
 
 	/**
@@ -84,7 +84,7 @@ class FormCategoriesController extends AdminController {
 
 		$form_cat = FormCategory::findOrFail($id);
         $this->layout->title = $form_cat->title;
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.form_categories.show')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.form_categories.show')
         								->with('form_cat', $form_cat);
 	}
 
@@ -99,7 +99,7 @@ class FormCategoriesController extends AdminController {
 
 		$form_cat = \FormCategory::findOrFail($id);
         $this->layout->title = $form_cat->name;
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.form_categories.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.form_categories.create_edit')
         								->with('form_cat', $form_cat);
 	}
 

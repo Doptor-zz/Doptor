@@ -44,7 +44,7 @@ class PostsController extends BaseController {
 
         $this->layout->title = 'All ' . Str::title($this->type) . 's';
 
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.posts.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.index')
                                         ->with('posts', $posts);
     }
 
@@ -56,7 +56,7 @@ class PostsController extends BaseController {
     public function create()
     {
         $this->layout->title = 'New ' . Str::title($this->type);
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.posts.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.create_edit');
     }
 
     /**
@@ -101,7 +101,7 @@ class PostsController extends BaseController {
         if (!$post) App::abort('401');
 
         $this->layout->title = $post->title;
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.posts.show')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.show')
                                         ->with('post', $post);
     }
 
@@ -114,7 +114,7 @@ class PostsController extends BaseController {
     public function edit($id)
     {
         $this->layout->title = 'Edit ' . Str::title($this->type);
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.posts.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.create_edit')
                                         ->with('post', Post::findOrFail($id));
     }
 

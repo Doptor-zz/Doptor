@@ -25,7 +25,7 @@ class UserController extends AdminController {
         $users = Sentry::findAllUsers();
         // dd($users);
         $this->layout->title = 'All Users';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.users.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.index')
                                     ->with('users', $users);
     }
 
@@ -36,7 +36,7 @@ class UserController extends AdminController {
     public function create()
     {
         $this->layout->title = 'Create New User';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.users.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit');
     }
 
     /**
@@ -92,7 +92,7 @@ class UserController extends AdminController {
         $user = Sentry::findUserById($id);
 
         $this->layout->title = 'User Information';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.users.show')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.show')
                                         ->with('user', $user);
     }
 
@@ -106,7 +106,7 @@ class UserController extends AdminController {
     {
         $user = Sentry::findUserById($id);
         $this->layout->title = 'Edit User';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.users.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit')
                                         ->with('user', $user);
     }
 

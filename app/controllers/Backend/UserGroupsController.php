@@ -24,7 +24,7 @@ class UserGroupsController extends AdminController {
         $this->layout->title = 'All User Groups';
         $user_groups = \Sentry::findAllGroups();
         // dd($user_groups);
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.user_groups.index')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.user_groups.index')
                                     ->with('user_groups', $user_groups);
     }
 
@@ -37,7 +37,7 @@ class UserGroupsController extends AdminController {
     {
 
         $this->layout->title = 'Create New User Group';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.user_groups.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.user_groups.create_edit')
                                         ->with('access_areas', UserGroup::access_areas());
     }
 
@@ -86,7 +86,7 @@ class UserGroupsController extends AdminController {
     {
 
         $this->layout->title = 'All User Groups';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.user_groups.show');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.user_groups.show');
     }
 
     /**
@@ -103,7 +103,7 @@ class UserGroupsController extends AdminController {
             return \App::abort(401);
         }
         $this->layout->title = 'Edit User Group';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.user_groups.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.user_groups.create_edit')
                                         ->with('access_areas', UserGroup::access_areas())
                                         ->with('user_group', $user_group);
     }

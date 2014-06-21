@@ -37,7 +37,7 @@ class ThemeManagerController extends BaseController {
 
         $this->layout->title = 'Theme Manager';
 
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.theme_manager.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.theme_manager.index')
                                         ->with('themes', $themes);
     }
 
@@ -51,7 +51,7 @@ class ThemeManagerController extends BaseController {
 
 
         $this->layout->title = 'New Theme Entry';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.theme_manager.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.theme_manager.create_edit');
     }
 
     /**

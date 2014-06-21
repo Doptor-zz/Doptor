@@ -32,14 +32,14 @@ class MediaManagerController extends BaseController {
     public function index()
     {
         if (Request::ajax()) {
-            $this->layout = View::make('backend.'.$this->current_theme.'._layouts._modal');
+            $this->layout = View::make($this->link_type.'.'.$this->current_theme.'._layouts._modal');
             $ajax = true;
         } else {
             $ajax = false;
         }
 
         $this->layout->title = 'Media Manager';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.media_manager.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.media_manager.create_edit')
                                         ->with('base_dir', 'uploads')
                                         ->with('ajax', $ajax);
     }
@@ -129,7 +129,7 @@ class MediaManagerController extends BaseController {
         $media_entry = MediaEntry::findOrFail($id);
 
         $this->layout->title = $media_entry->title;
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.media_manager.show')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.media_manager.show')
                                         ->with('media_entry', $media_entry);
     }
 
@@ -143,7 +143,7 @@ class MediaManagerController extends BaseController {
     {
 
         $this->layout->title = 'Edit Media Entry';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.media_manager.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.media_manager.create_edit')
                                         ->with('media_entry', MediaEntry::findOrFail($id));
     }
 
