@@ -25,10 +25,16 @@ Requirements
 
 Installation
 --------------
-1.  Download or checkout the latest copy of Doptor from here (https://github.com/Doptor/Doptor)
-2. Copy the checkout folder to your web server
-3. Access the website in browser. e.g.: www.yourdomain.com/doptor
-4. Follow and complete the installation wizard
+###Install Composer
+Doptor CMS is based on Laravel, which utilizes [Composer](http://getcomposer.org) to manage its dependencies. First, download a copy of the `composer.phar`. Once you have the PHAR archive, you can either keep it in your local project directory or move to `usr/local/bin` to use it globally on your system. On Windows, you can use the Composer [Windows installer](https://getcomposer.org/Composer-Setup.exe).
+
+###Install Doptor CMS
+1. Download or checkout the latest copy of Doptor from here (https://github.com/Doptor/Doptor)
+2. Enter the newly created folder. e.g.: `cd Doptor`
+3. Install the required dependencies with composer. `composer install --no-dev`
+4. Copy the checkout folder to your web server
+5. Access the website in browser. e.g.: www.yourdomain.com/doptor
+6. Follow and complete the installation wizard.
 
 *Note: You may need to configure the `app/storage` folder to have write access by the server. A permission of `775` on the `app/storage` folder is sufficient.*
 
@@ -40,6 +46,6 @@ Note
 --------------
 Doptor is under heavy development and major changes will be pushed from time to time. You are most welcome to test Doptor CMS, however it is strictly not recommended for use in production environment until it reaches a stable release.
 
-Contributing To Doptor
+Contributing to Doptor CMS
 --------------
 **All issues and pull requests should be filed on the [Doptor/Doptor](https://github.com/Doptor/Doptor) repository.**
