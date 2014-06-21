@@ -79,7 +79,7 @@ class ModuleBuilderController extends AdminController {
                 unset($input['form-count']);
                 $input['form_id'] = implode(', ', $selected_forms);
 
-//                BuiltModule::create($input);
+               BuiltModule::create($input);
 
                 App::finish(function ($request, $response) use ($file) {
                     // Delete the file, as soon as it is downloaded

@@ -42,7 +42,7 @@ class PostCategoriesController extends BaseController {
 
         $post_cats = Category::type($this->type)->get();
         $this->layout->title = 'All ' . Str::title($this->type) . ' Categories';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.categories.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.index')
                                         ->with('post_cats', $post_cats)
                                         ->with('type', $this->type);
     }
@@ -57,7 +57,7 @@ class PostCategoriesController extends BaseController {
 
 
         $this->layout->title = 'New ' . Str::title($this->type) . ' Category';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.categories.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.create_edit')
                                         ->with('type', $this->type);
     }
 
@@ -99,7 +99,7 @@ class PostCategoriesController extends BaseController {
         if (!$post) App::abort('404');
 
         $this->layout->title = $post->title;
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.categories.show')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.show')
                                         ->with('post', $post);
     }
 
@@ -114,7 +114,7 @@ class PostCategoriesController extends BaseController {
 
 
         $this->layout->title = 'Edit ' . Str::title($this->type) . ' Category';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.categories.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.create_edit')
                                         ->with('post_cat', Category::findOrFail($id))
                                         ->with('type', $this->type);;
     }

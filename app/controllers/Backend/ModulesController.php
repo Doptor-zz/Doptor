@@ -25,7 +25,7 @@ class ModulesController extends AdminController {
         $modules = Module::all();
 
         $this->layout->title = 'All Modules';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.modules.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.modules.index')
                                         ->with('modules', $modules);
     }
 
@@ -38,7 +38,7 @@ class ModulesController extends AdminController {
     {
 
         $this->layout->title = 'Install New Module';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.modules.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.modules.create_edit');
     }
 
     /**

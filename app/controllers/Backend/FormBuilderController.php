@@ -19,7 +19,7 @@ class FormBuilderController extends AdminController {
     {
         $forms = \BuiltForm::with('cat')->get();
         $this->layout->title = 'All Built Forms';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.formbuilders.index')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.formbuilders.index')
                                         ->with('forms', $forms);
     }
 
@@ -30,7 +30,7 @@ class FormBuilderController extends AdminController {
     public function create()
     {
         $this->layout->title = 'Create New Form';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.formbuilders.create_edit');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.formbuilders.create_edit');
     }
 
     /**
@@ -84,7 +84,7 @@ class FormBuilderController extends AdminController {
     {
         $form = \BuiltForm::findOrFail($id);
         $this->layout->title = $form->name;
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.formbuilders.show')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.formbuilders.show')
                                         ->with('form', $form);
     }
 
@@ -98,7 +98,7 @@ class FormBuilderController extends AdminController {
     {
         $form = \BuiltForm::findOrFail($id);
         $this->layout->title = 'Edit Form';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.formbuilders.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.formbuilders.create_edit')
                                         ->with('form', $form);
     }
 

@@ -82,8 +82,8 @@
 @stop
 
 @section('scripts')
-    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}">
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}"></script>
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}
 
     @parent
 

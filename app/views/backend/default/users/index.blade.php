@@ -108,7 +108,6 @@
 @stop
 
 @section('scripts')
-    @if ($link_type == 'backend')
         <!-- BEGIN PAGE LEVEL PLUGINS -->
         <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}"></script>
         <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}"></script>
@@ -122,19 +121,6 @@
            });
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
-    @else
-        <script src="{{ url("assets/admin/default/js/jquery.dataTables.js") }}"></script>
-
-        <script src="{{ url("assets/admin/default/js/dataTables.bootstrap.js") }}"></script>
-
-        <script>
-            $(function () {
-                $('.table').dataTable({
-                    "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
-                });
-            });
-        </script>
-    @endif
     <script>
         $(function() {
             $('#selected_ids').val('');

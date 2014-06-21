@@ -16,9 +16,9 @@
                     <div class="clearfix margin-bottom-10">
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('module-builder.create'))
-                                <a href="{{ URL::to($link_type . '/module-builder/create') }}" class="btn btn-success">
+                                <button data-href="{{ URL::to($link_type . '/module-builder/create') }}" class="btn btn-success">
                                     Add New <i class="icon-plus"></i>
-                                </a>
+                                </button>
                             @endif
                         </div>
                     </div>
@@ -80,31 +80,17 @@
 @stop
 
 @section('scripts')
-    @if ($link_type == 'backend')
         <!-- BEGIN PAGE LEVEL PLUGINS -->
-        {{ HTML::script("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}
-        {{ HTML::script("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}
+        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}"></script>
+        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         @parent
-        {{ HTML::script("assets/backend/default/scripts/table-managed.js") }}
+        <script src="{{ URL::to("assets/backend/default/scripts/table-managed.js") }}"></script>
         <script>
            jQuery(document).ready(function() {
               TableManaged.init();
            });
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
-    @else
-        {{ HTML::script("assets/admin/default/js/jquery.dataTables.js") }}
-
-        {{ HTML::script("assets/admin/default/js/dataTables.bootstrap.js") }}
-
-        <script>
-            $(function () {
-                $('.table').dataTable({
-                    "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
-                });
-            });
-        </script>
-    @endif
 @stop

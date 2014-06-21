@@ -26,7 +26,7 @@ class MenuManagerController extends AdminController {
                         ->get();
 
         $this->layout->title = 'Menu Manager';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menumanagers.index')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menumanagers.index')
                                         ->with('menu_entries', $menu_entries);
     }
 
@@ -37,7 +37,7 @@ class MenuManagerController extends AdminController {
     public function create()
     {
         $this->layout->title = 'Create New Menu Entry';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menumanagers.create_edit');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menumanagers.create_edit');
     }
 
     /**
@@ -89,7 +89,7 @@ class MenuManagerController extends AdminController {
     public function show($id)
     {
         $this->layout->title = '';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menumanagers.show');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menumanagers.show');
     }
 
     /**
@@ -103,7 +103,7 @@ class MenuManagerController extends AdminController {
         $menu = Menu::findOrFail($id);
 
         $this->layout->title = 'Edit Existing Menu Entry';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.menumanagers.create_edit')
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menumanagers.create_edit')
                                         ->with('menu', $menu);
     }
 

@@ -6,7 +6,7 @@
         </div>
     @endif
     <!-- BEGIN LOGIN FORM -->
-    {{ Form::open(array('url'=>'login/backend', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) }}
+    {{ Form::open(array('url'=>'login/admin', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) }}
         <p class="center">Enter your new password.</p>
         <div class="control-group">
             <div class="controls">

@@ -26,7 +26,7 @@ class SlideshowController extends AdminController {
 
         $this->layout->title = 'All Slides';
 
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.slideshow.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.slideshow.index')
                                         ->with('slides', $slides);
 	}
 
@@ -39,7 +39,7 @@ class SlideshowController extends AdminController {
 
 
         $this->layout->title = 'New slide';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.slideshow.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.slideshow.create_edit');
 	}
 
 	/**
@@ -89,7 +89,7 @@ class SlideshowController extends AdminController {
 
         $this->layout->title = 'Edit slide';
 
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.slideshow.create_edit')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.slideshow.create_edit')
                                         ->with('slide', Slideshow::findOrFail($id));
 	}
 

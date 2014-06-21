@@ -28,7 +28,7 @@ class ReportBuilderController extends AdminController {
         $modules = Module::all();
 
         $this->layout->title = 'Report Builder';
-        $this->layout->content = View::make('backend.'.$this->current_theme.'.report_builders.index')
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.report_builders.index')
                                         ->with('modules', $modules);
     }
 
@@ -187,7 +187,7 @@ class ReportBuilderController extends AdminController {
 
         $entries = $this->moduleEntries($input, $module);
 
-        return View::make('backend.'.$this->current_theme.'.report_builders.print')
+        return View::make($this->link_type.'.'.$this->current_theme.'.report_builders.print')
                         ->with('title', $input['title'])
                         ->with('required_fields', $required_fields)
                         ->with('entries', $entries)

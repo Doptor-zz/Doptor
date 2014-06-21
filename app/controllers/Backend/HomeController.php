@@ -45,7 +45,7 @@ class HomeController extends AdminController {
         if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) \App::abort('401');
 
         $this->layout->title = 'Website Configuration';
-        $this->layout->content = \View::make('backend.'.$this->current_theme.'.config');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.config');
     }
 
     public function postConfig()
