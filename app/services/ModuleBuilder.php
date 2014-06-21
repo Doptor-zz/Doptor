@@ -86,7 +86,7 @@ class ModuleBuilder {
                 'author'    => $input['author'],
                 'website'   => $input['website']
             ),
-            'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
+            // 'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
             'table'       => $input['table_name'],
             'target'      => implode('|', $input['target']),
             'fields'      => $this->fields,
