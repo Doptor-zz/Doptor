@@ -40,18 +40,18 @@ foreach ($components as $component) {
 }
 
 // Autoload all modules to the global namespace
-if (Schema::hasTable('modules')) {
-    foreach (Module::all()->fetch('alias') as $module) {
-        ClassLoader::addDirectories(array(
-                app_path().'/modules'.$module,
-                app_path().'/modules/'.$module.'/controllers',
-                app_path().'/modules/'.$module.'/facades',
-                app_path().'/modules/'.$module.'/models',
-                app_path().'/modules/'.$module.'/migrations',
-                app_path().'/modules/'.$module.'/views',
-        ));
-    }
-}
+// if (Schema::hasTable('modules')) {
+//     foreach (Module::all()->fetch('alias') as $module) {
+//         ClassLoader::addDirectories(array(
+//                 app_path().'/modules/'.$module,
+//                 app_path().'/modules/'.$module.'/controllers',
+//                 app_path().'/modules/'.$module.'/models',
+//                 app_path().'/modules/'.$module.'/migrations',
+//                 app_path().'/modules/'.$module.'/views',
+//         ));
+//     }
+// }
+//dd(ClassLoader::getDirectories());
 
 /*
 |--------------------------------------------------------------------------

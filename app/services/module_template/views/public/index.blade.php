@@ -24,7 +24,7 @@
             @endif
 
             <div class="pull-right">
-                <a href="{{ url('modules/'.$module_name.'/create') }}" class="pill pill-style1">
+                <a href="{{ url('modules/'.$module_link.'/create') }}" class="pill pill-style1">
                     <span class="pill-inner">Add new</span>
                 </a>
                 <div class="actions inline">
@@ -33,7 +33,7 @@
                     </div>
                     <ul class="pill pill-small">
                         <li>
-                            {{ Form::open(array('route' => array('modules.'.$module_name.'.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline')) }}
+                            {{ Form::open(array('route' => array('modules.'.$module_link.'.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline')) }}
                                 <button type="submit" class="danger"><i class="icon-trash" onclick="return deleteRecord($(this))"></i> Delete</button>
                             {{ Form::close() }}
                         </li>
@@ -61,7 +61,7 @@
                             @endforeach
                             <td>
 
-                                <a href="{{ URL::to('modules/' . $module_name .'/' . $entry->id . '/edit') }}" class="pill pill-small"><i class="pill-inner">Edit</i></a>
+                                <a href="{{ URL::to('modules/' . $module_link .'/' . $entry->id . '/edit') }}" class="pill pill-small"><i class="pill-inner">Edit</i></a>
 
                                 <div class="actions inline">
                                     <div class="pill pill-small">
@@ -69,7 +69,7 @@
                                     </div>
                                     <ul class="pill pill-small">
                                         <li>
-                                            {{ Form::open(array('route' => array('modules.'.$module_name.'.destroy', $entry->id), 'method' => 'delete', 'class'=>'inline')) }}
+                                            {{ Form::open(array('route' => array('modules.'.$module_link.'.destroy', $entry->id), 'method' => 'delete', 'class'=>'inline')) }}
                                                 <button type="submit" class="danger"><i class="icon-trash" onclick="return deleteRecord($(this))"></i> Delete</button>
                                             {{ Form::close() }}
                                         </li>

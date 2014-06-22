@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modules\ModuleName\Controllers;
 /*
 =================================================
 Module Name     :   NameOfTheModule
@@ -9,8 +9,13 @@ Description     :   DescriptionOfTheModule
 ===================================================
 */
 use Backend\AdminController as BaseController;
+use Redirect;
+use Input;
+use Str;
+use View;
+use Modules\ModuleName\Models\ModuleModel;
 
-class ModuleNameBackendController extends BaseController {
+class BackendController extends BaseController {
 
     /**
      * The layout that should be used for responses.
@@ -20,18 +25,24 @@ class ModuleNameBackendController extends BaseController {
     protected $type;
     protected $config;
     protected $fields;
-    protected $module_name;
+    protected $module_alias;
+    protected $module_link;
 
     public function __construct()
     {
         $this->config = json_decode(file_get_contents(__DIR__ . '/../module.json'), true);
         $this->fields = $this->config['fields'];
         $this->field_names = $this->config['field_names'];
-        $this->module_name = $this->config['info']['canonical'];
+        $this->module_alias = $this->config['info']['canonical'];
+        $this->module_link = Str::snake($this->module_alias, '_');
 
         parent::__construct();
 
         $this->type = $this->link_type;
+
+        // Add location hinting for views
+        View::addNamespace($this->module_alias,
+            app_path() . "/modules/{$this->module_alias}/views");
     }
 
     /**
@@ -41,15 +52,15 @@ class ModuleNameBackendController extends BaseController {
      */
     public function index()
     {
-        $entries = ModuleEntry::all();
+        $entries = ModuleModel::all();
 
         $this->layout->title = "All Entries in {$this->config['info']['name']}";
-        $this->layout->content = View::make("{$this->config['info']['canonical']}::{$this->type}.index")
+        $this->layout->content = View::make("{$this->module_alias}::{$this->type}.index")
                                         ->with('title', "All Entries in {$this->config['info']['name']}")
                                         ->with('entries', $entries)
                                         ->with('fields', $this->fields)
                                         ->with('field_names', $this->field_names)
-                                        ->with('module_name', $this->module_name);
+                                        ->with('module_link', $this->module_link);
     }
 
     /**
@@ -60,9 +71,9 @@ class ModuleNameBackendController extends BaseController {
     public function create()
     {
         $this->layout->title = "Add New Entry in {$this->config['info']['name']}";;
-        $this->layout->content = View::make("{$this->config['info']['canonical']}::{$this->type}.create_edit")
+        $this->layout->content = View::make("{$this->module_alias}::{$this->type}.create_edit")
                                         ->with('title', "Add New Entry in {$this->config['info']['name']}")
-                                        ->with('module_name', $this->module_name);
+                                        ->with('module_link', $this->module_link);
     }
 
     /**
@@ -75,15 +86,15 @@ class ModuleNameBackendController extends BaseController {
         $input = Input::all();
 
         if (isset($input['form_close'])) {
-            return Redirect::to("{$this->link}modules/{$this->module_name}");
+            return Redirect::to("{$this->link}modules/{$this->module_link}");
         }
 
-        ModuleEntry::create($input);
+        ModuleModel::create($input);
 
         if (isset($input['form_save'])) {
-            $redirect = "{$this->link}modules/{$this->module_name}";
+            $redirect = "{$this->link}modules/{$this->module_link}";
         } else {
-            $redirect = "{$this->link}modules/{$this->module_name}/create";
+            $redirect = "{$this->link}modules/{$this->module_link}/create";
         }
 
         // return Redirect::***REDIRECT_TO***
@@ -99,12 +110,12 @@ class ModuleNameBackendController extends BaseController {
      */
     public function show($id)
     {
-        $entry = ModuleEntry::findOrFail($id);
+        $entry = ModuleModel::findOrFail($id);
 
         $this->layout->title = "Showing Entry in {$this->config['info']['name']}";;
-        $this->layout->content = View::make("{$this->config['info']['canonical']}::{$this->type}.show")
+        $this->layout->content = View::make("{$this->module_alias}::{$this->type}.show")
                                         ->with('title', "Showing Entry in {$this->config['info']['name']}")
-                                        ->with('module_name', $this->module_name)
+                                        ->with('module_link', $this->module_link)
                                         ->with('entry', $entry)
                                         ->with('field_names', $this->field_names)
                                         ->with('fields', $this->fields);
@@ -118,12 +129,12 @@ class ModuleNameBackendController extends BaseController {
      */
     public function edit($id)
     {
-        $entry = ModuleEntry::findOrFail($id);
+        $entry = ModuleModel::findOrFail($id);
         $this->layout->title = "Edit Entry in {$this->config['info']['name']}";;
 
-        $this->layout->content = View::make("{$this->module_name}::{$this->type}.create_edit")
+        $this->layout->content = View::make("{$this->module_alias}::{$this->type}.create_edit")
                                         ->with('title', "Edit Entry in {$this->config['info']['name']}")
-                                        ->with('module_name', $this->module_name)
+                                        ->with('module_link', $this->module_link)
                                         ->with('entry', $entry)
                                         ->with('fields', $this->fields);
     }
@@ -139,16 +150,16 @@ class ModuleNameBackendController extends BaseController {
         $input = Input::all();
 
         if (isset($input['form_close'])) {
-            return Redirect::to("{$this->link}modules/{$this->module_name}");
+            return Redirect::to("{$this->link}modules/{$this->module_link}");
         }
 
         if (isset($input['form_save'])) {
-            $redirect = "{$this->link}modules/{$this->module_name}";
+            $redirect = "{$this->link}modules/{$this->module_link}";
         } else {
-            $redirect = "{$this->link}modules/{$this->module_name}/create";
+            $redirect = "{$this->link}modules/{$this->module_link}/create";
         }
 
-        $entry = ModuleEntry::findOrFail($id);
+        $entry = ModuleModel::findOrFail($id);
         $entry->update($input);
 
         // return Redirect::***REDIRECT_TO***
@@ -177,7 +188,7 @@ class ModuleNameBackendController extends BaseController {
         }
 
         foreach ($selected_ids as $id) {
-            $entry = ModuleEntry::findOrFail($id);
+            $entry = ModuleModel::findOrFail($id);
 
             $entry->delete();
         }

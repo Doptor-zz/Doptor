@@ -101,9 +101,8 @@
                                     <label class="control-label">Form(s) <i class="red">*</i></label>
                                     <div class="controls" id="InputsWrapper">
                                         @if (isset($forms))
-                                            {{-- expr --}}
                                             <input name="form-count" type="hidden" value="{{ count($forms) }}">
-                                            @for ($i = 1; $i < count($forms); $i++)
+                                            @for ($i = 1; $i <= count($forms); $i++)
                                                 <p>
 
                                                     {{ Form::select("form-{$i}", BuiltForm::all_forms(), $forms[$i-1], array('class'=>'chosen')) }}

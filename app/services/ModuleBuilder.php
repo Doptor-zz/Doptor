@@ -32,7 +32,7 @@ class ModuleBuilder {
 
     public function createModule($input)
     {
-        $module_alias = Str::slug($input['name'], '_');
+        $module_alias = str_replace(' ', '', Str::title($input['name']));
 
         $input['table_name'] = ($input['table_name'] == '') ? $module_alias : $input['table_name'];
         $temp_dir = temp_path() . "/{$module_alias}/{$module_alias}";
@@ -70,18 +70,17 @@ class ModuleBuilder {
     }
 
     /**
+     * Save the module configuration to a json file
      * @param $input
-     * @param $canonical
+     * @param $module_alias
      */
-    private function saveModuleConfig($input, $canonical)
+    private function saveModuleConfig($input, $module_alias)
     {
-        $module_title_case = str_replace(' ', '', Str::title($input['name']));
-
         $module_config = array(
             'enabled'     => true,
             'info'        => array(
                 'name'      => $input['name'],
-                'canonical' => $canonical,
+                'canonical' => $module_alias,
                 'version'   => $input['version'],
                 'author'    => $input['author'],
                 'website'   => $input['website']
@@ -94,7 +93,7 @@ class ModuleBuilder {
         );
 
         // Create the config file for module
-        file_put_contents(temp_path() . "/{$canonical}/module.json", json_encode($module_config));
+        file_put_contents(temp_path() . "/{$module_alias}/module.json", json_encode($module_config));
     }
 
     /**
@@ -177,9 +176,9 @@ class ModuleBuilder {
         $view = $this->nav_tabs;
         $view .= '<?php $link_type = ($link_type=="public") ? "" : $link_type . "." ?>' . "\n";
         $view .= '@if (!isset($entry))' . "\n";
-        $view .= '{{ Form::open(array("route"=>"{$link_type}modules.".$module_name.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
+        $view .= '{{ Form::open(array("route"=>"{$link_type}modules.".$module_link.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
         $view .= '@else' . "\n";
-        $view .= '{{ Form::open(array("route" => array("{$link_type}modules.".$module_name.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
+        $view .= '{{ Form::open(array("route" => array("{$link_type}modules.".$module_link.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
         $view .= '@endif' . "\n";
 
         $form_data = str_replace('<form class="form-horizontal">', '', urldecode($this->form_rendered));
@@ -209,7 +208,7 @@ class ModuleBuilder {
         $routes = '';
         foreach ($targets as $target) {
             $target = ($target == 'public') ? '' : $target . '/';
-            $routes .= "Route::resource('{$target}modules/'.\$current_dir, 'ModuleNameBackendController');\n";
+            $routes .= "Route::resource('{$target}modules/'.\$current_dir, 'Modules\ModuleName\Controllers\BackendController');\n";
         }
 
         return $routes;
@@ -249,11 +248,11 @@ class ModuleBuilder {
 
         $this->SearchandReplace($temp_dir, '***EXTRA_CODE***', str_replace('\\', '', $this->extra_code));
 
-        $this->SearchandReplace($temp_dir, 'namespace App\Modules\\Content', 'namespace App\Modules\\' . $module_title_case);
+//        $this->SearchandReplace($temp_dir, 'Modules\\ModuleName', 'Modules\\' . $module_title_case);
 
         $this->SearchandReplace($temp_dir, 'CreateEntriesTable', 'Create' . $module_title_case . 'Table');
 
-        $this->SearchandReplace($temp_dir, 'ModuleEntry', 'Module' . $module_title_case);
+        $this->SearchandReplace($temp_dir, 'ModuleModel', 'Module' . $module_title_case);
         $this->SearchandReplace($temp_dir, 'ModuleName', $module_title_case);
 
         $this->SearchandReplace($temp_dir, 'module_entries', 'module_' . $input['table_name']);
@@ -280,13 +279,7 @@ class ModuleBuilder {
         rename($temp_dir . '/migrations/2013_10_14_094335_create_entries_table.php',
             $temp_dir . '/migrations/2013_10_14_094335_create_' . $module_alias . '_table.php');
 
-        // rename($temp_dir.'/controllers/ModuleNameFrontendController.php',
-        // $temp_dir.'/controllers/'.$module_alias.'FrontendController.php');
-
-        rename($temp_dir . '/controllers/ModuleNameBackendController.php',
-            $temp_dir . '/controllers/' . $module_title_case . 'BackendController.php');
-
-        rename($temp_dir . '/models/ModuleEntry.php',
+        rename($temp_dir . '/models/ModuleModel.php',
             $temp_dir . '/models/Module' . $module_title_case . '.php');
     }
 

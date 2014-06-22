@@ -31,12 +31,14 @@
 			"app/tests/TestCase.php",
 			"app/components",
 			"app/components/posts/database/migrations",
-			"app/components/posts/database/seeds",
-			"app/modules"
+			"app/components/posts/database/seeds"
 		],
 		"files": [
 			"app/helpers.php"
-		]
+		],
+		"psr-4": {
+			"Modules\\": "app/modules"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
