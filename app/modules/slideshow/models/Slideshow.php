@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modules\Slideshow\Models;
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -9,37 +9,44 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use App;
+use Eloquent;
+use File;
+
+use Image;
 use Robbo\Presenter\PresentableInterface;
+
+use Modules\Slideshow\Presenters\SlideshowPresenter;
 
 class Slideshow extends Eloquent implements PresentableInterface {
     protected $table = 'slideshow';
 
-    // Path in the public folder to upload menu icon
+    // Path in the public folder to upload slides
     protected $images_path = 'uploads/slideshow/';
 
     protected $fillable = array();
     protected $guarded = array('id');
 
     /**
-     * When creating a post, run the attributes through a validator first.
+     * Create a new slide
      * @param array $attributes
      * @return void
      */
     public static function create(array $attributes = array())
     {
-        App::make('Services\\Validation\\SlideshowValidator')->validateForCreation($attributes);
+        App::make('Modules\\Slideshow\\Validation\\SlideshowValidator')->validateForCreation($attributes);
 
         parent::create($attributes);
     }
 
     /**
-     * When updating a post, run the attributes through a validator first.
+     * Update an existing slide
      * @param array $attributes
      * @return void
      */
     public function update(array $attributes = array())
     {
-        App::make('Services\\Validation\\SlideshowValidator')->validateForUpdate($attributes);
+        App::make('Modules\\Slideshow\\Validation\\SlideshowValidator')->validateForUpdate($attributes);
 
         parent::update($attributes);
     }
@@ -75,17 +82,11 @@ class Slideshow extends Eloquent implements PresentableInterface {
                 File::exists($old_image) && File::delete($old_image);
             }
 
-            $image->resize(940, null, true)
-                    ->crop(940, 470)
+            $image->fit(940, 470)
                     ->save($this->images_path . $file_name);
 
             $this->attributes['image'] = $file_name;
         }
-    }
-
-    public function scopeRecent($query)
-    {
-        return $query->orderBy('created_at', 'DESC');
     }
 
     /**

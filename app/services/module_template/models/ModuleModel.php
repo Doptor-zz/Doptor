@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modules\ModuleName\Models;
 /*
 =================================================
 Module Name     :   NameOfTheModule
@@ -8,7 +8,9 @@ Site            :   WebsiteOfTheModule
 Description     :   DescriptionOfTheModule
 ===================================================
 */
-class ModuleEntry extends Eloquent {
+use Eloquent;
+
+class ModuleModel extends Eloquent {
 
 	protected $table = 'module_entries';
 

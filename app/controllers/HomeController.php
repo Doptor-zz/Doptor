@@ -9,15 +9,19 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use Modules\Slideshow\Models\Slideshow;
+
 class HomeController extends BaseController {
 
 	public function index()
 	{
         $page = Post::where('permalink', '=', 'welcome')->first();
+        $slides = Slideshow::latest()->get();
 
 		$this->layout->title = 'Home';
         $this->layout->content = View::make('public.'.$this->current_theme.'.index')
-                                        ->with('page', $page);
+                                        ->with('page', $page)
+                                        ->with('slides', $slides);
 	}
 
     public function wrapper($menu_id)

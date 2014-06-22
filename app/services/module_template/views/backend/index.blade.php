@@ -23,11 +23,11 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Settings</i>
+                                    <i class="icon-cog"> Actions</i>
                                 </div>
                                 <ul class="btn">
                                     <li>
-                                        {{ Form::open(array('route' => array('backend.modules.'.$module_name.'.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'entries');")) }}
+                                        {{ Form::open(array('route' => array('backend.modules.'.$module_link.'.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'entries');")) }}
                                             {{ Form::hidden('selected_ids', '', array('id'=>'selected_ids')) }}
                                             <button type="submit" class="danger"><i class="icon-trash"></i> Delete</button>
                                         {{ Form::close() }}
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="btn-group pull-right">
-                            <button data-href="{{ URL::to('backend/modules/'.$module_name.'/create') }}" class="btn btn-success">
+                            <button data-href="{{ URL::to('backend/modules/'.$module_link.'/create') }}" class="btn btn-success">
                                 Add New <i class="icon-plus"></i>
                             </button>
                         </div>
@@ -59,7 +59,7 @@
                                         <td>{{ $entry->{$field} }}</td>
                                     @endforeach
                                     <td>
-                                        <a href="{{ URL::to('backend/modules/' . $module_name .'/' . $entry->id . '/edit') }}" class="btn btn-mini"><i class="icon-edit"></i></a>
+                                        <a href="{{ URL::to('backend/modules/' . $module_link .'/' . $entry->id . '/edit') }}" class="btn btn-mini"><i class="icon-edit"></i></a>
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
@@ -67,7 +67,7 @@
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
-                                                    {{ Form::open(array('route' => array('backend.modules.'.$module_name.'.destroy', $entry->id), 'method' => 'delete', 'class'=>'inline')) }}
+                                                    {{ Form::open(array('route' => array('backend.modules.'.$module_link.'.destroy', $entry->id), 'method' => 'delete', 'class'=>'inline')) }}
                                                         <button type="submit" class="danger" onclick="return deleteRecord($(this))"><i class="icon-trash"></i> Delete</button>
                                                     {{ Form::close() }}
                                                 </li>

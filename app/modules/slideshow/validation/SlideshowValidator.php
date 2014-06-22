@@ -1,4 +1,4 @@
-<?php namespace Services\Validation;
+<?php namespace Modules\Slideshow\Validation;
 /*
 =================================================
 CMS Name  :  DOPTOR
