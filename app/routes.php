@@ -95,7 +95,7 @@ Route::group(array('prefix' => 'backend'), function() {
     Route::get('module-builder/download/{id}', 'Backend\ModuleBuilderController@download');
     Route::resource('module-builder', 'Backend\ModuleBuilderController');
 
-    Route::resource('slideshow', 'Backend\SlideshowController');
+    Route::resource('slideshow', 'Modules\Slideshow\Controllers\Backend\SlideshowController');
 
     // For pages and posts
     Route::resource('pages', 'Components\Posts\Controllers\Backend\PostsController');
@@ -159,7 +159,7 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::get('module-builder/download/{id}', 'Backend\ModuleBuilderController@download');
     Route::resource('module-builder', 'Backend\ModuleBuilderController');
 
-    Route::resource('slideshow', 'Backend\SlideshowController');
+    Route::resource('slideshow', 'Modules\Slideshow\Controllers\Backend\SlideshowController');
 
     // For pages and posts
     Route::resource('pages', 'Components\Posts\Controllers\Backend\PostsController');

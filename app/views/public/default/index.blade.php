@@ -1,11 +1,11 @@
 @section('styles')
     <!-- Flexslider -->
-    <link rel="stylesheet" href="{{URL::to("assets/public/default/css/flexslider.css")}}" media="screen" />
+    {{ HTML::style("assets/public/default/css/flexslider.css") }}
 @stop
 
 @section('scripts')
     <!-- Flexslider -->
-    <script type="text/javascript" src="{{URL::to("assets/public/default/js/jquery.flexslider.js")}}"></script>
+    {{ HTML::script("assets/public/default/js/jquery.flexslider.js") }}
 
     <!-- Flexslider Init -->
     <script type="text/javascript">
@@ -27,7 +27,7 @@
 @stop
 
 @section('slider')
-    @if (Slideshow::count() > 0)
+    @if ($slides->count() > 0)
         <!-- BEGIN SLIDER -->
         <section id="slider" class="loading">
 
@@ -37,7 +37,7 @@
                     <div class="flexslider">
                         <ul class="slides">
                             <!-- Begin Single Slide -->
-                            @foreach (Slideshow::recent()->get() as $slide)
+                            @foreach ($slides as $slide)
                                 <li>
                                     <img src="{{ URL::to($slide->image) }}" />
                                     <div class="slide-caption">

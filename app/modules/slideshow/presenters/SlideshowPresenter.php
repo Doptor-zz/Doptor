@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modules\Slideshow\Presenters;
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -9,6 +9,11 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use Str;
+
+use Sentry;
+use Cartalyst\Sentry\Users\UserNotFoundException;
+
 use Robbo\Presenter\Presenter;
 
 class SlideshowPresenter extends Presenter
@@ -32,7 +37,7 @@ class SlideshowPresenter extends Presenter
         try {
             $user = Sentry::findUserById($this->created_by);
             return $user->username;
-        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return '';
         }
     }
@@ -49,7 +54,7 @@ class SlideshowPresenter extends Presenter
         try {
             $user = Sentry::findUserById($this->updated_by);
             return $user->username;
-        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return '';
         }
     }

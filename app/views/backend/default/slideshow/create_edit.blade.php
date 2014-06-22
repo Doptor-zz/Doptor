@@ -1,5 +1,5 @@
 @section('styles')
-    <link rel="stylesheet" href="{{ URL::to('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
+    {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 @stop
 
 @section('content')
@@ -59,7 +59,7 @@
                                     <div class="control-group {{{ $errors->has('status') ? 'error' : '' }}}">
                                         <label class="control-label">Status <span class="red">*</span></label>
                                         <div class="controls line">
-                                            {{ Form::select('status', Slideshow::all_status(), (!isset($slide)) ? Input::old('status') : $slide->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) }}
+                                            {{ Form::select('status', $all_statuses, (!isset($slide)) ? Input::old('status') : $slide->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) }}
                                             {{ $errors->first('status', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
@@ -112,8 +112,8 @@
 @stop
 
 @section('scripts')
-    <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/ckeditor/ckeditor.js") }}"></script>
-    <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}"></script>
+    {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
     @parent
     <script>
         jQuery(document).ready(function() {
