@@ -14,13 +14,13 @@ use Robbo\Presenter\Presenter;
 class ModulePresenter extends Presenter
 {
     /**
-     * Get the tables of the module
+     * Get the names of the tables of the module
      * @return string
      */
     public function tables()
     {
         $tables = explode('|', $this->table);
-        
+
         $tables = array_map(function($table) {
             return 'mdl_' . $table;
         }, $tables);

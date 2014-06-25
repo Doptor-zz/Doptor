@@ -31,33 +31,30 @@ class ModuleBuilderController extends AdminController {
 
     /**
      * Display a listing of the modules.
-     * @return Response
      */
     public function index()
     {
         $modules = BuiltModule::all();
         $this->layout->title = 'All Built Modules';
-        $this->layout->content = View::make('backend.' . $this->current_theme . '.module_builders.index')
+        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.index')
             ->with('modules', $modules);
     }
 
     /**
      * Show the form for creating a new module.
-     * @return Response
      */
     public function create()
     {
         $this->layout->title = 'Create New Module';
-        $this->layout->content = View::make('backend.' . $this->current_theme . '.module_builders.create_edit');
+        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit');
     }
 
     /**
      * Store a newly created resource in storage.
-     * @return Response
      */
     public function store()
     {
-//        try {
+       try {
             $input = Input::all();
 
             $validator = BuiltModule::validate($input);
@@ -82,17 +79,16 @@ class ModuleBuilderController extends AdminController {
                     ->withInput()
                     ->withErrors($validator);
             }
-//        } catch (Exception $e) {
-//            return Redirect::back()
-//                ->withInput()
-//                ->with('error_message', 'The module wasn\'t created. ' . $e->getMessage());
-//        }
+        } catch (Exception $e) {
+            return Redirect::back()
+            ->withInput()
+            ->with('error_message', 'The module wasn\'t created. ' . $e->getMessage());
+        }
     }
 
     /**
      * Show the form for editing the module.
      * @param  int $id
-     * @return Response
      */
     public function edit($id)
     {
@@ -106,7 +102,7 @@ class ModuleBuilderController extends AdminController {
         }
 
         $this->layout->title = 'Edit Existing Built Module';
-        $this->layout->content = View::make('backend.' . $this->current_theme . '.module_builders.create_edit')
+        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit')
             ->with('module', $module)
             ->with('forms', $forms);
     }
@@ -115,11 +111,10 @@ class ModuleBuilderController extends AdminController {
      * Update the specified menu entry in storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function update($id)
     {
-//        try {
+       try {
             $input = Input::all();
 
             $validator = BuiltModule::validate($input, $id);
@@ -130,8 +125,8 @@ class ModuleBuilderController extends AdminController {
 
                 $input = $this->formatInput($zip_file, $input);
 
-//                $module = BuiltModule::findOrFail($id);
-//                $module->update($input);
+                $module = BuiltModule::findOrFail($id);
+                $module->update($input);
 
                 App::finish(function ($request, $response) use ($zip_file) {
                     // Delete the file, as soon as it is downloaded
@@ -145,17 +140,16 @@ class ModuleBuilderController extends AdminController {
                     ->withInput()
                     ->withErrors($validator);
             }
-//        } catch (Exception $e) {
-//            return Redirect::back()
-//                ->withInput()
-//                ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
-//        }
+        } catch (Exception $e) {
+            return Redirect::back()
+            ->withInput()
+            ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified module from storage.
      * @param  int $id
-     * @return Response
      */
     public function destroy($id)
     {
@@ -165,10 +159,10 @@ class ModuleBuilderController extends AdminController {
 
         File::delete($module->file);
         if ($module->delete()) {
-            return \Redirect::to("backend/module-builder")
+            return \Redirect::to($this->link_type."/module-builder")
                 ->with('success_message', 'The module was deleted.');
         } else {
-            return \Redirect::to("backend/module-builder")
+            return \Redirect::to($this->link_type."/module-builder")
                 ->with('error_message', 'The module was not deleted.');
         }
 
@@ -179,13 +173,14 @@ class ModuleBuilderController extends AdminController {
         $module = BuiltModule::findOrFail($id);
 
         $canonical = Str::slug($module->name, '_');
+        $zip_file = File::exists($module->file);
 
-        if (!File::exists($module->file)) {
-            return Redirect::to("backend/module-builder/{$id}/edit")
+        if (!$zip_file) {
+            return Redirect::to($this->link_type."/module-builder/{$id}/edit")
                 ->with('error_message', 'The download file couldn\'t be found. Follow following steps to create and download the module file.');
         }
 
-        return Response::download($module->file, $canonical);
+        return Response::download($zip_file, $canonical);
     }
 
     /**

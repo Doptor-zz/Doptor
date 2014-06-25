@@ -45,4 +45,19 @@ class BuiltModulePresenter extends Presenter
         }
         return $forms[$index];
     }
+
+    /**
+     * Get the names of the tables of the module
+     * @return string
+     */
+    public function tables()
+    {
+        $tables = explode('|', $this->table_name);
+
+        $tables = array_map(function($table) {
+            return 'mdl_' . $table;
+        }, $tables);
+
+        return implode(', ', $tables);
+    }
 }

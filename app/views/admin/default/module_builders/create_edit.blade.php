@@ -218,6 +218,7 @@
                 $('#version').html($('input[name=version]').val());
                 $('#author').html($('input[name=author]').val());
                 $('#website').html($('input[name=website]').val());
+                $('#description').html($('textarea[name=description]').val());
             });
         });
 
