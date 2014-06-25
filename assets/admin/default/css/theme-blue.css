@@ -115,3 +115,7 @@ body {
 .form-signin {
 	border: 2px solid #000;
 }
+.tab-pane {
+	overflow-x: hidden;
+	padding: 5px;
+}

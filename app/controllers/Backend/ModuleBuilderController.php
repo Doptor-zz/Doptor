@@ -63,30 +63,19 @@ class ModuleBuilderController extends AdminController {
             $validator = BuiltModule::validate($input);
 
             if ($validator->passes()) {
-                $file = $this->moduleBuilder->createModule($input);
-                $canonical = Str::slug($input['name'], '_');
+                $zip_file = $this->moduleBuilder->createModule($input);
+                $file_name = Str::slug($input['name'], '_');
 
-                $input['file'] = $file;
-                $input['target'] = implode(', ', $input['target']);
+                $input = $this->formatInput($zip_file, $input);
 
-                $selected_forms = array();
-                for ($i = 1; $i <= $input['form-count']; $i++) {
-                    if (isset($input["form-{$i}"])) {
-                        $selected_forms[] = $input["form-{$i}"];
-                        unset($input["form-{$i}"]);
-                    }
-                }
-                unset($input['form-count']);
-                $input['form_id'] = implode(', ', $selected_forms);
+                BuiltModule::create($input);
 
-               BuiltModule::create($input);
-
-                App::finish(function ($request, $response) use ($file) {
+                App::finish(function ($request, $response) use ($zip_file) {
                     // Delete the file, as soon as it is downloaded
-                    File::delete($file);
+                    File::delete($zip_file);
                 });
 
-                return Response::download($file, $canonical);
+                return Response::download($zip_file, $file_name);
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -130,50 +119,37 @@ class ModuleBuilderController extends AdminController {
      */
     public function update($id)
     {
-        try {
+//        try {
             $input = Input::all();
-            // dd($input);
 
             $validator = BuiltModule::validate($input, $id);
 
             if ($validator->passes()) {
-                $file = $this->moduleBuilder->createModule($input);
-                $canonical = Str::slug($input['name'], '_');
+                $zip_file = $this->moduleBuilder->createModule($input);
+                $file_name = Str::slug($input['name'], '_');
 
-                $input['file'] = $file;
-                $input['target'] = implode(', ', $input['target']);
+                $input = $this->formatInput($zip_file, $input);
 
-                $selected_forms = array();
-                for ($i = 1; $i <= $input['form-count']; $i++) {
-                    if (isset($input["form-{$i}"])) {
-                        $selected_forms[] = $input["form-{$i}"];
-                        unset($input["form-{$i}"]);
-                    }
-                }
-                unset($input['form-count']);
-                $input['form_id'] = implode(', ', $selected_forms);
+//                $module = BuiltModule::findOrFail($id);
+//                $module->update($input);
 
-                $module = BuiltModule::findOrFail($id);
-                // dd($input);
-                $module->update($input);
-
-                App::finish(function ($request, $response) use ($file) {
+                App::finish(function ($request, $response) use ($zip_file) {
                     // Delete the file, as soon as it is downloaded
-                    File::delete($file);
+                    File::delete($zip_file);
                 });
 
-                return Response::download($file, $canonical);
+                return Response::download($zip_file, $file_name);
             } else {
                 // Form validation failed
                 return Redirect::back()
                     ->withInput()
                     ->withErrors($validator);
             }
-        } catch (Exception $e) {
-            return Redirect::back()
-                ->withInput()
-                ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
-        }
+//        } catch (Exception $e) {
+//            return Redirect::back()
+//                ->withInput()
+//                ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
+//        }
     }
 
     /**
@@ -210,5 +186,24 @@ class ModuleBuilderController extends AdminController {
         }
 
         return Response::download($module->file, $canonical);
+    }
+
+    /**
+     * Format the input parameters, so as to make them ready for saving to DB
+     * @param $zip_file
+     * @param $input
+     */
+    private function formatInput($zip_file, $input)
+    {
+        $input['file'] = $zip_file;
+        $input['target'] = implode(', ', $input['target']);
+
+        $form_ids = array_pluck($this->moduleBuilder->selected_forms, 'form_id');
+        $input['form_id'] = implode(', ', $form_ids);
+
+        $table_names = array_pluck($this->moduleBuilder->selected_forms, 'table');
+        $input['table_name'] = implode('|', $table_names);
+
+        return $input;
     }
 }

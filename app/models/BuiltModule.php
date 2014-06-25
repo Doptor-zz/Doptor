@@ -27,8 +27,7 @@ class BuiltModule extends Eloquent implements PresentableInterface {
             'version'    => 'required',
             'author'     => 'required',
             'form-1'     => 'required|not_in:0',
-            'target'     => 'required',
-            'table_name' => 'required'
+            'target'     => 'required'
         );
 
     public static $message = array(

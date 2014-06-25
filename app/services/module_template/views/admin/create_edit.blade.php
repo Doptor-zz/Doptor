@@ -12,7 +12,7 @@
                 <div class="widget-body form">
                     <div class="tab-widget">
                         <!-- BEGIN FORM-->
-                        ***FORM_CONTENT***
+                        @include("{$module_alias}::form_{$form['form_id']}")
                         <!-- END FORM-->
                     </div>
                 </div>
@@ -27,11 +27,10 @@
 
     @if (isset($entry))
         <script>
-           jQuery(document).ready(function() {
+            jQuery(document).ready(function() {
                 // While editing fields populate with its data
-                @foreach ($fields as $field)
+                @foreach ($form['fields'] as $field)
                     <?php
-
                         $entry->{$field} = preg_replace('~[\r\n]+~', ' ', $entry->{$field});
                         $entry->{$field} = str_replace('\n', " ", $entry->{$field}) ;
                     ?>
@@ -42,9 +41,9 @@
                         field.val('{{ $entry->{$field} }}');
                     }
                 @endforeach
-           });
+            });
         </script>
     @endif
 
-    ***EXTRA_CODE***
+
 @stop

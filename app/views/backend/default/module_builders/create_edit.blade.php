@@ -124,14 +124,6 @@
                                         {{ HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) }}
                                     </div>
                                 </div>
-                                <div class="control-group {{{ $errors->has('table_name') ? 'error' : '' }}}">
-                                    <label class="control-label">Table Name in Database <i class="red">*</i></label>
-                                    <div class="controls">
-                                        {{ Form::text('table_name', (!isset($module)) ? Input::old('table_name') : $module->table_name, array('class' => 'input-xlarge')) }}
-                                        {{ $errors->first('table_name', '<span class="help-inline">:message</span>') }}
-
-                                    </div>
-                                </div>
                                 <div class="control-group {{{ $errors->has('target') ? 'error' : '' }}}">
                                     <label class="control-label">Target <i class="red">*</i></label>
                                     <div class="controls line">
@@ -167,9 +159,9 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Table Name in Database:</label>
+                                    <label class="control-label">Module Description:</label>
                                     <div class="controls">
-                                        <span class="text" id="table_name"></span>
+                                        <span class="text" id="description"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -231,7 +223,7 @@
                 $('#version').html($('input[name=version]').val());
                 $('#author').html($('input[name=author]').val());
                 $('#website').html($('input[name=website]').val());
-                $('#table_name').html($('input[name=table_name]').val());
+                $('#description').html($('input[name=description]').val());
             });
         });
 

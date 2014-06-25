@@ -9,7 +9,9 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-class Module extends Eloquent {
+use Robbo\Presenter\PresentableInterface;
+
+class Module extends Eloquent implements PresentableInterface {
 	/**
      * The database table used by the model.
      *
@@ -36,5 +38,13 @@ class Module extends Eloquent {
             static::$rules['name'] .= ','.$id;
         }
         return Validator::make($input, static::$rules);
+    }
+
+    /**
+     * Initiate the presenter class
+     */
+    public function getPresenter()
+    {
+        return new ModulePresenter($this);
     }
 }
