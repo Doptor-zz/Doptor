@@ -27,6 +27,11 @@ class ModuleInstaller {
         $this->temp_path = temp_path() . '/';
     }
 
+    /**
+     * Install the module
+     * @param $file
+     * @return $input
+     */
     public function installModule($file)
     {
         $filename = $this->uploadModule($file);
@@ -64,6 +69,7 @@ class ModuleInstaller {
     }
 
     /**
+     * Upload the module to server
      * @param $file
      * @throws \Exception
      * @return array
@@ -90,6 +96,7 @@ class ModuleInstaller {
     }
 
     /**
+     * Copy the module from temporary folder to modules
      * @param $config
      */
     public function copyModule($config, $canonical)
@@ -105,14 +112,17 @@ class ModuleInstaller {
     }
 
     /**
+     * Fix the input to store in DB
      * @param $config
      * @return array
      */
     public function fixInput($config)
     {
-        $table = $config['forms'][0]['table'] . '|' . $config['forms'][1]['table'];
-//        $table_names = array_pluck($config, 'table');
-//        $table = implode('|', $table_names);
+        // Get only the table nmaes from the forms
+        $table_names = array_map(function($form) {
+                            return $form['table'];
+                        }, $config['forms']);
+        $table = implode('|', $table_names);
 
         $input = array(
             'name'    => $config['info']['name'],
@@ -129,6 +139,7 @@ class ModuleInstaller {
     }
 
     /**
+     * Mange table(s) in DB (CREATE/ALTER)
      * @param $config
      */
     private function manageTables($config)
@@ -143,6 +154,7 @@ class ModuleInstaller {
     }
 
     /**
+     * Create new table(s) in DB
      * @param $form
      * @internal param $config
      */
@@ -158,6 +170,7 @@ class ModuleInstaller {
     }
 
     /**
+     * Alter existing table(s) in DB
      * @param $form
      */
     public function alterTables($form)
