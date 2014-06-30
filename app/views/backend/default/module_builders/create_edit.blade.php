@@ -105,7 +105,7 @@
                                             @for ($i = 1; $i <= count($forms); $i++)
                                                 <p>
 
-                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $forms[$i-1], array('class'=>'chosen')) }}
+                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $forms[$i-1], array('class'=>'chosen module-form')) }}
                                                     @if ($i == 1)
                                                         &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
                                                     @else
@@ -116,12 +116,18 @@
                                         @else
                                             <input name="form-count" type="hidden" value="1">
                                             <p>
-                                                {{ Form::select("form-1", BuiltForm::all_forms(), Input::old('form-1'), array('class'=>'chosen')) }}
+                                                {{ Form::select("form-1", BuiltForm::all_forms(), Input::old('form-1'), array('class'=>'chosen module-form')) }}
                                                 &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
                                             </p>
                                         @endif
 
                                         {{ HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) }}
+                                    </div>
+                                </div>
+                                <div class="control-group" id="form-dropdowns">
+                                    <label class="control-label">Form Dropdowns</label>
+                                    <div class="controls line">
+
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('target') ? 'error' : '' }}}">
@@ -192,83 +198,5 @@
 @stop
 
 @section('scripts')
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/jquery-validation/dist/additional-methods.min.js') }}"></script>
-    <!-- END PAGE LEVEL PLUGINS -->
-    @parent
-    <script src="{{ URL::to('assets/backend/default/scripts/form-wizard.js') }}"></script>
-    <script src="{{ URL::to('assets/backend/default/scripts/form-validation.js') }}"></script>
-    <script>
-        jQuery(document).ready(function () {
-            FormWizard.init();
-
-            $("#module-builder").validate({
-                rules: {
-                    name: {required: true, minlength: 3 },
-                    version: {required: true },
-                    author: {required: true, minlength: 3 },
-                    website: {required: true, minlength: 3, url: true }
-                }
-            });
-
-            $('#all_forms_chzn').css('width', '300px');
-            $('.chzn-drop').css('width', '300px');
-            $('#all_forms_chzn').find('input').css('width', '265px');
-
-            // Populate the overview of the selections in the last step
-            $('.button-next').click(function() {
-                $('#name').html($('input[name=name]').val());
-                $('#version').html($('input[name=version]').val());
-                $('#author').html($('input[name=author]').val());
-                $('#website').html($('input[name=website]').val());
-                $('#description').html($('textarea[name=description]').val());
-            });
-        });
-
-        $(document).ready(function() {
-            // Things to do to dynamically add/remove as much forms as needed
-            var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
-            var AddButton       = $("#AddMore"); //Add button ID
-
-            @if (!isset($module))
-                var x = InputsWrapper.length; //initial text box count
-                var FieldCount = 1; //to keep track of text box added
-            @else
-                var x = {{ count($forms) }};
-                var FieldCount = {{ count($forms) }};
-            @endif
-
-            // on add input button click
-            $(AddButton).click(function (e) {
-                FieldCount++; //text box added increment
-                //add input box
-                $(InputsWrapper).append('<p>{{ Form::select("form-form_count", BuiltForm::all_forms(), Input::old("form-form_count"), array("class"=>"chosen")) }}<a href="#" class="removeclass">&nbsp;&nbsp;<i class="icon-remove"></i></a></p>');
-                // Dynamically change the select name
-                $('select[name="form-form_count"]').attr('name', function(){
-                    return 'form-' + FieldCount;
-                });
-                // Don't show the form(s) already selected
-                for (var i = 1; i <= FieldCount; i++) {
-                    selected_value = $('select[name="form-' + i +'"]').val();
-                    if (selected_value != 0) {
-                        $('select[name="form-' + FieldCount +'"] option[value='+selected_value+']').remove();
-                    }
-                };
-                $('input[name=form-count]').val(FieldCount);
-                x++; //text box increment
-                $(".chosen").chosen();
-                return false;
-            });
-
-            $("body").on("click",".removeclass", function(e) { //user click on remove text
-                if( x > 1 ) {
-                    $(this).parent('p').remove(); //remove text box
-                    x--; //decrement textbox
-                }
-                return false;
-            });
-        });
-    </script>
+    @include('backend.default.module_builders.scripts')
 @stop

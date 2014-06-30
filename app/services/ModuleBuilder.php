@@ -137,7 +137,15 @@ class ModuleBuilder {
             $this->getFormInfo($index);
 
             // Get the available fields from the form data
-            $this->getFormFields($index, $form->data);
+            $form_fields = $this->getFormFields($form->data);
+
+            if (!isset($form_fields['fields'])) {
+                // If the form has no fields, no need of this form
+                unset($this->selected_forms[$index]);
+            } else {
+                $this->selected_forms[$index]['fields'] = $form_fields['fields'];
+                $this->selected_forms[$index]['field_names'] = $form_fields['field_names'];
+            }
 
             $view = $this->generateForm($form->id, $form->rendered);
 
@@ -150,13 +158,14 @@ class ModuleBuilder {
     }
 
     /**
-     * Get the required information from the generated form
-     * @param $index
+     * Get the available form fields from the generated form
      * @param $form_data
+     * @return array
      */
-    private function getFormFields($index, $form_data)
+    private function getFormFields($form_data)
     {
         $form_json = json_decode(str_replace('\\', '', $form_data), true);
+        $form_fields = array();
 
         for ($i = 1; $i < sizeof($form_json); $i++) {
             $this_form = $form_json[$i];
@@ -179,15 +188,12 @@ class ModuleBuilder {
             if (in_array($type, array('text', 'input', 'textarea', 'radio', 'select')) &&
                 !isset($this_form['fields']['buttontype'])
             ) {
-                $this->selected_forms[$index]['fields'][] = $value;
-                $this->selected_forms[$index]['field_names'][] = $field_name;
+                $form_fields['fields'][] = $value;
+                $form_fields['field_names'][] = $field_name;
             }
         }
 
-        if (!isset($this->selected_forms[$index]['fields'])) {
-            // If the form has no fields, no need of this form
-            unset($this->selected_forms[$index]);
-        }
+        return $form_fields;
     }
 
     /**
@@ -231,10 +237,10 @@ class ModuleBuilder {
         $view .= str_replace('</form>', '', $form_data);
 
         // Add save buttons
-        $view .= '<div class="form-actions">'  . "\n";
-        $view .= '<button type="submit" class="btn btn-primary" name="form_save">Save</button>'  . "\n";
-        $view .= '<button type="submit" class="btn btn-success" name="form_save_new">Save &amp;  New</button>'  . "\n";
-        $view .= '<button type="submit" class="btn btn-primary btn-danger" name="form_close">Close</button>'  . "\n";
+        $view .= '<div class="form-actions">' . "\n";
+        $view .= '<button type="submit" class="btn btn-primary" name="form_save">Save</button>' . "\n";
+        $view .= '<button type="submit" class="btn btn-success" name="form_save_new">Save &amp;  New</button>' . "\n";
+        $view .= '<button type="submit" class="btn btn-primary btn-danger" name="form_close">Close</button>' . "\n";
         $view .= '</div>' . "\n";
 
         $view .= '{{ Form::close() }}';
@@ -472,4 +478,37 @@ class ModuleBuilder {
         return $listDir;
     }
 
+    /**
+     * Get all the select/dropdown fields in a form
+     * @param $form_id
+     * @return array
+     */
+    public function getFormSelects($form_id)
+    {
+        $form = BuiltForm::find($form_id);
+
+        $form_json = json_decode(str_replace('\\', '', $form->data), true);
+
+        $form_selects = array();
+
+        for ($i = 1; $i < sizeof($form_json); $i++) {
+            $this_form = $form_json[$i];
+            if (!isset($this_form['fields']['id']) &&
+                !isset($this_form['fields']['radios'])
+            ) {
+                continue;
+            }
+
+            if (isset($this_form['fields']['id']) &&
+                isset($this_form['fields']['options'])
+            ) {
+                $fields = $this_form['fields']['id']['value'];
+                $field_name = $this_form['fields']['label']['value'];
+
+                $form_selects[$fields] = $field_name;
+            }
+        }
+
+        return $form_selects;
+    }
 }

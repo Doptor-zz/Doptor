@@ -101,6 +101,9 @@ class ModuleBuilderController extends AdminController {
             unset($forms[$key]);
         }
 
+        $all_modules = BuiltModule::latest()->get(array('id', 'name'));
+//        dd($all_modules);
+
         $this->layout->title = 'Edit Existing Built Module';
         $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit')
             ->with('module', $module)
@@ -109,12 +112,12 @@ class ModuleBuilderController extends AdminController {
 
     /**
      * Update the specified menu entry in storage.
-     *
      * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function update($id)
     {
-       try {
+        try {
             $input = Input::all();
 
             $validator = BuiltModule::validate($input, $id);
@@ -150,6 +153,7 @@ class ModuleBuilderController extends AdminController {
     /**
      * Remove the specified module from storage.
      * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -181,6 +185,16 @@ class ModuleBuilderController extends AdminController {
         }
 
         return Response::download($zip_file, $canonical);
+    }
+
+    /**
+     * Get all the dropdown fields, for the form
+     * @param $form_id
+     * @return array
+     */
+    public function getFormDropdowns($form_id)
+    {
+        return $this->moduleBuilder->getFormSelects($form_id);
     }
 
     /**
