@@ -37,7 +37,7 @@ class ModuleBuilderController extends AdminController {
     {
         $modules = BuiltModule::all();
         $this->layout->title = 'All Built Modules';
-        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.index')
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.index')
             ->with('modules', $modules);
     }
 
@@ -46,8 +46,10 @@ class ModuleBuilderController extends AdminController {
      */
     public function create()
     {
+        $select = $this->formDropdownSources();
         $this->layout->title = 'Create New Module';
-        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit');
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
+            ->with('select', $select);
     }
 
     /**
@@ -55,7 +57,7 @@ class ModuleBuilderController extends AdminController {
      */
     public function store()
     {
-       try {
+        try {
             $input = Input::all();
 
             $validator = BuiltModule::validate($input);
@@ -82,8 +84,8 @@ class ModuleBuilderController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::back()
-            ->withInput()
-            ->with('error_message', 'The module wasn\'t created. ' . $e->getMessage());
+                ->withInput()
+                ->with('error_message', 'The module wasn\'t created. ' . $e->getMessage());
         }
     }
 
@@ -102,18 +104,10 @@ class ModuleBuilderController extends AdminController {
             unset($selected_forms[$key]);
         }
 
-        $select = array('Same as in form');
-        $all_modules = BuiltModule::latest()->get(array('id', 'name', 'form_id'));
-        foreach ($all_modules as $this_module) {
-            $form_ids = explode(', ', $this_module->form_id);
-            foreach ($form_ids as $form_id) {
-                $form = BuiltForm::find($form_id);
-                $select[$this_module->name][$form->id] = $form->name;
-            }
-        }
+        $select = $this->formDropdownSources();
 
         $this->layout->title = 'Edit Existing Built Module';
-        $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit')
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
             ->with('module', $module)
             ->with('selected_forms', $selected_forms)
             ->with('select', $select);
@@ -154,8 +148,8 @@ class ModuleBuilderController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::back()
-            ->withInput()
-            ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
+                ->withInput()
+                ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
         }
     }
 
@@ -172,10 +166,10 @@ class ModuleBuilderController extends AdminController {
 
         File::delete($module->file);
         if ($module->delete()) {
-            return \Redirect::to($this->link_type."/module-builder")
+            return \Redirect::to($this->link_type . "/module-builder")
                 ->with('success_message', 'The module was deleted.');
         } else {
-            return \Redirect::to($this->link_type."/module-builder")
+            return \Redirect::to($this->link_type . "/module-builder")
                 ->with('error_message', 'The module was not deleted.');
         }
 
@@ -189,7 +183,7 @@ class ModuleBuilderController extends AdminController {
         $zip_file = File::exists($module->file);
 
         if (!$zip_file) {
-            return Redirect::to($this->link_type."/module-builder/{$id}/edit")
+            return Redirect::to($this->link_type . "/module-builder/{$id}/edit")
                 ->with('error_message', 'The download file couldn\'t be found. Follow following steps to create and download the module file.');
         }
 
@@ -239,5 +233,23 @@ class ModuleBuilderController extends AdminController {
         $input['table_name'] = implode('|', $table_names);
 
         return $input;
+    }
+
+    /**
+     * @return array
+     */
+    private function formDropdownSources()
+    {
+        $select = array('Same as in form');
+        $all_modules = BuiltModule::latest()->get(array('id', 'name', 'form_id'));
+        foreach ($all_modules as $this_module) {
+            $form_ids = explode(', ', $this_module->form_id);
+            foreach ($form_ids as $form_id) {
+                $form = BuiltForm::find($form_id);
+                $select[$this_module->name][$form->id] = $form->name;
+            }
+        }
+
+        return $select;
     }
 }

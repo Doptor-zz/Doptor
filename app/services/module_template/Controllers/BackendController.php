@@ -49,7 +49,7 @@ class BackendController extends BaseController {
 
         // Add location hinting for views
         View::addNamespace($this->module_alias,
-            app_path() . "/modules/{$this->module_alias}/views");
+            app_path() . "/modules/{$this->module_alias}/Views");
     }
 
     /**

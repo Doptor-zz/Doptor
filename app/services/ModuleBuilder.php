@@ -149,7 +149,7 @@ class ModuleBuilder {
 
             $view = $this->generateForm($form->id, $form->rendered);
 
-            file_put_contents("{$this->temp_dir}/views/form_{$form->id}.blade.php", $view);
+            file_put_contents("{$this->temp_dir}/Views/form_{$form->id}.blade.php", $view);
             $extra_code .= $form->extra_code;
         }
 
@@ -326,14 +326,14 @@ class ModuleBuilder {
      */
     private function generateModules()
     {
-        $model_template = $this->temp_dir . '/models/ModuleModel.php';
+        $model_template = $this->temp_dir . '/Models/ModuleModel.php';
 
         foreach ($this->selected_forms as $index => $selected_form) {
             $model_name = str_replace('_', '', Str::title($selected_form['table']));
 
             $this->selected_forms[$index]['model'] = $model_name;
 
-            $new_model = $this->temp_dir . '/models/' . $model_name . '.php';
+            $new_model = $this->temp_dir . '/Models/' . $model_name . '.php';
 
             File::copy($model_template, $new_model);
 
@@ -349,7 +349,7 @@ class ModuleBuilder {
             file_put_contents($new_model, $model_contents);
         }
 
-        File::delete($this->temp_dir . '/models/ModuleModel.php');
+        File::delete($this->temp_dir . '/Models/ModuleModel.php');
     }
 
     /**
