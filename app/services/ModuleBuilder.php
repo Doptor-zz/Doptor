@@ -263,21 +263,21 @@ class ModuleBuilder {
             // Route for create
             $routes .= "Route::get('{$target}/modules/'.\$current_dir.'/create/{form_id}',
                 array(
-                    'uses' => 'Modules\SomeBody\Controllers\BackendController@create',
+                    'uses' => 'Modules\ModuleName\Controllers\BackendController@create',
                     'as' => '{$target}.modules.'.\$current_module.'.create'
                 )
             );\n";
             // Route for show
             $routes .= "Route::get('{$target}/modules/'.\$current_dir.'/{id}/{form_id}',
                 array(
-                    'uses' => 'Modules\SomeBody\Controllers\BackendController@show',
+                    'uses' => 'Modules\ModuleName\Controllers\BackendController@show',
                     'as' => '{$target}.modules.'.\$current_module.'.show'
                 )
             );\n";
             // Route for edit
             $routes .= "Route::get('{$target}/modules/'.\$current_dir.'/{id}/edit/{form_id}',
                 array(
-                    'uses' => 'Modules\SomeBody\Controllers\BackendController@edit',
+                    'uses' => 'Modules\ModuleName\Controllers\BackendController@edit',
                     'as' => '{$target}.modules.'.\$current_module.'.edit'
                 )
             );\n";
