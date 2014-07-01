@@ -30,12 +30,14 @@ class ModuleInstaller {
     /**
      * Install the module
      * @param $file
-     * @return $input
+     * @throws \Exception
+     * @return array $input
      */
     public function installModule($file)
     {
         $filename = $this->uploadModule($file);
 
+        $filename = str_replace('.ZIP', '.zip', $filename);
         $canonical = str_replace('.zip', '', $filename);
 
         $unzipSuccess = $this->Unzip("{$this->temp_path}{$filename}", "{$this->temp_path}{$canonical}");
