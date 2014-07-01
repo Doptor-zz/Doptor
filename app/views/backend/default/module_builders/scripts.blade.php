@@ -39,6 +39,10 @@
         $('.module-form').change(function() {
             getDropdowns($(this));
         });
+
+        $('.selected-form').on('change', function() {
+            getFormFields($(this));
+        });
     });
 
     function multipleForms() {
@@ -50,8 +54,8 @@
             var x = InputsWrapper.length; //initial text box count
         var FieldCount = 1; //to keep track of text box added
     @else
-        var x = {{ count($forms) }};
-    var FieldCount = {{ count($forms) }};
+        var x = {{ count($selected_forms) }};
+    var FieldCount = {{ count($selected_forms) }};
     @endif
 
     // on add input button click
@@ -85,11 +89,46 @@
     });
     }
 
+    function getFormFields(selected_form) {
+        var form_id = selected_form.val();
+
+        if (!$('.form-fields').length) {
+            selected_form.parent().append('<div class="form-fields inline"></div>');
+        }
+
+        if (form_id == 0) {
+            selected_form.parent().find('.form-fields').html('');
+            return;
+        }
+
+        selected_form.parent()
+            .find('.form-fields')
+            .html('<div class="loading inline">Loading...</div>');
+
+        $.ajax({
+            url: '{{ URL::to("backend/module-builder/form-fields/") }}/' + form_id
+        }).done(function(form_fields) {
+            var selects = 'Form fields:';
+            selects += '<select name="">';
+            for (var field in form_fields) {
+                if (form_fields.hasOwnProperty(field)) {
+                    selects += '<option value="'+field+'">'+form_fields[field]+'</option>';
+                }
+            }
+            selects += '</select>';
+
+            selected_form.parent().find('.loading').html('');
+            selected_form.parent().find('.form-fields').html(selects);
+        });
+    }
+
     function getDropdowns(selected_form) {
         var form_id = selected_form.val();
+
         $.ajax({
             url: '{{ URL::to("backend/module-builder/form-dropdowns/") }}/' + form_id
         }).done(function(form_fields) {
+            console.log(form_fields);
             var selects = '';
             for (var field in form_fields) {
                 if (form_fields.hasOwnProperty(field)) {

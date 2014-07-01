@@ -162,7 +162,7 @@ class ModuleBuilder {
      * @param $form_data
      * @return array
      */
-    private function getFormFields($form_data)
+    public function getFormFields($form_data)
     {
         $form_json = json_decode(str_replace('\\', '', $form_data), true);
         $form_fields = array();

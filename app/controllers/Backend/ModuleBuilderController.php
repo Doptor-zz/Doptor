@@ -11,6 +11,7 @@ Description :  Doptor is Opensource CMS.
 ===================================================
 */
 use App;
+use BuiltForm;
 use BuiltModule;
 use Exception;
 use File;
@@ -94,20 +95,28 @@ class ModuleBuilderController extends AdminController {
     {
         $module = BuiltModule::findOrFail($id);
 
-        $forms = explode(', ', $module->form_id);
+        $selected_forms = explode(', ', $module->form_id);
 
-        if (($key = array_search('0', $forms)) !== false) {
+        if (($key = array_search('0', $selected_forms)) !== false) {
             // Remove forms with id 0
-            unset($forms[$key]);
+            unset($selected_forms[$key]);
         }
 
-        $all_modules = BuiltModule::latest()->get(array('id', 'name'));
-//        dd($all_modules);
+        $select = array('Same as in form');
+        $all_modules = BuiltModule::latest()->get(array('id', 'name', 'form_id'));
+        foreach ($all_modules as $this_module) {
+            $form_ids = explode(', ', $this_module->form_id);
+            foreach ($form_ids as $form_id) {
+                $form = BuiltForm::find($form_id);
+                $select[$this_module->name][$form->id] = $form->name;
+            }
+        }
 
         $this->layout->title = 'Edit Existing Built Module';
         $this->layout->content = View::make($this->link_type.'.' . $this->current_theme . '.module_builders.create_edit')
             ->with('module', $module)
-            ->with('forms', $forms);
+            ->with('selected_forms', $selected_forms)
+            ->with('select', $select);
     }
 
     /**
@@ -195,6 +204,22 @@ class ModuleBuilderController extends AdminController {
     public function getFormDropdowns($form_id)
     {
         return $this->moduleBuilder->getFormSelects($form_id);
+    }
+
+    /**
+     * Get al the form fields in a form as an associative array
+     * @param $id
+     * @return array
+     */
+    public function getFormFields($id)
+    {
+        $form = BuiltForm::find($id);
+
+        $form_fields = $this->moduleBuilder->getFormFields($form->data);
+
+        $ret = array_combine($form_fields['fields'], $form_fields['field_names']);
+
+        return $ret;
     }
 
     /**

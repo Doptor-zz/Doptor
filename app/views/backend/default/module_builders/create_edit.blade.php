@@ -11,7 +11,7 @@
             <div class="widget box blue" id="form_wizard_1">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-reorder"></i> Form Wizard - <span class="step-title">Step 1 of 3</span>
+                        <i class="icon-reorder"></i> Module Builder - <span class="step-title">Step 1 of 3</span>
                     </h4>
                 </div>
                 <div class="widget-body form">
@@ -100,12 +100,12 @@
                                 <div class="control-group">
                                     <label class="control-label">Form(s) <i class="red">*</i></label>
                                     <div class="controls" id="InputsWrapper">
-                                        @if (isset($forms))
-                                            <input name="form-count" type="hidden" value="{{ count($forms) }}">
-                                            @for ($i = 1; $i <= count($forms); $i++)
+                                        @if (isset($selected_forms))
+                                            <input name="form-count" type="hidden" value="{{ count($selected_forms) }}">
+                                            @for ($i = 1; $i <= count($selected_forms); $i++)
                                                 <p>
 
-                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $forms[$i-1], array('class'=>'chosen module-form')) }}
+                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $selected_forms[$i-1], array('class'=>'chosen module-form')) }}
                                                     @if ($i == 1)
                                                         &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
                                                     @else
@@ -127,7 +127,7 @@
                                 <div class="control-group" id="form-dropdowns">
                                     <label class="control-label">Form Dropdowns</label>
                                     <div class="controls line">
-
+                                        {{ Form::select('drop', $select, Input::old('drop'), array('class'=>'selected-form')) }}
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('target') ? 'error' : '' }}}">
