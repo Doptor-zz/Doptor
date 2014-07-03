@@ -207,10 +207,23 @@ class ModuleBuilder {
 
         $this->selected_forms[$index]['form_name'] = $form_name;
 
-        $table_name = Str::limit(Str::slug($this->module_name, '_'), 7, '_') .
-            Str::limit(Str::slug($form_name, '_'), 10, '');
+        $table_name = $this->generateTableName($this->module_name, $form_name);
 
         $this->selected_forms[$index]['table'] = $table_name;
+    }
+
+    /**
+     * Generate table name, for the selected module and form
+     * @param $module_name
+     * @param $form_name
+     * @return string
+     */
+    private function generateTableName($module_name, $form_name)
+    {
+        $table_name = Str::limit(Str::slug($module_name, '_'), 7, '_') .
+            Str::limit(Str::slug($form_name, '_'), 10, '');
+
+        return $table_name;
     }
 
     /**
@@ -329,7 +342,7 @@ class ModuleBuilder {
         $model_template = $this->temp_dir . '/Models/ModuleModel.php';
 
         foreach ($this->selected_forms as $index => $selected_form) {
-            $model_name = str_replace('_', '', Str::title($selected_form['table']));
+            $model_name = $this->generateModelName($selected_form['table']);
 
             $this->selected_forms[$index]['model'] = $model_name;
 
@@ -350,6 +363,18 @@ class ModuleBuilder {
         }
 
         File::delete($this->temp_dir . '/Models/ModuleModel.php');
+    }
+
+    /**
+     * Generate model name from the table name specified
+     * @param $table_name
+     * @return mixed
+     */
+    private function generateModelName($table_name)
+    {
+        $model_name = str_replace('_', '', Str::title($table_name));
+
+        return $model_name;
     }
 
     /**
