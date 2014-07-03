@@ -104,7 +104,7 @@ class ModuleBuilderController extends AdminController {
             unset($selected_forms[$key]);
         }
 
-        $select = $this->formDropdownSources();
+        $select = $this->formDropdownSources($id);
 
         $this->layout->title = 'Edit Existing Built Module';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
@@ -236,17 +236,26 @@ class ModuleBuilderController extends AdminController {
     }
 
     /**
+     * @param $module_id
      * @return array
      */
-    private function formDropdownSources()
+    private function formDropdownSources($module_id=null)
     {
         $select = array('Same as in form');
-        $all_modules = BuiltModule::latest()->get(array('id', 'name', 'form_id'));
+
+        if ($module_id) {
+            // Exclude the currently being edited module
+            $all_modules = BuiltModule::whereNotIn('id', array($module_id))->latest();
+        } else {
+            $all_modules = BuiltModule::latest();
+        }
+
+        $all_modules = $all_modules->get(array('id', 'name', 'form_id'));
         foreach ($all_modules as $this_module) {
             $form_ids = explode(', ', $this_module->form_id);
             foreach ($form_ids as $form_id) {
                 $form = BuiltForm::find($form_id);
-                $select[$this_module->name][$form->id] = $form->name;
+                $select[$this_module->name][$this_module->id . '-' . $form->id] = $form->name;
             }
         }
 

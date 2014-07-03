@@ -36,13 +36,22 @@
     $(document).ready(function() {
         multipleForms();
 
-        $('.module-form').change(function() {
-            getDropdowns($(this));
-        });
-
-        $('.selected-form').on('change', function() {
-            getFormFields($(this));
-        });
+//        $('.module-form').each(function() {
+//            getDropdowns($(this));
+//        });
+//
+//        $('.module-form').change(function() {
+//            // Remove all already added form dropdown sources
+//            $('.added-form').remove();
+//            // Show dropdown source selection for all selected form
+//            $('.module-form').each(function() {
+//                getDropdowns($(this));
+//            });
+//        });
+//
+//        $(document).on('change', '.selected-form', function() {
+//            getFormFields($(this));
+//        });
     });
 
     function multipleForms() {
@@ -55,7 +64,7 @@
         var FieldCount = 1; //to keep track of text box added
     @else
         var x = {{ count($selected_forms) }};
-    var FieldCount = {{ count($selected_forms) }};
+        var FieldCount = {{ count($selected_forms) }};
     @endif
 
     // on add input button click
@@ -90,9 +99,12 @@
     }
 
     function getFormFields(selected_form) {
-        var form_id = selected_form.val();
-
-        if (!$('.form-fields').length) {
+        var ids = selected_form.val().split('-');
+        var module_id = ids[0];
+        var form_id = ids[1];
+        window.form = selected_form;
+        console.log(form_id);
+        if (!selected_form.parent().find('.form-fields').length) {
             selected_form.parent().append('<div class="form-fields inline"></div>');
         }
 
@@ -108,8 +120,9 @@
         $.ajax({
             url: '{{ URL::to("backend/module-builder/form-fields/") }}/' + form_id
         }).done(function(form_fields) {
+            var form_name = selected_form.attr('name').replace('moduleform-', '');
             var selects = 'Form fields:';
-            selects += '<select name="">';
+            selects += '<select name="formfield-'+form_name+'">';
             for (var field in form_fields) {
                 if (form_fields.hasOwnProperty(field)) {
                     selects += '<option value="'+field+'">'+form_fields[field]+'</option>';
@@ -123,19 +136,20 @@
     }
 
     function getDropdowns(selected_form) {
+        // Get all the dropdown fields that are present in a form
         var form_id = selected_form.val();
 
+        $('#form-dropdowns').show();
         $.ajax({
             url: '{{ URL::to("backend/module-builder/form-dropdowns/") }}/' + form_id
         }).done(function(form_fields) {
-            console.log(form_fields);
             var selects = '';
             for (var field in form_fields) {
                 if (form_fields.hasOwnProperty(field)) {
-                    selects += '<div class="controls line">';
-                    selects += '<label>'+form_fields[field]+'</label>';
-                    selects += '<select name="'+field+'">';
-                    selects += '<option value=""></option>';
+                    selects += '<div class="controls line added-form form-'+form_id+'">';
+                    selects += '<label class="inline">'+form_fields[field]+': </label>';
+                    selects += '<select name="moduleform-'+field+'" class="selected-form">';
+                    selects += $('#dropdown-options').html();
                     selects += '</select>';
                     selects += '</div>';
                 }

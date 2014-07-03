@@ -124,18 +124,18 @@
                                         {{ HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) }}
                                     </div>
                                 </div>
-                                <div class="control-group" id="form-dropdowns">
-                                    <label class="control-label">Form Dropdowns</label>
-                                    <div class="controls line">
-                                        {{ Form::select('drop', $select, Input::old('drop'), array('class'=>'selected-form')) }}
-                                    </div>
-                                </div>
+
                                 <div class="control-group {{{ $errors->has('target') ? 'error' : '' }}}">
                                     <label class="control-label">Target <i class="red">*</i></label>
                                     <div class="controls line">
                                         {{ Form::select('target[]', Menu::all_targets(), (!isset($module)) ? Input::old('target') : $module->selected_targets(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select target')) }}
                                         {{ $errors->first('target', '<span class="help-inline">:message</span>') }}
                                     </div>
+                                </div>
+
+                                <div class="control-group hide" id="form-dropdowns">
+                                    <label class="control-label">Source for form dropdowns</label>
+                                    {{ Form::select('', $select, '', array('id'=>'dropdown-options', 'class'=>'hide')) }}
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab3">
