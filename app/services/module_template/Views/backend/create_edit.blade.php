@@ -14,7 +14,7 @@
                 <div class="widget-body form">
                     <div class="tab-pane active" id="widget_tab1">
                         <!-- BEGIN FORM-->
-                        ***FORM_CONTENT***
+                        @include("{$module_alias}::form_{$form['form_id']}")
                         <!-- END FORM-->
                     </div>
                 </div>
@@ -31,7 +31,7 @@
         <script>
             jQuery(document).ready(function() {
                 // While editing fields populate with its data
-                @foreach ($fields as $field)
+                @foreach ($form['fields'] as $field)
                     <?php
                         $entry->{$field} = preg_replace('~[\r\n]+~', ' ', $entry->{$field});
                         $entry->{$field} = str_replace('\n', " ", $entry->{$field}) ;

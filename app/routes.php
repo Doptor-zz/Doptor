@@ -93,6 +93,8 @@ Route::group(array('prefix' => 'backend'), function() {
     Route::delete('modules/delete/{id}', array('uses' => 'Backend\ModulesController@getDelete', 'as' => 'backend.modules.destroy'));
 
     Route::get('module-builder/download/{id}', 'Backend\ModuleBuilderController@download');
+    Route::get('module-builder/form-dropdowns/{id}', 'Backend\ModuleBuilderController@getFormDropdowns');
+    Route::get('module-builder/form-fields/{id}', 'Backend\ModuleBuilderController@getFormFields');
     Route::resource('module-builder', 'Backend\ModuleBuilderController');
 
     Route::resource('slideshow', 'Modules\Slideshow\Controllers\Backend\SlideshowController');
@@ -157,6 +159,7 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::delete('modules/delete/{id}', array('uses' => 'Backend\ModulesController@getDelete', 'as' => 'admin.modules.destroy'));
 
     Route::get('module-builder/download/{id}', 'Backend\ModuleBuilderController@download');
+    Route::get('module-builder/form-dropdowns/{id}', 'Backend\ModuleBuilderController@getFormDropdowns');
     Route::resource('module-builder', 'Backend\ModuleBuilderController');
 
     Route::resource('slideshow', 'Modules\Slideshow\Controllers\Backend\SlideshowController');

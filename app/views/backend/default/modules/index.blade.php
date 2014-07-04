@@ -66,7 +66,7 @@
                                     <td>{{ $module->version }}</td>
                                     <td>{{ $module->author }}</td>
                                     <td>{{ $module->website }}</td>
-                                    <td>{{ $module->table }}</td>
+                                    <td>{{ $module->tables() }}</td>
                                     <td>{{ ($module->enabled) ? 'Yes' : 'No' }}</td>
                                     <td>{{ $module->created_at }}</td>
                                     <!-- <td>

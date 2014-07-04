@@ -12,10 +12,9 @@ use Eloquent;
 
 class ModuleModel extends Eloquent {
 
-	protected $table = 'module_entries';
+	protected $table = 'table_name';
 
 	protected $fillable = array(table_fields);
-	protected $guarded = array();
-
+	protected $guarded = array('id');
 
 }

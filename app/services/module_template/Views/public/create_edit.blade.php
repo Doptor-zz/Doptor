@@ -24,7 +24,8 @@
             <h1>{{ $title }}</h1>
 
             <div class="tabs full-w">
-                ***FORM_CONTENT***
+
+                @include("{$module_alias}::form_{$form['form_id']}")
 
             </div>
         </div>
@@ -40,7 +41,7 @@
         <script>
             jQuery(document).ready(function() {
                 // While editing fields populate with its data
-                @foreach ($fields as $field)
+                @foreach ($form['fields'] as $field)
                     <?php
                         $entry->{$field} = preg_replace('~[\r\n]+~', ' ', $entry->{$field});
                         $entry->{$field} = str_replace('\n', " ", $entry->{$field}) ;

@@ -30,7 +30,7 @@
                                 <th>Author</th>
                                 <th>Website</th>
                                 <th>Selected Form</th>
-                                <th>Table Name</th>
+                                <th>Table Name(s)</th>
                                 <th>Download</th>
                                 <th>Created At</th>
                                 <!-- <th class="span2">Edit</th> -->
@@ -45,7 +45,7 @@
                                     <td>{{ $module->author }}</td>
                                     <td>{{ $module->website }}</td>
                                     <td>{{ $module->form_name() }}</td>
-                                    <td>{{ $module->table_name }}</td>
+                                    <td>{{ $module->tables() }}</td>
                                     <th>{{ HTML::link(url($link_type . '/module-builder/download/'.$module->id), 'Download') }}</th>
                                     <td>{{ $module->created_at }}</td>
                                     <td>

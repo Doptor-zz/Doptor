@@ -1,11 +1,12 @@
 <?php
+
 /**
 /*
 ==============================================================================
 CMS Name 	: 	DOPTOR
 CMS Version	: 	v1.2
 Available at	: 	www.doptor.org
-Copyright	:	Copyright (C) 2011 - 2014 Doptor. All rights reserved. 
+Copyright	:	Copyright (C) 2011 - 2014 Doptor. All rights reserved.
 License	        :	GNU/GPL, visit LICENSE.php
 Description	: 	Doptor is Opensource CMS.
 ==============================================================================

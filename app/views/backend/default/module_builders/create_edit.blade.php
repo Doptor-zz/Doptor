@@ -11,7 +11,7 @@
             <div class="widget box blue" id="form_wizard_1">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-reorder"></i> Form Wizard - <span class="step-title">Step 1 of 3</span>
+                        <i class="icon-reorder"></i> Module Builder - <span class="step-title">Step 1 of 3</span>
                     </h4>
                 </div>
                 <div class="widget-body form">
@@ -100,12 +100,12 @@
                                 <div class="control-group">
                                     <label class="control-label">Form(s) <i class="red">*</i></label>
                                     <div class="controls" id="InputsWrapper">
-                                        @if (isset($forms))
-                                            <input name="form-count" type="hidden" value="{{ count($forms) }}">
-                                            @for ($i = 1; $i <= count($forms); $i++)
+                                        @if (isset($selected_forms))
+                                            <input name="form-count" type="hidden" value="{{ count($selected_forms) }}">
+                                            @for ($i = 1; $i <= count($selected_forms); $i++)
                                                 <p>
 
-                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $forms[$i-1], array('class'=>'chosen')) }}
+                                                    {{ Form::select("form-{$i}", BuiltForm::all_forms(), $selected_forms[$i-1], array('class'=>'chosen module-form')) }}
                                                     @if ($i == 1)
                                                         &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
                                                     @else
@@ -116,7 +116,7 @@
                                         @else
                                             <input name="form-count" type="hidden" value="1">
                                             <p>
-                                                {{ Form::select("form-1", BuiltForm::all_forms(), Input::old('form-1'), array('class'=>'chosen')) }}
+                                                {{ Form::select("form-1", BuiltForm::all_forms(), Input::old('form-1'), array('class'=>'chosen module-form')) }}
                                                 &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
                                             </p>
                                         @endif
@@ -124,20 +124,18 @@
                                         {{ HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) }}
                                     </div>
                                 </div>
-                                <div class="control-group {{{ $errors->has('table_name') ? 'error' : '' }}}">
-                                    <label class="control-label">Table Name in Database <i class="red">*</i></label>
-                                    <div class="controls">
-                                        {{ Form::text('table_name', (!isset($module)) ? Input::old('table_name') : $module->table_name, array('class' => 'input-xlarge')) }}
-                                        {{ $errors->first('table_name', '<span class="help-inline">:message</span>') }}
 
-                                    </div>
-                                </div>
                                 <div class="control-group {{{ $errors->has('target') ? 'error' : '' }}}">
                                     <label class="control-label">Target <i class="red">*</i></label>
                                     <div class="controls line">
                                         {{ Form::select('target[]', Menu::all_targets(), (!isset($module)) ? Input::old('target') : $module->selected_targets(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select target')) }}
                                         {{ $errors->first('target', '<span class="help-inline">:message</span>') }}
                                     </div>
+                                </div>
+
+                                <div class="control-group hide" id="form-dropdowns">
+                                    <label class="control-label">Source for form dropdowns</label>
+                                    {{ Form::select('', $select, '', array('id'=>'dropdown-options', 'class'=>'hide')) }}
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab3">
@@ -167,9 +165,9 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Table Name in Database:</label>
+                                    <label class="control-label">Module Description:</label>
                                     <div class="controls">
-                                        <span class="text" id="table_name"></span>
+                                        <span class="text" id="description"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -200,83 +198,5 @@
 @stop
 
 @section('scripts')
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::to('assets/backend/default/plugins/jquery-validation/dist/additional-methods.min.js') }}"></script>
-    <!-- END PAGE LEVEL PLUGINS -->
-    @parent
-    <script src="{{ URL::to('assets/backend/default/scripts/form-wizard.js') }}"></script>
-    <script src="{{ URL::to('assets/backend/default/scripts/form-validation.js') }}"></script>
-    <script>
-        jQuery(document).ready(function () {
-            FormWizard.init();
-
-            $("#module-builder").validate({
-                rules: {
-                    name: {required: true, minlength: 3 },
-                    version: {required: true },
-                    author: {required: true, minlength: 3 },
-                    website: {required: true, minlength: 3, url: true }
-                }
-            });
-
-            $('#all_forms_chzn').css('width', '300px');
-            $('.chzn-drop').css('width', '300px');
-            $('#all_forms_chzn').find('input').css('width', '265px');
-
-            // Populate the overview of the selections in the last step
-            $('.button-next').click(function() {
-                $('#name').html($('input[name=name]').val());
-                $('#version').html($('input[name=version]').val());
-                $('#author').html($('input[name=author]').val());
-                $('#website').html($('input[name=website]').val());
-                $('#table_name').html($('input[name=table_name]').val());
-            });
-        });
-
-        $(document).ready(function() {
-            // Things to do to dynamically add/remove as much forms as needed
-            var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
-            var AddButton       = $("#AddMore"); //Add button ID
-
-            @if (!isset($module))
-                var x = InputsWrapper.length; //initial text box count
-                var FieldCount = 1; //to keep track of text box added
-            @else
-                var x = {{ count($forms) }};
-                var FieldCount = {{ count($forms) }};
-            @endif
-
-            // on add input button click
-            $(AddButton).click(function (e) {
-                FieldCount++; //text box added increment
-                //add input box
-                $(InputsWrapper).append('<p>{{ Form::select("form-form_count", BuiltForm::all_forms(), Input::old("form-form_count"), array("class"=>"chosen")) }}<a href="#" class="removeclass">&nbsp;&nbsp;<i class="icon-remove"></i></a></p>');
-                // Dynamically change the select name
-                $('select[name="form-form_count"]').attr('name', function(){
-                    return 'form-' + FieldCount;
-                });
-                // Don't show the form(s) already selected
-                for (var i = 1; i <= FieldCount; i++) {
-                    selected_value = $('select[name="form-' + i +'"]').val();
-                    if (selected_value != 0) {
-                        $('select[name="form-' + FieldCount +'"] option[value='+selected_value+']').remove();
-                    }
-                };
-                $('input[name=form-count]').val(FieldCount);
-                x++; //text box increment
-                $(".chosen").chosen();
-                return false;
-            });
-
-            $("body").on("click",".removeclass", function(e) { //user click on remove text
-                if( x > 1 ) {
-                    $(this).parent('p').remove(); //remove text box
-                    x--; //decrement textbox
-                }
-                return false;
-            });
-        });
-    </script>
+    @include('backend.default.module_builders.scripts')
 @stop
