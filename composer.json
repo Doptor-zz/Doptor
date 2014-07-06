@@ -9,7 +9,7 @@
 		"robclancy/presenter": "1.2.*",
 		"davejamesmiller/laravel-breadcrumbs": "~2.1.0",
 		"creolab/laravel-modules": "dev-master",
-		"intervention/image": "dev-master",
+		"intervention/image": "2.*",
 		"vespakoen/menu": "dev-master",
 		"guzzle/guzzle": "dev-master",
 		"barryvdh/laravel-dompdf": "*"

@@ -92,8 +92,7 @@ class MediaEntry extends Eloquent implements PresentableInterface {
             }
 
             $image->save($this->images_path . $file_name)
-                    ->resize(150, null, true)
-                    ->crop(150, 150)
+                    ->fit(150, 150)
                     ->save($this->thumbs_path . $file_name);
 
             $this->attributes['image'] = "{$this->attributes['folder']}/{$file_name}";
