@@ -36,22 +36,17 @@
     $(document).ready(function() {
         multipleForms();
 
-//        $('.module-form').each(function() {
-//            getDropdowns($(this));
-//        });
-//
-//        $('.module-form').change(function() {
-//            // Remove all already added form dropdown sources
-//            $('.added-form').remove();
-//            // Show dropdown source selection for all selected form
-//            $('.module-form').each(function() {
-//                getDropdowns($(this));
-//            });
-//        });
-//
-//        $(document).on('change', '.selected-form', function() {
-//            getFormFields($(this));
-//        });
+        $('.module-form').each(function() {
+            getDropdowns($(this));
+        });
+
+        $('.module-form').change(function() {
+            repopulateDropdowns();
+        });
+
+        $(document).on('change', '.selected-form', function() {
+            getFormFields($(this));
+        });
     });
 
     function multipleForms() {
@@ -93,6 +88,7 @@
         if( x > 1 ) {
             $(this).parent('p').remove(); //remove text box
             x--; //decrement textbox
+            repopulateDropdowns();
         }
         return false;
     });
@@ -103,12 +99,14 @@
         var module_id = ids[0];
         var form_id = ids[1];
         window.form = selected_form;
-        console.log(form_id);
+
         if (!selected_form.parent().find('.form-fields').length) {
             selected_form.parent().append('<div class="form-fields inline"></div>');
         }
 
-        if (form_id == 0) {
+        if (form_id == 0 || form_id == undefined) {
+            // If same as in form is selected, remove field options
+            selected_form.parent().find('.loading').html('');
             selected_form.parent().find('.form-fields').html('');
             return;
         }
@@ -121,7 +119,7 @@
             url: '{{ URL::to("backend/module-builder/form-fields/") }}/' + form_id
         }).done(function(form_fields) {
             var form_name = selected_form.attr('name').replace('moduleform-', '');
-            var selects = 'Form fields:';
+            var selects = '&nbsp;&nbsp;&nbsp;&nbsp;<label class="inline">Form fields:</label>';
             selects += '<select name="formfield-'+form_name+'">';
             for (var field in form_fields) {
                 if (form_fields.hasOwnProperty(field)) {
@@ -138,6 +136,7 @@
     function getDropdowns(selected_form) {
         // Get all the dropdown fields that are present in a form
         var form_id = selected_form.val();
+        var form_name = selected_form.find('option:selected').text();
 
         $('#form-dropdowns').show();
         $.ajax({
@@ -147,7 +146,7 @@
             for (var field in form_fields) {
                 if (form_fields.hasOwnProperty(field)) {
                     selects += '<div class="controls line added-form form-'+form_id+'">';
-                    selects += '<label class="inline">'+form_fields[field]+': </label>';
+                    selects += '<label><b>Source for dropdown field "'+form_fields[field]+'" in form "'+form_name+'":</b> </label>';
                     selects += '<select name="moduleform-'+field+'" class="selected-form">';
                     selects += $('#dropdown-options').html();
                     selects += '</select>';
@@ -156,6 +155,15 @@
             }
 
             $('#form-dropdowns').append(selects);
+        });
+    }
+
+    function repopulateDropdowns() {
+        // Remove all already added form dropdown sources
+        $('.added-form').remove();
+        // Show dropdown source selection for all selected form
+        $('.module-form').each(function () {
+            getDropdowns($(this));
         });
     }
 </script>

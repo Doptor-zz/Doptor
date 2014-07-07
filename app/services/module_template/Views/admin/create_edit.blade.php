@@ -25,6 +25,25 @@
 @section('scripts')
     @parent
 
+    <script>
+        // Populate dropdown fields based on the selected sources
+        jQuery(document).ready(function() {
+            var sources = {{ json_encode($sources) }};
+
+            for (var field_name in sources) {
+                if(sources.hasOwnProperty(field_name)){
+                    var options = '';
+                    for (var option in sources[field_name]) {
+                        options += '<option value="'+option+'">';
+                        options += option;
+                        options += '</option>';
+                    }
+                    $('[name='+field_name+']').html(options);
+                }
+            }
+        });
+    </script>
+
     @if (isset($entry))
         <script>
             jQuery(document).ready(function() {

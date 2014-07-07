@@ -31,7 +31,7 @@ $(function () {
 </script>
 @section('scripts')
     {{-- Here goes the page level scripts and plugins --}}
-    {{--<script src="{{ URL::to("assets/backend/default/scripts/app.js") }}"></script>--}}
+    {{-- HTML::script("assets/backend/default/scripts/app.js") --}}
     <script>
         jQuery(document).ready(function() {
             // App.init();

@@ -10,6 +10,7 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use BuiltModule;
 use Exception;
 use File;
 use Str;
@@ -41,7 +42,7 @@ class ModuleBuilder {
     public function createModule($input)
     {
         $this->module_name = $input['name'];
-        $module_alias = str_replace(' ', '', Str::title($this->module_name));
+        $module_alias = $this->generateModuleAlias($this->module_name);
 
         $this->temp_dir = temp_path() . "/{$module_alias}/{$module_alias}";
 
@@ -58,11 +59,23 @@ class ModuleBuilder {
 
         // Save the module configuration as json
         $this->saveModuleConfig($input, $module_alias);
-
+        
         // Finally compress the temporary folder
         $zip_file = $this->generateZip($module_alias);
 
         return $zip_file;
+    }
+
+    /**
+     * Generate the alias of the module
+     * @param $module_name
+     * @return mixed
+     */
+    private function generateModuleAlias($module_name)
+    {
+        $module_alias = str_replace(' ', '', Str::title($module_name));
+
+        return $module_alias;
     }
 
     /**
@@ -325,6 +338,8 @@ class ModuleBuilder {
         }
         $this->SearchandReplace($this->temp_dir, '***REDIRECT_TO***', $redirect_to);
 
+        $this->SearchandReplace($this->temp_dir, '***SOURCES***', $this->setFormDropdownSources($input));
+
         $this->SearchandReplace($this->temp_dir, '***EXTRA_CODE***', str_replace('\\', '', $this->extra_code));
 
         $this->SearchandReplace($this->temp_dir, 'CreateEntriesTable', 'Create' . $module_title_case . 'Table');
@@ -535,5 +550,51 @@ class ModuleBuilder {
         }
 
         return $form_selects;
+    }
+
+    /**
+     * @param $input
+     * @return string
+     */
+    public function setFormDropdownSources($input)
+    {
+        $sources = array();
+        $source_modules = array_filter(array_keys($input), function ($key) {
+            if (str_contains($key, 'moduleform')) {
+                return true;
+            }
+        });
+
+        foreach ($source_modules as $source_module) {
+            if ($input[$source_module] != 0) {
+                list($module_id, $form_id) = explode('-', $input[$source_module]);
+
+                // The form field of the current module, to be replaced by
+                $form_field = str_replace('moduleform-', 'formfield-', $source_module);
+                $field_name = str_replace('moduleform-', '', $source_module);
+
+                $target_field = $input[$form_field];
+                $module = BuiltModule::find($module_id);
+                $form = BuiltForm::find($form_id);
+
+                $module_alias = $this->generateModuleAlias($module->name);
+                $table_name = $this->generateTableName($module->name, $form->name);
+                $model_name = $this->generateModelName($table_name);
+
+                $sources[$field_name] = "\\Modules\\{$module_alias}\\Models\\{$model_name}::lists('{$target_field}', '{$target_field}')";
+            }
+        }
+
+        $source_array = var_export($sources, true);
+
+        // Replace the sources to not be strings
+        $source_array = strtr($source_array, array(
+                            "=> '"   => "=> ",
+                            "\\'"    => "'",
+                            ")'"     => ")",
+                            "\\\\"   => "\\"
+                        ));
+
+        return $source_array;
     }
 }

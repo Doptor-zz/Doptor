@@ -77,11 +77,13 @@ class BackendController extends BaseController {
     {
         // Get only the form that matches the specified form id
         $form = $this->getForm($form_id);
+        $sources = $this->getSources();
 
         $this->layout->title = "Add New Entry in {$this->module_name}";;
         $this->layout->content = View::make("{$this->module_alias}::{$this->type}.create_edit")
             ->with('title', "Add New Entry in {$this->module_name}")
-            ->with('form', $form);
+            ->with('form', $form)
+            ->with('sources', $sources);
     }
 
     /**
@@ -148,6 +150,7 @@ class BackendController extends BaseController {
     {
         // Get only the form that matches the specified form id
         $form = $this->getForm($form_id);
+        $sources = $this->getSources();
 
         $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
         $entry = $model_name::findOrFail($id);
@@ -157,13 +160,15 @@ class BackendController extends BaseController {
         $this->layout->content = View::make("{$this->module_alias}::{$this->type}.create_edit")
             ->with('title', "Edit Entry in module {$this->module_name}")
             ->with('entry', $entry)
-            ->with('form', $form);
+            ->with('form', $form)
+            ->with('sources', $sources);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id)
     {
@@ -243,5 +248,16 @@ class BackendController extends BaseController {
         $form = head($form);
 
         return $form;
+    }
+
+    /**
+     * GEt sources for dropdown fields in forms
+     * @return mixed
+     */
+    private function getSources()
+    {
+        $sources = ***SOURCES***;
+
+        return $sources;
     }
 }
