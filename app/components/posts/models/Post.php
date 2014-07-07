@@ -106,8 +106,7 @@ class Post extends Eloquent implements PresentableInterface {
             }
 
             $image->save($this->images_path . $file_name)
-                    ->resize(640, null, true)
-                    ->crop(640, 180)
+                    ->fit(640, 180)
                     ->save($this->thumbs_path . $file_name);
 
             $this->attributes['image'] = $file_name;
