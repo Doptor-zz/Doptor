@@ -127,8 +127,7 @@ class Menu extends Eloquent implements PresentableInterface {
                 File::exists($old_image) && File::delete($old_image);
             }
 
-            $image->resize(32, null, true)
-                    ->crop(32, 32)
+            $image->fit(32, 32)
                     ->save($this->images_path . $file_name);
 
             $this->attributes['icon'] = $file_name;

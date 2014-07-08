@@ -108,8 +108,7 @@ class User extends Eloquent {
                 File::exists($old_image) && File::delete($old_image);
             }
 
-            $image->resize(128, null, true)
-                    ->crop(128, 128)
+            $image->fit(128, 128)
                     ->save($images_path . $file_name);
 
             return $file_name;
