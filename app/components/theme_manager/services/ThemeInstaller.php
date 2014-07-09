@@ -116,7 +116,7 @@ class ThemeInstaller {
     {
         $status = File::copyDirectory("{$this->full_path}{$this->theme_directory}/views/", app_path() . '/views/' . $this->target . '/' . $this->theme_directory . '/');
 
-        File::copyDirectory("{$this->full_path}{$this->theme_directory}/views/", public_path() . '/assets/' . $this->target . '/' . $this->theme_directory . '/');
+        File::copyDirectory("{$this->full_path}{$this->theme_directory}/assets/", public_path() . '/assets/' . $this->target . '/' . $this->theme_directory . '/');
     }
 
     protected function copyScreenshot()
