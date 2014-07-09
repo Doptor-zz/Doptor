@@ -1,5 +1,10 @@
 @extends('backend.default._layouts._layout')
 
+@section('styles')
+    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
+    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
+@stop
+
 @section('content')
     <div class="row-fluid">
         <div class="span12">
@@ -25,8 +30,29 @@
 @stop
 
 @section('scripts')
+    {{ HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}
+
     @parent
 
+    <script>
+        // Populate dropdown fields based on the selected sources
+        jQuery(document).ready(function() {
+            var sources = {{ json_encode($sources) }};
+
+            for (var field_name in sources) {
+                if(sources.hasOwnProperty(field_name)){
+                    var options = '';
+                    for (var option in sources[field_name]) {
+                        options += '<option value="'+option+'">';
+                        options += option;
+                        options += '</option>';
+                    }
+                    $('[name='+field_name+']').html(options);
+                }
+            }
+        });
+        $('select').chosen();
+    </script>
     @if (isset($entry))
         <script>
             jQuery(document).ready(function() {

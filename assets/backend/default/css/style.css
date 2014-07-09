@@ -3050,3 +3050,6 @@ Bootstrap Tree CSS changes(new in v1.4)
   line-height:normal;
   margin:0px;
 }
+.added-form {
+    margin: 0 0 20px;
+}
