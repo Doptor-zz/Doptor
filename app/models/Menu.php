@@ -103,7 +103,7 @@ class Menu extends Eloquent implements PresentableInterface {
     public function getIconAttribute()
     {
         if ($this->attributes['icon']) {
-            return $this->images_path . $this->attributes['icon'];
+            return $this->attributes['icon'];
         }
     }
 
@@ -115,20 +115,26 @@ class Menu extends Eloquent implements PresentableInterface {
     {
         // Only if a file is selected
         if ($file) {
-            File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
-            File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
+            if (Input::hasFile('icon')) {
+                File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
+                File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
 
-            $file_name = $file->getClientOriginalName();
-            $image = Image::make($file->getRealPath());
+                $file_name = $file->getClientOriginalName();
+                $image = Image::make($file->getRealPath());
 
-            if (isset($this->attributes['icon'])) {
-                // Delete old image
-                $old_image = $this->getIconAttribute();
-                File::exists($old_image) && File::delete($old_image);
+                if (isset($this->attributes['icon'])) {
+                    // Delete old image
+                    $old_image = $this->getIconAttribute();
+                    File::exists($old_image) && File::delete($old_image);
+                }
+
+                $image->fit(32, 32)
+                        ->save($this->images_path . $file_name);
+
+                $file_name = $this->images_path . $file_name;
+            } else {
+                $file_name = $file;
             }
-
-            $image->fit(32, 32)
-                    ->save($this->images_path . $file_name);
 
             $this->attributes['icon'] = $file_name;
         }

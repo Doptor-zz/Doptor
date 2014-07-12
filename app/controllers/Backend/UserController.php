@@ -52,7 +52,7 @@ class UserController extends AdminController {
             $validator = User::validate_registration($input);
 
             if ($validator->passes()) {
-                $photo = User::upload_photo(Input::file('photo'));
+                $photo = User::upload_photo($input['photo']);
                 $user = Sentry::createUser(array(
                         'username'   => $input['username'],
                         'email'      => $input['email'],
@@ -135,7 +135,7 @@ class UserController extends AdminController {
                 // Find the user using the user id
                 $user = Sentry::findUserById($id);
 
-                $photo = User::upload_photo(Input::file('photo'), $id);
+                $photo = User::upload_photo($input['photo'], $id);
                 // Update the user details
                 $user->username = $input['username'];
                 $user->email    = $input['email'];

@@ -1,5 +1,6 @@
 @section('styles')
-    <link rel="stylesheet" href="{{ URL::to('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
+    {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
 @stop
 
 @section('content')
@@ -80,7 +81,12 @@
                                     <div class="control-group {{{ $errors->has('icon') ? 'error' : '' }}}">
                                         <label class="control-label">Menu Icon</label>
                                         <div class="controls">
-                                            {{ Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('icon') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
+                                            <span class="file-name">
+                                                {{ $menu->icon or '' }}
+                                            </span>
                                             {{ $errors->first('icon', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
@@ -233,10 +239,13 @@
             <!-- END FORM widget-->
         </div>
     </div>
+
+    <div id="ajax-insert-modal" class="modal hide fade page-container" tabindex="-1"></div>
 @stop
 
 @section('scripts')
-    <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}"></script>
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
     @parent
     <script>
         function showOrHide() {
@@ -262,6 +271,41 @@
                 language: 'en',
                 pick12HourFormat: false
             });
+        });
+
+        var insert_modal = $('#ajax-insert-modal');
+        var calling_div;
+
+        $('.insert-media').on('click', function(event) {
+            calling_div = event.target.id;
+            $('body').modalmanager('loading');
+
+            setTimeout(function(){
+                insert_modal.load('{{ URL::to("backend/media-manager") }}', '', function(){
+                    insert_modal.modal();
+                });
+            }, 1000);
+        });
+
+        $('.preview.processing img').live('click', function(event) {
+            var folder_name = $('input[name=folder]').val();
+            if ($(this).parent().find('.file-name').length) {
+                var image = $(this).parent().find('.file-name').first().text();
+            } else {
+                var image = $(this).parent().find('.filename').text();
+
+            }
+
+            var image_path = folder_name+'/'+image;
+
+            if (calling_div == 'insert-main-image') {
+
+                $('input[name=icon]').val(image_path);
+                // Display the name of the current selected file
+                $('#'+calling_div).parent().find('.file-name').text(image_path);
+
+            }
+            insert_modal.modal('hide');
         });
     </script>
 @stop

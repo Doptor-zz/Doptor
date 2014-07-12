@@ -81,14 +81,19 @@
                                     <div class="control-group {{{ $errors->has('image') ? 'error' : '' }}}">
                                         <label class="control-label">Image <span class="red">*</span></label>
                                         <div class="controls">
-                                            {{ Form::file('image', array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('image', array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('image') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select main image</a>
+                                            <span class="file-name">
+                                                {{ $post->image or '' }}
+                                            </span>
                                             {{ $errors->first('image', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <div class="controls line">
-                                            <a class="btn btn-primary" id="insert-media" href="#"> Insert Media</a>
+                                            <a class="btn btn-primary insert-media" id="insert-media" href="#"> Insert Media</a>
                                         </div>
                                     </div>
 
@@ -230,28 +235,45 @@
             });
         });
 
-        var $insert_modal = $('#ajax-insert-modal');
+        var insert_modal = $('#ajax-insert-modal');
+        var calling_div;
 
-        $('#insert-media').on('click', function(){
+        $('.insert-media').on('click', function(event) {
+            calling_div = event.target.id;
             $('body').modalmanager('loading');
 
             setTimeout(function(){
-                $insert_modal.load('{{ URL::to("backend/media-manager") }}', '', function(){
-                    $insert_modal.modal();
+                insert_modal.load('{{ URL::to("backend/media-manager") }}', '', function(){
+                    insert_modal.modal();
                 });
             }, 1000);
         });
 
-        $('.preview.processing img').live('click', function() {
-            folder_name = $('input[name=folder]').val();
-            if ($(this).parent().find('.file-name')) {
-                image = $(this).parent().find('.file-name').first().text();
+        $('.preview.processing img').live('click', function(event) {
+            var folder_name = $('input[name=folder]').val();
+            if ($(this).parent().find('.file-name').length) {
+                var image = $(this).parent().find('.file-name').first().text();
             } else {
-                image = $(this).parent().find('.filename').first().text();
+                var image = $(this).parent().find('.filename').first().text();
             }
-            var oEditor = CKEDITOR.instances.content;
-            oEditor.insertHtml('<img src="{{ URL::to('/') }}/'+folder_name+'/'+image+'">');
-            $insert_modal.modal('hide');
+
+            var image_path = folder_name+'/'+image;
+
+            if (calling_div == 'insert-main-image') {
+
+                $('input[name=image]').val(image_path);
+                // Display the name of the current selected file
+                $('#'+calling_div).parent().find('.file-name').text(image_path);
+
+            } else {
+                var image_url = '{{ URL::to('/') }}/'+folder_name+'/'+image;
+
+                // Insert the selected image to the CKEDITOR text input
+                var oEditor = CKEDITOR.instances.content;
+                oEditor.insertHtml('<img src="'+image_url+'">');
+
+            }
+            insert_modal.modal('hide');
         });
     </script>
 @stop

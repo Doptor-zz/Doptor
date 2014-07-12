@@ -86,28 +86,41 @@ class Post extends Eloquent implements PresentableInterface {
     {
         // Only if a file is selected
         if ($file) {
-            File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
-            File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
-            File::exists(public_path() . '/' . $this->thumbs_path) || File::makeDirectory(public_path() . '/' . $this->thumbs_path);
+            if (Input::hasFile('image')) {
+                // If an actual file is selected
 
-            $file_name = $file->getClientOriginalName();
-            $image = Image::make($file->getRealPath());
+                File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
+                File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
+                File::exists(public_path() . '/' . $this->thumbs_path) || File::makeDirectory(public_path() . '/' . $this->thumbs_path);
 
-            if (isset($this->attributes['image'])) {
-                // Delete old image
-                $old_image = $this->getImageAttribute();
-                File::exists($old_image) && File::delete($old_image);
+                $file_name = $file->getClientOriginalName();
+                $image = Image::make($file->getRealPath());
+
+                if (isset($this->attributes['image'])) {
+                    // Delete old image
+                    $old_image = $this->getImageAttribute();
+                    File::exists($old_image) && File::delete($old_image);
+                }
+
+                if (isset($this->attributes['thumb'])) {
+                    // Delete old thumbnail
+                    $old_thumb = $this->getThumbAttribute();
+                    File::exists($old_thumb) && File::delete($old_thumb);
+                }
+
+                $image->save($this->images_path . $file_name)
+                        ->fit(640, 180)
+                        ->save($this->thumbs_path . $file_name);
+
+                $file_name = $this->images_path . $file_name;
+
+            } else {
+                $image = Image::make($file);
+                $file_name = $file;
+
+                $image->fit(640, 180)
+                        ->save($this->thumbs_path . basename($file_name));
             }
-
-            if (isset($this->attributes['thumb'])) {
-                // Delete old thumbnail
-                $old_thumb = $this->getThumbAttribute();
-                File::exists($old_thumb) && File::delete($old_thumb);
-            }
-
-            $image->save($this->images_path . $file_name)
-                    ->fit(640, 180)
-                    ->save($this->thumbs_path . $file_name);
 
             $this->attributes['image'] = $file_name;
         }
@@ -166,7 +179,7 @@ class Post extends Eloquent implements PresentableInterface {
     public function getImageAttribute()
     {
         if ($this->attributes['image']) {
-            return $this->images_path . $this->attributes['image'];
+            return $this->attributes['image'];
         }
     }
 
@@ -177,7 +190,7 @@ class Post extends Eloquent implements PresentableInterface {
     public function getThumbAttribute()
     {
         if ($this->attributes['image']) {
-            return $this->thumbs_path . $this->attributes['image'];
+            return $this->thumbs_path . basename($this->attributes['image']);
         }
     }
 

@@ -12,6 +12,7 @@ Description :  Doptor is Opensource CMS.
 use App;
 use Eloquent;
 use File;
+use Input;
 
 use Image;
 use Robbo\Presenter\PresentableInterface;
@@ -57,8 +58,15 @@ class Slideshow extends Eloquent implements PresentableInterface {
      */
     public function getImageAttribute()
     {
-        if ($this->attributes['image']) {
-            return $this->images_path . $this->attributes['image'];
+        $image = $this->attributes['image'];
+        if ($image) {
+            if (str_contains($image, '/')) {
+                return $image;
+            } else {
+                // if the slideshow image has been uploaded
+                // using old version of file upload
+                return $this->images_path . $image;
+            }
         }
     }
 
@@ -70,20 +78,28 @@ class Slideshow extends Eloquent implements PresentableInterface {
     {
         // Only if a file is selected
         if ($file) {
-            File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
-            File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
+            if (Input::hasFile('image')) {
+                // If an actual file is selected
+                File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
+                File::exists(public_path() . '/' . $this->images_path) || File::makeDirectory(public_path() . '/' . $this->images_path);
 
-            $file_name = $file->getClientOriginalName();
-            $image = Image::make($file->getRealPath());
+                $file_name = $file->getClientOriginalName();
+                $image = Image::make($file->getRealPath());
 
-            if (isset($this->attributes['image'])) {
-                // Delete old image
-                $old_image = $this->getIconAttribute();
-                File::exists($old_image) && File::delete($old_image);
+                if (isset($this->attributes['image'])) {
+                    // Delete old image
+                    $old_image = $this->getIconAttribute();
+                    File::exists($old_image) && File::delete($old_image);
+                }
+
+                $image->save($this->images_path . $file_name);
+
+                $file_name = $this->images_path . $file_name;
+            } else {
+
+                $file_name = $file;
+
             }
-
-            $image->fit(940, 470)
-                    ->save($this->images_path . $file_name);
 
             $this->attributes['image'] = $file_name;
         }

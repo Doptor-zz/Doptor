@@ -244,7 +244,7 @@
 
         $('.preview.processing img').live('click', function() {
             folder_name = $('input[name=folder]').val();
-            if ($(this).parent().find('.file-name')) {
+            if ($(this).parent().find('.file-name').length) {
                 image = $(this).parent().find('.file-name').first().text();
             } else {
                 image = $(this).parent().find('.filename').first().text();
