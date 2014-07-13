@@ -255,7 +255,9 @@ class ModuleBuilderController extends AdminController {
             $form_ids = explode(', ', $this_module->form_id);
             foreach ($form_ids as $form_id) {
                 $form = BuiltForm::find($form_id);
-                $select[$this_module->name][$this_module->id . '-' . $form->id] = $form->name;
+                if (isset($form)) {
+                    $select[$this_module->name][$this_module->id . '-' . $form->id] = $form->name;
+                }
             }
         }
 
