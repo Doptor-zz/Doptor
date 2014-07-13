@@ -107,6 +107,9 @@
                     @endif
                 </div>
                 @yield('content')
+
+                <div id="ajax-insert-modal" class="modal hide fade page-container" tabindex="-1"></div>
+                <div id="ajax-add-modal" class="modal hide fade page-container" tabindex="-1"></div>
                 <!-- END PAGE CONTENT-->
             </div>
             <!-- END PAGE CONTAINER-->

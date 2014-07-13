@@ -7,7 +7,7 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             {{ $current_user->username }}
-            {{ HTML::image(url('uploads/users/' . $current_user->photo), '', array('height'=>'24px', 'width'=>'24px')) }}
+            {{ HTML::image($current_user->photo, '', array('height'=>'24px', 'width'=>'24px')) }}
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">

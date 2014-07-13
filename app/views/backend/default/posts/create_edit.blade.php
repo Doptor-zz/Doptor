@@ -212,16 +212,14 @@
             <!-- END FORM widget-->
         </div>
     </div>
-
-    <div id="ajax-insert-modal" class="modal hide fade page-container" tabindex="-1"></div>
-    <div id="ajax-add-modal" class="modal hide fade page-container" tabindex="-1"></div>
 @stop
 
 @section('scripts')
     {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
     {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modal.js') }}
-    {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}">
-    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}">
+    {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script("assets/backend/default/scripts/media-selection.js") }}
     @parent
     <script>
         jQuery(document).ready(function() {
@@ -235,45 +233,6 @@
             });
         });
 
-        var insert_modal = $('#ajax-insert-modal');
-        var calling_div;
-
-        $('.insert-media').on('click', function(event) {
-            calling_div = event.target.id;
-            $('body').modalmanager('loading');
-
-            setTimeout(function(){
-                insert_modal.load('{{ URL::to("backend/media-manager") }}', '', function(){
-                    insert_modal.modal();
-                });
-            }, 1000);
-        });
-
-        $('.preview.processing img').live('click', function(event) {
-            var folder_name = $('input[name=folder]').val();
-            if ($(this).parent().find('.file-name').length) {
-                var image = $(this).parent().find('.file-name').first().text();
-            } else {
-                var image = $(this).parent().find('.filename').first().text();
-            }
-
-            var image_path = folder_name+'/'+image;
-
-            if (calling_div == 'insert-main-image') {
-
-                $('input[name=image]').val(image_path);
-                // Display the name of the current selected file
-                $('#'+calling_div).parent().find('.file-name').text(image_path);
-
-            } else {
-                var image_url = '{{ URL::to('/') }}/'+folder_name+'/'+image;
-
-                // Insert the selected image to the CKEDITOR text input
-                var oEditor = CKEDITOR.instances.content;
-                oEditor.insertHtml('<img src="'+image_url+'">');
-
-            }
-            insert_modal.modal('hide');
-        });
+        MediaSelection.init('image');
     </script>
 @stop

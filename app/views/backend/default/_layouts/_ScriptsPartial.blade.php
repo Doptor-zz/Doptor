@@ -20,9 +20,11 @@
 @endif
 @section('scripts')
     {{-- Here goes the page level scripts and plugins --}}
-    <script src="{{ URL::to("assets/backend/default/scripts/app.js") }}"></script>
     <script>
         window.base_url = '{{ URL::to('/') }}';
+    </script>
+    <script src="{{ URL::to("assets/backend/default/scripts/app.js") }}"></script>
+    <script>
         jQuery(document).ready(function() {
             App.init();
         });
