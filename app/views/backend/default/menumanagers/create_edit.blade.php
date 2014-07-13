@@ -1,5 +1,6 @@
 @section('styles')
-    <link rel="stylesheet" href="{{ URL::to('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
+    {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
+    {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 @stop
 
 @section('content')
@@ -80,7 +81,12 @@
                                     <div class="control-group {{{ $errors->has('icon') ? 'error' : '' }}}">
                                         <label class="control-label">Menu Icon</label>
                                         <div class="controls">
-                                            {{ Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('icon') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
+                                            <span class="file-name">
+                                                {{ $menu->icon or '' }}
+                                            </span>
                                             {{ $errors->first('icon', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
@@ -236,7 +242,9 @@
 @stop
 
 @section('scripts')
-    <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}"></script>
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script("assets/backend/default/scripts/media-selection.js") }}
     @parent
     <script>
         function showOrHide() {
@@ -263,5 +271,7 @@
                 pick12HourFormat: false
             });
         });
+
+        MediaSelection.init('icon');
     </script>
 @stop

@@ -1,3 +1,7 @@
+@section('styles')
+    {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
+@stop
+
 @section('content')
     <div class="row-fluid">
         <div class="span12">
@@ -96,7 +100,12 @@
                                     <div class="control-group {{{ $errors->has('photo') ? 'error' : '' }}}">
                                         <label class="control-label">Profile Photo</label>
                                         <div class="controls">
-                                            {{ Form::file('photo', array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('photo', array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('photo') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
+                                            <span class="file-name">
+                                                {{ $user->photo or '' }}
+                                            </span>
                                             {{ $errors->first('photo', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
@@ -115,4 +124,14 @@
             <!-- END FORM widget-->
         </div>
     </div>
+@stop
+
+@section('scripts')
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modal.js') }}
+    {{ HTML::script("assets/backend/default/scripts/media-selection.js") }}
+    @parent
+    <script>
+        MediaSelection.init('photo');
+    </script>
 @stop

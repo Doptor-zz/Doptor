@@ -37,7 +37,7 @@
                                     <div class="control-group {{{ $errors->has('photo') ? 'error' : '' }}}">
                                         <label class="control-label">Profile Photo</label>
                                         <div class="controls">
-                                            {{ HTML::image(url('uploads/users/' . $user->photo)) }}
+                                            {{ HTML::image($user->photo) }}
                                         </div>
                                     </div>
 

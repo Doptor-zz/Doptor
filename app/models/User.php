@@ -24,7 +24,7 @@ class User extends Eloquent {
     protected $hidden = array('password');
 
     // Path in the public folder to upload image and its corresponding thumbnail
-    protected $images_path = 'uploads/users/';
+    public static $images_path = 'uploads/users/';
 
     /**
      * All the groups that the user lies in
@@ -93,23 +93,27 @@ class User extends Eloquent {
      */
     public static function upload_photo($file, $id=null)
     {
-        $images_path = 'uploads/users/';
         // Only if a file is selected
         if ($file) {
-            File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
-            File::exists(public_path() . '/' . $images_path) || File::makeDirectory(public_path() . '/' . $images_path);
+            if (Input::hasFile('photo')) {
+                File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
+                File::exists(public_path() . '/' . static::$images_path) || File::makeDirectory(public_path() . '/' . static::$images_path);
 
-            $file_name = $file->getClientOriginalName();
-            $image = Image::make($file->getRealPath());
+                $file_name = $file->getClientOriginalName();
+                $image = Image::make($file->getRealPath());
 
-            if ($id) {
-                // If user is being edited, delete old image
-                $old_image = Sentry::findUserById($id)->photo;
-                File::exists($old_image) && File::delete($old_image);
+                if ($id) {
+                    // If user is being edited, delete old image
+                    $old_image = Sentry::findUserById($id)->photo;
+                    File::exists($old_image) && File::delete($old_image);
+                }
+
+                $image->fit(128, 128)
+                        ->save(static::$images_path . $file_name);
+
+            } else {
+                $file_name = $file;
             }
-
-            $image->fit(128, 128)
-                    ->save($images_path . $file_name);
 
             return $file_name;
         } else {

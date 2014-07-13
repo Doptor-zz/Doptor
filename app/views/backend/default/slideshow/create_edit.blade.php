@@ -1,4 +1,5 @@
 @section('styles')
+    {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
     {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 @stop
 
@@ -49,9 +50,14 @@
                                     </div>
 
                                     <div class="control-group {{{ $errors->has('image') ? 'error' : '' }}}">
-                                        <label class="control-label">Image (940x470px) <span class="red">*</span></label>
+                                        <label class="control-label">Image <span class="red">*</span></label>
                                         <div class="controls">
-                                            {{ Form::file('image', array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('image', array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('image') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
+                                            <span class="file-name">
+                                                {{ $slide->image or '' }}
+                                            </span>
                                             {{ $errors->first('image', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
@@ -112,19 +118,24 @@
 @stop
 
 @section('scripts')
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modal.js') }}
     {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}
     {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script("assets/backend/default/scripts/media-selection.js") }}
     @parent
     <script>
-        jQuery(document).ready(function() {
-            $('#datetimepicker_start').datetimepicker({
-                language: 'en',
-                pick12HourFormat: false
-            });
-            $('#datetimepicker_end').datetimepicker({
-                language: 'en',
-                pick12HourFormat: false
-            });
-        });
+        // jQuery(document).ready(function() {
+        //     $('#datetimepicker_start').datetimepicker({
+        //         language: 'en',
+        //         pick12HourFormat: false
+        //     });
+        //     $('#datetimepicker_end').datetimepicker({
+        //         language: 'en',
+        //         pick12HourFormat: false
+        //     });
+        // });
+
+        MediaSelection.init('image');
     </script>
 @stop

@@ -81,14 +81,19 @@
                                     <div class="control-group {{{ $errors->has('image') ? 'error' : '' }}}">
                                         <label class="control-label">Image <span class="red">*</span></label>
                                         <div class="controls">
-                                            {{ Form::file('image', array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('image', array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('image') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select main image</a>
+                                            <span class="file-name">
+                                                {{ $post->image or '' }}
+                                            </span>
                                             {{ $errors->first('image', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <div class="controls line">
-                                            <a class="btn btn-primary" id="insert-media" href="#"> Insert Media</a>
+                                            <a class="btn btn-primary insert-media" id="insert-media" href="#"> Insert Media</a>
                                         </div>
                                     </div>
 
@@ -207,16 +212,14 @@
             <!-- END FORM widget-->
         </div>
     </div>
-
-    <div id="ajax-insert-modal" class="modal hide fade page-container" tabindex="-1"></div>
-    <div id="ajax-add-modal" class="modal hide fade page-container" tabindex="-1"></div>
 @stop
 
 @section('scripts')
     {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
     {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modal.js') }}
-    {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}">
-    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}">
+    {{ HTML::script("assets/backend/default/plugins/ckeditor/ckeditor.js") }}
+    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
+    {{ HTML::script("assets/backend/default/scripts/media-selection.js") }}
     @parent
     <script>
         jQuery(document).ready(function() {
@@ -230,28 +233,6 @@
             });
         });
 
-        var $insert_modal = $('#ajax-insert-modal');
-
-        $('#insert-media').on('click', function(){
-            $('body').modalmanager('loading');
-
-            setTimeout(function(){
-                $insert_modal.load('{{ URL::to("backend/media-manager") }}', '', function(){
-                    $insert_modal.modal();
-                });
-            }, 1000);
-        });
-
-        $('.preview.processing img').live('click', function() {
-            folder_name = $('input[name=folder]').val();
-            if ($(this).parent().find('.file-name')) {
-                image = $(this).parent().find('.file-name').first().text();
-            } else {
-                image = $(this).parent().find('.filename').first().text();
-            }
-            var oEditor = CKEDITOR.instances.content;
-            oEditor.insertHtml('<img src="{{ URL::to('/') }}/'+folder_name+'/'+image+'">');
-            $insert_modal.modal('hide');
-        });
+        MediaSelection.init('image');
     </script>
 @stop
