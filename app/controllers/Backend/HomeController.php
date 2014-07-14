@@ -9,6 +9,13 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use App;
+use Input;
+use MenuCategory;
+use Redirect;
+use Setting;
+use View;
+
 class HomeController extends AdminController {
 
     /**
@@ -19,7 +26,7 @@ class HomeController extends AdminController {
     {
         $this->layout->title = 'Home';
         if ($this->link_type == 'admin') {
-            $category = \MenuCategory::where('menu_type', '=', 'admin-main-menu')
+            $category = MenuCategory::where('menu_type', '=', 'admin-main-menu')
                                     ->with('menus')
                                     ->first();
 
@@ -29,10 +36,10 @@ class HomeController extends AdminController {
                             ->orderBy('order', 'asc')
                             ->get();
 
-            $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.index')
+            $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.index')
                                             ->with('menu_items', $menu_items);
         } else {
-            $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.index');
+            $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.index');
         }
     }
 
@@ -42,27 +49,24 @@ class HomeController extends AdminController {
      */
     public function getConfig()
     {
-        if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) \App::abort('401');
+        if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) App::abort('401');
 
         $this->layout->title = 'Website Configuration';
-        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.config');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.config');
     }
 
     public function postConfig()
     {
-        if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) \App::abort('401');
-        $input = \Input::all();
+        if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) App::abort('401');
+        $input = Input::all();
 
         unset($input['_token']);
 
         foreach ($input as $name => $value) {
-            $config = \Setting::findOrCreate($name);
-            $config->name = $name;
-            $config->value = $value;
-            $config->save();
+            Setting::findOrCreate($name, $value);
         }
 
-        return \Redirect::back()
+        return Redirect::back()
                             ->with('success_message', 'The settings were updated.');
     }
 }
