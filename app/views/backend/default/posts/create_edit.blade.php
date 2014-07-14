@@ -2,21 +2,6 @@
     {{ HTML::style('assets/backend/default/plugins/bootstrap/css/bootstrap-modal.css') }}
     {{ HTML::style('assets/backend/default/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
     {{ HTML::style('assets/backend/default/plugins/jquery-ui/jquery-ui.css') }}
-    <style>
-        .modal.fade.in {
-        }
-        #ajax-modal {
-            left: 20px;
-            margin: 0 auto !important;
-            max-height: 400px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            padding: 15px;
-            position: absolute;
-            top: 20% !important;
-            width: 95%;
-        }
-    </style>
 @stop
 
 @section('content')
