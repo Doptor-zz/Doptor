@@ -9,7 +9,6 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use Input;
 
 class Setting extends Eloquent {
 
