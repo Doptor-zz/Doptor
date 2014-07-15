@@ -51,17 +51,30 @@
                                         </div>
                                     </div>
 
-                                    @if (!isset($post) || $post->permalink != 'contact')
-                                        {{--Since displaying the contact form relies on alias, don't show the option to change the alias, if it is contact--}}
-                                        <div class="control-group {{{ $errors->has('permalink') ? 'error' : '' }}}">
-                                            <label class="control-label">Alias</label>
-                                            <div class="controls">
-                                                {{ Form::text('permalink', (!isset($post)) ? Input::old('permalink') : $post->permalink, array('class' => 'input-xlarge'))}}
-                                                <div class="help-inline">Leave blank for automatic alias</div>
-                                                {{ $errors->first('permalink', '<span class="help-inline">:message</span>') }}
-                                            </div>
+                                    <div class="control-group {{{ $errors->has('permalink') ? 'error' : '' }}}">
+                                        <label class="control-label">Alias</label>
+                                        <div class="controls">
+                                            {{ Form::text('permalink', (!isset($post)) ? Input::old('permalink') : $post->permalink, array('class' => 'input-xlarge'))}}
+                                            <div class="help-inline">Leave blank for automatic alias</div>
+                                            {{ $errors->first('permalink', '<span class="help-inline">:message</span>') }}
                                         </div>
-                                    @endif
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">Is Contact Page?</label>
+                                        <div class="controls line">
+                                            {{ Form::checkbox('contact', 'checked', false, array('id'=>'is-contact')) }}
+                                            {{ $errors->first('title', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
+
+                                    <div id="contact-coords" class="control-group hide">
+                                        <label class="control-label">Map co-ordinates</label>
+                                        <div class="controls line">
+                                            {{ Form::input('text', 'contact_coords', (!isset($post)) ? Input::old('contact_coords') : Setting::value('contact_coords')) }}
+                                            <span class="help-inline">Format: Latitude,Longitude</span>
+                                        </div>
+                                    </div>
 
                                     <div class="control-group {{{ $errors->has('image') ? 'error' : '' }}}">
                                         <label class="control-label">Image <span class="red">*</span></label>
@@ -81,16 +94,6 @@
                                             <a class="btn btn-primary insert-media" id="insert-media" href="#"> Insert Media</a>
                                         </div>
                                     </div>
-
-                                    @if (isset($post) && $post->permalink == 'contact')
-                                        <div class="control-group">
-                                            <label class="control-label">Map co-ordinates</label>
-                                            <div class="controls line">
-                                                {{ Form::input('text', 'contact_coords', (!isset($post)) ? Input::old('contact_coords') : Setting::value('contact_coords')) }}
-                                                <span class="help-inline">Format: Latitude,Longitude</span>
-                                            </div>
-                                        </div>
-                                    @endif
 
                                     <div class="control-group {{{ $errors->has('content') ? 'error' : '' }}}">
                                         <label class="control-label">Description <span class="red">*</span></label>
@@ -218,6 +221,14 @@
             });
         });
 
+        $('#is-contact').on('change', function(e) {
+            contact_coords = $('#contact-coords');
+            if ($(this).is(':checked')) {
+                contact_coords.show();
+            } else {
+                contact_coords.hide();
+            }
+        });
         MediaSelection.init('image');
     </script>
 @stop

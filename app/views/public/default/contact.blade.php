@@ -4,7 +4,7 @@
 @section('content')
     <div class="indent">
 
-        @if (Setting::value('contact_coords') != '')
+        @if (isset($post->extras['contact_coords']))
             <div class="container">
                 <div class="grid_12">
 
@@ -72,12 +72,12 @@
 
             </div>
 
-            @if ($contact->content != '')
+            @if ($post->content != '')
                 <div class="grid_4">
                     <div class="prefix_1_2">
                         <h4 class="alt-title">contacts:</h4>
 
-                        {{ $contact->content }}
+                        {{ $post->content }}
 
                     </div>
                 </div>
@@ -92,14 +92,16 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     {{ HTML::script('assets/public/default/js/jquery.ui.map.js') }}
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var zoom= $('#map_canvas').gmap('option', 'zoom');
+    @if (isset($post->extras['contact_coords']))
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var zoom= $('#map_canvas').gmap('option', 'zoom');
 
-            $('#map_canvas').gmap().bind('init', function(ev, map) {
-                $('#map_canvas').gmap('addMarker', {'position': '{{ Setting::value("contact_coords") }}', 'bounds': true});
-                $('#map_canvas').gmap('option', 'zoom', 12);
+                $('#map_canvas').gmap().bind('init', function(ev, map) {
+                    $('#map_canvas').gmap('addMarker', {'position': '{{ $post->extras['contact_coords'] }}', 'bounds': true});
+                    $('#map_canvas').gmap('option', 'zoom', 12);
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 @stop

@@ -13,9 +13,9 @@ use Robbo\Presenter\PresentableInterface;
 use Carbon\Carbon;
 
 class Post extends Eloquent implements PresentableInterface {
-	protected $table = 'posts';
+    protected $table = 'posts';
 
-    protected $fillable = array('title', 'permalink', 'image', 'content', 'status', 'target', 'featured', 'publish_start', 'publish_end', 'meta_title', 'meta_description', 'meta_keywords', 'type', 'hits', 'created_by', 'updated_by');
+    protected $fillable = array('title', 'permalink', 'image', 'content', 'status', 'target', 'featured', 'publish_start', 'publish_end', 'meta_title', 'meta_description', 'meta_keywords', 'type', 'hits', 'extras', 'created_by', 'updated_by');
     protected $guarded = array('id', 'categories');
 
     // Path in the public folder to upload image and its corresponding thumbnail
@@ -40,6 +40,13 @@ class Post extends Eloquent implements PresentableInterface {
     {
         App::make('Components\\Posts\\Validation\\PostValidator')->validateForCreation($attributes);
 
+        $extras = array();
+        $extras['contact_page'] = isset($attributes['contact']);
+        $extras['contact_coords'] = isset($attributes['contact_coords']) ?
+            $attributes['contact_coords'] : '';
+
+        $attributes['extras'] = json_encode($extras);
+
         $attributes['featured'] = (isset($attributes['featured'])) ? true : false;
         $attributes['created_by'] = current_user()->id;
 
@@ -54,6 +61,13 @@ class Post extends Eloquent implements PresentableInterface {
     public function update(array $attributes = array())
     {
         App::make('Components\\Posts\\Validation\\PostValidator')->validateForUpdate($attributes);
+
+        $extras = array();
+        $extras['contact_page'] = isset($attributes['contact']);
+        $extras['contact_coords'] = isset($attributes['contact_coords']) ?
+            $attributes['contact_coords'] : '';
+
+        $attributes['extras'] = json_encode($extras);
 
         $attributes['featured'] = (isset($attributes['featured'])) ? true : false;
         $attributes['updated_by'] = current_user()->id;
@@ -109,8 +123,8 @@ class Post extends Eloquent implements PresentableInterface {
                 }
 
                 $image->save($this->images_path . $file_name)
-                        ->fit(640, 180)
-                        ->save($this->thumbs_path . $file_name);
+                    ->fit(640, 180)
+                    ->save($this->thumbs_path . $file_name);
 
                 $file_name = $this->images_path . $file_name;
 
@@ -119,7 +133,7 @@ class Post extends Eloquent implements PresentableInterface {
                 $file_name = $file;
 
                 $image->fit(640, 180)
-                        ->save($this->thumbs_path . basename($file_name));
+                    ->save($this->thumbs_path . basename($file_name));
             }
 
             $this->attributes['image'] = $file_name;
@@ -201,14 +215,14 @@ class Post extends Eloquent implements PresentableInterface {
     public function scopePublished($query)
     {
         return $query->where('status', '=', 'published')
-                        ->where(function($query) {
-                            $query->where('publish_start', '<', Carbon::now())
-                                    ->orWhereNull('publish_start');
-                        })
-                        ->where(function($query) {
-                            $query->where('publish_end', '>', Carbon::now())
-                                    ->orWhereNull('publish_end');
-                        });
+            ->where(function ($query) {
+                $query->where('publish_start', '<', Carbon::now())
+                    ->orWhereNull('publish_start');
+            })
+            ->where(function ($query) {
+                $query->where('publish_end', '>', Carbon::now())
+                    ->orWhereNull('publish_end');
+            });
     }
 
     /**
@@ -217,7 +231,7 @@ class Post extends Eloquent implements PresentableInterface {
      * @param  string $type
      * @return query
      */
-    public function scopeType($query, $type='post')
+    public function scopeType($query, $type = 'post')
     {
         return $query->where('type', '=', $type);
     }
@@ -237,7 +251,7 @@ class Post extends Eloquent implements PresentableInterface {
      * @param  string $target
      * @return Query
      */
-    public function scopeTarget($query, $target='public')
+    public function scopeTarget($query, $target = 'public')
     {
         return $query->where('target', '=', $target);
     }
@@ -249,10 +263,10 @@ class Post extends Eloquent implements PresentableInterface {
     public static function all_targets()
     {
         return array(
-                'public'  => 'Public',
-                'admin'   => 'Admin',
-                'backend' => 'Backend'
-            );
+            'public'  => 'Public',
+            'admin'   => 'Admin',
+            'backend' => 'Backend'
+        );
     }
 
     /**
@@ -262,11 +276,11 @@ class Post extends Eloquent implements PresentableInterface {
     public static function all_status()
     {
         return array(
-                'published'   => 'Publish',
-                'unpublished' => 'Unpublish',
-                'drafted'     => 'Draft',
-                'archived'    => 'Archive'
-            );
+            'published'   => 'Publish',
+            'unpublished' => 'Unpublish',
+            'drafted'     => 'Draft',
+            'archived'    => 'Archive'
+        );
     }
 
     /**
