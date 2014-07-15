@@ -60,13 +60,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group">
-                                        <label class="control-label">Is Contact Page?</label>
-                                        <div class="controls line">
-                                            {{ Form::checkbox('contact', 'checked', false, array('id'=>'is-contact')) }}
-                                            {{ $errors->first('title', '<span class="help-inline">:message</span>') }}
+                                    @if ($type == 'page')
+                                        <div class="control-group">
+                                            <label class="control-label">Is Contact Page?</label>
+                                            <div class="controls line">
+                                                {{ Form::checkbox('contact', 'checked', false, array('id'=>'is-contact')) }}
+                                                {{ $errors->first('title', '<span class="help-inline">:message</span>') }}
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
 
                                     <div id="contact-coords" class="control-group hide">
                                         <label class="control-label">Map co-ordinates</label>
