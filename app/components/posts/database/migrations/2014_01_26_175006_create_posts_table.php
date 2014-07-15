@@ -18,8 +18,8 @@ class CreatePostsTable extends Migration {
 			$table->string('permalink');
 			$table->string('image')->nullable();
 			$table->text('content');
-            $table->enum('status', array('published', 'unpublished', 'drafted', 'archived'))
-                ->default('published');
+			$table->enum('status', array('published', 'unpublished', 'drafted', 'archived'))
+				->default('published');
 			$table->string('target');
 			// $table->integer('language_id')->unsigned();
 			$table->boolean('featured')->default(false);
@@ -28,9 +28,9 @@ class CreatePostsTable extends Migration {
 			$table->string('meta_title')->nullable();
 			$table->string('meta_description')->nullable();
 			$table->string('meta_keywords')->nullable();
-            $table->enum('type', array('page', 'post', 'con tact'))->default('post');
+			$table->enum('type', array('page', 'post'))->default('post');
 			$table->integer('hits')->default(0);
-            $table->text('extras')->nullable();
+			$table->text('extras')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();
 			$table->timestamps();
