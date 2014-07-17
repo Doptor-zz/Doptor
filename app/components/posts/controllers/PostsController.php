@@ -60,9 +60,16 @@ class PostsController extends BaseController {
 
         $post->hits += 1;
         $post->save();
+        $post->extras = json_decode($post->extras, true);
+
+        if (isset($post->extras['contact_page']) && $post->extras['contact_page']) {
+            $view = 'public.'.$this->current_theme.'.contact';
+        } else {
+            $view = 'public.'.$this->current_theme.'.posts.show';
+        }
 
         $this->layout->title = $post->title;
-        $this->layout->content = View::make('public.'.$this->current_theme.'.posts.show')
+        $this->layout->content = View::make($view)
                                         ->with('post', $post)
                                         ->with('type', $this->type);
     }

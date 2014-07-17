@@ -26,11 +26,15 @@ class BaseController extends Controller {
     {
         list($this->link_type, $this->link, $this->layout, $this->current_theme) = current_section();
 
-        \View::share('link_type', $this->link_type);
+        View::share('link_type', $this->link_type);
+
+        $website_settings = Setting::lists('value', 'name');
+
+        View::share('website_settings', $website_settings);
 
         $this->user = current_user();
 
-        \View::share('current_user', $this->user);
+        View::share('current_user', $this->user);
     }
 
 	/**

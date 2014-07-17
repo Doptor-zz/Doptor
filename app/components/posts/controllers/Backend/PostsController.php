@@ -141,13 +141,6 @@ class PostsController extends BaseController {
 
             $post->categories()->sync($categories);
 
-            if (isset($input['contact_coords'])) {
-                $config = \Setting::findOrCreate('contact_coords');
-                $config->name = 'contact_coords';
-                $config->value = $input['contact_coords'];
-                $config->save();
-            }
-
             $redirect = (isset($input['form_save'])) ? "backend/{$input['type']}s" : "backend/{$input['type']}s/create";
 
             return Redirect::to($redirect)

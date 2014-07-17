@@ -13,7 +13,7 @@ class DatabaseSeeder extends \Seeder {
 		// $this->call('SentrySeeder');
 		$this->call('FormCategoriesTableSeeder');
 		// $this->call('MenucategoriesTableSeeder');
-		$this->call('PostsTableSeeder');
+		// $this->call('PostsTableSeeder');
 		$this->call('CategoriesTableSeeder');
 		$this->call('ThemesTableSeeder');
 	}

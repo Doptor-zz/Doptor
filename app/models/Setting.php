@@ -9,6 +9,7 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+
 class Setting extends Eloquent {
 
     protected $table = 'settings';
@@ -21,10 +22,13 @@ class Setting extends Eloquent {
 	 * Finds the entry with the specified name.
 	 * If not found, creates it.
 	 */
-	public function scopeFindOrCreate($query, $name)
+	public function scopeFindOrCreate($query, $name, $value)
 	{
 	    $obj = $query->whereName($name)->first();
-	    return $obj ?: new static;
+	    $config = $obj ?: new static;
+	    $config->name = $name;
+	    $config->value = $value;
+	    $config->save();
 	}
 
 	/**

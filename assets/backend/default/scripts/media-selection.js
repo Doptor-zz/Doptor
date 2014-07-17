@@ -24,7 +24,7 @@ var MediaSelection = function () {
                     var image = $(this).parent().find('.filename').first().text();
                 }
 
-                var image_path = folder_name+'/'+image;
+                var image_path = folder_name.trimLeft()+'/'+image;
 
                 if (calling_div == 'insert-main-image') {
 

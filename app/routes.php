@@ -21,8 +21,6 @@ Route::get('/', function() {
 
 Route::get('home', 'HomeController@index');
 Route::get('wrapper/{id}', 'HomeController@wrapper');
-Route::get('contact', 'HomeController@getContact');
-Route::post('contact', 'HomeController@postContact');
 
 Route::group(array('prefix' => 'install', 'before' => 'isInstalled'), function() {
     Route::get('{step?}', 'InstallController@index');
