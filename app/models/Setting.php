@@ -16,6 +16,8 @@ class Setting extends Eloquent {
 
 	protected $guarded = array();
 
+	public static $protected_settings = array('email_host', 'email_port', 'email_encryption', 'email_username', 'email_password');
+
 	public static $rules = array();
 
 	/**
@@ -60,6 +62,12 @@ class Setting extends Eloquent {
 	 */
 	public static function value($name, $default='')
 	{
+		// Return blank if user wants to access protected setting from public
+		if (!(Request::is('backend/*') || Request::is('admin/*')) &&
+			in_array($name, static::$protected_settings)) {
+			return '';
+		}
+
 		$setting = static::whereName($name)->first();
 
 		if (ends_with($name, '_offline')) {
