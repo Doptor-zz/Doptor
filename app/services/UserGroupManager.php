@@ -66,7 +66,7 @@ class UserGroupManager {
         $permissions = $this->setPermissions($input);
 
         return Sentry::createGroup(array(
-            'name' => $input['name'],
+            'name'        => $input['name'],
             'permissions' => $permissions
         ));
     }
@@ -105,7 +105,7 @@ class UserGroupManager {
             $users = Sentry::findAllUsersInGroup($group);
 
             if ($users->count() > 0) {
-                throw new Exception('Some users are associated with the selected user group. <br>
+                throw new Exception('Some users are associated with the selected user group.
                 First change the user group of those users or delete those users.');
             }
 

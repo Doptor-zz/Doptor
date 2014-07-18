@@ -72,43 +72,4 @@ class UserGroup extends Eloquent {
                 'modules' => Module::lists('name', 'alias')
             );
     }
-
-    /**
-     * Set user permissions based on the input that the user provided
-     */
-    public static function set_permissions()
-    {
-        // dd(Input::all());
-        if (Input::get('superuser') == '1') {
-            // If superuser permissions, then no need to assign any other permissions
-            $permissions = array('superuser' => 1);
-        } else {
-            $permissions = array('superuser' => 0);
-            $permissions['backend'] = (Input::get('backend') == '1') ? 1 : 0;
-            $access_areas = UserGroup::access_areas();
-            foreach ($access_areas['resourceful'] as $abbr => $full) {
-                $permissions[$abbr . '.index'] = (Input::get("{$abbr}_index") == '1') ? 1 : 0;
-                $permissions[$abbr . '.show'] = (Input::get("{$abbr}_show") == '1') ? 1 : 0;
-                $permissions[$abbr . '.create'] = (Input::get("{$abbr}_create") == '1') ? 1 : 0;
-                $permissions[$abbr . '.edit'] = (Input::get("{$abbr}_edit") == '1') ? 1 : 0;
-                $permissions[$abbr . '.destroy'] = (Input::get("{$abbr}_destroy") == '1') ? 1 : 0;
-            }
-
-            foreach ($access_areas['others'] as $name => $all_permissions) {
-                foreach ((array)$all_permissions as $permission => $desc) {
-                    $permissions["{$name}.{$permission}"] = (Input::get("{$name}_{$permission}") == '1') ? 1 : 0;
-                }
-            }
-
-            foreach ($access_areas['modules'] as $alias => $name) {
-                $permissions["modules.{$alias}.index"] = (Input::get("modules_{$alias}_index") == '1') ? 1 : 0;
-                $permissions["modules.{$alias}.show"] = (Input::get("modules_{$alias}_show") == '1') ? 1 : 0;
-                $permissions["modules.{$alias}.create"] = (Input::get("modules_{$alias}_create") == '1') ? 1 : 0;
-                $permissions["modules.{$alias}.edit"] = (Input::get("modules_{$alias}_edit") == '1') ? 1 : 0;
-                $permissions["modules.{$alias}.destroy"] = (Input::get("modules_{$alias}_destroy") == '1') ? 1 : 0;
-            }
-        }
-        // dd($permissions);
-        return $permissions;
-    }
 }
