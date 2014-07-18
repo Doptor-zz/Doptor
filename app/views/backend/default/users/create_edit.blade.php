@@ -82,6 +82,17 @@
                                     </div>
 
                                     @if (!Request::is('*profile*'))
+                                        {{-- Don't show status selection while editing profile --}}
+                                        <div class="control-group">
+                                            <label class="control-label">Status</label>
+                                            <div class="controls">
+                                                @if (isset($user))
+                                                    {{ Form::select('status', User::status(), ($user->is_banned)?'0':'1', array('class'=>'chosen input-xlarge')) }}
+                                                @else
+                                                    {{ Form::select('status', User::status(), 1, array('class'=>'chosen input-xlarge')) }}
+                                                @endif
+                                            </div>
+                                        </div>
                                         {{-- Don't show user group selection while editing profile --}}
                                         <div class="control-group">
                                             <label class="control-label">User Group</label>

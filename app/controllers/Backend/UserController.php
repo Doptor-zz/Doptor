@@ -12,9 +12,23 @@ Description :  Doptor is Opensource CMS.
 
 use App, Exception, Input, Redirect, View;
 use Sentry;
+
+use Services\UserManager;
+use Services\UserGroupManager;
 use User;
 
 class UserController extends AdminController {
+
+    protected $user_manager;
+    protected $usergroup_manager;
+
+    public function __construct(UserManager $user_manager, UserGroupManager $usergroup_manager)
+    {
+        $this->user_manager = $user_manager;
+        $this->usergroup_manager = $usergroup_manager;
+
+        parent::__construct();
+    }
 
     /**
      * Display a listing of the users.
@@ -22,7 +36,7 @@ class UserController extends AdminController {
      */
     public function index()
     {
-        $users = Sentry::findAllUsers();
+        $users = $this->user_manager->findAllUsers();
         // dd($users);
         $this->layout->title = 'All Users';
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.index')
@@ -47,25 +61,18 @@ class UserController extends AdminController {
     {
         try {
             $input = Input::all();
-            // dd($input);
 
             $validator = User::validate_registration($input);
 
             if ($validator->passes()) {
-                $photo = User::upload_photo($input['photo']);
-                $user = Sentry::createUser(array(
-                        'username'   => $input['username'],
-                        'email'      => $input['email'],
-                        'password'   => $input['password'],
-                        'photo'      => $photo,
-                        'first_name' => $input['first_name'],
-                        'last_name'  => $input['last_name'],
-                        'activated'  => 1,
-                ));
+                // Create user and add to selected user group
+                $user = $this->user_manager->createUser($input);
 
-                // Assign user groups
-                $userGroup = Sentry::findGroupById($input['user-group']);
-                $user->addGroup($userGroup);
+                if ($input['status'] == 1) {
+                    $this->user_manager->activateUser($user->id);
+                } else {
+                    $this->user_manager->deactivateUser($user->id);
+                }
 
                 return Redirect::back()
                                 ->with('success_message', "The user {$input['username']} was created.");
@@ -104,7 +111,7 @@ class UserController extends AdminController {
      */
     public function edit($id)
     {
-        $user = Sentry::findUserById($id);
+        $user = $this->user_manager->findUserById($id);
         $this->layout->title = 'Edit User';
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit')
                                         ->with('user', $user);
@@ -128,43 +135,20 @@ class UserController extends AdminController {
                 $redirect_to = $this->link_type . '/profile';
             }
             $input = Input::all();
-            // dd($input);
 
             $validator = User::validate_change($input, $id);
             if ($validator->passes()) {
-                // Find the user using the user id
-                $user = Sentry::findUserById($id);
+                // Update the current user
+                $this->user_manager->updateUser($id, $input);
 
-                $photo = User::upload_photo($input['photo'], $id);
-                // Update the user details
-                $user->username = $input['username'];
-                $user->email    = $input['email'];
-                if ($input['password'] != '') {
-                    $user->password   = $input['password'];
-                }
-                $user->photo      = $photo;
-                $user->first_name = $input['first_name'];
-                $user->last_name  = $input['last_name'];
-
-                // Update the user
-                if ($user->save()) {
-                    // Only if user-group selection is present or profile is not being edited
-                    if (isset($input['user-group']) && !\Str::contains(\URL::previous(), '/profiles/')) {
-                        // Remove previous groups
-                        foreach (Sentry::findAllGroups() as $group) {
-                            $user->removeGroup($group);
-                        }
-                        // Assign user groups
-                        $userGroup = Sentry::findGroupById($input['user-group']);
-                        $user->addGroup($userGroup);
-                    }
-
-                    return Redirect::to($redirect_to)
-                                        ->with('success_message', "User information was updated.");
+                if ($input['status'] == 1) {
+                    $this->user_manager->activateUser($id);
                 } else {
-                    return Redirect::to($redirect_to)
-                                        ->with('error_message', "User information was not updated.");
+                    $this->user_manager->deactivateUser($id);
                 }
+
+                return Redirect::to($redirect_to)
+                    ->with('success_message', "The user {$input['username']} was updated.");
 
             } else {
                 // Form validation failed
@@ -179,7 +163,7 @@ class UserController extends AdminController {
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified user.
      *
      * @param  int  $id
      * @return Response
@@ -187,76 +171,48 @@ class UserController extends AdminController {
     public function destroy($id=null)
     {
         try {
-            // If multiple ids are specified
-            if ($id == 'multiple') {
-                $selected_ids = trim(Input::get('selected_ids'));
-                if ($selected_ids == '') {
-                    return Redirect::back()
-                                    ->with('error_message', "Nothing was selected to delete");
-                }
-                $selected_ids = explode(' ', $selected_ids);
-            } else {
-                $selected_ids = array($id);
-            }
+            $message = $this->user_manager->deleteUser($id);
 
-            foreach ($selected_ids as $id) {
-                // Find the user using the user id
-                $user = Sentry::findUserById($id);
-                if ($id == current_user()->id) {
-                    return Redirect::to($this->link_type . '/users')
-                                    ->with('error_message', 'You can not delete yourself.');
-                }
-                $user->delete();
-            }
-
-            $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-            $message = 'The user' . $wasOrWere . ' deleted.';
-
-            return Redirect::to($this->link_type . '/users')
-                                ->with('success_message', $message);
-
-        } catch (\CartalystSentryUsersUserNotFoundException $e)
-        {
-            return Redirect::to($this->link_type . '/users')
-                                ->with('error_message', 'User was not found.');
+            return Redirect::to("{$this->link_type}/users")
+                ->with('success_message', $message);
+        } catch (Exception $e) {
+            return Redirect::back()->withInput()->with('error_message', $e->getMessage());
         }
     }
 
+    /**
+     * Activate the specified user
+     *
+     * @param  int $id User ID
+     * @return Redirect
+     */
     public function activate($id)
     {
         try {
-            // Find the user using the user id
-            $throttle = Sentry::findThrottlerByUserId($id);
+            $this->user_manager->activateUser($id);
 
-            // UnBan the user
-            $throttle->UnBan();
-
-            return Redirect::to($this->link_type . '/users')
-                                    ->with('success_message', "User was activated.");
-        } catch (CartalystSentryUsersUserNotFoundException $e) {
-            return Redirect::to($this->link_type . '/users')
-                                ->with('error_message', 'User was not found.');
+            return Redirect::to("{$this->link_type}/users")
+                ->with('success_message', "User was activated.");
+        } catch (Exception $e) {
+            return Redirect::back()->withInput()->with('error_message', $e->getMessage());
         }
     }
 
+    /**
+     * Deactivate the specified user
+     *
+     * @param  int $id User ID
+     * @return Redirect
+     */
     public function deactivate($id)
     {
-        if ($id == current_user()->id) {
-            return Redirect::to($this->link_type . '/users')
-                            ->with('error_message', 'You can not deactivate yourself.');
-        }
         try {
-            // Find the user using the user id
-            $throttle = Sentry::findThrottlerByUserId($id);
+            $this->user_manager->deactivateUser($id);
 
-            // Ban the user
-            $throttle->ban();
-
-            return Redirect::to($this->link_type . '/users')
-                                    ->with('success_message', "User was deactivated.");
-        } catch (CartalystSentryUsersUserNotFoundException $e) {
-            return Redirect::to($this->link_type . '/users')
-                                ->with('error_message', 'User was not found.');
+            return Redirect::to("{$this->link_type}/users")
+                ->with('success_message', "User was deactivated.");
+        } catch (Exception $e) {
+            return Redirect::back()->withInput()->with('error_message', $e->getMessage());
         }
     }
 }
