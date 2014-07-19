@@ -136,8 +136,8 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::resource('form-builder', 'Backend\FormBuilderController');
     Route::resource('form-categories', 'Backend\FormCategoriesController');
 
-    Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
-    Route::post('users/{id}/deactivate', array('as' => 'backend.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
+    Route::post('users/{id}/activate', array('as' => 'admin.users.activate', 'uses' => 'Backend\UserController@activate'));
+    Route::post('users/{id}/deactivate', array('as' => 'admin.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
 
     Route::get('synchronize', 'Backend\SynchronizeController@getIndex');
     Route::get('synchronize/localToWeb', 'Backend\SynchronizeController@getLocalToWeb');
