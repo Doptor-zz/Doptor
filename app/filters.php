@@ -65,8 +65,6 @@ Route::filter('auth.permissions', function()
     $route = preg_replace('/(admin(\.|\/)?|backend(\.|\/)?)?/', '', $route);
     $route = str_replace('.store', '.create', $route);
     $route = str_replace('.update', '.edit', $route);
-    // var_dump($route);
-    // die;
 
     if(!current_user()->hasAccess($route)) {
         return App::abort(401);

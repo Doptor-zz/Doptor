@@ -11,6 +11,8 @@ Description :  Doptor is Opensource CMS.
 */
 
 use Exception;
+use Str;
+
 use Cartalyst\Sentry\Groups\GroupNotFoundException;
 use Sentry;
 
@@ -143,6 +145,15 @@ class UserGroupManager {
                 foreach ((array)$all_permissions as $permission => $desc) {
                     $permissions["{$name}.{$permission}"] = (isset($input["{$name}_{$permission}"])) ? 1 : 0;
                 }
+            }
+
+            foreach ($access_areas['modules'] as $alias => $name) {
+                $alias_lower = Str::lower($alias);
+                $permissions["modules.{$alias_lower}.index"] = (isset($input["modules_{$alias}_index"])) ? 1 : 0;
+                $permissions["modules.{$alias_lower}.show"] = (isset($input["modules_{$alias}_show"])) ? 1 : 0;
+                $permissions["modules.{$alias_lower}.create"] = (isset($input["modules_{$alias}_create"])) ? 1 : 0;
+                $permissions["modules.{$alias_lower}.edit"] = (isset($input["modules_{$alias}_edit"])) ? 1 : 0;
+                $permissions["modules.{$alias_lower}.destroy"] = (isset($input["modules_{$alias}_destroy"])) ? 1 : 0;
             }
         }
 
