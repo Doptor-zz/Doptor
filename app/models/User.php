@@ -85,8 +85,8 @@ class User extends Eloquent {
     public static function status()
     {
         return array(
-                1 => 'Activated',
-                0 => 'Not Activated'
+                1 => 'Active',
+                0 => 'Inactive'
             );
     }
 

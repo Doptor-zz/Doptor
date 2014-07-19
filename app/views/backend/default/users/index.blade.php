@@ -59,7 +59,7 @@
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                     <td>{{ implode(', ', $user->user_groups) }}</td>
-                                    <td>{{ $user->is_banned ? 'Deactivated' : 'Activated' }}</td>
+                                    <td>{{ $user->is_banned ? 'Inactive' : 'Active' }}</td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>
                                         @if ($current_user->hasAccess('users.edit'))
