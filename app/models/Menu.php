@@ -273,12 +273,24 @@ class Menu extends Eloquent implements PresentableInterface {
             $pages['pages/' . $page->permalink] = $page->title;
         }
 
+        $contacts = array();
+        foreach (Components\ContactManager\Models\ContactDetail::get(array('name', 'alias')) as $contact) {
+            $contacts['contact/show/' . $contact->alias] = $contact->name;
+        }
+
+        $contact_categories = array();
+        foreach (Components\ContactManager\Models\ContactCategory::get(array('name', 'alias')) as $contact_cat) {
+            $contact_categories['contact/' . $contact_cat->alias] = $contact_cat->name;
+        }
+
         return array(
-                '/'       => 'Home',
-                'Pages'   => $pages,
-                'posts'   => 'Posts',
-                'Modules' => $modules,
-                'manual'  => 'External link'
+                '/'                  => 'Home',
+                'Pages'              => $pages,
+                'posts'              => 'Posts',
+                'Modules'            => $modules,
+                'Contact Categories' => $contact_categories,
+                'Contacts'           => $contacts,
+                'manual'             => 'External link'
             );
     }
 

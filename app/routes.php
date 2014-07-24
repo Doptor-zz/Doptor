@@ -37,6 +37,10 @@ Route::post('forgot_password', 'AuthController@postForgotPassword');
 Route::get('reset_password/{id}/{token}/{target?}', 'AuthController@getResetPassword');
 Route::post('reset_password', 'AuthController@postResetPassword');
 
+Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicController@showCategory');
+Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
+Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\PublicController@sendMessage');
+
 Route::get('admin/profile', 'Backend\ProfileController@showProfile');
 Route::get('admin/profile/edit', 'Backend\ProfileController@editProfile');
 
@@ -114,6 +118,29 @@ Route::group(array('prefix' => 'backend'), function() {
     Route::get('report-builder', 'Backend\ReportBuilderController@index');
     Route::post('report-builder', array('uses' => 'Backend\ReportBuilderController@postIndex', 'as' => 'backend.report-builder.store'));
     Route::get('report-builder/module-fields/{id}', 'Backend\ReportBuilderController@getModuleFields');
+
+    Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
+
+    Route::resource('contact-manager',
+                    'Components\ContactManager\Controllers\Backend\ContactController');
+    Route::get('contact-manager/create/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@create',
+                        'as' => 'backend.contact-manager.create'
+                    )
+                );
+    Route::get('contact-manager/{id}/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@show',
+                        'as' => 'backend.contact-manager.show'
+                    )
+                );
+    Route::get('contact-manager/{id}/edit/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@edit',
+                        'as' => 'backend.contact-manager.edit'
+                    )
+                );
 });
 
 /*
@@ -175,6 +202,29 @@ Route::group(array('prefix' => 'admin'), function() {
 
     Route::post('theme-manager/apply/{id}', array('uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply', 'as' => 'admin.theme-manager.apply'));
     Route::resource('theme-manager', 'Components\ThemeManager\Controllers\Backend\ThemeManagerController');
+
+    Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
+
+    Route::resource('contact-manager',
+                    'Components\ContactManager\Controllers\Backend\ContactController');
+    Route::get('contact-manager/create/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@create',
+                        'as' => 'backend.contact-manager.create'
+                    )
+                );
+    Route::get('contact-manager/{id}/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@show',
+                        'as' => 'backend.contact-manager.show'
+                    )
+                );
+    Route::get('contact-manager/{id}/edit/{form_id}',
+                    array(
+                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@edit',
+                        'as' => 'backend.contact-manager.edit'
+                    )
+                );
 });
 
 // Custom error handling for http codes
