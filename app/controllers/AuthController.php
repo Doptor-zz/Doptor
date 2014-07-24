@@ -97,7 +97,7 @@ class AuthController extends BaseController {
                 $resetCode = $user->getResetPasswordCode();
 
                 $data = array(
-                            'user'      => $user,
+                            'user_id'   => $user->id,
                             'resetCode' => $resetCode
                         );
 
