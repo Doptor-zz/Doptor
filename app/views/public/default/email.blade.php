@@ -9,6 +9,6 @@
     <div>Name: {{ $name }}</div>
     <div>Email: {{ $email }} </div>
     <div>Subject: {{ $subject }} </div>
-    <div>Comments: {{ $comments }} </div>
+    <div>Message: {{ $message_text }} </div>
 </body>
 </html>
