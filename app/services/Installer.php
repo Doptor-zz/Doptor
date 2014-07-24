@@ -89,6 +89,7 @@ class Installer {
                 Artisan::call('migrate', array('--path' => 'app/modules/slideshow/database/migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/components/media_manager/database/migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/components/theme_manager/database/migrations/'));
+                Artisan::call('migrate', array('--path' => 'app/components/ContactManager/Database/Migrations/'));
 
                 $this->createSuperAdmin($input);
 
