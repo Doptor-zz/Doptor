@@ -141,10 +141,13 @@ class UserController extends AdminController {
                 // Update the current user
                 $this->user_manager->updateUser($id, $input);
 
-                if ($input['status'] == 1) {
-                    $this->user_manager->activateUser($id);
-                } else {
-                    $this->user_manager->deactivateUser($id);
+                if (isset($input['status'])) {
+                    // Don not change the user status during profile update
+                    if ($input['status'] == 1) {
+                        $this->user_manager->activateUser($id);
+                    } else {
+                        $this->user_manager->deactivateUser($id);
+                    }
                 }
 
                 return Redirect::to($redirect_to)
