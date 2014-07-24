@@ -31,13 +31,15 @@
 			"app/tests/TestCase.php",
 			"app/components",
 			"app/components/posts/database/migrations",
+			"app/components/ContactManager/Database/Migrations",
 			"app/components/posts/database/seeds"
 		],
 		"files": [
 			"app/helpers.php"
 		],
 		"psr-4": {
-			"Modules\\": "app/modules"
+			"Modules\\": "app/modules",
+			"Components\\": "app/components"
 		}
 	},
 	"scripts": {
