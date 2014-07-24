@@ -27,16 +27,17 @@ function get_env($key, $value='')
 /**
  * Get the value of the setting
  * @param  string $key   name of the setting
- * @param  string $value default value
+ * @param  string $default default value
  * @return string
  */
-function get_setting($key, $value='')
+function get_setting($key, $default='')
 {
     if(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR'])) {
         return '';
     }
     if (Schema::hasTable('settings')) {
-        $value = Setting::value($key);
+        $setting = Setting::whereName($key)->first();
+        $value = ($setting) ? $setting->value : $default;
         if ($value == 'true') {
             return true;
         } elseif ($value == 'false') {
@@ -45,7 +46,7 @@ function get_setting($key, $value='')
             return $value;
         }
     } else {
-        return $value;
+        return $default;
     }
 }
 
