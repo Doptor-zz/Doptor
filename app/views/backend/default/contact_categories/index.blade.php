@@ -39,9 +39,9 @@
                         </div>
                         @if ($current_user->hasAccess("contact-categories.create"))
                         <div class="btn-group pull-right">
-                            <button data-href="{{ URL::to($link_type . '/contact-categories/create') }}" class="btn btn-success">
+                            <a href="{{ URL::to($link_type . '/contact-categories/create') }}" class="btn btn-success">
                                 Add New <i class="icon-plus"></i>
-                            </button>
+                            </a>
                         </div>
                         @endif
                     </div>

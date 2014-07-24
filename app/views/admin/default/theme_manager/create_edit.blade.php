@@ -2,7 +2,7 @@
     <div class="row-fluid">
         <div class="span12">
             <!-- BEGIN FORM widget-->
-            <div class="widget box blue tabbable">
+            <div class="widget box light-gray tabbable">
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
