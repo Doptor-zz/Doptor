@@ -119,6 +119,31 @@
                </a>
             </li>
             @endif
+            @if (can_access_menu($current_user, array('contact-manager')))
+            <li class="has-sub {{ Request::is('backend/contact-manager*') || Request::is('backend/contact-categories*') ? 'active' : null }} ">
+                <a href="javascript:;">
+                    <i class="icon-book"></i>
+                    <span class="title">Contact Manager</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub">
+                    @if (can_access_menu($current_user, array('contact-manager')))
+                        <li class="{{ Request::is('backend/contact-manager') ? 'active' : null }}">
+                           <a href="{{ URL::to('backend/contact-manager') }}">
+                               Contact Manager
+                           </a>
+                        </li>
+                    @endif
+                    @if (can_access_menu($current_user, array('contact-categories')))
+                        <li class="{{ Request::is('backend/contact-categories') ? 'active' : null }}">
+                           <a href="{{ URL::to('backend/contact-categories') }}">
+                               Contact Categories
+                           </a>
+                        </li>
+                    @endif
+                </ul>
+            </li>
+            @endif
             @if (can_access_menu($current_user, array('theme-manager')))
             <li class="hide {{ Request::is('backend/theme-manager*') ? 'active' : null }}">
                <a href="{{ URL::to('backend/theme-manager') }}">

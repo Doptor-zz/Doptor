@@ -70,6 +70,16 @@
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
+                    <a href="{{ url('backend/contact-manager') }}">
+                        <span class="widget-icon icon-group"></span>
+
+                        <span class="widget-label">Contact Manager</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="span3">
+                <div class="board-widgets black small-widget">
                     <a href="{{ url('backend/theme-manager') }}">
                         <span class="widget-icon icon-eye-open"></span>
 
@@ -77,6 +87,9 @@
                     </a>
                 </div>
             </div>
+
+        </div>
+        <div class="row-fluid">
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
@@ -87,9 +100,6 @@
                     </a>
                 </div>
             </div>
-
-        </div>
-        <div class="row-fluid">
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
