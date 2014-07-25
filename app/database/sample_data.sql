@@ -112,6 +112,88 @@ INSERT INTO `categories` (`id`, `name`, `alias`, `type`, `language_id`, `descrip
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contact_categories`
+--
+
+CREATE TABLE IF NOT EXISTS `contact_categories` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `description` text collate utf8_unicode_ci,
+  `status` varchar(20) collate utf8_unicode_ci NOT NULL default 'published',
+  `created_by` int(10) unsigned NOT NULL,
+  `updated_by` int(10) unsigned default NULL,
+  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  KEY `contact_categories_created_by_index` (`created_by`),
+  KEY `contact_categories_updated_by_index` (`updated_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `contact_categories`
+--
+
+INSERT INTO `contact_categories` (`id`, `name`, `alias`, `description`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Test', 'test', '', 'published', 13, 7, '2014-07-24 05:13:45', '2014-07-25 20:14:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_details`
+--
+
+CREATE TABLE IF NOT EXISTS `contact_details` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `image` varchar(255) collate utf8_unicode_ci default NULL,
+  `email` varchar(255) collate utf8_unicode_ci default NULL,
+  `address` varchar(255) collate utf8_unicode_ci default NULL,
+  `city` varchar(255) collate utf8_unicode_ci default NULL,
+  `state` varchar(255) collate utf8_unicode_ci default NULL,
+  `zip_code` varchar(255) collate utf8_unicode_ci default NULL,
+  `country` varchar(255) collate utf8_unicode_ci default NULL,
+  `telephone` varchar(255) collate utf8_unicode_ci default NULL,
+  `mobile` varchar(255) collate utf8_unicode_ci default NULL,
+  `fax` varchar(255) collate utf8_unicode_ci default NULL,
+  `website` varchar(255) collate utf8_unicode_ci default NULL,
+  `location` text collate utf8_unicode_ci,
+  `display_options` text collate utf8_unicode_ci,
+  `category_id` int(10) unsigned default NULL,
+  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `contact_details`
+--
+
+INSERT INTO `contact_details` (`id`, `name`, `alias`, `image`, `email`, `address`, `city`, `state`, `zip_code`, `country`, `telephone`, `mobile`, `fax`, `website`, `location`, `display_options`, `category_id`, `created_at`, `updated_at`) VALUES
+(1, 'Doptor HQ', 'doptor-hq', '', 'info@doptor.org', 'Silicon Valley', 'Silicon Valley', 'Silicon Valley', '12345678', 'USA', '+0000000000000', '+0000000000000', '+0000000000000', 'www.doptor.org', '{"latitude":"37.383116401049264","longitude":"-122.06344642910767"}', '{"name":1,"image":1,"email":1,"address":1,"city":1,"state":1,"zip_code":1,"country":1,"telephone":1,"mobile":1,"fax":1,"website":1,"location":1}', 1, '2014-07-24 05:18:23', '2014-07-25 20:28:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_emails`
+--
+
+CREATE TABLE IF NOT EXISTS `contact_emails` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `email` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `subject` varchar(255) collate utf8_unicode_ci default NULL,
+  `message` text collate utf8_unicode_ci NOT NULL,
+  `contact_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category_post`
 --
 
@@ -382,7 +464,10 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2014_01_28_153951_create_categories_table', 2),
 ('2014_01_29_063050_pivot_category_post_table', 2),
 ('2014_03_10_020526_create_media_entries_table', 3),
-('2014_03_12_074541_create_themes_table', 4);
+('2014_03_12_074541_create_themes_table', 4),
+('2014_10_14_294335_create_contact_details_table', 5),
+('2014_10_14_437293_create_contact_emails_table', 5),
+('2014_10_21_153951_create_contact_categories_table', 5);
 
 -- --------------------------------------------------------
 
