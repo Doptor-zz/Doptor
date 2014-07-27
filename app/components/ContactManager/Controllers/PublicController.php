@@ -36,6 +36,8 @@ class PublicController extends BackendController {
                                     ->whereAlias($alias)
                                     ->first();
 
+        if (!$category) App::abort(404);
+
         $this->layout->title = "Contact in {$category->name}";
         $this->layout->content = View::make("public.{$this->current_theme}.contact-categories")
             ->with('title', "Contact in {$category->name}")
@@ -53,9 +55,7 @@ class PublicController extends BackendController {
         $model_name = "Components\\ContactManager\\Models\\{$form['model']}";
         $contact = $model_name::whereAlias($alias)->first();
 
-        if (!$contact) {
-            App::abort(404);
-        }
+        if (!$contact) App::abort(404);
 
         $contact->location = json_decode($contact->location, true);
 
