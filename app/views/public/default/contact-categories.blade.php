@@ -17,7 +17,7 @@
                         </a>
                     </figure>
                     <div class="desc">
-                        <h4><a href="#">{{ $contact->name }}</a></h4>
+                        <h4><a href='{{ url("contact/{$category->alias}/{$contact->alias}") }}'>{{ $contact->name }}</a></h4>
                     </div>
                 </li>
             @endforeach
