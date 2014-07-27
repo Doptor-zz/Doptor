@@ -1,11 +1,12 @@
 <?php namespace Components\ContactManager\Controllers;
 /*
 =================================================
-Module Name     :   Contact Manager
-Module Version  :   v0.1
-Compatible CMS  :   v1.2
-Site            :
-Description     :
+CMS Name  :  DOPTOR
+CMS Version :  v1.2
+Available at :  www.doptor.org
+Copyright : Copyright (coffee) 2011 - 2014 Doptor. All rights reserved.
+License : GNU/GPL, visit LICENSE.txt
+Description :  Doptor is Opensource CMS.
 ===================================================
 */
 use App;
@@ -114,6 +115,7 @@ class PublicController extends BackendController {
             ));
 
         $input['message_text'] = $input['message'];
+
         try {
             Mail::send('public.'.$this->current_theme.'.email', $input, function($email_message) use($input, $contact) {
                 $email_message->from($input['email'], $input['name']);
