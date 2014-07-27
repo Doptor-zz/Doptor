@@ -37,7 +37,7 @@ class PublicController extends BackendController {
                                     ->first();
 
         $this->layout->title = "Contact in {$category->name}";
-        $this->layout->content = View::make("public.default.contact-categories")
+        $this->layout->content = View::make("public.{$this->current_theme}.contact-categories")
             ->with('title', "Contact in {$category->name}")
             ->with('category', $category);
     }
@@ -78,7 +78,7 @@ class PublicController extends BackendController {
         });
 
         $this->layout->title = "Contact Page for {$contact->name}";
-        $this->layout->content = View::make("public.default.contact-manager")
+        $this->layout->content = View::make("public.{$this->current_theme}.contact-manager")
             ->with('title', "Contact Page for {$contact->name}")
             ->with('contact', $contact)
             ->with('fields', $fields);
