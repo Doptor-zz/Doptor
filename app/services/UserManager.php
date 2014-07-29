@@ -189,7 +189,7 @@ class UserManager {
         $image->fit(128, 128)
             ->save($images_path . $file_name);
 
-        return $file_name;
+        return $images_path . '/' . $file_name;
     }
 
     /**

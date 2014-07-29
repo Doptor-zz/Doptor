@@ -1,7 +1,7 @@
 <div class="leftbar leftbar-close clearfix">
     <div class="admin-info clearfix">
         <div class="admin-thumb">
-            {{ HTML::image(url('uploads/users/' . $current_user->photo)) }}
+            {{ HTML::image(url($current_user->photo)) }}
         </div>
         <div class="admin-meta">
             <ul>
