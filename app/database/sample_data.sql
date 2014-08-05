@@ -78,7 +78,28 @@ INSERT INTO `built_modules` (`id`, `name`, `version`, `author`, `website`, `desc
 (3, 'Test Module', '1', 'Andrew', 'http://www.doptor.org', '', '8', 'admin', '/home/tngbdcom/public_html/cms/app/storage/temp/test_module.zip', 'testing_form', '2014-03-22 00:35:16', '2014-03-22 00:35:16');
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `built_reports`
+--
 
+CREATE TABLE IF NOT EXISTS `built_reports` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `author` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `module_id` int(10) unsigned DEFAULT NULL,
+  `model_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `required_fields` text COLLATE utf8_unicode_ci,
+  `created_by` int(10) unsigned NOT NULL,
+  `updated_by` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `built_reports_created_by_index` (`created_by`),
+  KEY `built_reports_updated_by_index` (`updated_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+-- --------------------------------------------------------
 --
 -- Table structure for table `categories`
 --
@@ -541,6 +562,27 @@ INSERT INTO `posts` (`id`, `title`, `permalink`, `image`, `content`, `status`, `
 (11, 'First Post', 'first-post', NULL, '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio mauris, auctor ut varius non, tempus nec nisi. Quisque at tellus risus. Aliquam erat volutpat. Proin et dolor magna. Sed vel metus justo. Mauris eu metus massa. Duis viverra ultricies nisl, ut pharetra eros hendrerit non.</p>\n<p>Phasellus laoreet libero non eros rhoncus sed iaculis ante molestie. Etiam arcu purus, dictum a tincidunt id, ornare sed orci. Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>\n<p>Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'post', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', NULL),
 (12, 'Second Post', 'second-post', NULL, '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio mauris, auctor ut varius non, tempus nec nisi. Quisque at tellus risus. Aliquam erat volutpat. Proin et dolor magna. Sed vel metus justo. Mauris eu metus massa. Duis viverra ultricies nisl, ut pharetra eros hendrerit non.</p>\n<p>Phasellus laoreet libero non eros rhoncus sed iaculis ante molestie. Etiam arcu purus, dictum a tincidunt id, ornare sed orci. Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>\n<p>Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'post', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', NULL),
 (13, 'Help', 'help', NULL, '<p>How to create accounting module :&nbsp;<br />\r\n4 steps for create any kind of module such as accounting, payroll, inventory etc. (we are keepon increase controller for form builder). Now 5%-10% programming (coding) required. Coming soon 0% coding.<br />\r\n&nbsp;<br />\r\nStep -1 : Create one or two form (Builder--&gt;Form Builder), all field name must be unique.&nbsp;<br />\r\nStep -2 : Create a module (Builder --&gt; Module Builder) and select which form you are using.&nbsp;<br />\r\nStep -3 : Install Module. go to Extension --&gt; module --&gt; Install<br />\r\nStep -4 : Create Menu (Menu manager) must assign module.<br />\r\n&nbsp;<br />\r\nThanks<br />\r\nAnd Enjoy.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 'published', 'public', 0, NULL, NULL, NULL, '', '', 'page', 0, 14, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_generators`
+--
+
+CREATE TABLE IF NOT EXISTS `report_generators` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `module_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `module_alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fields` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
