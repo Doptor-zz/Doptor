@@ -152,8 +152,8 @@
                </a>
             </li>
             @endif
-            @if (can_access_menu($current_user, array('form-categories', 'form-builder', 'module-builder')))
-            <li class="has-sub {{ Request::is('backend/form-builder*') || Request::is('backend/form-categories*') || Request::is('backend/module-builder*') ? 'active' : null }} ">
+            @if (can_access_menu($current_user, array('form-categories', 'form-builder', 'module-builder', 'report-builder')))
+            <li class="has-sub {{ Request::is('backend/form-builder*') || Request::is('backend/form-categories*') || Request::is('backend/module-builder*') || Request::is('backend/report-builder*') ? 'active' : null }} ">
                 <a href="javascript:;">
                     <i class="icon-table"></i>
                     <span class="title">Builders</span>
@@ -175,8 +175,8 @@
                 </ul>
             </li>
             @endif
-            @if (can_access_menu($current_user, array('modules')))
-            <li class="has-sub {{ Request::is('backend/modules*') ? 'active' : null }} ">
+            @if (can_access_menu($current_user, array('modules', 'report-generators')))
+            <li class="has-sub {{ Request::is('backend/modules*') || Request::is('backend/report-generators*') ? 'active' : null }} ">
                 <a href="javascript:;">
                     <i class="icon-cog"></i>
                     <span class="title">Extensions</span>
@@ -187,6 +187,13 @@
                         <li class="{{ Request::is('backend/modules/*') ? 'active' : null }}">
                            <a href="{{ URL::to('backend/modules') }}">
                                <span class="title">Modules</span>
+                           </a>
+                        </li>
+                    @endif
+                    @if (can_access_menu($current_user, array('report-generators')))
+                        <li class="{{ Request::is('backend/report-generators/*') ? 'active' : null }}">
+                           <a href="{{ URL::to('backend/report-generators') }}">
+                               <span class="title">Report Generators</span>
                            </a>
                         </li>
                     @endif

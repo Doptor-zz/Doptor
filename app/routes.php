@@ -115,9 +115,14 @@ Route::group(array('prefix' => 'backend'), function() {
     Route::post('theme-manager/apply/{id}', array('uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply', 'as' => 'backend.theme-manager.apply'));
     Route::resource('theme-manager', 'Components\ThemeManager\Controllers\Backend\ThemeManagerController');
 
-    Route::get('report-builder', 'Backend\ReportBuilderController@index');
-    Route::post('report-builder', array('uses' => 'Backend\ReportBuilderController@postIndex', 'as' => 'backend.report-builder.store'));
-    Route::get('report-builder/module-fields/{id}', 'Backend\ReportBuilderController@getModuleFields');
+    Route::get('report-builder/module-fields/{id}', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController@getModuleFields');
+    Route::get('report-builder/download/{id}', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController@download');
+    Route::resource('report-builder', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController');
+
+    Route::get('report-generators/generate/{id}', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@getGenerate');
+    Route::post('report-generators/generate/{id}', array('uses' => 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@postGenerate', 'as' => 'backend.report-generators.generate'));
+    Route::get('report-generators/install', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@create');
+    Route::resource('report-generators', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController');
 
     Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
 
@@ -202,6 +207,12 @@ Route::group(array('prefix' => 'admin'), function() {
 
     Route::post('theme-manager/apply/{id}', array('uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply', 'as' => 'admin.theme-manager.apply'));
     Route::resource('theme-manager', 'Components\ThemeManager\Controllers\Backend\ThemeManagerController');
+
+    Route::get('report-builder/module-fields/{id}', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController@getModuleFields');
+    Route::resource('report-builder', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController');
+    Route::get('report-generators/generate/{id}', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@getGenerate');
+    Route::post('report-generators/generate/{id}', array('uses' => 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@postGenerate', 'as' => 'admin.report-generators.generate'));
+    Route::resource('report-generators', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController');
 
     Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
 
