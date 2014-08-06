@@ -1,127 +1,128 @@
-@section('styles')
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
-    {{ HTML::style('assets/backend/default/plugins/jquery-ui/jquery-ui.css') }}
-@stop
-
 @section('content')
     <div class="row-fluid">
         <div class="span12">
-            <!-- BEGIN EXAMPLE TABLE widget-->
-            <div class="widget light-gray box">
+            <!-- BEGIN TABLE widget-->
+            <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i> Report Builder</h4>
+                    <h4><i class="icon-table"></i>All Report Builders</h4>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                        <a href="#widget-config" data-toggle="modal" class="config"></a>
+                        <a href="javascript:;" class="reload"></a>
+                        <a href="javascript:;" class="remove"></a>
+                    </div>
                 </div>
-                <div class="widget-body form">
-                    {{ Form::open(array('route'=>$link_type . '.report-builder.store', 'method'=>'POST', 'class'=>'form-horizontal', 'id'=>'report-builder')) }}
-
-                        <div class="control-group">
-                            <label class="control-label">Title</label>
-                            <div class="controls">
-                                {{ Form::text('title', Input::old('title')) }}
-                            </div>
+                <div class="widget-body">
+                    <div class="clearfix margin-bottom-10">
+                        <div class="btn-group pull-right">
+                            @if ($current_user->hasAccess('report-builder.create'))
+                                <a href="{{ URL::to($link_type . '/report-builder/create') }}" class="btn btn-success">
+                                    Add New <i class="icon-plus"></i>
+                                </a>
+                            @endif
                         </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Version</th>
+                                <th>Author</th>
+                                <th>Website</th>
+                                <th>Download</th>
+                                <th>Created At</th>
+                                <!-- <th class="span2">Edit</th> -->
+                                <th class="span2"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="menu-list">
+                            @foreach ($report_builders as $report)
+                                <tr class="">
+                                    <td>{{ $report->name }}</td>
+                                    <td>{{ $report->version }}</td>
+                                    <td>{{ $report->author }}</td>
+                                    <td>{{ $report->website }}</td>
+                                    <th>{{ HTML::link(url($link_type . '/report-builder/download/'.$report->id), 'Download') }}</th>
+                                    <td>{{ $report->created_at }}</td>
+                                    <td>
+                                        @if ($current_user->hasAccess('report-builder.edit'))
+                                        <a href="{{ URL::to($link_type . '/report-builder/' . $report->id . '/edit') }}" class="btn btn-mini"><i class="icon-edit"></i></a>
+                                        @endif
 
-                        <div class="control-group">
-                            <label class="control-label">Module <i class="red">*</i></label>
-                            <div class="controls">
-                                {{ Form::select('module_name', Module::lists('name', 'id'), Input::old('module_name'), array('id'=>'module_name', 'class'=>'chosen', 'data-placeholder'=>'Select a module')) }}
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Fields to display in report <i class="red">*</i></label>
-
-                            <div id="module_fields">
-                                <div class="controls line">
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Start date</label>
-                            <div class="controls line">
-                                <div id="datetimepicker_start" class="input-append">
-                                    {{ Form::text('start_date', '', array('data-format'=>'yyyy-MM-dd HH:mm:ss')) }}
-                                    <span class="add-on">
-                                        <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                                        </i>
-                                    </span>
-                                </div>
-                                <span class="help-inline">Leave blank to get from oldest records.</span>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">End date</label>
-                            <div class="controls line">
-                                <div id="datetimepicker_end" class="input-append">
-                                    {{ Form::text('end_date', (!isset($post)) ? '' : $post->publish_end, array('data-format'=>'yyyy-MM-dd HH:mm:ss')) }}
-                                    <span class="add-on">
-                                        <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                                        </i>
-                                    </span>
-                                </div>
-                                <span class="help-inline">Leave blank to get upto latest reports.</span>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary" name="print-report"> Print Report</button>
-                            <button type="submit" class="btn btn-primary" name="csv-report"> Generate CSV Report</button>
-                            <button type="submit" class="btn btn-primary" name="pdf-report"> Generate PDF Report</button>
-                        </div>
-
-                    {{ Form::close() }}
+                                        @if ($current_user->hasAccess('report-builder.destroy'))
+                                        <div class="actions inline">
+                                            <div class="btn btn-mini">
+                                                <i class="icon-cog"> Actions</i>
+                                            </div>
+                                            <ul class="btn btn-mini">
+                                                <li>
+                                                {{ Form::open(array('route' => array($link_type . '.report-builder.destroy', $report->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecords($(this), 'module');")) }}
+                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                {{ Form::close() }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <!-- END EXAMPLE TABLE widget-->
+            <!-- END TABLE widget-->
         </div>
     </div>
 @stop
 
 @section('scripts')
-    {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
-    {{ HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}"></script>
+        <script type="text/javascript" src="{{ URL::to("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        @parent
+        <script src="{{ URL::to("assets/backend/default/scripts/table-managed.js") }}"></script>
+        <script>
+           jQuery(document).ready(function() {
+              TableManaged.init();
+           });
+        </script>
+        <!-- END PAGE LEVEL SCRIPTS -->
 
-    @parent
+        <script>
+            $(function() {
+                $('#selected_ids').val('');
 
-    <script>
-        jQuery(document).ready(function() {
-            get_fields();
-            $('#module_name').on('change', function() {
-                get_fields();
-            });
+                $('.select_all').change(function() {
+                    var checkboxes = $('#sample_1 tbody').find(':checkbox');
 
-            $('#datetimepicker_start').datetimepicker({
-                language: 'en',
-                pick12HourFormat: false
+                    if ($(this).is(':checked')) {
+                        checkboxes.attr('checked', 'checked');
+                        restore_uniformity();
+                    } else {
+                        checkboxes.removeAttr('checked');
+                        restore_uniformity();
+                    }
+                });
             });
-            $('#datetimepicker_end').datetimepicker({
-                language: 'en',
-                pick12HourFormat: false
-            });
-        });
-        function get_fields () {
-            url = '{{ URL::to("backend/report-builder/module-fields")}}/' + $('#module_name').val();
-            $('#module_fields').html('<div class="controls line">Loading fields...</div>');
-            $.ajax({
-                type: "GET",
-                url: url,
-            })
-            .done(function(fields) {
-                html = '';
-                for(field in fields) {
-                    html += '<div class="controls line">';
-                    html += '<label class="checkbox">';
-                    html += '<input type="checkbox" value="'+fields[field]+'" name="fields.'+field+'" id="all-access" /> '+fields[field];
-                    html += '</label>';
-                    html += '</div>';
+            function deleteRecords(th, type) {
+                if (type === undefined) type = 'record';
+
+                doDelete = confirm("Are you sure you want to delete the selected " + type + "s ?");
+                if (!doDelete) {
+                    // If cancel is selected, do nothing
+                    return false;
                 }
-                $('#module_fields').html(html);
+
+                $('#sample_1 tbody').find('input:checked').each(function() {
+                    value = $('#selected_ids').val();
+                    $('#selected_ids').val(value + ' ' + this.name);
+                });
+            }
+            function restore_uniformity() {
+                $.uniform.restore("input[type=checkbox]");
                 $('input[type=checkbox]').uniform();
-            });
-        }
-    </script>
+            }
+        </script>
 @stop

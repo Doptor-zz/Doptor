@@ -69,6 +69,30 @@
                         </fieldset>
 
                         <fieldset>
+                            <legend>Company Details</legend>
+                            <div class="control-group">
+                                <label class="control-label">Company Name</label>
+                                <div class="controls">
+                                    {{ Form::text('company_name', Setting::value('company_name'), array('class' => 'input-large')) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">Company Address</label>
+                                <div class="controls">
+                                    {{ Form::text('company_address', Setting::value('company_address'), array('class' => 'input-large')) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">Company Contact</label>
+                                <div class="controls">
+                                    {{ Form::text('company_contact', Setting::value('company_contact'), array('class' => 'input-large')) }}
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
                             <legend>Social Media Links</legend>
                             <div class="control-group">
                                 <label class="control-label">Facebook Link</label>

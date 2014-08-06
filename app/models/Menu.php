@@ -283,6 +283,11 @@ class Menu extends Eloquent implements PresentableInterface {
             $contact_categories['contact/' . $contact_cat->alias] = $contact_cat->name;
         }
 
+        $report_generators = array();
+        foreach (Components\ReportGenerator\Models\ReportGenerator::get(array('name', 'id')) as $report_generator) {
+            $report_generators['admin/report-generators/generate/' . $report_generator->id] = $report_generator->name;
+        }
+
         return array(
                 '/'                  => 'Home',
                 'Pages'              => $pages,
@@ -290,6 +295,7 @@ class Menu extends Eloquent implements PresentableInterface {
                 'Modules'            => $modules,
                 'Contact Categories' => $contact_categories,
                 'Contacts'           => $contacts,
+                'Report Generators'  => $report_generators,
                 'manual'             => 'External link'
             );
     }
