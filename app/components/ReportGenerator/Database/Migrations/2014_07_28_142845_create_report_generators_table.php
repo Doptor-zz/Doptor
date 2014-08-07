@@ -23,6 +23,7 @@ class CreateReportGeneratorsTable extends Migration {
 			$table->string('author');
 			$table->string('version');
 			$table->string('website');
+			$table->boolean('show_calendars')->default(true);
 			$table->timestamps();
 		});
 	}

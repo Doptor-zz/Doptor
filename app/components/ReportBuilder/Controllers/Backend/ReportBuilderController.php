@@ -187,7 +187,8 @@ class ReportBuilderController extends BaseController {
                 'module_name'     => $module->name,
                 'module_alias'    => $module->alias,
                 'model'           => 'Modules\\'.$module->alias.'\Models\\' . $input['model_name'],
-                'required_fields' => $input['required_fields']
+                'required_fields' => $input['required_fields'],
+                'show_calendars'  => isset($input['show_calendars']) ? true : false
             );
 
         $report_alias = Str::slug($input['name'], '_');

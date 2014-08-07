@@ -71,14 +71,15 @@ class ReportGeneratorController extends BaseController {
         $report_info = json_decode($contents, true);
 
         $input = array(
-                    'name'         => $report_info['name'],
-                    'author'       => $report_info['author'],
-                    'version'      => $report_info['version'],
-                    'website'      => $report_info['website'],
-                    'module_name'  => $report_info['module_name'],
-                    'module_alias' => $report_info['module_alias'],
-                    'model'        => $report_info['model'],
-                    'fields'       => json_encode($report_info['required_fields'])
+                    'name'           => $report_info['name'],
+                    'author'         => $report_info['author'],
+                    'version'        => $report_info['version'],
+                    'website'        => $report_info['website'],
+                    'module_name'    => $report_info['module_name'],
+                    'module_alias'   => $report_info['module_alias'],
+                    'model'          => $report_info['model'],
+                    'fields'         => json_encode($report_info['required_fields']),
+                    'show_calendars' => $report_info['show_calendars']
                 );
 
         if ($report_generator = ReportGenerator::where('name', '=', $input['name'])->first()) {
@@ -103,6 +104,8 @@ class ReportGeneratorController extends BaseController {
     public function postGenerate($id)
     {
         $input = Input::all();
+        $input['start_date'] = isset($input['start_date']) ? $input['start_date'] : '';
+        $input['end_date'] = isset($input['end_date']) ? $input['end_date'] : '';
 
         $generator = ReportGenerator::findOrFail($id);
 
@@ -144,6 +147,7 @@ class ReportGeneratorController extends BaseController {
                                 $query->where('created_at', '<', $input['end_date']);
                             }
                         })
+                        ->orderBy('created_at', 'ASC')
                         ->get();
         return $entries;
     }

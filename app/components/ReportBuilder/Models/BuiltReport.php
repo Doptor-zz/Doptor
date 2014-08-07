@@ -20,18 +20,20 @@ class BuiltReport extends Eloquent implements PresentableInterface {
 
     protected $table = 'built_reports';
 
-    protected $fillable = array('name', 'author', 'version', 'website', 'module_id', 'model_name', 'required_fields', 'created_by', 'updated_by');
+    protected $fillable = array('name', 'author', 'version', 'website', 'module_id', 'model_name', 'required_fields', 'show_calendars', 'created_by', 'updated_by');
 
     protected $guarded = array('id');
 
     public static function create(array $attributes = array())
     {
+        $attributes['show_calendars'] = isset($attributes['show_calendars']) ? true : false ;
         $attributes['created_by'] = current_user()->id;
         return parent::create($attributes);
     }
 
     public function update(array $attributes = array())
     {
+        $attributes['show_calendars'] = isset($attributes['show_calendars']) ? true : false ;
         $attributes['updated_by'] = current_user()->id;
 
         return parent::update($attributes);

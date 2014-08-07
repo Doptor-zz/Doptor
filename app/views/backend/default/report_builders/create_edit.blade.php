@@ -68,25 +68,16 @@
                             </div>
                         </div>
 
-                        <div class="control-group hide">
-                            <label class="control-label">Start date</label>
+                        <div class="control-group">
+                            <label class="control-label">Show calendars</label>
                             <div class="controls line">
-                                <div id="datetimepicker_start" class="input-append">
-                                    {{ Form::text('start_date', '', array('data-format'=>'yyyy-MM-dd HH:mm:ss')) }}
-                                    <span class="add-on">
-                                        <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                                        </i>
-                                    </span>
-                                </div>
-                                <span class="help-inline">Leave blank to get from oldest records.</span>
+                                {{ Form::checkbox('show_calendars', 'checked', (isset($report_builder)) ? $report_builder->show_calendars : true) }}
+                                {{ $errors->first('show_calendars', '<span class="help-inline">:message</span>') }}
                             </div>
                         </div>
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary" name="print-report"> Build Report</button>
-                            <button type="submit" class="btn btn-primary hide" name="print-report"> Print Report</button>
-                            <button type="submit" class="btn btn-primary hide" name="csv-report"> Generate CSV Report</button>
-                            <button type="submit" class="btn btn-primary hide" name="pdf-report"> Generate PDF Report</button>
                         </div>
 
                     {{ Form::close() }}
