@@ -69,16 +69,12 @@ class ReportGeneratorController extends BaseController {
 
         $contents = file_get_contents(temp_path() . "/$filename");
         $report_info = json_decode($contents, true);
-
         $input = array(
                     'name'           => $report_info['name'],
                     'author'         => $report_info['author'],
                     'version'        => $report_info['version'],
                     'website'        => $report_info['website'],
-                    'module_name'    => $report_info['module_name'],
-                    'module_alias'   => $report_info['module_alias'],
-                    'model'          => $report_info['model'],
-                    'fields'         => json_encode($report_info['required_fields']),
+                    'modules'        => json_encode($report_info['modules']),
                     'show_calendars' => $report_info['show_calendars']
                 );
 
@@ -119,24 +115,14 @@ class ReportGeneratorController extends BaseController {
     }
 
     /**
-     * Get only the required fields from the input
-     * @param  array $input Input
-     * @return array
-     */
-    private function requiredFields($generator)
-    {
-        return json_decode($generator->fields, true);
-    }
-
-    /**
      * Get the entries based on the input
      * @param  array $input
      * @param  Collection $module
      * @return Collection
      */
-    private function moduleEntries($input, $generator)
+    private function moduleEntries($input, $module)
     {
-        $model = $generator->model;
+        $model = $module['model'];
         $entries = $model::where(function($query) use ($input) {
                             if ($input['start_date'] != '') {
                                 $query->where('created_at', '>', $input['start_date']);
@@ -181,17 +167,20 @@ class ReportGeneratorController extends BaseController {
 
         fputcsv($output, array($date_info));
 
-        // Put the name of the fields in CSV
-        fputcsv($output, $required_fields);
+        $modules = $this->getModules($generator->modules);
 
-        $entries = $this->moduleEntries($input, $generator);
+        foreach ($modules as $i => $mod) {
+            // Put the name of the fields in CSV
+            fputcsv($output, $mod['required_fields']);
 
-        foreach ($entries as $entry) {
-            $fields = array();
-            foreach ($required_fields as $field => $name) {
-                $fields[] = $entry->{$field};
+            $mod['entries'] = $this->moduleEntries($input, $mod);
+            foreach ($mod['entries'] as $entry) {
+                $fields = array();
+                foreach ($required_fields as $field => $name) {
+                    $fields[] = $entry->{$field};
+                }
+                fputcsv($output, $fields);
             }
-            fputcsv($output, $fields);
         }
 
         $footer = 'Printed by: '.current_user()->username.' on '. date('Y-m-d h:m:i');
@@ -216,19 +205,22 @@ class ReportGeneratorController extends BaseController {
      */
     private function pdfReport($input, $generator)
     {
-        $module = Module::find($generator->module_name);
-        $required_fields = $this->requiredFields($generator);
+        $modules = $this->getModules($generator->modules);
 
-        $entries = $this->moduleEntries($input, $generator);
+        foreach ($modules as $i => $mod) {
+            $module = Module::find($mod['id']);
+
+            $modules[$i]['entries'] = $this->moduleEntries($input, $mod);
+        }
+
         $input['start_date'] = preg_replace('/ \d+:.*$/', '', $input['start_date']);
         $input['end_date'] = preg_replace('/ \d+:.*$/', '', $input['end_date']);
 
         $data = array(
-                'title'           => $generator->name,
-                'required_fields' => $required_fields,
-                'entries'         => $entries,
-                'input'           => $input,
-                'isPdf'           => true
+                'title'   => $generator->name,
+                'modules' => $modules,
+                'input'   => $input,
+                'isPdf'   => false
             );
 
         $filename = ($generator->name!='') ? Str::slug($generator->name, '_') : Str::slug($module->name, '_');
@@ -244,21 +236,29 @@ class ReportGeneratorController extends BaseController {
      */
     private function printHtml($input, $generator)
     {
-        $module = Module::find($generator->module_name);
-        $required_fields = $this->requiredFields($generator);
+        $modules = $this->getModules($generator->modules);
 
-        $entries = $this->moduleEntries($input, $generator);
+        foreach ($modules as $i => $mod) {
+            $module = Module::find($mod['id']);
+
+            $modules[$i]['entries'] = $this->moduleEntries($input, $mod);
+        }
+
         $input['start_date'] = preg_replace('/ \d+:.*$/', '', $input['start_date']);
         $input['end_date'] = preg_replace('/ \d+:.*$/', '', $input['end_date']);
 
         $data = array(
-                'title'           => $generator->name,
-                'required_fields' => $required_fields,
-                'entries'         => $entries,
-                'input'           => $input,
-                'isPdf'           => false
+                'title'   => $generator->name,
+                'modules' => $modules,
+                'input'   => $input,
+                'isPdf'   => false
             );
 
         return View::make('report_generators::print', $data);
+    }
+
+    public function getModules($modules)
+    {
+        return json_decode($modules, true);
     }
 }

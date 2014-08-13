@@ -19,9 +19,7 @@ class CreateBuiltReportsTable extends Migration {
 			$table->string('author')->nullable();
 			$table->string('version')->nullable();
 			$table->string('website')->nullable();
-			$table->integer('module_id')->unsigned()->nullable();
-			$table->string('model_name')->nullable();
-			$table->text('required_fields')->nullable();
+			$table->text('modules')->nullable();
 			$table->boolean('show_calendars')->default(true);
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();

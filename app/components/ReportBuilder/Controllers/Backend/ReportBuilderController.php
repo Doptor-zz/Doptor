@@ -66,7 +66,7 @@ class ReportBuilderController extends BaseController {
     {
         $input = Input::all();
 
-        $input['required_fields'] = $this->requiredFields($input);
+        $input = $this->formatInput($input);
 
         $report_file = $this->getReportGenerator($input);
 
@@ -77,13 +77,28 @@ class ReportBuilderController extends BaseController {
 
     public function edit($id)
     {
-        $report_builder = BuiltReport::find($id);
+        $report_builder = BuiltReport::findOrFail($id);
+
         $modules = Module::all();
+
+        $module_ids = array();
+        $required_fields = array();
+        if ($report_builder->modules != 0) {
+            foreach ($report_builder->modules as $selected_module) {
+                $module_ids[] = $selected_module['id'];
+                $required_fields[] = $selected_module['required_fields'];
+            }
+        }
+
+        $module_ids = array_unique($module_ids);
+        $required_fields = str_replace('\\', '', json_encode($required_fields));
 
         $this->layout->title = 'Edit Report Builder';
         $this->layout->content = View::make('report_builders::create_edit')
+                                        ->with('report_builder', $report_builder)
                                         ->with('modules', $modules)
-                                        ->with('report_builder', $report_builder);
+                                        ->with('required_fields', $required_fields)
+                                        ->with('module_ids', $module_ids);
     }
 
     public function update($id)
@@ -92,7 +107,7 @@ class ReportBuilderController extends BaseController {
 
         $report_builder = BuiltReport::findOrFail($id);
 
-        $input['required_fields'] = $this->requiredFields($input);
+        $input = $this->formatInput($input);
 
         $report_file = $this->getReportGenerator($input);
 
@@ -160,40 +175,71 @@ class ReportBuilderController extends BaseController {
     /**
      * Get only the required fields from the input
      * @param  array $input Input
+     * @param  integer $i
      * @return array
      */
-    public function requiredFields($input)
+    public function requiredFields($input, $i)
     {
         $required_fields = array();
         foreach ($input as $key => $value) {
             // Get only the input, that are fields in the module
-            if (str_contains($key, 'fields_')) {
-                $key = str_replace('fields_', '', $key);
+            if (str_contains($key, 'fields-'.$i.'_')) {
+                $key = str_replace('fields-'.$i.'_', '', $key);
                 $required_fields[$key] = $value;
             }
         }
         return $required_fields;
     }
 
-    private function getReportGenerator($input)
+    public function formatInput($input)
     {
-        $module = Module::findOrFail($input['module_id']);
+        $count = $input['count-value'];
+        $modules = array();
+
+        for ($i=1; $i<=$count; $i++) {
+            if (!isset($input['module_id-'.$i])) {
+                continue;
+            }
+            $module_id = $input['module_id-'.$i];
+            $model_name = $input['model_name-'.$i];
+            $form_name = $input['form_name-'.$i];
+            $module = Module::find($module_id);
+            $required_fields = $this->requiredFields($input, $i);
+
+            if ($module && !empty($required_fields)) {
+                $modules[] = array(
+                            'id'              => $module_id,
+                            'name'            => $module->name,
+                            'alias'           => $module->alias,
+                            'form_name'       => $form_name,
+                            'model'           => 'Modules\\'.$module->alias.'\Models\\' . $model_name,
+                            'required_fields' => $required_fields
+                        );
+            }
+        }
 
         $output = array(
-                'name'            => $input['name'],
-                'author'          => $input['author'],
-                'version'         => $input['version'],
-                'website'         => $input['website'],
-                'module_name'     => $module->name,
-                'module_alias'    => $module->alias,
-                'model'           => 'Modules\\'.$module->alias.'\Models\\' . $input['model_name'],
-                'required_fields' => $input['required_fields'],
-                'show_calendars'  => isset($input['show_calendars']) ? true : false
+                'name'           => $input['name'],
+                'author'         => $input['author'],
+                'version'        => $input['version'],
+                'website'        => $input['website'],
+                'modules'        => $modules,
+                'show_calendars' => isset($input['show_calendars']) ? true : false
             );
 
+        return $output;
+    }
+
+    /**
+     * Create the report generator for download
+     * @param  $input
+     * @return
+     */
+    private function getReportGenerator($input)
+    {
         $report_alias = Str::slug($input['name'], '_');
         $report_file = temp_path() . "/report_{$report_alias}.json";
-        file_put_contents($report_file, json_encode($output));
+        file_put_contents($report_file, json_encode($input));
 
         return $report_file;
     }
