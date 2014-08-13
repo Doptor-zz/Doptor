@@ -55,6 +55,11 @@ class BuiltReport extends Eloquent implements PresentableInterface {
         return json_decode($this->attributes['modules'], true);
     }
 
+    public function getShowCalendarsAttribute()
+    {
+        return (boolean)$this->attributes['show_calendars'];
+    }
+
     /**
      * Initiate the presenter class
      */

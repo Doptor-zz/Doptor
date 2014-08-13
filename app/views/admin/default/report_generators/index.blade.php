@@ -93,9 +93,12 @@
         @parent
         <script src="{{ URL::to("assets/backend/default/scripts/table-managed.js") }}"></script>
         <script>
-           jQuery(document).ready(function() {
-              TableManaged.init();
-           });
+            jQuery(document).ready(function() {
+               TableManaged.init();
+            });
+            @if (Session::has('download_file'))
+                location.href = "{{ URL::to('backend/report-builder/download/' . Session::get('download_file')) }}";
+            @endif
         </script>
         <!-- END PAGE LEVEL SCRIPTS -->
 @stop

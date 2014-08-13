@@ -69,8 +69,6 @@ class ReportBuilderController extends BaseController {
 
         $input = $this->formatInput($input);
 
-        $report_file = $this->getReportGenerator($input);
-
         $report_builder = BuiltReport::create($input);
 
         Session::put('download_file', $report_builder->id);
@@ -111,8 +109,6 @@ class ReportBuilderController extends BaseController {
         $report_builder = BuiltReport::findOrFail($id);
 
         $input = $this->formatInput($input);
-
-        $report_file = $this->getReportGenerator($input);
 
         $report_builder->update($input);
 
@@ -242,11 +238,20 @@ class ReportBuilderController extends BaseController {
      */
     private function getReportGenerator($input)
     {
+        if (isset($input['id'])) unset($input['id']);
+        if (isset($input['created_by'])) unset($input['created_by']);
+        if (isset($input['updated_by'])) unset($input['updated_by']);
+        if (isset($input['created_at'])) unset($input['created_at']);
+        if (isset($input['updated_at'])) unset($input['updated_at']);
+
         $report_alias = Str::slug($input['name'], '_');
-        $report_file = temp_path() . "/report_{$report_alias}.json";
+        $report_file = temp_path() . "/report_generator.json";
         file_put_contents($report_file, json_encode($input));
 
-        return $report_file;
+        $zip_file = temp_path() . "/report_{$report_alias}.zip";
+        Zip(temp_path() . "/report_generator.json", $zip_file, false);
+
+        return $zip_file;
     }
 
     /**
@@ -259,14 +264,8 @@ class ReportBuilderController extends BaseController {
         Session::forget('download_file');
         $report = BuiltReport::findOrFail($id);
 
-        $report_alias = Str::slug($report->name, '_');
-        $report_file = temp_path() . "/report_{$report_alias}.json";
+        $zip_file = $this->getReportGenerator($report->toArray());
 
-        if (!File::exists($report_file)) {
-            return Redirect::to($this->link_type . "/report-builder/{$id}/edit")
-                ->with('error_message', 'The download file couldn\'t be found. Create and download the report file.');
-        }
-
-        return Response::download($report_file, "report_{$report_alias}.json");
+        return Response::download($zip_file);
     }
 }

@@ -26,7 +26,7 @@
             width: 70%;
         }
         table {
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
             border-collapse: collapse;
         }
         thead {

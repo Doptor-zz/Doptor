@@ -67,7 +67,10 @@ class ReportGeneratorController extends BaseController {
         $filename = $file->getClientOriginalName();
         $file->move(temp_path(), $filename);
 
-        $contents = file_get_contents(temp_path() . "/$filename");
+        $filename = str_replace('.ZIP', '.zip', $filename);
+        $unzipSuccess = Unzip(temp_path() . "/{$filename}", temp_path());
+
+        $contents = file_get_contents(temp_path() . "/report_generator.json");
         $report_info = json_decode($contents, true);
         $input = array(
                     'name'           => $report_info['name'],
@@ -86,6 +89,33 @@ class ReportGeneratorController extends BaseController {
 
         return Redirect::to("{$this->link_type}/report-generators")
                         ->with('success_message', 'The report generator was installed');
+    }
+
+    public function destroy($id=null)
+    {
+        // If multiple ids are specified
+        if ($id == 'multiple') {
+            $selected_ids = trim(Input::get('selected_ids'));
+            if ($selected_ids == '') {
+                return Redirect::back()
+                                ->with('error_message', "Nothing was selected to delete");
+            }
+            $selected_ids = explode(' ', $selected_ids);
+        } else {
+            $selected_ids = array($id);
+        }
+
+        foreach ($selected_ids as $id) {
+            $post = ReportGenerator::findOrFail($id);
+
+            $post->delete();
+        }
+
+        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
+        $message = 'The report generator' . $wasOrWere . ' deleted.';
+
+        return Redirect::to("backend/report-generator")
+                                ->with('success_message', $message);
     }
 
     public function getGenerate($id)
