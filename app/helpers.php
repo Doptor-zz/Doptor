@@ -173,3 +173,92 @@ function timezoneList()
 
     return $timezoneList;
 }
+
+/**
+ * Compresses a folder
+ * @param $source
+ * @param $destination
+ * @param bool $include_dir
+ * @return bool
+ */
+function Zip($source, $destination, $include_dir = true)
+{
+    if (!extension_loaded('zip') || !file_exists($source)) {
+        return false;
+    }
+
+    if (file_exists($destination)) {
+        unlink($destination);
+    }
+
+    $zip = new \ZipArchive();
+    if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
+        return false;
+    }
+
+    $source = str_replace('\\', '/', realpath($source));
+    if (is_dir($source) === true) {
+        $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
+
+        if ($include_dir) {
+            $arr = explode("/", $source);
+            $maindir = $arr[count($arr) - 1];
+
+            $source = "";
+            for ($i = 0; $i < count($arr) - 1; $i++) {
+                $source .= '/' . $arr[$i];
+            }
+
+            $source = substr($source, 1);
+
+            $zip->addEmptyDir($maindir);
+        }
+
+        foreach ($files as $file) {
+            // Ignore "." and ".." folders
+            if (in_array(substr($file, strrpos($file, DIRECTORY_SEPARATOR) + 1), array('.', '..', ':')))
+                continue;
+
+            $file = realpath($file);
+            // var_dump($file);
+            $file = str_replace('\\', '/', $file);
+
+            if (is_dir($file) === true) {
+                $dir = str_replace($source . '/', '', $file . '/');
+                $zip->addEmptyDir($dir);
+            } else if (is_file($file) === true) {
+                $new_file = str_replace($source . '/', '', $file);
+                $zip->addFromString($new_file, file_get_contents($file));
+            }
+        }
+    } else if (is_file($source) === true) {
+        $zip->addFromString(basename($source), file_get_contents($source));
+    }
+
+    return $zip->close();
+}
+
+/**
+ * Unzip a zip file
+ * @param $file
+ * @param $path
+ * @return bool
+ */
+function Unzip($file, $path)
+{
+    $zip = new ZipArchive;
+    $res = $zip->open($file);
+    if ($res === true) {
+        // extract it to the path we determined above
+        try {
+            $zip->extractTo($path);
+        } catch (ErrorException $e) {
+            //skip
+        }
+        $zip->close();
+
+        return true;
+    } else {
+        return false;
+    }
+}
