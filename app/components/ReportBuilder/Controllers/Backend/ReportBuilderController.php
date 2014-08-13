@@ -14,6 +14,7 @@ use Input;
 use File;
 use Redirect;
 use Response;
+use Session;
 use Str;
 use View;
 use Module;
@@ -70,9 +71,11 @@ class ReportBuilderController extends BaseController {
 
         $report_file = $this->getReportGenerator($input);
 
-        BuiltReport::create($input);
+        $report_builder = BuiltReport::create($input);
 
-        return Response::download($report_file);
+        Session::put('download_file', $report_builder->id);
+        return Redirect::to('backend/report-builder')
+                        ->with('success_message', 'The report builder was created');
     }
 
     public function edit($id)
@@ -113,7 +116,9 @@ class ReportBuilderController extends BaseController {
 
         $report_builder->update($input);
 
-        return Response::download($report_file);
+        Session::put('download_file', $id);
+        return Redirect::to('backend/report-builder')
+                        ->with('success_message', 'The report builder was updated');
     }
 
     public function destroy($id=null)
@@ -244,18 +249,24 @@ class ReportBuilderController extends BaseController {
         return $report_file;
     }
 
+    /**
+     * Download the report builder
+     * @param $id
+     * @return
+     */
     public function download($id)
     {
+        Session::forget('download_file');
         $report = BuiltReport::findOrFail($id);
 
-        $canonical = Str::slug($report->name, '_');
-        $zip_file = File::exists($report->file);
+        $report_alias = Str::slug($report->name, '_');
+        $report_file = temp_path() . "/report_{$report_alias}.json";
 
-        if (!$zip_file) {
+        if (!File::exists($report_file)) {
             return Redirect::to($this->link_type . "/report-builder/{$id}/edit")
                 ->with('error_message', 'The download file couldn\'t be found. Create and download the report file.');
         }
 
-        return Response::download($zip_file, $canonical);
+        return Response::download($report_file, "report_{$report_alias}.json");
     }
 }

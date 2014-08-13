@@ -91,6 +91,9 @@
         <!-- END PAGE LEVEL SCRIPTS -->
 
         <script>
+            @if (Session::has('download_file'))
+                location.href = "{{ URL::to('backend/report-builder/download/' . Session::get('download_file')) }}";
+            @endif
             $(function() {
                 $('#selected_ids').val('');
 
