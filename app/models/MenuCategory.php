@@ -32,7 +32,7 @@ class MenuCategory extends Eloquent implements PresentableInterface {
                 'public-top-menu'         => 'Public Top Menu',
                 'public-bottom-menu'      => 'Public Bottom Menu',
                 'admin-top-menu'          => 'Admin Top Menu',
-                'admin-main-menu'         => 'Admin Menu Menu',
+                'admin-main-menu'         => 'Admin Main Menu',
             );
 
     /**
