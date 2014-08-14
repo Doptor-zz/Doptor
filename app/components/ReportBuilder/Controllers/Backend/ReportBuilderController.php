@@ -14,6 +14,7 @@ use Input;
 use File;
 use Redirect;
 use Response;
+use Session;
 use Str;
 use View;
 use Module;
@@ -66,24 +67,39 @@ class ReportBuilderController extends BaseController {
     {
         $input = Input::all();
 
-        $input['required_fields'] = $this->requiredFields($input);
+        $input = $this->formatInput($input);
 
-        $report_file = $this->getReportGenerator($input);
+        $report_builder = BuiltReport::create($input);
 
-        BuiltReport::create($input);
-
-        return Response::download($report_file);
+        Session::put('download_file', $report_builder->id);
+        return Redirect::to('backend/report-builder')
+                        ->with('success_message', 'The report builder was created');
     }
 
     public function edit($id)
     {
-        $report_builder = BuiltReport::find($id);
+        $report_builder = BuiltReport::findOrFail($id);
+
         $modules = Module::all();
+
+        $module_ids = array();
+        $required_fields = array();
+        if ($report_builder->modules != 0) {
+            foreach ($report_builder->modules as $selected_module) {
+                $module_ids[] = $selected_module['id'];
+                $required_fields[] = $selected_module['required_fields'];
+            }
+        }
+
+        $module_ids = array_unique($module_ids);
+        $required_fields = str_replace('\\', '', json_encode($required_fields));
 
         $this->layout->title = 'Edit Report Builder';
         $this->layout->content = View::make('report_builders::create_edit')
+                                        ->with('report_builder', $report_builder)
                                         ->with('modules', $modules)
-                                        ->with('report_builder', $report_builder);
+                                        ->with('required_fields', $required_fields)
+                                        ->with('module_ids', $module_ids);
     }
 
     public function update($id)
@@ -92,13 +108,13 @@ class ReportBuilderController extends BaseController {
 
         $report_builder = BuiltReport::findOrFail($id);
 
-        $input['required_fields'] = $this->requiredFields($input);
-
-        $report_file = $this->getReportGenerator($input);
+        $input = $this->formatInput($input);
 
         $report_builder->update($input);
 
-        return Response::download($report_file);
+        Session::put('download_file', $id);
+        return Redirect::to('backend/report-builder')
+                        ->with('success_message', 'The report builder was updated');
     }
 
     public function destroy($id=null)
@@ -160,55 +176,96 @@ class ReportBuilderController extends BaseController {
     /**
      * Get only the required fields from the input
      * @param  array $input Input
+     * @param  integer $i
      * @return array
      */
-    public function requiredFields($input)
+    public function requiredFields($input, $i)
     {
         $required_fields = array();
         foreach ($input as $key => $value) {
             // Get only the input, that are fields in the module
-            if (str_contains($key, 'fields_')) {
-                $key = str_replace('fields_', '', $key);
+            if (str_contains($key, 'fields-'.$i.'_')) {
+                $key = str_replace('fields-'.$i.'_', '', $key);
                 $required_fields[$key] = $value;
             }
         }
         return $required_fields;
     }
 
-    private function getReportGenerator($input)
+    public function formatInput($input)
     {
-        $module = Module::findOrFail($input['module_id']);
+        $count = $input['count-value'];
+        $modules = array();
 
-        $output = array(
-                'name'            => $input['name'],
-                'author'          => $input['author'],
-                'version'         => $input['version'],
-                'website'         => $input['website'],
-                'module_name'     => $module->name,
-                'module_alias'    => $module->alias,
-                'model'           => 'Modules\\'.$module->alias.'\Models\\' . $input['model_name'],
-                'required_fields' => $input['required_fields']
-            );
+        for ($i=1; $i<=$count; $i++) {
+            if (!isset($input['module_id-'.$i])) {
+                continue;
+            }
+            $module_id = $input['module_id-'.$i];
+            $model_name = $input['model_name-'.$i];
+            $form_name = $input['form_name-'.$i];
+            $module = Module::find($module_id);
+            $required_fields = $this->requiredFields($input, $i);
 
-        $report_alias = Str::slug($input['name'], '_');
-        $report_file = temp_path() . "/report_{$report_alias}.json";
-        file_put_contents($report_file, json_encode($output));
-
-        return $report_file;
-    }
-
-    public function download($id)
-    {
-        $report = BuiltReport::findOrFail($id);
-
-        $canonical = Str::slug($report->name, '_');
-        $zip_file = File::exists($report->file);
-
-        if (!$zip_file) {
-            return Redirect::to($this->link_type . "/report-builder/{$id}/edit")
-                ->with('error_message', 'The download file couldn\'t be found. Create and download the report file.');
+            if ($module && !empty($required_fields)) {
+                $modules[] = array(
+                            'id'              => $module_id,
+                            'name'            => $module->name,
+                            'alias'           => $module->alias,
+                            'form_name'       => $form_name,
+                            'model'           => 'Modules\\'.$module->alias.'\Models\\' . $model_name,
+                            'required_fields' => $required_fields
+                        );
+            }
         }
 
-        return Response::download($zip_file, $canonical);
+        $output = array(
+                'name'           => $input['name'],
+                'author'         => $input['author'],
+                'version'        => $input['version'],
+                'website'        => $input['website'],
+                'modules'        => $modules,
+                'show_calendars' => isset($input['show_calendars']) ? true : false
+            );
+
+        return $output;
+    }
+
+    /**
+     * Create the report generator for download
+     * @param  $input
+     * @return
+     */
+    private function getReportGenerator($input)
+    {
+        if (isset($input['id'])) unset($input['id']);
+        if (isset($input['created_by'])) unset($input['created_by']);
+        if (isset($input['updated_by'])) unset($input['updated_by']);
+        if (isset($input['created_at'])) unset($input['created_at']);
+        if (isset($input['updated_at'])) unset($input['updated_at']);
+
+        $report_alias = Str::slug($input['name'], '_');
+        $report_file = temp_path() . "/report_generator.json";
+        file_put_contents($report_file, json_encode($input));
+
+        $zip_file = temp_path() . "/report_{$report_alias}.zip";
+        Zip(temp_path() . "/report_generator.json", $zip_file, false);
+
+        return $zip_file;
+    }
+
+    /**
+     * Download the report builder
+     * @param $id
+     * @return
+     */
+    public function download($id)
+    {
+        Session::forget('download_file');
+        $report = BuiltReport::findOrFail($id);
+
+        $zip_file = $this->getReportGenerator($report->toArray());
+
+        return Response::download($zip_file);
     }
 }

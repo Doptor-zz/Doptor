@@ -12,6 +12,7 @@
                 <div class="widget-body form">
                     {{ Form::open(array('route'=>array($link_type . '.report-generators.generate',$generator->id), 'method'=>'POST', 'class'=>'form-horizontal', 'id'=>'report-generators')) }}
 
+                        @if ($generator->show_calendars)
                         <div class="control-group">
                             <label class="control-label">Start date</label>
                             <div class="controls line">
@@ -39,6 +40,7 @@
                                 <span class="help-inline">Leave blank to get upto latest reports.</span>
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary" name="print-report"> Print Report</button>

@@ -1,7 +1,4 @@
 @section('styles')
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
-    {{ HTML::style('assets/backend/default/plugins/jquery-ui/jquery-ui.css') }}
 @stop
 
 @section('content')
@@ -15,6 +12,7 @@
                 <div class="widget-body form">
                     {{ Form::open(array('route'=>array($link_type . '.report-generators.generate',$generator->id), 'method'=>'POST', 'class'=>'form-horizontal', 'id'=>'report-generators')) }}
 
+                        @if ($generator->show_calendars)
                         <div class="control-group">
                             <label class="control-label">Start date</label>
                             <div class="controls line">
@@ -42,6 +40,7 @@
                                 <span class="help-inline">Leave blank to get upto latest reports.</span>
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary" name="print-report"> Print Report</button>
@@ -55,12 +54,9 @@
             <!-- END EXAMPLE TABLE widget-->
         </div>
     </div>
-@stop
 
 @section('scripts')
     {{ HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") }}
-    {{ HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}
-
     @parent
 
     <script>

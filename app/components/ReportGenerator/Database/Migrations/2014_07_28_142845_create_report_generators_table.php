@@ -16,13 +16,11 @@ class CreateReportGeneratorsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name');
-			$table->string('module_name');
-			$table->string('module_alias');
-			$table->string('model');
-			$table->string('fields');
+			$table->text('modules')->nullable();
 			$table->string('author');
 			$table->string('version');
 			$table->string('website');
+			$table->boolean('show_calendars')->default(true);
 			$table->timestamps();
 		});
 	}

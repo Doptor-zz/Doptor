@@ -20,18 +20,21 @@ class BuiltReport extends Eloquent implements PresentableInterface {
 
     protected $table = 'built_reports';
 
-    protected $fillable = array('name', 'author', 'version', 'website', 'module_id', 'model_name', 'required_fields', 'created_by', 'updated_by');
+    protected $fillable = array('name', 'author', 'version', 'website', 'modules', 'show_calendars', 'created_by', 'updated_by');
 
     protected $guarded = array('id');
 
     public static function create(array $attributes = array())
     {
+        $attributes['modules'] = json_encode($attributes['modules']);
         $attributes['created_by'] = current_user()->id;
+
         return parent::create($attributes);
     }
 
     public function update(array $attributes = array())
     {
+        $attributes['modules'] = json_encode($attributes['modules']);
         $attributes['updated_by'] = current_user()->id;
 
         return parent::update($attributes);
@@ -40,6 +43,21 @@ class BuiltReport extends Eloquent implements PresentableInterface {
     public function setRequiredFieldsAttribute($fields)
     {
         $this->attributes['required_fields'] = json_encode($fields);
+    }
+
+    public function setShowCalendarsAttribute($show_calendars)
+    {
+        $this->attributes['show_calendars'] = $show_calendars;
+    }
+
+    public function getModulesAttribute()
+    {
+        return json_decode($this->attributes['modules'], true);
+    }
+
+    public function getShowCalendarsAttribute()
+    {
+        return (boolean)$this->attributes['show_calendars'];
     }
 
     /**
