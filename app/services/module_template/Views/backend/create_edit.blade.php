@@ -77,6 +77,4 @@
             }
         </script>
     @endif
-
-    ***EXTRA_CODE***
 @stop

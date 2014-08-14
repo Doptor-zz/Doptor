@@ -59,7 +59,7 @@ class ModuleBuilder {
 
         // Save the module configuration as json
         $this->saveModuleConfig($input, $module_alias);
-        
+
         // Finally compress the temporary folder
         $zip_file = $this->generateZip($module_alias);
 
@@ -140,8 +140,6 @@ class ModuleBuilder {
      */
     private function generateInnerForm()
     {
-        $extra_code = '';
-
         foreach ($this->selected_forms as $index => $selected_form) {
             $form = BuiltForm::find($selected_form['form_id']);
             if (!$form) continue;
@@ -160,14 +158,12 @@ class ModuleBuilder {
                 $this->selected_forms[$index]['field_names'] = $form_fields['field_names'];
             }
 
-            $view = $this->generateForm($form->id, $form->rendered);
+            $view = $this->generateForm($form->id, $form->rendered, $form->extra_code);
 
             file_put_contents("{$this->temp_dir}/Views/form_{$form->id}.blade.php", $view);
-            $extra_code .= $form->extra_code;
         }
 
         $this->form = $form;
-        $this->extra_code = $extra_code;
     }
 
     /**
@@ -243,9 +239,10 @@ class ModuleBuilder {
      * Generate the complete form
      * @param $form_id
      * @param $form_rendered
+     * @param $extra_code
      * @return string
      */
-    private function generateForm($form_id, $form_rendered)
+    private function generateForm($form_id, $form_rendered, $extra_code)
     {
         $form_rendered = str_replace("/\n/", '', $form_rendered);
         $form_rendered = str_replace("//", '', $form_rendered);
@@ -261,6 +258,7 @@ class ModuleBuilder {
 
         $form_data = str_replace('<form class="form-horizontal">', '', urldecode($form_rendered));
         $view .= str_replace('</form>', '', $form_data);
+        $view .= $extra_code . "\n";
 
         // Add save buttons
         $view .= '<div class="form-actions">' . "\n";
@@ -339,8 +337,6 @@ class ModuleBuilder {
         $this->SearchandReplace($this->temp_dir, '***REDIRECT_TO***', $redirect_to);
 
         $this->SearchandReplace($this->temp_dir, '***SOURCES***', $this->setFormDropdownSources($input));
-
-        $this->SearchandReplace($this->temp_dir, '***EXTRA_CODE***', str_replace('\\', '', $this->extra_code));
 
         $this->SearchandReplace($this->temp_dir, 'CreateEntriesTable', 'Create' . $module_title_case . 'Table');
 
