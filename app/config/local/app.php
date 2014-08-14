@@ -2,6 +2,8 @@
 
 return array(
 
+    'debug' => true,
+
     'providers' => array(
 
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',

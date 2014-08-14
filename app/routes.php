@@ -260,8 +260,8 @@ App::error(function($exception, $code) {
             return Response::view('503', array('title' => 'Site Offline', 'link_type' => $link_type), 503);
             break;
 
-        // default:
-        //     return Response::view($link_type . '.default.500', array('title'=>'Error'), $code);
-        //     break;
+        default:
+            return Response::view($link_type . '.default.500', array('title'=>'Error'), $code);
+            break;
     }
 });
