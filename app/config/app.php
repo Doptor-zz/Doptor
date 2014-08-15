@@ -54,6 +54,8 @@ return array(
 
 	'locale' => 'en',
 
+	'cipher' => MCRYPT_RIJNDAEL_256,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Encryption Key
