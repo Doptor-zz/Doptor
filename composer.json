@@ -12,7 +12,8 @@
 		"intervention/image": "2.*",
 		"vespakoen/menu": "dev-master",
 		"guzzle/guzzle": "dev-master",
-		"barryvdh/laravel-dompdf": "*"
+		"barryvdh/laravel-dompdf": "*",
+		"mews/captcha": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*",

@@ -39,6 +39,7 @@ return array(
         'Intervention\Image\ImageServiceProvider',
         'Menu\MenuServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
+        'Mews\Captcha\CaptchaServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
 
     ),
