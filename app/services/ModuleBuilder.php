@@ -254,6 +254,8 @@ class ModuleBuilder {
         $view .= '{{ Form::open(array("route" => array("{$link_type}modules.".$module_link.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
         $view .= '@endif' . "\n";
 
+        $view .= '@if ($errors->has()) <div class="alert alert-error hide" style="display: block;"> <button data-dismiss="alert" class="close">×</button> You have some form errors. Please check below. </div> @endif';
+
         $view .= "{{ Form::hidden('form_id', {$form_id}) }} \n";
 
         $form_data = str_replace('<form class="form-horizontal">', '', urldecode($form_rendered));
@@ -269,7 +271,28 @@ class ModuleBuilder {
 
         $view .= '{{ Form::close() }}';
 
+        $captcha = $this->getCaptchaField($form_id);
+        if ($captcha != '') {
+            $view = str_replace('</fieldset>', $captcha . "\n</fieldset>", $view);
+        }
+
         return $view;
+    }
+
+    /**
+     * Get captcha to add to form if captcha option is selected
+     * @param int $form_id
+     */
+    public function getCaptchaField($form_id)
+    {
+        $form = BuiltForm::find($form_id);
+
+        $captcha = '';
+        if ($form->show_captcha) {
+            $captcha = '<div class="control-group {{{ $errors->has("captcha") ? "error" : "" }}}"> <label class="control-label">Enter captcha</label> <div class="controls"> {{ HTML::image(Captcha::img(), "Captcha image") }} {{ Form::text("captcha", "", array("required", "class"=>"input-medium")) }} {{ $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") }}</div> </div>';
+        }
+
+        return $captcha;
     }
 
     /**

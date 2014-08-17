@@ -41,18 +41,20 @@ class FormBuilderController extends AdminController {
     {
         try {
             $input = \Input::all();
+            $input['show_captcha'] = isset($input['show_captcha']);
 
             $validator = \BuiltForm::validate($input);
 
             if ($validator->passes()) {
                 $form = \BuiltForm::create (array(
-                    'name'        => $input['name'],
-                    'category'    => $input['category'],
-                    'description' => $input['description'],
-                    'data'        => $input['data'],
-                    'redirect_to' => $input['redirect_to'],
-                    'extra_code'  => base64_decode($input['extra_code']),
-                    'rendered'    => base64_decode($input['rendered'])
+                    'name'         => $input['name'],
+                    'category'     => $input['category'],
+                    'description'  => $input['description'],
+                    'show_captcha' => $input['show_captcha'],
+                    'data'         => $input['data'],
+                    'redirect_to'  => $input['redirect_to'],
+                    'extra_code'   => base64_decode($input['extra_code']),
+                    'rendered'     => base64_decode($input['rendered'])
                 ));
 
                 if ($form) {
@@ -112,20 +114,21 @@ class FormBuilderController extends AdminController {
     {
         try {
             $input = \Input::all();
-            // dd($input);
+            $input['show_captcha'] = isset($input['show_captcha']);
 
             $validator = \BuiltForm::validate($input, $id);
 
             if ($validator->passes()) {
                 $form = \BuiltForm::findOrFail($id);
 
-                $form->name        = $input['name'];
-                $form->category    = $input['category'];
-                $form->description = $input['description'];
-                $form->data        = $input['data'];
-                $form->redirect_to = $input['redirect_to'];
-                $form->extra_code  = base64_decode($input['extra_code']);
-                $form->rendered    = base64_decode($input['rendered']);
+                $form->name         = $input['name'];
+                $form->category     = $input['category'];
+                $form->show_captcha = $input['show_captcha'];
+                $form->description  = $input['description'];
+                $form->data         = $input['data'];
+                $form->redirect_to  = $input['redirect_to'];
+                $form->extra_code   = base64_decode($input['extra_code']);
+                $form->rendered     = base64_decode($input['rendered']);
 
                 if ($form->save()) {
                     return \Redirect::to('backend/form-builder')

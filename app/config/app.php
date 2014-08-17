@@ -54,8 +54,6 @@ return array(
 
 	'locale' => 'en',
 
-	'cipher' => MCRYPT_RIJNDAEL_256,
-
 	/*
 	|--------------------------------------------------------------------------
 	| Encryption Key
@@ -115,6 +113,7 @@ return array(
 		'Intervention\Image\ImageServiceProvider',
 		'Menu\MenuServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
+		'Mews\Captcha\CaptchaServiceProvider',
 	),
 
 	/*
@@ -185,6 +184,7 @@ return array(
 		'Image'  => 'Intervention\Image\Facades\Image',
 		'Menus'  => 'Menu\Menu',
 		'PDF'    => 'Barryvdh\DomPDF\Facade',
+		'Captcha' => 'Mews\Captcha\Facades\Captcha',
 
 	),
 

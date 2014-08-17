@@ -17,6 +17,7 @@ class CreateBuiltFormsTable extends Migration {
 			$table->string('name');
 			$table->integer('category')->unsigned();
 			$table->text('description');
+			$table->boolean('show_captcha')->default(false);
 			$table->text('data');
 			$table->text('rendered');
 			$table->string('redirect_to');
