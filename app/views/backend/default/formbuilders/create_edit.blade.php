@@ -80,6 +80,14 @@
                             </div>
                         </div>
 
+                        <div class="control-group {{{ $errors->has('redirect_to') ? 'error' : '' }}}">
+                            <label class="control-label">Show Captcha</label>
+                            <div class="controls line">
+                                {{ Form::checkbox('show_captcha', 'checked', (!isset($form)) ? Input::old('show_captcha') : $form->show_captcha, array('class'=>'span6 m-wrap')) }}
+                                {{ $errors->first('show_captcha', '<span class="help-inline">:message</span>') }}
+                            </div>
+                        </div>
+
                         <div class="control-group {{{ $errors->has('extra_code') ? 'error' : '' }}}">
                             <label class="control-label">Extra code</label>
                             <div class="controls">

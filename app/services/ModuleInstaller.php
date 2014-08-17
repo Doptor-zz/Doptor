@@ -179,6 +179,7 @@ class ModuleInstaller {
     {
         $alter_sql = "ALTER TABLE mdl_{$form['table']} ";
         $add_columns = array();
+        $previous_field = 'id';
         foreach ($form['fields'] as $field) {
             if (!Schema::hasColumn("mdl_{$form['table']}", $field)) {
                 $add_columns[] = "ADD COLUMN `{$field}` text COLLATE utf8_unicode_ci NULL AFTER `{$previous_field}`";

@@ -15,6 +15,7 @@ use Str;
 use View;
 
 use Backend\AdminController as BaseController;
+use Services\Validation\ValidationException as ValidationException;
 
 class BackendController extends BaseController {
 
@@ -107,7 +108,12 @@ class BackendController extends BaseController {
         $form = $this->getForm($input['form_id']);
 
         $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
-        $entry = $model_name::create($input);
+
+        try {
+            $entry = $model_name::create($input);
+        } catch (ValidationException $e) {
+            return Redirect::back()->withInput()->withErrors($e->getErrors());
+        }
 
         if ($entry) {
             return Redirect::to($redirect)
@@ -186,7 +192,12 @@ class BackendController extends BaseController {
 
         $form = $this->getForm($input['form_id']);
         $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
-        $entry = $model_name::find($id)->update($input);
+
+        try {
+            $entry = $model_name::find($id)->update($input);
+        } catch (ValidationException $e) {
+            return Redirect::back()->withInput()->withErrors($e->getErrors());
+        }
 
         if ($entry) {
             return Redirect::to($redirect)
