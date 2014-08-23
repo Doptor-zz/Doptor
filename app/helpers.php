@@ -75,12 +75,12 @@ function current_section()
         // If for some reason, there are no themes in theme table, seed with the default data
         Artisan::call('db:seed', array('ThemesTableSeeder'));
     }
-    if (Request::is('backend*')) {
+    if (Request::is('backend*') || Request::is('login/backend*')) {
         $link_type = 'backend';
         $link = 'backend/';
         $theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('backend_theme', 1))->directory : 'default';
         $layout = "backend.{$theme}._layouts._layout";
-    } elseif (Request::is('admin*')) {
+    } elseif (Request::is('admin*') || Request::is('login/admin*')) {
         $link_type = 'admin';
         $link = 'admin/';
         $theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('admin_theme', 1))->directory : 'default';
