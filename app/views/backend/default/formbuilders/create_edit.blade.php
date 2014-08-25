@@ -105,6 +105,16 @@
                             </div>
                         </div>
 
+                        <div class="control-group {{{ $errors->has('email') ? 'error' : '' }}}">
+                            <label class="control-label">Send to Email</label>
+                            <div class="controls">
+                                {{ Form::text('email', isset($form) ? $form->email : Input::old('email')) }}
+
+                                {{ $errors->first('email', '<span class="help-inline">:message</span>') }}
+
+                            </div>
+                        </div>
+
                         @if (isset($form))
                         <textarea id="json-data" class="hide" name="data">{{ str_replace('\\', '', $form->data) }}</textarea>
                         @else

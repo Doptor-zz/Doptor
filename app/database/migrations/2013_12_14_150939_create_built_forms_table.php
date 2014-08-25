@@ -22,6 +22,7 @@ class CreateBuiltFormsTable extends Migration {
 			$table->text('rendered');
 			$table->string('redirect_to');
 			$table->text('extra_code')->nullable();
+			$table->text('email')->nullable();
 			$table->timestamps();
 
 			$table->index('category');

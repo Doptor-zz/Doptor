@@ -265,6 +265,22 @@ INSERT INTO `form_categories` (`id`, `name`, `description`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `form_entries`
+--
+
+CREATE TABLE IF NOT EXISTS `form_entries` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `form_id` int(10) unsigned NOT NULL,
+  `fields` text COLLATE utf8_unicode_ci NOT NULL,
+  `data` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `groups`
 --
 

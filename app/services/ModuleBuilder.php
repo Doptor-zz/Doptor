@@ -158,7 +158,7 @@ class ModuleBuilder {
                 $this->selected_forms[$index]['field_names'] = $form_fields['field_names'];
             }
 
-            $view = $this->generateForm($form->id, $form->rendered, $form->extra_code);
+            $view = $this->generateForm($form);
 
             file_put_contents("{$this->temp_dir}/Views/form_{$form->id}.blade.php", $view);
         }
@@ -237,13 +237,15 @@ class ModuleBuilder {
 
     /**
      * Generate the complete form
-     * @param $form_id
-     * @param $form_rendered
-     * @param $extra_code
+     * @param $form
      * @return string
      */
-    private function generateForm($form_id, $form_rendered, $extra_code)
+    public function generateForm($form)
     {
+        $form_id = $form->id;
+        $form_rendered = $form->rendered;
+        $extra_code = $form->extra_code;
+
         $form_rendered = str_replace("/\n/", '', $form_rendered);
         $form_rendered = str_replace("//", '', $form_rendered);
 
@@ -271,7 +273,7 @@ class ModuleBuilder {
 
         $view .= '{{ Form::close() }}';
 
-        $captcha = $this->getCaptchaField($form_id);
+        $captcha = $this->getCaptchaField($form);
         if ($captcha != '') {
             $view = str_replace('</fieldset>', $captcha . "\n</fieldset>", $view);
         }
@@ -281,12 +283,10 @@ class ModuleBuilder {
 
     /**
      * Get captcha to add to form if captcha option is selected
-     * @param int $form_id
+     * @param int $form
      */
-    public function getCaptchaField($form_id)
+    public function getCaptchaField($form)
     {
-        $form = BuiltForm::find($form_id);
-
         $captcha = '';
         if ($form->show_captcha) {
             $captcha = '<div class="control-group {{{ $errors->has("captcha") ? "error" : "" }}}"> <label class="control-label">Enter captcha</label> <div class="controls"> {{ HTML::image(Captcha::img(), "Captcha image") }} {{ Form::text("captcha", "", array("required", "class"=>"input-medium")) }} {{ $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") }}</div> </div>';

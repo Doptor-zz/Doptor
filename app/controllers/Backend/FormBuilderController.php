@@ -54,6 +54,7 @@ class FormBuilderController extends AdminController {
                     'data'         => $input['data'],
                     'redirect_to'  => $input['redirect_to'],
                     'extra_code'   => base64_decode($input['extra_code']),
+                    'email'        => $input['email'],
                     'rendered'     => base64_decode($input['rendered'])
                 ));
 
@@ -128,6 +129,7 @@ class FormBuilderController extends AdminController {
                 $form->data         = $input['data'];
                 $form->redirect_to  = $input['redirect_to'];
                 $form->extra_code   = base64_decode($input['extra_code']);
+                $form->email        = $input['email'];
                 $form->rendered     = base64_decode($input['rendered']);
 
                 if ($form->save()) {
