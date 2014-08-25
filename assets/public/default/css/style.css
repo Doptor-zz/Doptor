@@ -1330,3 +1330,6 @@ h4.alt-title:before {
 	list-style: none;
 	background: none;
 }
+.form-actions {
+	margin: 0 0 0 180px;
+}

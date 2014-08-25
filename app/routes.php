@@ -41,6 +41,8 @@ Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicCo
 Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
 Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\PublicController@sendMessage');
 
+Route::resource('form', 'FormController', array('only'=>array('store', 'show')));
+
 Route::get('admin/profile', 'Backend\ProfileController@showProfile');
 Route::get('admin/profile/edit', 'Backend\ProfileController@editProfile');
 
@@ -73,6 +75,9 @@ Route::group(array('prefix' => 'backend'), function() {
 
     Route::resource('form-builder', 'Backend\FormBuilderController');
     Route::resource('form-categories', 'Backend\FormCategoriesController');
+
+    Route::resource('form', 'FormController', array('only'=>array('index', 'store', 'show', 'destroy')));
+    Route::get('form/{id}/list', 'FormController@index');
 
     Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
     Route::post('users/{id}/deactivate', array('as' => 'backend.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
@@ -164,6 +169,9 @@ Route::group(array('prefix' => 'admin'), function() {
 
     Route::resource('menu-manager', 'Backend\MenuManagerController');
     Route::resource('menu-categories', 'Backend\MenuCategoriesController');
+
+    Route::resource('form', 'FormController', array('only'=>array('index', 'store', 'show', 'destroy')));
+    Route::get('form/{id}/list', 'FormController@index');
 
     Route::resource('form-builder', 'Backend\FormBuilderController');
     Route::resource('form-categories', 'Backend\FormCategoriesController');
