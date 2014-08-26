@@ -1,13 +1,13 @@
 <aside id="sidebar" class="grid_4">
 
     <div class="prefix_1_2">
-
-        @if ($post->type == 'post')
+        <?php $type = ($type == 'News') ? 'post' : 'page' ?>
+        @if ($type == 'post' || $post->type == 'post')
             <!-- BEGIN CUSTOM MENU WIDGET -->
             <div class="widget custom-menu-widget">
-                <h4>Recent {{ Str::plural($post->type) }}:</h4>
+                <h4>Recent {{ Str::plural('post') }}:</h4>
                 <ul>
-                    @foreach (Post::type($post->type)->target('public')->published()->recent()->take(5)->get(array('title', 'permalink')) as $post)
+                    @foreach (Post::type('post')->target('public')->published()->recent()->take(5)->get(array('title', 'permalink')) as $post)
                         <li>
                             {{ HTML::link(url('posts/'.$post->permalink), $post->title) }}
                         </li>
