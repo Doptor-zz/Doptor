@@ -262,15 +262,18 @@ class Menu extends Eloquent implements PresentableInterface {
     public static function menu_lists()
     {
         $modules = array();
-
         foreach (Module::all(array('name')) as $module) {
             $modules['link_type/modules/' . Str::slug($module->name, '_')] = $module->name;
         }
 
         $pages = array();
-
         foreach (Post::type('page')->get(array('title', 'permalink')) as $page) {
             $pages['pages/' . $page->permalink] = $page->title;
+        }
+
+        $post_categories = array();
+        foreach (Category::type('post')->get(array('name', 'alias')) as $page_category) {
+            $post_categories['posts/category/' . $page_category->alias] = $page_category->name;
         }
 
         $contacts = array();
@@ -297,6 +300,7 @@ class Menu extends Eloquent implements PresentableInterface {
                 '/'                  => 'Home',
                 'Pages'              => $pages,
                 'posts'              => 'Posts',
+                'Post Categories'    => $post_categories,
                 'Modules'            => $modules,
                 'Contact Categories' => $contact_categories,
                 'Contacts'           => $contacts,
