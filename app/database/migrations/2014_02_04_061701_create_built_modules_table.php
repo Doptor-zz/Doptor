@@ -15,6 +15,7 @@ class CreateBuiltModulesTable extends Migration {
 		Schema::create('built_modules', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('name');
+			$table->string('hash')->unique()->nullable();
 			$table->string('version')->nullable();
 			$table->string('author')->nullable();
 			$table->string('website')->nullable();

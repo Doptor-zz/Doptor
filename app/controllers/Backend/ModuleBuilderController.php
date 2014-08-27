@@ -67,6 +67,7 @@ class ModuleBuilderController extends AdminController {
                 $file_name = Str::slug($input['name'], '_');
 
                 $input = $this->formatInput($zip_file, $input);
+                $input['hash'] = uniqid('module_');
 
                 BuiltModule::create($input);
 
@@ -129,9 +130,13 @@ class ModuleBuilderController extends AdminController {
                 $zip_file = $this->moduleBuilder->createModule($input);
                 $file_name = Str::slug($input['name'], '_');
 
+
                 $input = $this->formatInput($zip_file, $input);
 
                 $module = BuiltModule::findOrFail($id);
+                if ($module->hash == '') {
+                    $input['hash'] = uniqid('module_');
+                }
                 $module->update($input);
 
                 App::finish(function ($request, $response) use ($zip_file) {

@@ -15,6 +15,7 @@ class CreateBuiltFormsTable extends Migration {
 		Schema::create('built_forms', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('name');
+			$table->string('hash')->unique()->nullable();
 			$table->integer('category')->unsigned();
 			$table->text('description');
 			$table->boolean('show_captcha')->default(false);
