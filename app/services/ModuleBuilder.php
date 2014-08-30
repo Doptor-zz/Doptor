@@ -120,11 +120,13 @@ class ModuleBuilder {
         $module_config = array(
             'enabled' => true,
             'info'    => array(
-                'name'    => $this->module_name,
-                'alias'   => $module_alias,
-                'version' => $input['version'],
-                'author'  => $input['author'],
-                'website' => $input['website']
+                'name'        => $this->module_name,
+                'hash'        => $input['hash'],
+                'alias'       => $module_alias,
+                'version'     => $input['version'],
+                'author'      => $input['author'],
+                'website'     => $input['website'],
+                'description' => $input['description'],
             ),
             // 'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
             'target'  => implode('|', $input['target']),
@@ -212,11 +214,16 @@ class ModuleBuilder {
     private function getFormInfo($index)
     {
         $form_id = $this->selected_forms[$index]['form_id'];
-        $form_name = BuiltForm::find($form_id)->name;
+        $form = BuiltForm::find($form_id);
 
-        $this->selected_forms[$index]['form_name'] = $form_name;
+        $this->selected_forms[$index]['form_name'] = $form->name;
+        $this->selected_forms[$index]['hash'] = $form->hash;
+        $this->selected_forms[$index]['category'] = $form->category;
+        $this->selected_forms[$index]['description'] = $form->description;
+        $this->selected_forms[$index]['show_captcha'] = (boolean) $form->show_captcha;
+        $this->selected_forms[$index]['data'] = $form->data;
 
-        $table_name = $this->generateTableName($this->module_name, $form_name);
+        $table_name = $this->generateTableName($this->module_name, $form->name);
 
         $this->selected_forms[$index]['table'] = $table_name;
     }

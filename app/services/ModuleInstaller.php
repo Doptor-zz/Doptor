@@ -129,6 +129,7 @@ class ModuleInstaller {
         $input = array(
             'name'    => $config['info']['name'],
             'alias'   => $config['info']['alias'],
+            'hash'    => $config['info']['hash'],
             'version' => $config['info']['version'],
             'author'  => $config['info']['author'],
             'website' => $config['info']['website'],
