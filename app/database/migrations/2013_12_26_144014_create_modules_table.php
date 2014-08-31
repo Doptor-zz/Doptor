@@ -16,7 +16,7 @@ class CreateModulesTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('alias');
-			$table->string('hash')->unique()->nullable();
+			$table->string('hash', 50)->unique()->nullable();
 			$table->string('table');
 			$table->string('version');
 			$table->string('author');

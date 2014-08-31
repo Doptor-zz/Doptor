@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `built_forms` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `category` int(10) unsigned NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `show_captcha` tinyint(1) NOT NULL DEFAULT '0',
@@ -58,6 +59,7 @@ INSERT INTO `built_forms` (`id`, `name`, `category`, `description`, `show_captch
 CREATE TABLE IF NOT EXISTS `built_modules` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `author` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -66,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `built_modules` (
   `target` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `file` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `table_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_author` boolean COLLATE utf8_unicode_ci DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
@@ -514,6 +517,7 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `table` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
