@@ -17,6 +17,9 @@ use Input;
 use Schema;
 use ZipArchive;
 
+use BuiltForm;
+use BuiltModule;
+use FormCategory;
 use Module;
 
 class ModuleInstaller {
@@ -64,6 +67,9 @@ class ModuleInstaller {
         File::delete($file);
 
         $this->manageTables($config);
+
+        $form_ids = $this->addToBuiltForms($config['forms']);
+        $this->addToBuiltModules($config, $form_ids);
 
         $input = $this->fixInput($config);
 
@@ -120,10 +126,8 @@ class ModuleInstaller {
      */
     public function fixInput($config)
     {
-        // Get only the table nmaes from the forms
-        $table_names = array_map(function($form) {
-                            return $form['table'];
-                        }, $config['forms']);
+        // Get only the table names from the forms
+        $table_names = array_pluck($config['forms'], 'table');
         $table = implode('|', $table_names);
 
         $input = array(
@@ -189,6 +193,93 @@ class ModuleInstaller {
         }
         $alter_sql .= implode(', ', $add_columns) . ';';
         DB::unprepared($alter_sql);
+    }
+
+    /**
+     * Get the information about the forms used in the module
+     * and save/update their entries in the database, so that
+     * they can be edited later(if required).
+     * @param $forms
+     */
+    public function addToBuiltForms($forms)
+    {
+        $form_ids = array();
+
+        foreach ($forms as $form) {
+            $existing_form = BuiltForm::whereNotNull('hash')
+                                    ->where('hash', $form['hash'])
+                                    ->first();
+
+            $existing_form_category = FormCategory::where('name', $form['category'])->first();
+            if ($existing_form_category) {
+                $form_category = $existing_form_category->id;
+            } else {
+                $category = FormCategory::create(array(
+                        'name' => $form['category']
+                    ));
+                $form_category = $category->id;
+            }
+
+            $form_data = array(
+                    'name'         => $form['form_name'],
+                    'hash'         => $form['hash'],
+                    'description'  => $form['description'],
+                    'category'     => $form_category,
+                    'show_captcha' => $form['show_captcha'],
+                    'data'         => $form['data'],
+                    'rendered'     => $form['rendered'],
+                    'extra_code'   => $form['extra_code'],
+                    'redirect_to'  => $form['redirect_to'],
+                    'email'        => $form['email']
+                );
+
+            if ($existing_form) {
+                $existing_form->update($form_data);
+                $form_ids[] = $existing_form->id;
+            } else {
+                $form_id = BuiltForm::create($form_data);
+                $form_ids[] = $form_id['id'];
+            }
+        }
+
+        return $form_ids;
+    }
+
+    /**
+     * Get the information about the module
+     * and save/update their entries in the database, so that
+     * they can be edited later(if required).
+     * @param $module_info
+     */
+    public function addToBuiltModules($module, $form_ids)
+    {
+        $existing_module = BuiltModule::whereNotNull('hash')
+                                ->where('hash', $module['info']['hash'])
+                                ->first();
+
+        $table_names = array_pluck($module['forms'], 'table');
+        $table_name = implode('|', $table_names);
+
+        $module_info = array(
+                'name'        => $module['info']['name'],
+                'hash'        => $module['info']['hash'],
+                'alias'       => $module['info']['alias'],
+                'version'     => $module['info']['version'],
+                'author'      => $module['info']['author'],
+                'website'     => $module['info']['website'],
+                'description' => $module['info']['description'],
+                'form_id'     => implode(', ', $form_ids),
+                'target'      => $module['target'],
+                'table_name'  => $table_name,
+            );
+
+        if ($existing_module) {
+            $existing_module->update($module_info);
+        } else {
+            // To indicate that the module is not created in this system
+            $module_info['is_author'] = false;
+            BuiltModule::create($module_info);
+        }
     }
 
     /**

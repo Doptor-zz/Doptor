@@ -13,23 +13,22 @@ use Robbo\Presenter\Presenter;
 
 class BuiltModulePresenter extends Presenter
 {
-
     /**
-     * Get the form name(s) associated with the module
+     * Get the form(s) associated with the module
      */
-    public function form_name()
+    public function forms()
     {
         $selected_forms = explode(", ", $this->form_id);
 
-        $form_names = array();
+        $forms = array();
         foreach ($selected_forms as $form_id) {
             $form = BuiltForm::find($form_id);
             if ($form) {
-                $form_names[] = $form->name;
+                $forms[] = $form;
             }
         }
 
-        return implode(", ", $form_names);
+        return $forms;
     }
 
     /**

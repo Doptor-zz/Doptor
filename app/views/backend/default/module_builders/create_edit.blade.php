@@ -62,35 +62,35 @@
                                 <div class="control-group {{{ $errors->has('name') ? 'error' : '' }}}">
                                     <label class="control-label">Name <i class="red">*</i></label>
                                     <div class="controls">
-                                        {{ Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6'))}}
+                                        {{ Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))}}
                                         {{ $errors->first('name', '<span class="help-inline">:message</span>') }}
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('version') ? 'error' : '' }}}">
                                     <label class="control-label">Version <i class="red">*</i></label>
                                     <div class="controls">
-                                        {{ Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6'))}}
+                                        {{ Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))}}
                                         {{ $errors->first('version', '<span class="help-inline">:message</span>') }}
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('author') ? 'error' : '' }}}">
                                     <label class="control-label">Author <i class="red">*</i></label>
                                     <div class="controls">
-                                        {{ Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6'))}}
+                                        {{ Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))}}
                                         {{ $errors->first('author', '<span class="help-inline">:message</span>') }}
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('website') ? 'error' : '' }}}">
                                     <label class="control-label">Website Address</label>
                                     <div class="controls">
-                                        {{ Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6'))}}
+                                        {{ Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))}}
                                         {{ $errors->first('website', '<span class="help-inline">:message</span>') }}
                                     </div>
                                 </div>
                                 <div class="control-group {{{ $errors->has('description') ? 'error' : '' }}}">
                                     <label class="control-label">Module Description</label>
                                     <div class="controls">
-                                        {{ Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2))}}
+                                        {{ Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2, (isset($module) && !$module->is_author ? 'disabled' : '')))}}
                                         {{ $errors->first('description', '<span class="help-inline">:message</span>') }}
                                     </div>
                                 </div>
