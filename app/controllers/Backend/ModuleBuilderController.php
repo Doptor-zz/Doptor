@@ -132,6 +132,15 @@ class ModuleBuilderController extends AdminController {
                 } else {
                     $input['hash'] = $module->hash;
                 }
+                $input['is_author'] = $module->is_author;
+                if (!(bool) $module->is_author) {
+                    $input['name'] = $module->name;
+                    $input['author'] = $module->author;
+                    $input['version'] = $module->version;
+                    $input['website'] = $module->website;
+                    $input['description'] = $module->description;
+                }
+
                 $zip_file = $this->moduleBuilder->createModule($input);
                 $file_name = Str::slug($input['name'], '_');
 
