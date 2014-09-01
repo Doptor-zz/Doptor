@@ -10,12 +10,13 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use BuiltModule;
 use Exception;
 use File;
 use Str;
 
 use BuiltForm;
+use BuiltModule;
+use FormCategory;
 
 class ModuleBuilder {
 
@@ -41,7 +42,10 @@ class ModuleBuilder {
 
     public function createModule($input)
     {
+        $this->generateHashForNullHashModules();
+
         $this->module_name = $input['name'];
+
         $module_alias = $this->generateModuleAlias($this->module_name);
 
         $this->temp_dir = temp_path() . "/{$module_alias}/{$module_alias}";
@@ -64,6 +68,16 @@ class ModuleBuilder {
         $zip_file = $this->generateZip($module_alias);
 
         return $zip_file;
+    }
+
+    private function generateHashForNullHashModules()
+    {
+        $null_hash_modules = BuiltModule::whereNull('hash')->get();
+
+        foreach ($null_hash_modules as $null_hash_module) {
+            $null_hash_module->hash = uniqid('module_');
+            $null_hash_module->save();
+        }
     }
 
     /**
@@ -120,11 +134,13 @@ class ModuleBuilder {
         $module_config = array(
             'enabled' => true,
             'info'    => array(
-                'name'    => $this->module_name,
-                'alias'   => $module_alias,
-                'version' => $input['version'],
-                'author'  => $input['author'],
-                'website' => $input['website']
+                'name'        => $this->module_name,
+                'hash'        => $input['hash'],
+                'alias'       => $module_alias,
+                'version'     => $input['version'],
+                'author'      => $input['author'],
+                'website'     => $input['website'],
+                'description' => $input['description'],
             ),
             // 'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
             'target'  => implode('|', $input['target']),
@@ -211,12 +227,30 @@ class ModuleBuilder {
      */
     private function getFormInfo($index)
     {
+        $null_hash_forms = BuiltForm::whereNull('hash')->get();
+
+        foreach ($null_hash_forms as $null_hash_form) {
+            $null_hash_form->hash = uniqid('form_');
+            $null_hash_form->save();
+        }
+
         $form_id = $this->selected_forms[$index]['form_id'];
-        $form_name = BuiltForm::find($form_id)->name;
+        $form = BuiltForm::find($form_id);
 
-        $this->selected_forms[$index]['form_name'] = $form_name;
+        $form_category = FormCategory::find($form->category)->name;
 
-        $table_name = $this->generateTableName($this->module_name, $form_name);
+        $this->selected_forms[$index]['form_name'] = $form->name;
+        $this->selected_forms[$index]['hash'] = $form->hash;
+        $this->selected_forms[$index]['category'] = $form_category;
+        $this->selected_forms[$index]['description'] = $form->description;
+        $this->selected_forms[$index]['show_captcha'] = (boolean) $form->show_captcha;
+        $this->selected_forms[$index]['data'] = $form->data;
+        $this->selected_forms[$index]['rendered'] = $form->rendered;
+        $this->selected_forms[$index]['extra_code'] = $form->extra_code;
+        $this->selected_forms[$index]['redirect_to'] = $form->redirect_to;
+        $this->selected_forms[$index]['email'] = $form->email;
+
+        $table_name = $this->generateTableName($this->module_name, $form->name);
 
         $this->selected_forms[$index]['table'] = $table_name;
     }

@@ -48,6 +48,7 @@ class FormBuilderController extends AdminController {
             if ($validator->passes()) {
                 $form = \BuiltForm::create (array(
                     'name'         => $input['name'],
+                    'hash'         => uniqid('form_'),
                     'category'     => $input['category'],
                     'description'  => $input['description'],
                     'show_captcha' => $input['show_captcha'],
@@ -123,6 +124,9 @@ class FormBuilderController extends AdminController {
                 $form = \BuiltForm::findOrFail($id);
 
                 $form->name         = $input['name'];
+                if ($form->hash == '') {
+                    $form->hash = uniqid('form_');
+                }
                 $form->category     = $input['category'];
                 $form->show_captcha = $input['show_captcha'];
                 $form->description  = $input['description'];

@@ -59,10 +59,10 @@ class ModuleBuilderController extends AdminController {
     {
         try {
             $input = Input::all();
-
             $validator = BuiltModule::validate($input);
 
             if ($validator->passes()) {
+                $input['hash'] = uniqid('module_');
                 $zip_file = $this->moduleBuilder->createModule($input);
                 $file_name = Str::slug($input['name'], '_');
 
@@ -126,12 +126,26 @@ class ModuleBuilderController extends AdminController {
             $validator = BuiltModule::validate($input, $id);
 
             if ($validator->passes()) {
+                $module = BuiltModule::findOrFail($id);
+                if ($module->hash == '') {
+                    $input['hash'] = uniqid('module_');
+                } else {
+                    $input['hash'] = $module->hash;
+                }
+                $input['is_author'] = $module->is_author;
+                if (!(bool) $module->is_author) {
+                    $input['name'] = $module->name;
+                    $input['author'] = $module->author;
+                    $input['version'] = $module->version;
+                    $input['website'] = $module->website;
+                    $input['description'] = $module->description;
+                }
+
                 $zip_file = $this->moduleBuilder->createModule($input);
                 $file_name = Str::slug($input['name'], '_');
 
                 $input = $this->formatInput($zip_file, $input);
 
-                $module = BuiltModule::findOrFail($id);
                 $module->update($input);
 
                 App::finish(function ($request, $response) use ($zip_file) {

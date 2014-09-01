@@ -45,7 +45,11 @@
                                 <tr class="odd gradeX">
                                     <td><input type="checkbox" class="checkboxes" value="1" /></td>
                                     <td>{{ HTML::link(URL::to($link_type . '/form-builder/'.$form->id), $form->name) }}</td>
-                                    <td class="hidden-480">{{ $form->cat->name }}</td>
+                                    <td class="hidden-480">
+                                        @if ($form->cat)
+                                            {{ $form->cat->name }}
+                                        @endif
+                                    </td>
                                     <td class="hidden-480">{{ $form->description }}</td>
                                     <td>{{ $form->created_at }}</td>
                                     <td>
