@@ -37,9 +37,8 @@ class AuthController extends BaseController {
             'username' => $input['username'],
             'password' => $input['password']
         );
-        //$remember = ($input['remember'] == 'checked') ? true : false; // Throw error exception and terminate if remember me not checked..
-        $remember = (isset($input['remember']) && $input['remember'] == 'checked') ? true : false; // This is a perfect expression.
-        // dd($remember);
+
+        $remember = (isset($input['remember']) && $input['remember'] == 'checked') ? true : false;
 
         try {
             $user = Sentry::authenticate($credentials, $remember);
