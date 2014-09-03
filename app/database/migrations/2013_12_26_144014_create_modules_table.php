@@ -21,7 +21,7 @@ class CreateModulesTable extends Migration {
 			$table->string('version');
 			$table->string('author');
 			$table->string('website')->nullable();
-			$table->string('description')->nullable();
+			$table->text('description')->nullable();
 			$table->string('target');
 			$table->boolean('enabled')->default(false);
 			$table->timestamps();

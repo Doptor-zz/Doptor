@@ -19,7 +19,7 @@ class CreateBuiltModulesTable extends Migration {
 			$table->string('version')->nullable();
 			$table->string('author')->nullable();
 			$table->string('website')->nullable();
-			$table->string('description')->nullable();
+			$table->text('description')->nullable();
 			$table->string('form_id');
 			$table->string('target');
 			$table->string('file');

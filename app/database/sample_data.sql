@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `built_forms` (
   `rendered` text COLLATE utf8_unicode_ci NOT NULL,
   `redirect_to` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `extra_code` text COLLATE utf8_unicode_ci,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
