@@ -197,7 +197,7 @@ class Menu extends Eloquent implements PresentableInterface {
         } else {
             list($link_type, $link, $layout) = current_section();
 
-            $this->link = str_replace('link_type', $link_type, $this->link);
+            $this->link = str_replace('link_type/', $link, $this->link);
             return $this->link;
         }
     }
