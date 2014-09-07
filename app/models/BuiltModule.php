@@ -23,11 +23,12 @@ class BuiltModule extends Eloquent implements PresentableInterface {
     protected $table = 'built_modules';
 
     public static $rules = array(
-            'name'       => 'alpha_spaces|required|unique:built_modules,name',
-            'version'    => 'required',
-            'author'     => 'required',
-            'form-1'     => 'required|not_in:0',
-            'target'     => 'required'
+            'name'    => 'alpha_spaces|required',
+            'hash'    => 'unique:built_modules,hash'
+            'version' => 'required',
+            'author'  => 'required',
+            'form-1'  => 'required|not_in:0',
+            'target'  => 'required'
         );
 
     public static $message = array(

@@ -1,5 +1,4 @@
 <?php
-
 /*
   =================================================
   CMS Name  :  DOPTOR
@@ -10,6 +9,7 @@
   Description :  Doptor is Opensource CMS.
   ===================================================
  */
+
 Route::get('/', function() {
     if (!Schema::hasTable('settings') || Config::get('database.default') == 'sqlite') {
         // If not installed, redirect to install page
@@ -18,6 +18,9 @@ Route::get('/', function() {
         return Redirect::action('HomeController@index');
     }
 });
+
+// Apply CSRF protection to every routes
+Route::when('*', array('csrf'));
 
 Route::get('home', 'HomeController@index');
 Route::get('wrapper/{id}', 'HomeController@wrapper');
