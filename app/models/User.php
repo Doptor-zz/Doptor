@@ -37,7 +37,7 @@ class User extends Eloquent {
     public static function validate_registration($input)
     {
         $rules = array(
-            'username'              => 'alpha_spaces|required|min:4|unique:users,username',
+            'username'              => 'alpha_dash|required|min:4|unique:users,username',
             'email'                 => 'required|min:4|email|unique:users,email',
             'password'              => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6',
@@ -51,7 +51,7 @@ class User extends Eloquent {
     public static function validate_change($input, $id)
     {
         $rules = array(
-            'username'              => 'alpha_spaces|required|min:4|unique:users,username,'.$id,
+            'username'              => 'alpha_dash|required|min:4|unique:users,username,'.$id,
             'email'                 => 'required|min:4|email|unique:users,email,'.$id,
             'password'              => 'min:6|confirmed|confirmed',
             'password_confirmation' => 'min:6',

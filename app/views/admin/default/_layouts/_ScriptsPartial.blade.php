@@ -14,20 +14,26 @@
 {{ HTML::script("assets/admin/default/js/respond.min.js") }}
 {{ HTML::script("assets/admin/default/js/ios-orientationchange-fix.js") }}
 <script>
-/**=========================
-LEFT NAV ICON ANIMATION
-==============================**/
-$(function () {
-    $(".left-primary-nav a").hover(function () {
-        $(this).stop().animate({
-            fontSize: "30px"
-        }, 200);
-    }, function () {
-        $(this).stop().animate({
-            fontSize: "24px"
-        }, 100);
+    /**=========================
+    LEFT NAV ICON ANIMATION
+    ==============================**/
+    $(function () {
+        $(".left-primary-nav a").hover(function () {
+            $(this).stop().animate({
+                fontSize: "30px"
+            }, 200);
+        }, function () {
+            $(this).stop().animate({
+                fontSize: "24px"
+            }, 100);
+        });
     });
-});
+    // Add CSRF protection tokens in ajax request also
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 </script>
 @section('scripts')
     {{-- Here goes the page level scripts and plugins --}}

@@ -22,6 +22,12 @@
     {{-- Here goes the page level scripts and plugins --}}
     <script>
         window.base_url = '{{ URL::to('/') }}';
+        // Add CSRF protection tokens in ajax request also
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     </script>
     <script src="{{ URL::to("assets/backend/default/scripts/app.js") }}"></script>
     <script>

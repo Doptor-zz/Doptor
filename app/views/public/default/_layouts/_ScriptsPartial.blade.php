@@ -22,7 +22,14 @@
 
 <!-- Custom -->
 <script type="text/javascript" src="{{URL::to("assets/public/default/js/custom.js")}}"></script>
-
+<script>
+    // Add CSRF protection tokens in ajax request also
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 @if (!Services\MenuManager::isImageShown())
     <script>
         $(document).find('img').each(function() { $(this).remove() })

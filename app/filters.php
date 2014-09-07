@@ -98,10 +98,15 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
+Route::filter('csrf', function($route, $request)
 {
-    //if (Session::token() != Input::get('_token')) {
-        //return Response::view('admin.500', array('title'=>'500 Error'), 500);
-        // throw new Illuminate\Session\TokenMismatchException;
-    //}
+    if (strtoupper($request->getMethod()) === 'GET') {
+        return; // get requests are not CSRF protected
+    }
+
+    $token = $request->header('X-CSRF-Token') ?: Input::get('_token');
+
+    if (Session::token() != $token) {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });
