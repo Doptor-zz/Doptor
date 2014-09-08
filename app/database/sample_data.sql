@@ -446,6 +446,33 @@ INSERT INTO `menus` (`id`, `title`, `alias`, `link`, `icon`, `link_manual`, `cat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu_positions`
+--
+
+CREATE TABLE IF NOT EXISTS `menu_positions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `menu_positions`
+--
+
+INSERT INTO `menu_positions` (`id`, `name`, `alias`, `created_at`, `updated_at`) VALUES
+(1, 'Public Top Menu', 'public-top-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
+(2, 'Public Bottom Menu', 'public-bottom-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
+(3, 'Public Small Menu Left', 'public-small-menu-left', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
+(4, 'Public Small Menu Right', 'public-small-menu-right', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
+(5, 'Admin Top Menu', 'admin-top-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
+(6, 'Admin Menu Menu', 'admin-main-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_categories`
 --
 
