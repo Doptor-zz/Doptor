@@ -34,6 +34,7 @@ class UserGroup extends Eloquent {
                 'resourceful' => array (
                     'user-groups'       => 'User Groups',
                     'users'             => 'User Manager',
+                    'menu-positions'    => 'Menu Positions',
                     'menu-categories'   => 'Menu Categories',
                     'menu-manager'      => 'Menu Manager',
                     'languages'         => 'Languages',

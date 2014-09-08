@@ -398,6 +398,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `icon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `link_manual` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `category` int(10) unsigned NOT NULL,
+  `position` int(10) unsigned NOT NULL,
   `display_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `same_window` tinyint(1) NOT NULL DEFAULT '1',
   `show_image` tinyint(1) NOT NULL DEFAULT '1',
