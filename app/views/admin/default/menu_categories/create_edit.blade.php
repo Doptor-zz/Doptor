@@ -40,13 +40,6 @@
                                             {{ $errors->first('name', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
-                                    <div class="control-group {{{ $errors->has('menu_type') ? 'error' : '' }}}">
-                                        <label class="control-label">Menu Location <span class="red">*</span></label>
-                                        <div class="controls">
-                                            {{ Form::select('menu_type', MenuCategory::menu_positions(), (!isset($menu_cat)) ? Input::old('menu_type') : $menu_cat->menu_type, array('class' => 'input-xlarge'))}}
-                                            {{ $errors->first('menu_type', '<span class="help-inline">:message</span>') }}
-                                        </div>
-                                    </div>
                                     <div class="control-group {{{ $errors->has('description') ? 'error' : '' }}}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">

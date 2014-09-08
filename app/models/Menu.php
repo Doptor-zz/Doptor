@@ -20,7 +20,7 @@ class Menu extends Eloquent implements PresentableInterface {
      */
     protected $table = 'menus';
 
-    public static $accessible = array('order', 'title', 'link', 'parent', 'category');
+    public static $accessible = array('order', 'title', 'link', 'parent', 'category', 'position');
 
     // Path in the public folder to upload menu icon
     protected $images_path = 'uploads/menus/';
@@ -33,7 +33,7 @@ class Menu extends Eloquent implements PresentableInterface {
             'parent'         => 'required|integer',
             'link'           => 'required',
             'order'          => 'integer',
-            'category'       => 'required|not_in:0',
+            'position'       => 'required|not_in:0',
             'wrapper_width'  => 'integer',
             'wrapper_height' => 'integer'
         );
@@ -45,6 +45,15 @@ class Menu extends Eloquent implements PresentableInterface {
     public function cat()
     {
          return $this->belongsTo('MenuCategory', 'category', 'id');
+    }
+
+    /**
+     * Relation with the menu positions table
+     * A menu can have only one menu position
+     */
+    public function pos()
+    {
+         return $this->belongsTo('MenuPosition', 'position', 'id');
     }
 
     /**

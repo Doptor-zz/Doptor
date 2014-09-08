@@ -43,7 +43,7 @@
                         <thead>
                             <tr>
                                 <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                <th>Category</th>
+                                <th>Position</th>
                                 <th>Parent Menu</th>
                                 <th>Title</th>
                                 <th>Link</th>
@@ -57,7 +57,7 @@
                             @foreach ($menu_entries as $menu)
                                 <tr class="">
                                     <td>{{ Form::checkbox($menu->id, 'checked', false) }}</td>
-                                    <td>{{ $menu->cat->name }}</td>
+                                    <td>{{ $menu->pos->name }}</td>
                                     <td>{{ Menu::menu_name($menu->parent) }}</td>
                                     <td class="menu-title">{{ $menu->title }}</td>
                                     <td>{{ $menu->link_name() }}</td>
@@ -75,7 +75,7 @@
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('menu-manager.destroy'))
                                                 <li>
-                                                    {{ Form::open(array('route' => array($link_type . '.menu-manager.destroy', $menu->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>'return deleteRecord($(this), "menu");')) }}
+                                                    {{ Form::open(array('route' => array($link_type . '.menu-manager.destroy', $menu->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>'return deleteRecords($(this), "menu");')) }}
                                                         <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
                                                     {{ Form::close() }}
                                                 </li>

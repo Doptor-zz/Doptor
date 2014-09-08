@@ -397,7 +397,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `icon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `link_manual` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `category` int(10) unsigned NOT NULL,
+  `category` int(10) unsigned NULL,
   `position` int(10) unsigned NOT NULL,
   `display_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `same_window` tinyint(1) NOT NULL DEFAULT '1',
@@ -418,30 +418,30 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  KEY `menus_category_index` (`category`)
+  KEY `menus_position_index` (`position`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `title`, `alias`, `link`, `icon`, `link_manual`, `category`, `display_text`, `same_window`, `show_image`, `is_wrapper`, `status`, `parent`, `order`, `target`, `language_id`, `publish_start`, `publish_end`, `meta_title`, `meta_description`, `meta_keywords`, `created_at`, `updated_at`) VALUES
-(4, 'Home', 'public-top-menu-home', '/', '', '', 5, 'Welcome to Doptor CMS.', 1, 1, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:11:17', '2014-03-27 02:36:31'),
-(5, 'About Us', 'public-top-menu-about-us', 'pages/about-us', '', '#', 5, '', 1, 0, 0, 'published', 0, 3, 'public', 0, NULL, NULL, '', '', '', '2014-03-22 03:11:55', '2014-03-31 04:30:19'),
-(6, 'Backend', 'public-small-menu-right-backend', 'manual', '', 'backend', 7, '', 0, 1, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:20:05', '2014-03-22 03:20:05'),
-(7, 'Admin', 'public-small-menu-right-admin', 'manual', '', 'admin', 7, '', 0, 1, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:20:37', '2014-03-22 03:20:37'),
-(8, 'About Us', 'public-bottom-menu-about-us', 'pages/about-us', '', '', 8, '', 1, 1, 0, 'published', 0, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:21:12', '2014-03-22 03:21:12'),
-(9, 'Demo', 'public-small-menu-left-demo', 'pages/demo', '', '#', 6, '', 0, 0, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:22:01', '2014-03-27 10:00:05'),
-(10, 'Download', 'public-small-menu-left-download', 'pages/under-construction', '', '', 6, '', 0, 0, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:22:25', '2014-03-25 18:01:04'),
-(13, 'Contact Us', 'public-top-menu-contact-us', 'link_type/modules/form23', '', '', 5, '', 1, 1, 0, 'unpublished', 0, 8, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 21:35:43', '2014-03-26 07:20:22'),
-(14, 'Main', 'public-top-menu-main', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:06:11', '2014-03-22 22:13:58'),
-(15, 'Sub-1', 'public-top-menu-sub-1', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:06:57', '2014-03-22 22:06:57'),
-(16, 'Sub-2', 'public-top-menu-sub-2', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:07:57', '2014-03-22 22:09:26'),
-(17, 'Sub-3', 'public-top-menu-sub-3', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:08:31', '2014-03-22 22:10:12'),
-(18, 'Sub-Sub-1', 'public-top-menu-sub-sub-1', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 15, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:11:29', '2014-03-22 22:11:29'),
-(19, 'Sub-Sub-2', 'public-top-menu-sub-sub-2', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 15, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:12:24', '2014-03-22 22:12:24'),
-(20, 'Sub-Sub-Sub-1', 'public-top-menu-sub-sub-sub-1', 'manual', '', '#', 5, '', 1, 1, 0, 'published', 18, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:13:15', '2014-03-22 22:13:15'),
-(32, 'Help', 'public-top-menu-help', 'pages/help', NULL, '', 5, '', 1, 0, 0, 'published', 0, 10, 'public', 0, NULL, NULL, NULL, '', '', '2014-03-27 21:50:17', '2014-03-31 04:29:11');
+INSERT INTO `menus` (`id`, `title`, `alias`, `link`, `icon`, `link_manual`, `position`, `display_text`, `same_window`, `show_image`, `is_wrapper`, `status`, `parent`, `order`, `target`, `language_id`, `publish_start`, `publish_end`, `meta_title`, `meta_description`, `meta_keywords`, `created_at`, `updated_at`) VALUES
+(4, 'Home', 'public-top-menu-home', '/', '', '', 1, 'Welcome to Doptor CMS.', 1, 1, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:11:17', '2014-03-27 02:36:31'),
+(5, 'About Us', 'public-top-menu-about-us', 'pages/about-us', '', '#', 1, '', 1, 0, 0, 'published', 0, 3, 'public', 0, NULL, NULL, '', '', '', '2014-03-22 03:11:55', '2014-03-31 04:30:19'),
+(6, 'Backend', 'public-small-menu-right-backend', 'manual', '', 'backend', 3, '', 0, 1, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:20:05', '2014-03-22 03:20:05'),
+(7, 'Admin', 'public-small-menu-right-admin', 'manual', '', 'admin', 3, '', 0, 1, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:20:37', '2014-03-22 03:20:37'),
+(8, 'About Us', 'public-bottom-menu-about-us', 'pages/about-us', '', '', 2, '', 1, 1, 0, 'published', 0, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:21:12', '2014-03-22 03:21:12'),
+(9, 'Demo', 'public-small-menu-left-demo', 'pages/demo', '', '#', 3, '', 0, 0, 0, 'published', 0, 1, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:22:01', '2014-03-27 10:00:05'),
+(10, 'Download', 'public-small-menu-left-download', 'pages/under-construction', '', '', 3, '', 0, 0, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 03:22:25', '2014-03-25 18:01:04'),
+(13, 'Contact Us', 'public-top-menu-contact-us', 'link_type/modules/form23', '', '', 1, '', 1, 1, 0, 'unpublished', 0, 8, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 21:35:43', '2014-03-26 07:20:22'),
+(14, 'Main', 'public-top-menu-main', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 0, 2, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:06:11', '2014-03-22 22:13:58'),
+(15, 'Sub-1', 'public-top-menu-sub-1', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:06:57', '2014-03-22 22:06:57'),
+(16, 'Sub-2', 'public-top-menu-sub-2', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:07:57', '2014-03-22 22:09:26'),
+(17, 'Sub-3', 'public-top-menu-sub-3', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 14, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:08:31', '2014-03-22 22:10:12'),
+(18, 'Sub-Sub-1', 'public-top-menu-sub-sub-1', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 15, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:11:29', '2014-03-22 22:11:29'),
+(19, 'Sub-Sub-2', 'public-top-menu-sub-sub-2', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 15, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:12:24', '2014-03-22 22:12:24'),
+(20, 'Sub-Sub-Sub-1', 'public-top-menu-sub-sub-sub-1', 'manual', '', '#', 1, '', 1, 1, 0, 'published', 18, 0, 'public', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '2014-03-22 22:13:15', '2014-03-22 22:13:15'),
+(32, 'Help', 'public-top-menu-help', 'pages/help', NULL, '', 1, '', 1, 0, 0, 'published', 0, 10, 'public', 0, NULL, NULL, NULL, '', '', '2014-03-27 21:50:17', '2014-03-31 04:29:11');
 
 -- --------------------------------------------------------
 
@@ -484,19 +484,8 @@ CREATE TABLE IF NOT EXISTS `menu_categories` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `menu_categories`
---
-
-INSERT INTO `menu_categories` (`id`, `name`, `menu_type`, `description`, `created_at`, `updated_at`) VALUES
-(3, 'Admin Top Menu', 'admin-top-menu', '', '2014-03-21 09:29:15', '2014-03-21 09:29:15'),
-(4, 'Admin Main Menu', 'admin-main-menu', '', '2014-03-21 19:58:49', '2014-03-21 19:58:49'),
-(5, 'Public Top Menu', 'public-top-menu', 'Public Top Menu', '2014-03-22 03:10:47', '2014-03-22 03:10:47'),
-(6, 'Public Header Left', 'public-small-menu-left', 'Public Header Left', '2014-03-22 03:18:36', '2014-03-22 03:18:36'),
-(7, 'Public Header Right', 'public-small-menu-right', 'Public Header Right', '2014-03-22 03:18:50', '2014-03-22 03:18:50'),
-(8, 'Public Footer Left', 'public-bottom-menu', 'Public Footer Left', '2014-03-22 03:19:16', '2014-03-22 03:19:16');
 
 -- --------------------------------------------------------
 

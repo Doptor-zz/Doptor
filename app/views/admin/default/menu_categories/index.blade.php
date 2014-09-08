@@ -27,7 +27,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Menu Location</th>
                                 <th>Description</th>
                                 <th class="span3">Created At</th>
                                 <th class="span2"></th>
@@ -38,7 +37,6 @@
                                 <tr class="">
                                     <td class="element-row-id">{{ $menu_cat->id }}</td>
                                     <td>{{ $menu_cat->name }}</td>
-                                    <td>{{ $menu_cat->location() }}</td>
                                     <td>{{ $menu_cat->description }}</td>
                                     <td>{{ $menu_cat->created_at }}</td>
                                     <td>
