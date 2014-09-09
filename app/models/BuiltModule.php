@@ -24,7 +24,7 @@ class BuiltModule extends Eloquent implements PresentableInterface {
 
     public static $rules = array(
             'name'    => 'alpha_spaces|required',
-            'hash'    => 'unique:built_modules,hash'
+            'hash'    => 'unique:built_modules,hash',
             'version' => 'required',
             'author'  => 'required',
             'form-1'  => 'required|not_in:0',

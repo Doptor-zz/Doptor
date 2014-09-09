@@ -178,6 +178,21 @@
                                         </div>
                                     </div>
 
+                                    <div class="control-group {{{ $errors->has('position') ? 'error' : '' }}}">
+                                        <label class="control-label">Menu Position <i class="red">*</i></label>
+                                        <div class="controls">
+                                            @if (isset($menu))
+                                                {{Form::select('position', MenuPosition::lists('name', 'id'), $menu->position, array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a position')) }}
+                                            @else
+                                                {{Form::select('position', MenuPosition::lists('name', 'id'), Input::old('position'), array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a position')) }}
+                                            @endif
+
+                                            {{ HTML::link("$link_type/menu-positions/create", "Add Position", array('class'=>'btn btn-mini mb-15')) }}
+
+                                            {{ $errors->first('position', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
+
                                     <div class="control-group {{{ $errors->has('publish_start') ? 'error' : '' }}}">
                                         <label class="control-label">Publish Start</label>
                                         <div class="controls line">

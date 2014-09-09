@@ -11,13 +11,19 @@ Description :  Doptor is Opensource CMS.
 */
 use App, Exception, Input, Str, View, Redirect, Request, Response;
 use Sentry;
-use MenuCategory, Menu, Menus;
+use Menus;
+
+use Menu;
+use MenuCategory;
+use MenuPosition;
 
 class MenuManager {
 
     public static function generate($menu_type, $menu_class='')
     {
-        $category = MenuCategory::where('menu_type', '=', $menu_type)
+        static::fixOldMenuCategories();
+
+        $category = MenuPosition::where('alias', '=', $menu_type)
                                     ->with('menus')
                                     ->first();
 
@@ -60,6 +66,24 @@ class MenuManager {
         }
 
         return $menu_render;
+    }
+
+    /**
+     * Fixes the menu position for menu entries which were added
+     * before the menu_positions table were introduced
+     */
+    public static function fixOldMenuCategories()
+    {
+        $menus = Menu::where('position', 0)->get();
+
+        foreach ($menus as $menu) {
+            $menu_category = $menu->cat->menu_type;
+            $menu_position = MenuPosition::where('alias', $menu_category)->first();
+            if ($menu_position) {
+                $menu->position = $menu_position->id;
+                $menu->save();
+            }
+        }
     }
 
     /**

@@ -96,6 +96,7 @@ class Installer {
                 $this->createSuperAdmin($input);
 
                 Artisan::call('db:seed', 'PostsTableSeeder');
+                Artisan::call('db:seed', 'MenuPositionTableSeeder');
             }
 
         } catch (Exception $e) {

@@ -36,14 +36,17 @@
                     </ul>
                 </li>
             @endif
-            @if (can_access_menu($current_user, array('menu-manager', 'menu-categories')))
-                <li class="has-sub {{ Request::is('backend/menu-manager*') || Request::is('backend/menu-categories*') ? 'active' : null }} ">
+            @if (can_access_menu($current_user, array('menu-manager', 'menu-categories', 'menu-positions')))
+                <li class="has-sub {{ Request::is('backend/menu-manager*') || Request::is('backend/menu-categories*') || Request::is('backend/menu-positions*') ? 'active' : null }} ">
                     <a href="javascript:;">
                         <i class="icon-th-list"></i>
                         <span class="title">Menu Manager</span>
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub">
+                        @if (can_access_menu($current_user, array('menu-positions')))
+                            <li><a href="{{ URL::to('backend/menu-positions') }}">All Menu Positions</a></li>
+                        @endif
                         @if (can_access_menu($current_user, array('menu-categories')))
                             <li><a href="{{ URL::to('backend/menu-categories') }}">All Menu Categories</a></li>
                         @endif

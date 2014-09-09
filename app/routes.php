@@ -75,6 +75,7 @@ Route::group(array('prefix' => 'backend'), function() {
 
     Route::resource('menu-manager', 'Backend\MenuManagerController');
     Route::resource('menu-categories', 'Backend\MenuCategoriesController');
+    Route::resource('menu-positions', 'Backend\MenuPositionsController');
 
     Route::resource('form-builder', 'Backend\FormBuilderController');
     Route::resource('form-categories', 'Backend\FormCategoriesController');
@@ -172,6 +173,7 @@ Route::group(array('prefix' => 'admin'), function() {
 
     Route::resource('menu-manager', 'Backend\MenuManagerController');
     Route::resource('menu-categories', 'Backend\MenuCategoriesController');
+    Route::resource('menu-positions', 'Backend\MenuPositionsController');
 
     Route::resource('form', 'FormController', array('only'=>array('index', 'store', 'show', 'destroy')));
     Route::get('form/{id}/list', 'FormController@index');
