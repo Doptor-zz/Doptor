@@ -11,7 +11,7 @@ Description :  Doptor is Opensource CMS.
 */
 use App;
 use Input;
-use MenuCategory;
+use MenuPosition;
 use Redirect;
 use Setting;
 use View;
@@ -26,11 +26,11 @@ class HomeController extends AdminController {
     {
         $this->layout->title = 'Home';
         if ($this->link_type == 'admin') {
-            $category = MenuCategory::where('menu_type', '=', 'admin-main-menu')
+            $position = MenuPosition::where('alias', '=', 'admin-main-menu')
                                     ->with('menus')
                                     ->first();
 
-            $menu_items = $category->menus()
+            $menu_items = $position->menus()
                             ->published()
                             ->where('parent', '=', 0)
                             ->orderBy('order', 'asc')
