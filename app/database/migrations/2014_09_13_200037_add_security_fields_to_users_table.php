@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+class AddSecurityFieldsToUsersTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::table('users', function(Blueprint $table)
+		{
+			$table->text('security_answer')->after('photo')->nullable();
+			$table->text('security_question')->after('photo')->nullable();
+		});
+	}
+
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::table('users', function(Blueprint $table)
+		{
+			$table->dropColumn('security_question');
+			$table->dropColumn('security_answer');
+		});
+	}
+
+}

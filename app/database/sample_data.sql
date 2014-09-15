@@ -792,6 +792,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `security_question` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `security_answer` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `permissions` text COLLATE utf8_unicode_ci,
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   `activation_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

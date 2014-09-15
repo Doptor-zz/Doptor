@@ -85,6 +85,7 @@ Route::group(array('prefix' => 'backend'), function() {
 
     Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
     Route::post('users/{id}/deactivate', array('as' => 'backend.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
+    Route::get('users/forgot_password', 'AuthController@postForgotPassword');
 
     Route::get('synchronize', 'Backend\SynchronizeController@getIndex');
     Route::get('synchronize/localToWeb', 'Backend\SynchronizeController@getLocalToWeb');

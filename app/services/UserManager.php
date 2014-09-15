@@ -64,13 +64,15 @@ class UserManager {
         $photo = (isset($input['photo']) && $input['photo']) ? $this->uploadImage($input['photo']) : '';
 
         $user = Sentry::createUser(array(
-            'username'   => $input['username'],
-            'email'      => $input['email'],
-            'password'   => $input['password'],
-            'photo'      => $photo,
-            'first_name' => $input['first_name'],
-            'last_name'  => $input['last_name'],
-            'activated'  => 1,
+            'username'          => $input['username'],
+            'email'             => $input['email'],
+            'password'          => $input['password'],
+            'photo'             => $photo,
+            'first_name'        => $input['first_name'],
+            'last_name'         => $input['last_name'],
+            'security_question' => $input['security_question'],
+            'security_answer'   => $input['security_answer'],
+            'activated'         => 1,
         ));
 
         // Assign user groups
@@ -96,12 +98,18 @@ class UserManager {
         // Update the user details
         $user->username = $input['username'];
         $user->email = $input['email'];
-        if ($input['password'] != '') {
+        if (isset($input['password']) && $input['password'] != '') {
             $user->password = $input['password'];
         }
         $user->photo = $photo;
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
+        if (isset($input['security_question'])) {
+            $user->security_question = $input['security_question'];
+        }
+        if (isset($input['security_answer'])) {
+            $user->security_answer = $input['security_answer'];
+        }
 
         $user->save();
 

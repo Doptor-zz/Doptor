@@ -66,6 +66,8 @@
                                             {{ $errors->first('last_name', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+
+                                    @if (isset($user) && $user->id == $current_user->id)
                                     <div class="control-group {{{ $errors->has('password') ? 'error' : '' }}}">
                                         <label class="control-label">Password {{ (!isset($user)) ? '<span class="red">*</span>' : '' }}</label>
                                         <div class="controls">
@@ -80,6 +82,31 @@
                                             {{ $errors->first('password_confirmation', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+
+                                    <div class="control-group {{{ $errors->has('security_question') ? 'error' : '' }}}">
+                                        <label class="control-label">Security Question <span class="red">*</span></label>
+                                        <div class="controls">
+                                            {{ Form::text('security_question', (!isset($user)) ? Input::old('security_question') : $user->security_question, array('class' => 'input-xlarge'))}}
+                                            {{ $errors->first('security_question', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group {{{ $errors->has('security_answer') ? 'error' : '' }}}">
+                                        <label class="control-label">Security Answer <span class="red">*</span></label>
+                                        <div class="controls">
+                                            {{ Form::text('security_answer', (!isset($user)) ? Input::old('security_answer') : $user->security_answer, array('class' => 'input-xlarge'))}}
+                                            {{ $errors->first('security_answer', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
+                                    @else
+                                        @if (isset($user))
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                {{ HTML::link($link_type . '/users/forgot_password?email=' . urlencode($user->email), 'Reset Password', array('class'=>'btn')) }}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
 
                                     @if (!Request::is('*profile*'))
                                         {{-- Don't show status selection while editing profile --}}

@@ -108,7 +108,7 @@ class AuthController extends BaseController {
                 });
 
                 return Redirect::back()
-                                   ->with('success_message', 'Password reset code has been sent to your email. Follow the instructions in the email to reset your password.');
+                                   ->with('success_message', 'Password reset code has been sent to the email address. Follow the instructions in the email to reset your password.');
             } else {
                 return Redirect::back()
                                 ->with('error_message', 'No user exists with the specified email address');
