@@ -191,6 +191,9 @@ class AuthController extends BaseController {
                                 ->subject('Password Reset Confirmation');
                     });
 
+                    $user->last_pw_changed = date('Y-m-d h:i:s');
+                    $user->save();
+
                     return Redirect::to("login/${input['target']}")
                                         ->with('success_message', 'Password reset is successful. Now you can log in with your new password');
                 } else {

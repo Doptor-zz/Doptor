@@ -72,6 +72,7 @@ class UserManager {
             'last_name'         => $input['last_name'],
             'security_question' => $input['security_question'],
             'security_answer'   => $input['security_answer'],
+            'last_pw_changed'   => date('Y-m-d h:i:s'),
             'activated'         => 1,
         ));
 
@@ -100,6 +101,7 @@ class UserManager {
         $user->email = $input['email'];
         if (isset($input['password']) && $input['password'] != '') {
             $user->password = $input['password'];
+            $user->last_pw_changed = date('Y-m-d h:i:s');
         }
         $user->photo = $photo;
         $user->first_name = $input['first_name'];
