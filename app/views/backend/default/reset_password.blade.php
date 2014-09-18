@@ -24,14 +24,37 @@
         <!-- END FORGOT PASSWORD FORM -->
     @else
         {{ Form::open(array('url'=>'reset_password', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) }}
-            <p class="center">Enter your new password.</p>
+            {{ Form::hidden('id', $id) }}
+            {{ Form::hidden('token', $token) }}
+            {{ Form::hidden('target', $target) }}
+
+            <h5>Password Reset Form</h5>
+
+            <p class="center">Enter your username</p>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        {{ Form::text('username', Input::old('username'), array('id'=>'input-username', 'placeholder' => 'Username')) }}
+                    </div>
+                </div>
+            </div>
+
+            <p class="center">Enter your security question</p>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-question-sign"></i></span>
+                        {{ Form::text('security_question', Input::old('security_question'), array('id'=>'input-security_question', 'placeholder' => 'Security Question')) }}
+                    </div>
+                </div>
+            </div>
+
+            <p class="center">Enter your new password</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-lock"></i></span>
-                        {{ Form::hidden('id', $id) }}
-                        {{ Form::hidden('token', $token) }}
-                        {{ Form::hidden('target', $target) }}
                         {{ Form::password('password', array('id'=>'input-password', 'placeholder' => 'Password')) }}
                     </div>
                 </div>

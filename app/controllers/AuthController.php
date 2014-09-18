@@ -9,7 +9,22 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+
+use Services\UserManager;
+use Services\UserGroupManager;
+
 class AuthController extends BaseController {
+
+    protected $user_manager;
+    protected $usergroup_manager;
+
+    public function __construct(UserManager $user_manager, UserGroupManager $usergroup_manager)
+    {
+        $this->user_manager = $user_manager;
+        $this->usergroup_manager = $usergroup_manager;
+
+        parent::__construct();
+    }
 
     /**
      * View for the login page
@@ -150,18 +165,37 @@ class AuthController extends BaseController {
 
     public function postResetPassword()
     {
-        extract(Input::all());
+        $input = Input::all();
 
         try {
-            $user = Sentry::findUserById($id);
+            $user = Sentry::findUserById($input['id']);
 
-            if ($user->checkResetPasswordCode($token)) {
-                if ($user->attemptResetPassword($token, $password)) {
-                    return Redirect::to("login/$target")
+            if ($input['username'] != $user->username
+                || $input['security_question'] != $user->security_question
+                ) {
+                return Redirect::back()
+                                    ->with('error_message', 'Either the username or security question is incorrect');
+            }
+
+            if ($user->checkResetPasswordCode($input['token'])) {
+                if ($user->attemptResetPassword($input['token'], $input['password'])) {
+
+                    $data = array(
+                            'user_id'      => $user->id,
+                            'created_at' => strtotime($user->created_at) * 1000
+                        );
+
+                    Mail::queue('backend.'.$this->current_theme.'.reset_password_confirm_email', $data, function($message) use($input, $user) {
+                        $message->from(get_setting('email_username'), Setting::value('website_name'))
+                                ->to($user->email, "{$user->first_name} {$user->last_name}")
+                                ->subject('Password Reset Confirmation');
+                    });
+
+                    return Redirect::to("login/${input['target']}")
                                         ->with('success_message', 'Password reset is successful. Now you can log in with your new password');
                 } else {
                     return Redirect::back()
-                                    ->with('success_message', 'Password reset failed');
+                                    ->with('error_message', 'Password reset failed');
                 }
             } else {
                 return Redirect::back()
@@ -171,7 +205,22 @@ class AuthController extends BaseController {
             }
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             return Redirect::back()
-                                ->with('success_message', 'The specified user doesn\'t exist');
+                                ->with('error_message', 'The specified user doesn\'t exist');
+        }
+    }
+
+    public function suspendUser($user_id, $created_at)
+    {
+        $user = Sentry::findUserById($user_id);
+
+        if (strtotime($user->created_at) * 1000 == $created_at) {
+            $this->user_manager->deactivateUser($user_id);
+
+            return Redirect::to('login/backend')
+                                ->with('success_message', 'The user has been suspended.');
+        } else {
+            return Redirect::to('login/backend')
+                                ->with('error_message', 'The user cannot be suspended.');
         }
     }
 }

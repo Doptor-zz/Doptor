@@ -252,7 +252,7 @@ class UserManager {
      */
     public function deactivateUser($id)
     {
-        if ($id == current_user()->id) {
+        if (current_user() && $id == current_user()->id) {
             throw new Exception('You can not deactivate yourself.');
         }
         try {
