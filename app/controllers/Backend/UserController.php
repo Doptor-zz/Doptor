@@ -165,6 +165,33 @@ class UserController extends AdminController {
         }
     }
 
+    public function getChangePassword()
+    {
+        $this->layout->title = 'Change User Password';
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.change_pw');
+    }
+
+    public function putChangePassword()
+    {
+        $input = Input::all();
+
+        $validator = User::validate_pw_change($input);
+        if ($validator->passes()) {
+            $user = current_user();
+            $user->password = $input['password'];
+            $user->last_pw_changed = date('Y-m-d h:i:s');
+            $user->save();
+
+            return Redirect::to($this->link_type)
+                ->with('success_message', "The user password was updated.");
+
+        } else {
+            // Form validation failed
+            return Redirect::back()
+                                ->withInput()
+                                ->withErrors($validator);
+        }
+    }
     /**
      * Remove the specified user.
      *

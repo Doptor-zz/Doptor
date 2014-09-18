@@ -75,6 +75,16 @@ class User extends Eloquent {
         return User::validator($input, $rules);
     }
 
+    public static function validate_pw_change($input)
+    {
+        $rules = array(
+            'password'              => 'min:6|confirmed|confirmed',
+            'password_confirmation' => 'min:6'
+        );
+
+        return User::validator($input, $rules);
+    }
+
     public static function validate_reset($input)
     {
         $rules = array(

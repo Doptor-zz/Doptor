@@ -799,6 +799,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `activation_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `activated_at` timestamp NULL DEFAULT NULL,
   `last_login` timestamp NULL DEFAULT NULL,
+  `last_pw_changed` timestamp NULL DEFAULT NULL,
   `persist_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `reset_password_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
