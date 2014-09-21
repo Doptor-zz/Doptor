@@ -42,8 +42,15 @@ class User extends Eloquent {
             'password'              => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6',
             'first_name'            => 'required|min:3',
-            'last_name'             => 'required|min:3'
+            'last_name'             => 'required|min:3',
+            // 'security_question'     => 'required',
+            // 'security_answer'       => 'required'
         );
+
+        if (!isset($input['security_question']) && !isset($input['security_answer'])) {
+            unset($rules['security_question']);
+            unset($rules['security_answer']);
+        }
 
         return User::validator($input, $rules);
     }
@@ -56,7 +63,23 @@ class User extends Eloquent {
             'password'              => 'min:6|confirmed|confirmed',
             'password_confirmation' => 'min:6',
             'first_name'            => 'required|min:3',
-            'last_name'             => 'required|min:3'
+            'last_name'             => 'required|min:3',
+            'security_question'     => 'required',
+            'security_answer'       => 'required'
+        );
+
+        if (!isset($input['security_question']) && !isset($input['security_answer'])) {
+            unset($rules['security_question']);
+            unset($rules['security_answer']);
+        }
+        return User::validator($input, $rules);
+    }
+
+    public static function validate_pw_change($input)
+    {
+        $rules = array(
+            'password'              => 'min:6|confirmed|confirmed',
+            'password_confirmation' => 'min:6'
         );
 
         return User::validator($input, $rules);

@@ -39,6 +39,7 @@ Route::get('logout', 'AuthController@getLogout');
 Route::post('forgot_password', 'AuthController@postForgotPassword');
 Route::get('reset_password/{id}/{token}/{target?}', 'AuthController@getResetPassword');
 Route::post('reset_password', 'AuthController@postResetPassword');
+Route::get('suspend_user/{id}/{token}', 'AuthController@suspendUser');
 
 Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicController@showCategory');
 Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
@@ -46,20 +47,12 @@ Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\Pub
 
 Route::resource('form', 'FormController', array('only'=>array('store', 'show')));
 
-Route::get('admin/profile', 'Backend\ProfileController@showProfile');
-Route::get('admin/profile/edit', 'Backend\ProfileController@editProfile');
-
-Route::get('backend/profile', 'Backend\ProfileController@showProfile');
-Route::get('backend/profile/edit', 'Backend\ProfileController@editProfile');
-
 /*
   |--------------------------------------------------------------------------
   | Backend Routes
   |--------------------------------------------------------------------------
  */
 
-// Authentication is required to view any backend resources
-Route::when('backend*', array('auth', 'auth.backend', 'auth.permissions'));
 
 Route::get('pages/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('pages', 'Components\Posts\Controllers\PostsController');
@@ -67,7 +60,13 @@ Route::resource('pages', 'Components\Posts\Controllers\PostsController');
 Route::get('posts/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('posts', 'Components\Posts\Controllers\PostsController');
 
-Route::group(array('prefix' => 'backend'), function() {
+Route::group(array('prefix' => 'backend', 'before' => array('auth', 'auth.backend', 'auth.permissions')), function() {
+    // For changing the current user's password
+    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
+    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'backend.users.change-password'));
+});
+
+Route::group(array('prefix' => 'backend', 'before' => array('auth', 'auth.backend', 'auth.permissions', 'auth.pw_6_months')), function() {
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('config', 'Backend\HomeController@getConfig');
@@ -85,6 +84,7 @@ Route::group(array('prefix' => 'backend'), function() {
 
     Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
     Route::post('users/{id}/deactivate', array('as' => 'backend.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
+    Route::get('users/forgot_password', 'AuthController@postForgotPassword');
 
     Route::get('synchronize', 'Backend\SynchronizeController@getIndex');
     Route::get('synchronize/localToWeb', 'Backend\SynchronizeController@getLocalToWeb');
@@ -97,6 +97,8 @@ Route::group(array('prefix' => 'backend'), function() {
 
     Route::resource('users', 'Backend\UserController');
     Route::resource('user-groups', 'Backend\UserGroupsController');
+    Route::get('profile', 'Backend\ProfileController@showProfile');
+    Route::get('profile/edit', 'Backend\ProfileController@editProfile');
 
     Route::get('modules', array('as' => 'backend.modules.index', 'uses' => 'Backend\ModulesController@getIndex'));
     Route::get('modules/install', array('as' => 'backend.modules.create', 'uses' => 'Backend\ModulesController@getInstall'));
@@ -162,10 +164,13 @@ Route::group(array('prefix' => 'backend'), function() {
   | Admin Routes
   |--------------------------------------------------------------------------
  */
-// Authentication is required to view any admin resources
-Route::when('admin*', array('auth', 'auth.permissions'));
+Route::group(array('prefix' => 'admin', 'before' => array('auth', 'auth.permissions')), function() {
+    // For changing the current user's password
+    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
+    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'admin.users.change-password'));
+});
 
-Route::group(array('prefix' => 'admin'), function() {
+Route::group(array('prefix' => 'admin', 'before' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function() {
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('config', 'Backend\HomeController@getConfig');
@@ -195,6 +200,8 @@ Route::group(array('prefix' => 'admin'), function() {
 
     Route::resource('users', 'Backend\UserController');
     Route::resource('user-groups', 'Backend\UserGroupsController');
+    Route::get('profile', 'Backend\ProfileController@showProfile');
+    Route::get('profile/edit', 'Backend\ProfileController@editProfile');
 
     Route::get('modules', array('as' => 'admin.modules.index', 'uses' => 'Backend\ModulesController@getIndex'));
     Route::get('modules/install', array('as' => 'admin.modules.create', 'uses' => 'Backend\ModulesController@getInstall'));
