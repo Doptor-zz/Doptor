@@ -62,7 +62,8 @@
                                             {{ $errors->first('last_name', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
-                                    @if (isset($user) && $user->id == $current_user->id)
+
+                                    @if (!isset($user) || (isset($user) && $user->id == $current_user->id))
                                     <div class="control-group {{{ $errors->has('password') ? 'error' : '' }}}">
                                         <label class="control-label">Password {{ (!isset($user)) ? '<span class="red">*</span>' : '' }}</label>
                                         <div class="controls">
@@ -78,6 +79,8 @@
                                         </div>
                                     </div>
 
+                                    @if (isset($user))
+                                    {{--For administrators, no need to input security question/answer while creating an user--}}
                                     <div class="control-group {{{ $errors->has('security_question') ? 'error' : '' }}}">
                                         <label class="control-label">Security Question <span class="red">*</span></label>
                                         <div class="controls">
@@ -93,6 +96,7 @@
                                             {{ $errors->first('security_answer', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+                                    @endif
                                     @else
                                         @if (isset($user))
                                         <div class="control-group">
@@ -133,7 +137,12 @@
                                     <div class="control-group {{{ $errors->has('photo') ? 'error' : '' }}}">
                                         <label class="control-label">Profile Photo</label>
                                         <div class="controls">
-                                            {{ Form::file('photo', array('class' => 'input-xlarge')) }}
+                                            {{-- Form::file('photo', array('class' => 'input-xlarge')) --}}
+                                            {{ Form::hidden('photo') }}
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
+                                            <span class="file-name">
+                                                {{ $user->photo or '' }}
+                                            </span>
                                             {{ $errors->first('photo', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>

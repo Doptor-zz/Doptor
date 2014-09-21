@@ -43,8 +43,8 @@ class User extends Eloquent {
             'password_confirmation' => 'required|min:6',
             'first_name'            => 'required|min:3',
             'last_name'             => 'required|min:3',
-            'security_question'     => 'required',
-            'security_answer'       => 'required'
+            // 'security_question'     => 'required',
+            // 'security_answer'       => 'required'
         );
 
         if (!isset($input['security_question']) && !isset($input['security_answer'])) {

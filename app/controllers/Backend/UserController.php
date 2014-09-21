@@ -84,7 +84,7 @@ class UserController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::back()
-                                ->with('error_message', "The user {$input['username']} wasn't created.");
+                                ->with('error_message', "The user {$input['username']} wasn't created. {$e->getMessage()}");
         }
     }
 
@@ -161,7 +161,7 @@ class UserController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::to($redirect_to)
-                                ->with('error_message', "User information was not updated.");
+                                ->with('error_message', "User information was not updated. {$e->getMessage()}");
         }
     }
 

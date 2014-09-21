@@ -70,8 +70,8 @@ class UserManager {
             'photo'             => $photo,
             'first_name'        => $input['first_name'],
             'last_name'         => $input['last_name'],
-            'security_question' => $input['security_question'],
-            'security_answer'   => $input['security_answer'],
+            'security_question' => isset($input['security_question']) ? $input['security_question'] : '',
+            'security_answer'   => isset($input['security_answer']) ? $input['security_answer'] : '',
             'last_pw_changed'   => date('Y-m-d h:i:s'),
             'activated'         => 1,
         ));
