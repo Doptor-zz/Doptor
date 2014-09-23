@@ -40,12 +40,22 @@
                 </div>
             </div>
 
-            <p class="center">Enter your security question</p>
+            <p class="center">Security question</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-question-sign"></i></span>
-                        {{ Form::text('security_question', Input::old('security_question'), array('id'=>'input-security_question', 'placeholder' => 'Security Question')) }}
+                        {{ Form::text('security_question', $user->security_question, array('id'=>'input-security_question', 'placeholder' => 'Security Question', 'disabled')) }}
+                    </div>
+                </div>
+            </div>
+
+            <p class="center">Enter your security answer</p>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-question-sign"></i></span>
+                        {{ Form::text('security_answer', Input::old('security_answer'), array('id'=>'input-security_answer', 'placeholder' => 'Security Answer')) }}
                     </div>
                 </div>
             </div>
