@@ -74,6 +74,15 @@ class AuthController extends BaseController {
                 return Redirect::back()
                                     ->withErrors('Check your email for account activation details.');
             }
+        } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
+            if (isset($input['api'])) {
+                return Response::json(array(
+                                        'error' => 'Your account has beed suspended for 10 minutes, please try again after 10 minutes.'
+                                        ), 200);
+            } else {
+                return Redirect::back()
+                                    ->withErrors('Your account has beed suspended for 10 minutes, please try again after 10 minutes.');
+            }
         } catch(Exception $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
