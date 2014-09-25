@@ -13,6 +13,7 @@ use App;
 use Input;
 use MenuPosition;
 use Redirect;
+use Request;
 use Setting;
 use View;
 
@@ -61,6 +62,13 @@ class HomeController extends AdminController {
         $input = Input::all();
 
         unset($input['_token']);
+
+        $disabled_ips = explode(' ', $input['disabled_ips']);
+        if (in_array(Request::getClientIp(), $disabled_ips)) {
+            return Redirect::back()
+                            ->withInput()
+                            ->with('error_message', 'Current IP address cannot be disabled access');
+        }
 
         foreach ($input as $name => $value) {
             Setting::findOrCreate($name, $value);
