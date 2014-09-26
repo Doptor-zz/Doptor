@@ -71,6 +71,13 @@
                         <fieldset>
                             <legend>Security Settings</legend>
                             <div class="control-group">
+                                <label class="control-label">Auto Logout Time</label>
+                                <div class="controls">
+                                    {{ Form::text('auto_logout_time', Setting::value('auto_logout_time'), array('class' => 'input-large', 'pattern'=>'\d*')) }}
+                                    <span class="help-inline">Time in minutes. Leave blank or set 0 to use default time.</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">IP address(es) to disable access to</label>
                                 <div class="controls">
                                     {{ Form::text('disabled_ips', Setting::value('disabled_ips'), array('class' => 'input-large')) }}
@@ -218,7 +225,7 @@
                             <div class="control-group">
                                 <label class="control-label">Email Port</label>
                                 <div class="controls">
-                                    {{ Form::text('email_port', Setting::value('email_port'), array('class' => 'input-large')) }}
+                                    {{ Form::text('email_port', Setting::value('email_port'), array('class' => 'input-large', 'pattern'=>'\d*')) }}
                                 </div>
                             </div>
 
