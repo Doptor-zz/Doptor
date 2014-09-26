@@ -524,7 +524,14 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2014_03_12_074541_create_themes_table', 4),
 ('2014_10_14_294335_create_contact_details_table', 5),
 ('2014_10_14_437293_create_contact_emails_table', 5),
-('2014_10_21_153951_create_contact_categories_table', 5);
+('2014_10_21_153951_create_contact_categories_table', 5),
+('2014_07_28_142845_create_report_generators_table', 6),
+('2014_07_28_142827_create_built_reports_table', 7),
+('2014_08_21_221904_create_filled_forms_table', 8),
+('2014_08_21_221904_create_form_entries_table', 9),
+('2014_09_07_223749_create_menu_positions_table', 10),
+('2014_09_08_214527_add_position_to_menus_table', 10),
+('2014_09_13_200037_add_security_fields_to_users_table', 11);
 
 -- --------------------------------------------------------
 
@@ -794,6 +801,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `security_question` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `security_answer` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `auto_logout_time` int(10) unsigned DEFAULT NULL,
   `permissions` text COLLATE utf8_unicode_ci,
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   `activation_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

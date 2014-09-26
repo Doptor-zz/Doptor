@@ -74,6 +74,15 @@ class AuthController extends BaseController {
                 return Redirect::back()
                                     ->withErrors('Check your email for account activation details.');
             }
+        } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
+            if (isset($input['api'])) {
+                return Response::json(array(
+                                        'error' => 'Your account has beed suspended for 10 minutes, please try again after 10 minutes.'
+                                        ), 200);
+            } else {
+                return Redirect::back()
+                                    ->withErrors('Your account has beed suspended for 10 minutes, please try again after 10 minutes.');
+            }
         } catch(Exception $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
@@ -150,7 +159,8 @@ class AuthController extends BaseController {
                 $this->layout->content = View::make($target . '.'.$this->current_theme.'.reset_password')
                                                 ->with('id', $id)
                                                 ->with('token', $token)
-                                                ->with('target', $target);
+                                                ->with('target', $target)
+                                                ->with('user', $user);
             } else {
                 $this->layout->content = View::make($target . '.'.$this->current_theme.'.reset_password')
                                                 ->withErrors(array(
@@ -171,10 +181,11 @@ class AuthController extends BaseController {
             $user = Sentry::findUserById($input['id']);
 
             if ($input['username'] != $user->username
-                || $input['security_question'] != $user->security_question
+                || $input['security_answer'] != $user->security_answer
                 ) {
                 return Redirect::back()
-                                    ->with('error_message', 'Either the username or security question is incorrect');
+                                    ->withInput()
+                                    ->with('error_message', 'Either the username or security answer is incorrect');
             }
 
             if ($user->checkResetPasswordCode($input['token'])) {

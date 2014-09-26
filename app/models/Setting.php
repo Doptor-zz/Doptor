@@ -38,6 +38,16 @@ class Setting extends Eloquent {
 	 */
 	public static function isOffline($target)
 	{
+		$disabled_ips = static::whereName("disabled_ips")->first();
+		if ($disabled_ips) {
+			$disabled_ips = explode(' ', $disabled_ips);
+			if (in_array(Request::getClientIp(), $disabled_ips)) {
+				// If the current IP address is in the list of disabled
+				// IP addresses, then deny access
+				return true;
+			}
+		}
+
 		$setting = static::whereName("{$target}_offline")->first();
 		// dd($setting->value);
 

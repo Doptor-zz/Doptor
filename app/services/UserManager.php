@@ -72,6 +72,7 @@ class UserManager {
             'last_name'         => $input['last_name'],
             'security_question' => isset($input['security_question']) ? $input['security_question'] : '',
             'security_answer'   => isset($input['security_answer']) ? $input['security_answer'] : '',
+            'auto_logout_time'  => $input['auto_logout_time'],
             'last_pw_changed'   => date('Y-m-d h:i:s'),
             'activated'         => 1,
         ));
@@ -112,7 +113,7 @@ class UserManager {
         if (isset($input['security_answer'])) {
             $user->security_answer = $input['security_answer'];
         }
-
+        $user->auto_logout_time = $input['auto_logout_time'];
         $user->save();
 
         if (isset($input['user-group']) && !Str::contains(URL::previous(), '/profiles/')) {

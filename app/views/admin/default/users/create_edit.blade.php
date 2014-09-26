@@ -1,3 +1,18 @@
+@section('styles')
+    <style>
+        span.password-verdict {
+            display: inline;
+            padding: 10px;
+        }
+        span.password-verdict:before {
+            content: 'Strength: ';
+        }
+        .controls .progress {
+            display: none;
+        }
+    </style>
+@stop
+
 @section('content')
     <div class="row-fluid">
         <div class="span12">
@@ -107,6 +122,15 @@
                                         @endif
                                     @endif
 
+                                    <div class="control-group {{{ $errors->has('auto_logout_time') ? 'error' : '' }}}">
+                                        <label class="control-label">Auto Logout Time</label>
+                                        <div class="controls">
+                                            {{ Form::text('auto_logout_time', (!isset($user)) ? Input::old('auto_logout_time') : $user->auto_logout_time, array('class' => 'input-xlarge'))}}
+                                            <span class="help-inline">Time in minutes. Leave blank or set 0 to use system specified time.</span>
+                                            {{ $errors->first('auto_logout_time', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
+
                                     @if (!Request::is('*profile*'))
                                         {{-- Don't show status selection while editing profile --}}
                                         <div class="control-group">
@@ -161,4 +185,28 @@
             <!-- END FORM widget-->
         </div>
     </div>
+@stop
+
+@section('scripts')
+    {{ HTML::script("assets/admin/default/js/pwstrength-bootstrap-1.2.1.min.js") }}
+    @parent
+    <script>
+        jQuery(document).ready(function () {
+            var options = {
+                minChar: 8,
+                bootstrap3: false,
+                errorMessages: {
+                    password_too_short: "<font color='red'>The Password is too short</font>",
+                    same_as_username: "Your password cannot be the same as your username"
+                },
+                scores: [17, 26, 40, 50],
+                verdicts: ["Weak", "Normal", "Medium", "Strong", "Very Strong"],
+                showVerdicts: true,
+                showVerdictsInitially: false,
+                raisePower: 1.4,
+                usernameField: "#username",
+            };
+            $('[name=password]').pwstrength(options);
+        });
+    </script>
 @stop

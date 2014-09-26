@@ -22,6 +22,32 @@
     {{-- Here goes the page level scripts and plugins --}}
     <script>
         window.base_url = '{{ URL::to('/') }}';
+
+        // auto-logout after some defined time
+        var timer,
+            auto_logout_time; // time of inactivity to wait before logging out
+
+        @if ($current_user->auto_logout_time != '' || $current_user->auto_logout_time != 0)
+        auto_logout_time = {{ $current_user->auto_logout_time }};
+        @else
+        auto_logout_time = {{ get_setting('auto_logout_time', 60) }};
+        @endif
+        if (auto_logout_time == 0) {
+            auto_logout_time = 60;
+        }
+
+        document.onkeypress = resetTimer;
+        document.onmousemove = resetTimer;
+
+        function resetTimer() {
+            clearTimeout(timer);
+            timer = setTimeout("logout()", 60000*auto_logout_time);
+        }
+
+        function logout() {
+            window.location.replace(window.base_url + '/logout');
+        }
+
         // Add CSRF protection tokens in ajax request also
         $.ajaxSetup({
             headers: {

@@ -39,12 +39,11 @@ class User extends Eloquent {
         $rules = array(
             'username'              => 'alpha_dash|required|min:4|unique:users,username',
             'email'                 => 'required|min:4|email|unique:users,email',
-            'password'              => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6',
+            'password'              => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|min:8',
             'first_name'            => 'required|min:3',
             'last_name'             => 'required|min:3',
-            // 'security_question'     => 'required',
-            // 'security_answer'       => 'required'
+            'auto_logout_time'      => 'integer'
         );
 
         if (!isset($input['security_question']) && !isset($input['security_answer'])) {
@@ -60,10 +59,11 @@ class User extends Eloquent {
         $rules = array(
             'username'              => 'alpha_dash|required|min:4|unique:users,username,'.$id,
             'email'                 => 'required|min:4|email|unique:users,email,'.$id,
-            'password'              => 'min:6|confirmed|confirmed',
-            'password_confirmation' => 'min:6',
+            'password'              => 'min:8|confirmed|confirmed',
+            'password_confirmation' => 'min:8',
             'first_name'            => 'required|min:3',
             'last_name'             => 'required|min:3',
+            'auto_logout_time'      => 'integer',
             'security_question'     => 'required',
             'security_answer'       => 'required'
         );
