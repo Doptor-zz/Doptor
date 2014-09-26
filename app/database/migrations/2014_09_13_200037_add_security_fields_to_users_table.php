@@ -17,6 +17,7 @@ class AddSecurityFieldsToUsersTable extends Migration {
 			$table->text('security_answer')->after('photo')->nullable();
 			$table->text('security_question')->after('photo')->nullable();
 			$table->dateTime('last_pw_changed')->after('last_login');
+			$table->integer('auto_logout_time')->after('security_answer')->unsigned()->nullable();
 		});
 	}
 
@@ -33,6 +34,7 @@ class AddSecurityFieldsToUsersTable extends Migration {
 			$table->dropColumn('security_question');
 			$table->dropColumn('security_answer');
 			$table->dropColumn('last_pw_changed');
+			$table->dropColumn('auto_logout_time');
 		});
 	}
 
