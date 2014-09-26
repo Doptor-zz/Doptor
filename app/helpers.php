@@ -42,6 +42,8 @@ function get_setting($key, $default='')
             return true;
         } elseif ($value == 'false') {
             return false;
+        } elseif ($value == '') {
+            return $default;
         } else {
             return $value;
         }
