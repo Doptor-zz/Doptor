@@ -10,7 +10,7 @@
                     <h4><i class="icon-th-list"></i>{{ $generator->name }} Report Generator</h4>
                 </div>
                 <div class="widget-body form">
-                    {{ Form::open(array('route'=>array($link_type . '.report-generators.generate',$generator->id), 'method'=>'POST', 'class'=>'form-horizontal', 'id'=>'report-generators')) }}
+                    {{ Form::open(array('route'=>array($link_type . '.report-generators.generate',$generator->id), 'method'=>'POST', 'target'=>'_blank', 'class'=>'form-horizontal', 'id'=>'report-generators')) }}
 
                         @if ($generator->show_calendars)
                         <div class="control-group">
