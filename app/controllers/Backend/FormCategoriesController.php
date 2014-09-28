@@ -166,8 +166,12 @@ class FormCategoriesController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-
 		$form_cat = \FormCategory::findOrFail($id);
+
+		if ($form_cat->forms->count() > 0) {
+			return \Redirect::to('backend/form-categories')
+		                        ->with('error_message', 'The form category can\'t be deleted because one or more form belong to this category. <br> Either change the form category in those form(s) or delete the form(s) first to delete this form.');
+		}
 
 		if ($form_cat && $form_cat->delete()) {
 		    if (\Request::ajax()) {
