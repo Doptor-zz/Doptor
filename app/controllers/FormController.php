@@ -112,7 +112,7 @@ class FormController extends BaseController {
     {
         $form = BuiltForm::findOrFail($input['form_id']);
         if ($form->email == '') {
-            throw new Exception('Receiver email address not specified.');
+            return;
         }
         $input = $this->formatInputForEmail($input, $form->data);
 
