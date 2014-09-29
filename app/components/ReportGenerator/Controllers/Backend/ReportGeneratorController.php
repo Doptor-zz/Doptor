@@ -180,8 +180,6 @@ class ReportGeneratorController extends BaseController {
         $output = '';
         $output = fopen('php://output', 'w');
 
-        $required_fields = $this->requiredFields($generator);
-
         fputcsv($output, array(get_setting('company_name')));
         fputcsv($output, array($generator->name));
 
@@ -197,16 +195,15 @@ class ReportGeneratorController extends BaseController {
 
         fputcsv($output, array($date_info));
 
-        $modules = $this->getModules($generator->modules);
+        $modules = $this->getModules($generator->modules, $input);
 
-        foreach ($modules as $i => $mod) {
+        foreach ($modules as $i => $module) {
             // Put the name of the fields in CSV
-            fputcsv($output, $mod['required_fields']);
+            fputcsv($output, $module['required_fields']);
 
-            $mod['entries'] = $this->moduleEntries($input, $mod);
-            foreach ($mod['entries'] as $entry) {
+            foreach ($module['entries'] as $entry) {
                 $fields = array();
-                foreach ($required_fields as $field => $name) {
+                foreach ($module['required_fields'] as $field => $name) {
                     $fields[] = $entry->{$field};
                 }
                 fputcsv($output, $fields);
@@ -235,13 +232,7 @@ class ReportGeneratorController extends BaseController {
      */
     private function pdfReport($input, $generator)
     {
-        $modules = $this->getModules($generator->modules);
-
-        foreach ($modules as $i => $mod) {
-            $module = Module::find($mod['id']);
-
-            $modules[$i]['entries'] = $this->moduleEntries($input, $mod);
-        }
+        $modules = $this->getModules($generator->modules, $input);
 
         $input['start_date'] = preg_replace('/ \d+:.*$/', '', $input['start_date']);
         $input['end_date'] = preg_replace('/ \d+:.*$/', '', $input['end_date']);
@@ -266,13 +257,7 @@ class ReportGeneratorController extends BaseController {
      */
     private function printHtml($input, $generator)
     {
-        $modules = $this->getModules($generator->modules);
-
-        foreach ($modules as $i => $mod) {
-            $module = Module::find($mod['id']);
-
-            $modules[$i]['entries'] = $this->moduleEntries($input, $mod);
-        }
+        $modules = $this->getModules($generator->modules, $input);
 
         $input['start_date'] = preg_replace('/ \d+:.*$/', '', $input['start_date']);
         $input['end_date'] = preg_replace('/ \d+:.*$/', '', $input['end_date']);
@@ -287,8 +272,23 @@ class ReportGeneratorController extends BaseController {
         return View::make('report_generators::print', $data);
     }
 
-    public function getModules($modules)
+    /**
+     * Get modules along with data
+     * @param  object $modules
+     * @param  array $input
+     * @return object
+     */
+    public function getModules($modules, $input)
     {
-        return json_decode($modules, true);
+        $modules = json_decode($modules, true);
+
+        if ($modules) {
+            foreach ($modules as $i => $module) {
+                $modules[$i]['entries'] = $this->moduleEntries($input, $module);
+            }
+        } else {
+            $modules = array();
+        }
+        return $modules;
     }
 }

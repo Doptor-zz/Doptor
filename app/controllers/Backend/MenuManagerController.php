@@ -50,7 +50,7 @@ class MenuManagerController extends AdminController {
             $input = Input::all();
 
             $groups = Input::get('access_groups', array());
-            $alias = MenuCategory::find($input['category'])->menu_type . '-' . Str::slug($input['title'], '-');
+            $alias = $input['position'] . '-' . Str::slug($input['title'], '-');
             $input['alias'] = ($input['alias']=='') ? $alias : $input['alias'];
 
             $validator = Menu::validate($input);
@@ -117,7 +117,7 @@ class MenuManagerController extends AdminController {
     {
         try {
             $input = Input::all();
-            $alias = MenuCategory::find($input['category'])->menu_type . '-' . Str::slug($input['title'], '-');
+            $alias = $input['position'] . '-' . Str::slug($input['title'], '-');
             $input['alias'] = ($input['alias']=='') ? $alias : $input['alias'];
             $groups = Input::get('access_groups', array());
             // $input['parent'] = 0;   // Just for validation

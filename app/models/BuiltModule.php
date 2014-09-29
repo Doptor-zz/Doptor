@@ -43,8 +43,6 @@ class BuiltModule extends Eloquent implements PresentableInterface {
     public static function validate($input, $id=false)
     {
         if ($id) {
-            static::$rules['name'] .= ',' . $id;
-
             $built_module = static::find($id);
             if (!(bool) $built_module->is_author) {
                 // If the current system is not author, then author
