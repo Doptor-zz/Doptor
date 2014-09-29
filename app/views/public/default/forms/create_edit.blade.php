@@ -52,4 +52,16 @@
 @stop
 
 @section('scripts')
+    <script>
+        $(function() {
+            // Repopulate input fields with old data, in case of validation error(s)
+            var old_inputs = {{ json_encode(Input::old()) }};
+            delete(old_inputs.captcha);
+
+            $('input, textarea, select').each(function() {
+                var input_name = $(this).attr('name');
+                $(this).val(old_inputs[input_name]);
+            });
+        }());
+    </script>
 @stop
