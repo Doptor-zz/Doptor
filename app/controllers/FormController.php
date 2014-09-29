@@ -56,6 +56,10 @@ class FormController extends BaseController {
             $this->sendEmail($input);
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
+        } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return Redirect::back()
+                            ->withInput()
+                            ->with('error_message', 'Form not found.');
         } catch (Exception $e) {
             return Redirect::back()
                             ->withInput()

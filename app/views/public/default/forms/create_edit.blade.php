@@ -61,7 +61,7 @@
 
             $('input, textarea, select').each(function() {
                 var input_name = $(this).attr('name');
-                if (input_name != '_token') {
+                if (input_name !== '_token' && input_name !== 'form_id') {
                     $(this).val(old_inputs[input_name]);
                 }
             });
