@@ -18,7 +18,7 @@ class BuiltForm extends Eloquent {
      */
     protected $table = 'built_forms';
 
-	protected $guarded = array();
+	protected $guarded = array('id');
 
 	public static $rules = array(
             'name'     => 'alpha_spaces|required|unique:built_forms,name',
