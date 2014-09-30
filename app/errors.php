@@ -4,20 +4,20 @@
 App::error(function($exception, $code) {
     Log::error($exception);
     if (App::environment() != 'local') {
-        list($link_type, $link, $layout) = current_section();
+        list($link_type, $link, $layout, $theme) = current_section();
         $current_user = current_user();
 
         if ($exception instanceof Illuminate\Database\Eloquent\ModelNotFoundException) {
-            return Response::view($link_type . '.default.404', array('title' => 'Page Not Found', 'current_user' => $current_user), 404);
+            return Response::view("$link_type.$theme.404", array('title' => 'Page Not Found', 'current_user' => $current_user), 404);
         }
 
         switch ($code) {
             case 401:
-                return Response::view($link_type . '.default.401', array('title' => 'Unauthorized access', 'current_user' => $current_user), 401);
+                return Response::view("$link_type.$theme.401", array('title' => 'Unauthorized access', 'current_user' => $current_user), 401);
                 break;
 
             case 404:
-                return Response::view($link_type . '.default.404', array('title' => 'Page Not Found', 'current_user' => $current_user), 404);
+                return Response::view("$link_type.$theme.404", array('title' => 'Page Not Found', 'current_user' => $current_user), 404);
                 break;
 
             case 503:
@@ -25,7 +25,7 @@ App::error(function($exception, $code) {
                 break;
 
             default:
-                return Response::view($link_type . '.default.500', array('title'=>'Error', 'current_user' => $current_user), $code);
+                return Response::view("$link_type.$theme.500", array('title'=>'Error', 'current_user' => $current_user), $code);
                 break;
         }
     }
