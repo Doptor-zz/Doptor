@@ -24,10 +24,11 @@ class FormCategory extends Eloquent {
 
     /**
      * Relation with built_forms table
+     * Many forms can belong to a form category
      */
-    public function form()
+    public function forms()
     {
-        return $this->hasOne('BuiltForm', 'category');
+        return $this->hasMany('BuiltForm', 'category');
     }
 
     public static function validate($input, $id=false)
