@@ -46,7 +46,7 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($media_entry))
-                            <span class="hidden-480">Media Manager</span>
+                            <span class="hidden-480">{{ trans('cms.media_manager') }}</span>
                         @else
                             <span class="hidden-480">Edit Media Entry</span>
                         @endif

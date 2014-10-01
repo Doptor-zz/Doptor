@@ -25,7 +25,7 @@ class HomeController extends AdminController {
      */
     public function getIndex()
     {
-        $this->layout->title = 'Home';
+        $this->layout->title = trans('cms.home');
         if ($this->link_type == 'admin') {
             $position = MenuPosition::where('alias', '=', 'admin-main-menu')
                                     ->with('menus')

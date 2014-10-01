@@ -16,7 +16,7 @@
                     {{ Form::open(array('route' => 'config', 'method'=>'POST', 'class'=>'form-horizontal')) }}
 
                         <fieldset>
-                            <legend>Basic Settings</legend>
+                            <legend>Basic {{ trans('cms.settings') }}</legend>
                             <div class="control-group">
                                 <label class="control-label">Website Name</label>
                                 <div class="controls">
@@ -45,7 +45,7 @@
                         </fieldset>
 
                         <fieldset>
-                            <legend>Theme Settings</legend>
+                            <legend>Theme {{ trans('cms.settings') }}</legend>
                             <div class="control-group">
                                 <label class="control-label">Backend Theme</label>
                                 <div class="controls">
@@ -69,7 +69,7 @@
                         </fieldset>
 
                         <fieldset>
-                            <legend>Security Settings</legend>
+                            <legend>Security {{ trans('cms.settings') }}</legend>
                             <div class="control-group">
                                 <label class="control-label">Auto Logout Time</label>
                                 <div class="controls">
@@ -135,7 +135,7 @@
                         </fieldset>
 
                         <fieldset>
-                            <legend>Offline Settings</legend>
+                            <legend>Offline {{ trans('cms.settings') }}</legend>
                             <div class="control-group {{{ $errors->has('public_offline') ? 'error' : '' }}}">
                                 <label class="control-label">Set Public Offline?</label>
                                 <div class="controls line">
@@ -214,7 +214,7 @@
                         </fieldset>
 
                         <fieldset>
-                            <legend>Email Settings</legend>
+                            <legend>Email {{ trans('cms.settings') }}</legend>
                             <div class="control-group">
                                 <label class="control-label">Email Host</label>
                                 <div class="controls">

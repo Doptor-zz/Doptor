@@ -5,7 +5,7 @@
             <div class="widget light-gray box">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-th-list"></i>All Report Generators
+                        <i class="icon-th-list"></i>All {{ trans('cms.report_generators') }}
                         @if ($link_type == 'admin')
                             @if ($current_user->hasAccess('report-generators.create'))
                                 <div class="btn-group pull-right">

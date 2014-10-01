@@ -4,7 +4,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-table"></i>All Report Builders</h4>
+                    <h4><i class="icon-table"></i>All Report {{ trans('cms.builders') }}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>

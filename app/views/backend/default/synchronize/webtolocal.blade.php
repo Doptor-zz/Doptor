@@ -4,7 +4,7 @@
             <!-- BEGIN FORM PORTLET-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-reorder"></i>Synchronize from Web to Local</h4>
+                    <h4><i class="icon-reorder"></i>{{ trans('cms.synchronize') }} from Web to Local</h4>
                 </div>
                 <div class="widget-body form">
                     <h4>Enter your web superadmin credentials to start synchronization</h4>

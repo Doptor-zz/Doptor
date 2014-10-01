@@ -7,7 +7,7 @@
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8" />
-    <title>{{{ $title }}} :: Backend Dashboard</title>
+    <title>{{{ $title }}} :: {{ trans('cms.backend_dashboard') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -34,7 +34,7 @@
             <div id="widget-config" class="modal hide">
                 <div class="modal-header">
                     <button data-dismiss="modal" class="close" type="button">×</button>
-                    <h3>Widget Settings</h3>
+                    <h3>Widget {{ trans('cms.settings') }}</h3>
                 </div>
                 <div class="modal-body">
                     <p>Here will be a configuration form</p>
@@ -77,7 +77,7 @@
                         <ul class="breadcrumb">
                             <li>
                                 <i class="icon-home"></i>
-                                <a href="{{ URL::to('backend') }}">Dashboard</a>
+                                <a href="{{ URL::to('backend') }}">{{ trans('cms.dashboard') }}</a>
                                 <i class="icon-angle-right"></i>
                             </li>
                             <li><a href="#">{{ $title }}</a></li>

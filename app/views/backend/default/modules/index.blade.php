@@ -5,7 +5,7 @@
             <div class="widget light-gray box">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-th-list"></i>All Modules
+                        <i class="icon-th-list"></i>All {{ trans('cms.modules') }}
                         @if ($link_type == 'admin')
                             @if ($current_user->hasAccess('modules.create'))
                                 <div class="btn-group pull-right">

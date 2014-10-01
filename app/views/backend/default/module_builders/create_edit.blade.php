@@ -11,7 +11,7 @@
             <div class="widget box blue" id="form_wizard_1">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-reorder"></i> Module Builder - <span class="step-title">Step 1 of 3</span>
+                        <i class="icon-reorder"></i> {{ trans('cms.module_builder') }} - <span class="step-title">Step 1 of 3</span>
                     </h4>
                 </div>
                 <div class="widget-body form">

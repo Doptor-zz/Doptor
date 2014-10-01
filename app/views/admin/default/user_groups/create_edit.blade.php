@@ -71,7 +71,7 @@
                                     <br><br>
                                     <div class="tabbable tabbable-custom" id="inner_tab">
                                     <ul class="nav nav-tabs pull-left">
-                                       <li><a href="#tab_1_2" data-toggle="tab">Modules</a></li>
+                                       <li><a href="#tab_1_2" data-toggle="tab">{{ trans('cms.modules') }}</a></li>
                                        <li class="active"><a href="#tab_1_1" data-toggle="tab">Basic</a></li>
                                     </ul>
                                     <div class="tab-content">

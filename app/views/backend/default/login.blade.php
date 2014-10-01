@@ -7,7 +7,7 @@
     @endif
     <!-- BEGIN LOGIN FORM -->
     {{ Form::open(array('url'=>'login/backend', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) }}
-        <p class="center">Enter your username and password.</p>
+        <p class="center">{{ trans('cms.enter_username_pw') }}</p>
         <div class="control-group">
             <div class="controls">
                 <div class="input-prepend">
@@ -28,12 +28,12 @@
             <div class="controls">
                 <label class="checkbox">
                     {{ Form::checkbox('remember', 'checked', true) }}
-                    Remember me
+                    {{ trans('cms.remember_me') }}
                 </label>
-                <a href="javascript:;" class="pull-right" id="forget-password">Forgot Password?</a>
+                <a href="javascript:;" class="pull-right" id="forget-password">{{ trans('cms.forgot_pw') }}</a>
             </div>
         </div>
-        <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="Login" />
+        <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="{{ trans('cms.login') }}" />
     {{ Form::close() }}
     <!-- END LOGIN FORM -->
 
