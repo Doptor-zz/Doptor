@@ -17,6 +17,10 @@ App::before(function($request)
     if (Schema::hasTable('settings') && Setting::isOffline($link_type)) {
         App::abort(503);
     }
+
+    // Get the language based on what is saved in the session
+    $language = Session::get('language', 'en');
+    App::setLocale($language);
 });
 
 

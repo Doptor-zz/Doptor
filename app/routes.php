@@ -69,6 +69,7 @@ Route::group(array('prefix' => 'backend', 'before' => array('auth', 'auth.backen
 Route::group(array('prefix' => 'backend', 'before' => array('auth', 'auth.backend', 'auth.permissions', 'auth.pw_6_months')), function() {
 
     Route::any('/', 'Backend\HomeController@getIndex');
+    Route::get('change_language/{lang}', 'Backend\HomeController@getChangeLang');
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 

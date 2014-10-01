@@ -77,4 +77,17 @@ class HomeController extends AdminController {
         return Redirect::back()
                             ->with('success_message', 'The settings were updated.');
     }
+
+    /**
+     * Change the CMS language
+     * @param   $lang
+     * @return
+     */
+    public function getChangeLang($lang)
+    {
+        \Session::put('language', $lang);
+
+        return Redirect::to($this->link_type)
+                            ->with('success_message', 'The language was changed.');
+    }
 }
