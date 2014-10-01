@@ -19,6 +19,7 @@ use Input;
 use Redirect;
 use Response;
 use Services\ModuleBuilder;
+use Session;
 use Str;
 use View;
 
@@ -68,14 +69,12 @@ class ModuleBuilderController extends AdminController {
 
                 $input = $this->formatInput($zip_file, $input);
 
-                BuiltModule::create($input);
+                $built_module = BuiltModule::create($input);
 
-                App::finish(function ($request, $response) use ($zip_file) {
-                    // Delete the file, as soon as it is downloaded
-                    File::delete($zip_file);
-                });
+                Session::put('download_file', $built_module->id);
 
-                return Response::download($zip_file, $file_name);
+                return Redirect::to('backend/module-builder')
+                        ->with('success_message', 'The module was created');
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -148,12 +147,10 @@ class ModuleBuilderController extends AdminController {
 
                 $module->update($input);
 
-                App::finish(function ($request, $response) use ($zip_file) {
-                    // Delete the file, as soon as it is downloaded
-                    File::delete($zip_file);
-                });
+                Session::put('download_file', $id);
 
-                return Response::download($zip_file, $file_name);
+                return Redirect::to('backend/module-builder')
+                        ->with('success_message', 'The module was updated');
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -191,12 +188,13 @@ class ModuleBuilderController extends AdminController {
 
     public function download($id)
     {
+        Session::forget('download_file');
         $module = BuiltModule::findOrFail($id);
 
         $canonical = Str::slug($module->name, '_');
-        $zip_file = File::exists($module->file);
+        $zip_file = $module->file;
 
-        if (!$zip_file) {
+        if (!File::exists($zip_file)) {
             return Redirect::to($this->link_type . "/module-builder/{$id}/edit")
                 ->with('error_message', 'The download file couldn\'t be found. Follow following steps to create and download the module file.');
         }
