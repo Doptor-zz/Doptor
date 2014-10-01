@@ -322,20 +322,20 @@ class Menu extends Eloquent implements PresentableInterface {
     public static function menu_entries($id=0)
     {
         $all_menus = array(0=>'None');
-        $categories = MenuCategory::with('menus')->get();
+        $menu_entries = Menu::with('cat')->get();
 
-        foreach ($categories as $category) {
-            $menus = array();
-            $menu_entries = Menu::where('category', '=', $category->id)
-                                    // ->where('parent', '=', 0)
-                                    ->get();
+        foreach ($menu_entries as $menu_entry) {
+            if ($menu_entry->id == $id) continue;
+            $menu = array(
+                    $menu_entry->id = $menu_entry->title
+                );
 
-            foreach ($menu_entries as $menu) {
-                if ($menu->id == $id) continue;
-                $menus[$menu->id] = $menu->title;
+            if ($menu_entry->cat) {
+                $cat_name = $menu_entry->cat->name;
+            } else {
+                $cat_name = 'Uncategorized';
             }
-
-            $all_menus[$category->name] = $menus;
+            $all_menus[$cat_name][$menu_entry->id] = $menu_entry->title;
         }
 
         return $all_menus;
