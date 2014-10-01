@@ -332,10 +332,10 @@ class Menu extends Eloquent implements PresentableInterface {
 
             if ($menu_entry->cat) {
                 $cat_name = $menu_entry->cat->name;
+                $all_menus[$cat_name][$menu_entry->id] = $menu_entry->title;
             } else {
-                $cat_name = 'Uncategorized';
+                $all_menus[$menu_entry->id] = $menu_entry->title;
             }
-            $all_menus[$cat_name][$menu_entry->id] = $menu_entry->title;
         }
 
         return $all_menus;
