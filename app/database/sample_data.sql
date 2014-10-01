@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `built_reports` (
   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `modules` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `show_calendars` boolean COLLATE utf8_unicode_ci DEFAULT 1,
   `created_by` int(10) unsigned NOT NULL,
   `updated_by` int(10) unsigned DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -296,15 +297,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `groups_name_unique` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `groups`
---
-
-INSERT INTO `groups` (`id`, `name`, `permissions`, `created_at`, `updated_at`) VALUES
-(1, 'Super Administrators', '{"superuser":1}', '2014-03-20 19:55:35', '2014-03-20 19:55:35'),
-(2, 'Users', '{"modules.form23.index":1,"modules.form23.show":1,"modules.form23.create":1,"modules.form23.edit":1,"modules.form23.destroy":1}', '2014-03-22 22:37:35', '2014-03-27 18:10:04');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -468,7 +461,7 @@ INSERT INTO `menu_positions` (`id`, `name`, `alias`, `created_at`, `updated_at`)
 (3, 'Public Small Menu Left', 'public-small-menu-left', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
 (4, 'Public Small Menu Right', 'public-small-menu-right', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
 (5, 'Admin Top Menu', 'admin-top-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00'),
-(6, 'Admin Menu Menu', 'admin-main-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00');
+(6, 'Admin Main Menu', 'admin-main-menu', '2014-09-07 18:15:00', '2014-09-07 18:15:00');
 
 -- --------------------------------------------------------
 
@@ -484,9 +477,13 @@ CREATE TABLE IF NOT EXISTS `menu_categories` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
-
+INSERT INTO `menu_categories` (`id`, `name`, `menu_type`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Onepage Top', '', '', '2014-10-01 17:23:19', '2014-10-01 17:23:19'),
+(2, 'Onepage Bottom', '', '', '2014-10-01 17:23:28', '2014-10-01 17:23:28')
+(3, 'Multiplepage Top', '', '', '2014-10-01 17:23:40', '2014-10-01 17:23:40'),
+(4, 'Multiplepage Bottom', '', '', '2014-10-01 17:23:50', '2014-10-01 17:23:50');
 -- --------------------------------------------------------
 
 --
@@ -602,10 +599,10 @@ CREATE TABLE IF NOT EXISTS `posts` (
 INSERT INTO `posts` (`id`, `title`, `permalink`, `image`, `content`, `status`, `target`, `featured`, `publish_start`, `publish_end`, `meta_title`, `meta_description`, `meta_keywords`, `type`, `hits`, `created_by`, `updated_by`, `created_at`, `updated_at`, `extras`) VALUES
 (1, 'Contact Us', 'contact', NULL, 'Our contact address goes here', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'page', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', '{"contact_page":true,"contact_coords":"40.7142700, -74.0059700"}'),
 (9, 'Welcome', 'welcome', NULL, '<p>The CMS public section can now be viewed at <a href="#">Public</a></p>\n\n<p>The CMS admin can now be viewed at <a href="admin">Admin</a></p>\n\n<p>The CMS backend can now be viewed at <a href="backend">Backend</a></p>', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'page', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', NULL),
-(10, 'About Us', 'about-us', NULL, '<p>Doptor is an Integrated and well-designed Content Management System (CMS) provides an end user with the tools to build and maintain a sustainable web presence. For a serious company, having a maintainable website is extremely important and the effectiveness of such a site depends on the ease of use and power of the backend CMS. There are many available CMS out there but they are too generalized to fit the needs of many companies.</p>\r\n\r\n<p>Introducing the new CMS platform for businesses, which caters to their exact need without sacrificing the power and quality of a standard platform. Through this CMS, websites can be built that aims to serve as a learning and knowledge-sharing platform for the company and act as communication tool to disseminate information to the internal and external stakeholders. The website will be a tool for sharing public information and build rapport with the external stakeholders. It will be the main channel for the company to publish and share information on activities, lessons learnt from the project interventions, good practices and relevant research. In addition to having a CMS, a business needs other tools for regular operations as well. These other suites of applications run in the different departments of the company but together they ensure the moving forward of the company. In order to assist a company with all these needs, the CMS platform will include additional business modules, for example Invoicing, Bills, Accounting, Payroll, etc.</p>\r\n\r\n<p>This CMS compliable with IOS and android, other mobile devices and with all browser.</p>\r\n\r\n<p>- Doptor are provide a free opensource CMS.&nbsp;<br />\r\n- Build your website and any kind of application using doptor.<br />\r\n- Both online and offline.</p>\r\n\r\n<p>3 type of interface- 1). Backend, 2). Admin, 3). Public</p>\r\n\r\n<p>- Backend : You can manage full system.<br />\r\n- Admin : Your officer / clark can do the operation such as accounting, payroll, inventory etc.<br />\r\n- Public : &nbsp;Public website.</p>\r\n', 'published', 'public', 0, NULL, NULL, NULL, '', '', 'page', 1, 1, 14, '2014-03-29 16:00:00', '2014-03-31 04:30:26', NULL),
+(10, 'About Us', 'about-us', NULL, '<p>Doptor is an Integrated and well-designed Content Management System (CMS) provides an end user with the tools to build and maintain a sustainable web presence. For a serious company, having a maintainable website is extremely important and the effectiveness of such a site depends on the ease of use and power of the backend CMS. There are many available CMS out there but they are too generalized to fit the needs of many companies.</p>\r\n\r\n<p>Introducing the new CMS platform for businesses, which caters to their exact need without sacrificing the power and quality of a standard platform. Through this CMS, websites can be built that aims to serve as a learning and knowledge-sharing platform for the company and act as communication tool to disseminate information to the internal and external stakeholders. The website will be a tool for sharing public information and build rapport with the external stakeholders. It will be the main channel for the company to publish and share information on activities, lessons learnt from the project interventions, good practices and relevant research. In addition to having a CMS, a business needs other tools for regular operations as well. These other suites of applications run in the different departments of the company but together they ensure the moving forward of the company. In order to assist a company with all these needs, the CMS platform will include additional business modules, for example Invoicing, Bills, Accounting, Payroll, etc.</p>\r\n\r\n<p>This CMS compliable with IOS and android, other mobile devices and with all browser.</p>\r\n\r\n<p>- Doptor are provide a free opensource CMS.&nbsp;<br />\r\n- Build your website and any kind of application using doptor.<br />\r\n- Both online and offline.</p>\r\n\r\n<p>3 type of interface- 1). Backend, 2). Admin, 3). Public</p>\r\n\r\n<p>- Backend : You can manage full system.<br />\r\n- Admin : Your officer / clark can do the operation such as accounting, payroll, inventory etc.<br />\r\n- Public : &nbsp;Public website.</p>\r\n', 'published', 'public', 0, NULL, NULL, NULL, '', '', 'page', 1, 1, NULL, '2014-03-29 16:00:00', '2014-03-31 04:30:26', NULL),
 (11, 'First Post', 'first-post', NULL, '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio mauris, auctor ut varius non, tempus nec nisi. Quisque at tellus risus. Aliquam erat volutpat. Proin et dolor magna. Sed vel metus justo. Mauris eu metus massa. Duis viverra ultricies nisl, ut pharetra eros hendrerit non.</p>\n<p>Phasellus laoreet libero non eros rhoncus sed iaculis ante molestie. Etiam arcu purus, dictum a tincidunt id, ornare sed orci. Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>\n<p>Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'post', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', NULL),
 (12, 'Second Post', 'second-post', NULL, '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio mauris, auctor ut varius non, tempus nec nisi. Quisque at tellus risus. Aliquam erat volutpat. Proin et dolor magna. Sed vel metus justo. Mauris eu metus massa. Duis viverra ultricies nisl, ut pharetra eros hendrerit non.</p>\n<p>Phasellus laoreet libero non eros rhoncus sed iaculis ante molestie. Etiam arcu purus, dictum a tincidunt id, ornare sed orci. Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>\n<p>Curabitur ornare ornare nulla quis tincidunt. Morbi nisi elit, mattis nec bibendum vel, facilisis eu ipsum. Phasellus non dolor erat, in placerat lacus. Aliquam pulvinar, est eu commodo vulputate, neque elit molestie lorem, sed vestibulum felis erat et risus. Nulla non velit odio.</p>', 'published', 'public', 0, NULL, NULL, NULL, NULL, NULL, 'post', 0, 1, NULL, '2014-03-29 16:00:00', '2014-03-29 16:00:00', NULL),
-(13, 'Help', 'help', NULL, '<p>How to create accounting module :&nbsp;<br />\r\n4 steps for create any kind of module such as accounting, payroll, inventory etc. (we are keepon increase controller for form builder). Now 5%-10% programming (coding) required. Coming soon 0% coding.<br />\r\n&nbsp;<br />\r\nStep -1 : Create one or two form (Builder--&gt;Form Builder), all field name must be unique.&nbsp;<br />\r\nStep -2 : Create a module (Builder --&gt; Module Builder) and select which form you are using.&nbsp;<br />\r\nStep -3 : Install Module. go to Extension --&gt; module --&gt; Install<br />\r\nStep -4 : Create Menu (Menu manager) must assign module.<br />\r\n&nbsp;<br />\r\nThanks<br />\r\nAnd Enjoy.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 'published', 'public', 0, NULL, NULL, NULL, '', '', 'page', 0, 14, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
+(13, 'Help', 'help', NULL, '<p>How to create accounting module :&nbsp;<br />\r\n4 steps for create any kind of module such as accounting, payroll, inventory etc. (we are keepon increase controller for form builder). Now 5%-10% programming (coding) required. Coming soon 0% coding.<br />\r\n&nbsp;<br />\r\nStep -1 : Create one or two form (Builder--&gt;Form Builder), all field name must be unique.&nbsp;<br />\r\nStep -2 : Create a module (Builder --&gt; Module Builder) and select which form you are using.&nbsp;<br />\r\nStep -3 : Install Module. go to Extension --&gt; module --&gt; Install<br />\r\nStep -4 : Create Menu (Menu manager) must assign module.<br />\r\n&nbsp;<br />\r\nThanks<br />\r\nAnd Enjoy.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 'published', 'public', 0, NULL, NULL, NULL, '', '', 'page', 0, 1, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -620,6 +617,7 @@ CREATE TABLE IF NOT EXISTS `report_generators` (
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `show_calendars` boolean COLLATE utf8_unicode_ci DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
@@ -639,31 +637,40 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `name`, `description`, `value`, `created_at`, `updated_at`) VALUES
-(1, 'website_name', '', 'Doptor CMS', '2014-03-22 03:17:11', '2014-03-31 04:20:08'),
-(2, 'footer_text', '', 'Powered by : Doptor v1.2, Copyright @ 2011-2014', '2014-03-22 03:17:11', '2014-03-25 01:36:38'),
-(3, 'public_offline', '', 'no', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(4, 'public_offline_end', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(5, 'admin_offline', '', 'no', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(6, 'admin_offline_end', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(7, 'backend_offline', '', 'no', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(8, 'backend_offline_end', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(9, 'offline_message', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(10, 'email_host', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(11, 'email_port', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(12, 'email_encryption', '', 'false', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(13, 'email_username', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(14, 'email_password', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(15, 'mysqldump_path', '', '', '2014-03-22 03:17:11', '2014-03-22 03:17:11'),
-(16, 'backend_theme', '', '3', '2014-03-31 04:20:08', '2014-03-31 04:20:08'),
-(17, 'admin_theme', '', '2', '2014-03-31 04:20:08', '2014-03-31 04:20:08'),
-(18, 'public_theme', '', '1', '2014-03-31 04:20:08', '2014-03-31 04:20:08');
+(1, 'website_name', '', 'Doptor CMS', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'footer_text', '', 'Powered by : Doptor v1.2, Copyright @ 2011-2014', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'public_offline', '', 'no', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'public_offline_end', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'admin_offline', '', 'no', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'admin_offline_end', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'backend_offline', '', 'no', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'backend_offline_end', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'offline_message', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'email_host', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'email_port', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'email_encryption', '', 'false', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'email_username', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'email_password', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'mysqldump_path', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'backend_theme', '', '3', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, 'admin_theme', '', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 'public_theme', '', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, 'website_logo', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(20, 'facebook_link', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 'twitter_link', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 'gplus_link', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 'company_name', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(24, 'company_address', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(25, 'company_contact', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(26, 'disabled_ips', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(27, 'auto_logout_time', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -692,9 +699,9 @@ CREATE TABLE IF NOT EXISTS `slideshow` (
 --
 
 INSERT INTO `slideshow` (`id`, `caption`, `image`, `status`, `publish_start`, `publish_end`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(5, '<p>doptor</p>\n', 'doptor profile 11.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 6, 0, '2014-03-26 07:17:28', '2014-03-26 07:17:28'),
-(2, '<p>www.doptor.org</p>\n', 'doptor profile.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 3, 1, '2014-03-22 03:27:07', '2014-03-22 20:59:35'),
-(4, '<p>DOPTOR</p>\n', 'doptor_banner.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 6, 0, '2014-03-26 07:15:52', '2014-03-26 07:15:52');
+(5, '<p>doptor</p>\n', 'doptor profile 11.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, '2014-03-26 07:17:28', '2014-03-26 07:17:28'),
+(2, '<p>www.doptor.org</p>\n', 'doptor profile.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, '2014-03-22 03:27:07', '2014-03-22 20:59:35'),
+(4, '<p>DOPTOR</p>\n', 'doptor_banner.png', 'published', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, '2014-03-26 07:15:52', '2014-03-26 07:15:52');
 
 -- --------------------------------------------------------
 
@@ -745,47 +752,7 @@ CREATE TABLE IF NOT EXISTS `throttle` (
   `banned_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `throttle_user_id_index` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=35 ;
-
---
--- Dumping data for table `throttle`
---
-
-INSERT INTO `throttle` (`id`, `user_id`, `ip_address`, `attempts`, `suspended`, `banned`, `last_attempt_at`, `suspended_at`, `banned_at`) VALUES
-(1, 1, '202.51.76.235', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 1, '115.164.81.233', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 2, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 3, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 1, '115.164.208.202', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, 4, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 2, '::1', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 2, '202.94.66.148', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(9, 1, '115.164.186.72', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, 3, '115.164.186.72', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, 5, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(12, 6, '115.164.186.72', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(13, 3, '115.164.176.234', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, 3, '175.139.238.167', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, 2, '103.9.114.162', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(16, 7, '180.149.7.240', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 8, '', 0, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2014-03-25 01:30:32'),
-(18, 12, '113.199.251.143', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(19, 9, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(20, 10, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(21, 11, '', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(22, 13, '113.199.251.143', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(23, 7, '183.91.15.14', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(24, 7, '175.139.238.167', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(25, 13, '202.94.66.148', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(26, 13, '::1', 0, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(27, 6, '115.164.50.166', 0, 0, 0, NULL, NULL, NULL),
-(28, 7, '115.164.50.166', 0, 0, 0, NULL, NULL, NULL),
-(29, 14, '115.164.50.166', 0, 0, 0, NULL, NULL, NULL),
-(30, 5, '115.164.50.166', 0, 0, 0, NULL, NULL, NULL),
-(31, 14, '175.139.238.167', 0, 0, 0, NULL, NULL, NULL),
-(32, 14, '115.164.216.170', 0, 0, 0, NULL, NULL, NULL),
-(33, 13, '103.242.216.234', 0, 0, 0, NULL, NULL, NULL),
-(34, 13, '113.199.222.14', 0, 0, 0, NULL, NULL, NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -818,20 +785,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_username_unique` (`username`),
   KEY `users_activation_code_index` (`activation_code`),
   KEY `users_reset_password_code_index` (`reset_password_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `photo`, `permissions`, `activated`, `activation_code`, `activated_at`, `last_login`, `persist_code`, `reset_password_code`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
-(1, 'test', 'test@test.com', '$2y$10$NR9ruYMgZsLiND7HGJccsejY8OHRGwhgBB8ezXiVBdeHhZ8qYe/bW', 'Doptor Logo Black.png', '', 1, '', '0000-00-00 00:00:00', '2014-03-25 19:55:25', '$2y$10$H0FDOpHXMPnwMpew9Lq0te5p0BhiG.xX1VAEqXu6SkGLvQ8mI5Ec.', '', 'test', 'test', '2014-03-20 19:55:35', '2014-03-25 19:55:25'),
-(5, 'andrew', 'outsource79@gmail.com', '$2y$10$TA2Fkn5iwNv.ckxFy9Q1Muyoh9RoE2rknOraHDCH0e5UkWmI10yoK', '', '', 1, '', '0000-00-00 00:00:00', '2014-03-27 21:52:56', '$2y$10$2ZA8UNb7Eyb/0sWcAqgY2eBHXAtkrF3KKCW2aA/rHm6igCS4Kfjpu', '', 'Andres', 'Hew', '2014-03-22 22:33:21', '2014-03-27 21:52:56'),
-(6, 'user', 'useradsf@asdfdsf.com', '$2y$10$Ae8OxuVTZ8jGDEpEgIz0buxFtgWAT2cvl33GbG5lNO1YK3BnPFOGu', 'time line11.jpg', '', 1, '', '0000-00-00 00:00:00', '2014-03-27 21:47:36', '$2y$10$WCZEY7nynrWqrahozVn2yezDTNu2KNUg2x3rMs.RrmO60qrQGhp0.', '', 'User', 'user', '2014-03-22 22:38:55', '2014-03-27 21:47:36'),
-(7, 'demo', 'demo@adeasdf.com', '$2y$10$zH5fLSYUWSnGgiqrc9/cau.XyUd9610QrpqqdgvF/A.5nBq51bGWG', '', '', 1, '', '0000-00-00 00:00:00', '2014-03-27 19:20:57', '$2y$10$.Ec71HeWhSSitNfencyrHeWv6.EWGg4sZBYSBMzAhD4jYY4bc.0AG', '', 'demo', 'demo', '2014-03-25 01:13:36', '2014-03-27 19:20:57'),
-(9, 'riyadh', 'ra@gnn.com', '$2y$10$WqTQWr5tR2v.dqkNDwwCnOw//bIv/atE4IBint0r6uUwzy3O/QwPa', '', '', 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', 'gss', 'grgg', '2014-03-25 01:33:45', '2014-03-25 01:33:45'),
-(13, 'superadmin', 'admin@asd.com', '$2y$10$vZzfQO1/PrXh2J5TEzyS1.4VN6xeKoQT3MU8YuBeW1h5K0aaJLPei', '', '', 1, '', '0000-00-00 00:00:00', '2014-03-31 03:28:18', '$2y$10$vZmeBU1Z21jvZyL.nE.Ur.uUhRRqfUutNLT.0yn/BQTEqkm1aZ0k.', '', 'Super', 'Admin', '2014-03-25 03:06:51', '2014-03-31 03:28:18'),
-(14, 'doptor', 'info@doptor.org', '$2y$10$knBpt2y2iCOA5Rx4Ue0vo.KuZggE10fnsjxU8IwrqNoGHCmemiBV.', NULL, NULL, 1, NULL, NULL, '2014-03-31 01:57:17', '$2y$10$NueAdYfQhT9RLMEJRDql1OhQPNAOJhWKVLzX/.0YtvqgkcjPwgKES', NULL, 'Doptor', 'Doptor', '2014-03-27 18:34:24', '2014-03-31 04:38:32');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -844,19 +798,6 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
   `group_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `users_groups`
---
-
-INSERT INTO `users_groups` (`user_id`, `group_id`) VALUES
-(1, 1),
-(5, 1),
-(6, 2),
-(7, 1),
-(9, 1),
-(13, 1),
-(14, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
