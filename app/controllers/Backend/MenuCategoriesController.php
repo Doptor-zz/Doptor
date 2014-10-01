@@ -166,8 +166,12 @@ class MenuCategoriesController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-
 		$menu_cat = \MenuCategory::findOrFail($id);
+
+		if ($menu_cat->menus->count() > 0) {
+			return \Redirect::to('backend/menu-categories')
+		                        ->with('error_message', 'The menu category can\'t be deleted because one or more menu belong to this category. <br> Either change the menu category in those menu(s) or delete the menu(s) first to delete this menu.');
+		}
 
 		if ($menu_cat && $menu_cat->delete()) {
 		    if (\Request::ajax()) {
