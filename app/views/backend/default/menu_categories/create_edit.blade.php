@@ -40,6 +40,13 @@
                                             {{ $errors->first('name', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+                                    <div class="control-group {{{ $errors->has('position') ? 'error' : '' }}}">
+                                        <label class="control-label">Menu Position</label>
+                                        <div class="controls">
+                                            {{ Form::select('position', $positions, (!isset($menu_cat)) ? Input::old('position') : $menu_cat->position, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) }}
+                                            {{ $errors->first('position', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
                                     <div class="control-group {{{ $errors->has('description') ? 'error' : '' }}}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">
@@ -47,6 +54,7 @@
                                             {{ $errors->first('description', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+                                    <br><br>
                                     <div class="form-actions">
                                         <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
                                     </div>

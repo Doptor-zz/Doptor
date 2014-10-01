@@ -9,6 +9,8 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use MenuPosition;
+
 class MenuCategoriesController extends AdminController {
 
 	/**
@@ -33,9 +35,11 @@ class MenuCategoriesController extends AdminController {
 	 */
 	public function create()
 	{
+		$positions = MenuPosition::lists('name', 'id');
 
         $this->layout->title = 'Create New Menu Category';
-        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.create_edit');
+        $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.create_edit')
+        						->with('positions', $positions);
 	}
 
 	/**
@@ -96,11 +100,13 @@ class MenuCategoriesController extends AdminController {
 	 */
 	public function edit($id)
 	{
-
 		$menu_cat = \MenuCategory::findOrFail($id);
+		$positions = MenuPosition::lists('name', 'id');
+
         $this->layout->title = $menu_cat->name;
         $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.create_edit')
-        								->with('menu_cat', $menu_cat);
+        								->with('menu_cat', $menu_cat)
+        								->with('positions', $positions);
 	}
 
 	/**
@@ -111,7 +117,6 @@ class MenuCategoriesController extends AdminController {
 	 */
 	public function update($id)
 	{
-
 		try {
 		    $input = \Input::all();
 
