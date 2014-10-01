@@ -2859,3 +2859,6 @@ li .menu-icon {
 .accordion-nav li:hover ul {
 	display: block;
 }
+#ajax-insert-modal {
+    margin-top: 0 !important;
+}

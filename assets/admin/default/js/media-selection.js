@@ -10,13 +10,14 @@ var MediaSelection = function () {
                 $('body').modalmanager('loading');
 
                 setTimeout(function(){
-                    insert_modal.load(window.base_url+'/backend/media-manager', '', function(){
+                    var media_manager_link = window.base_url+'/'+window.link_type+'/media-manager';
+                    insert_modal.load(media_manager_link, '', function(){
                         insert_modal.modal();
                     });
                 }, 1000);
             });
 
-            $('.preview.processing img').live('click', function(event) {
+            $(document).on('click', '.preview.processing img', function(event) {
                 var folder_name = $('input[name=folder]').val();
                 if ($(this).parent().find('.file-name').length) {
                     var image = $(this).parent().find('.file-name').first().text();
@@ -24,7 +25,7 @@ var MediaSelection = function () {
                     var image = $(this).parent().find('.filename').first().text();
                 }
 
-                var image_path = folder_name+'/'+image;
+                var image_path = folder_name.trimLeft()+'/'+image;
 
                 if (calling_div == 'insert-main-image') {
 

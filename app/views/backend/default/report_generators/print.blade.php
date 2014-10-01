@@ -20,8 +20,13 @@
             width: 960px;
             margin: 0 auto;
         }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 70%;
+        }
         table {
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
             border-collapse: collapse;
         }
         thead {
@@ -46,36 +51,44 @@
             <input type="button" onClick="window.print();document.title ='{{$title}}'" class="no-print" value="Print this report"/>
         @endif
         <br><br>
+
         <table>
             <caption>
-                <h1>{{ @$website_settings['company_name'] }}</h1>
-                <h2>{{ $title }}</h2>
-                @if ($input['start_date'] != '')
-                    From: {{ $input['start_date'] }}
-                @endif
-                @if ($input['end_date'] != '')
-                    To: {{ $input['end_date'] }}
-                @endif
+            <h1>{{ @$website_settings['company_name'] }}</h1>
+            <h2>{{ $title }}</h2>
+            @if ($input['start_date'] != '')
+                From: {{ $input['start_date'] }}
+            @endif
+            @if ($input['end_date'] != '')
+                To: {{ $input['end_date'] }}
+            @endif
             </caption>
-            @if ($required_fields)
-                <thead>
-                    <tr>
-                        @foreach ($required_fields as $key=>$value)
-                            <th>{{ $value }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($entries as $entry)
+        </table>
+        @foreach ($modules as $module)
+            <table>
+                <caption>
+                    {{ $module['form_name'] }}
+                </caption>
+                @if ($module['required_fields'])
+                    <thead>
                         <tr>
-                            @foreach ($required_fields as $field=>$value)
-                                <td>{{ $entry->{$field} }}</td>
+                            @foreach ($module['required_fields'] as $key=>$value)
+                                <th>{{ $value }}</th>
                             @endforeach
                         </tr>
-                    @endforeach
-                </tbody>
-            @endif
-        </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($module['entries'] as $entry)
+                            <tr>
+                                @foreach ($module['required_fields'] as $field=>$value)
+                                    <td>{{ $entry->{$field} }}</td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                @endif
+            </table>
+        @endforeach
         <br><br>
         Printed by: {{ $current_user->username }} on {{ date('Y-m-d h:m:i') }}
     </div>

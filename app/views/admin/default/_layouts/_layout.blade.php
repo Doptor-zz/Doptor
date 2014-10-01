@@ -13,7 +13,6 @@
 <!--fav and touch icons -->
 <link rel="shortcut icon" href="{{URL::to("assets/favicon.ico")}}">
 <!--============ javascript ===========-->
-@include("admin.default._layouts._ScriptsPartial")
 </head>
 <body>
 <div class="layout">
@@ -55,7 +54,10 @@
             @yield('content')
         </div>
     </div>
+    <div id="ajax-insert-modal" class="modal hide fade page-container" tabindex="-1"></div>
+    <div id="ajax-add-modal" class="modal hide fade page-container" tabindex="-1"></div>
     @include("admin.default._layouts._FooterPartial")
 </div>
+@include("admin.default._layouts._ScriptsPartial")
 </body>
 </html>

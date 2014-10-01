@@ -22,6 +22,7 @@
     {{-- Here goes the page level scripts and plugins --}}
     <script>
         window.base_url = '{{ URL::to('/') }}';
+        window.link_type = 'backend';
 
         // auto-logout after some defined time
         var timer,
