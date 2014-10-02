@@ -4,7 +4,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i>All Users</h4>
+                    <h4><i class="icon-th-list"></i>{{ trans('cms.all_users') }}</h4>
                 </div>
                 <div class="widget-body">
                     <div class="clearfix margin-bottom-10">

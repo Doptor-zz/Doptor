@@ -59,7 +59,7 @@
                                     <div class="control-group {{{ $errors->has('status') ? 'error' : '' }}}">
                                         <label class="control-label">Status <span class="red">*</span></label>
                                         <div class="controls line">
-                                            {{ Form::select('status', Slideshow::all_status(), (!isset($slide)) ? Input::old('status') : $slide->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) }}
+                                            {{ Form::select('status', {{ trans('cms.slideshow') }}::all_status(), (!isset($slide)) ? Input::old('status') : $slide->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) }}
                                             {{ $errors->first('status', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>

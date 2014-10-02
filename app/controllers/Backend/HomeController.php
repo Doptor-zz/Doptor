@@ -25,7 +25,7 @@ class HomeController extends AdminController {
      */
     public function getIndex()
     {
-        $this->layout->title = 'Home';
+        $this->layout->title = trans('cms.home');
         if ($this->link_type == 'admin') {
             $position = MenuPosition::where('alias', '=', 'admin-main-menu')
                                     ->with('menus')
@@ -76,5 +76,18 @@ class HomeController extends AdminController {
 
         return Redirect::back()
                             ->with('success_message', 'The settings were updated.');
+    }
+
+    /**
+     * Change the CMS language
+     * @param   $lang
+     * @return
+     */
+    public function getChangeLang($lang)
+    {
+        \Session::put('language', $lang);
+
+        return Redirect::to($this->link_type)
+                            ->with('success_message', 'The language was changed.');
     }
 }

@@ -4,7 +4,7 @@
 
 <head id="Starter-Site">
 
-    <title>{{{ $title }}} :: {{ trans('cms.backend_dashboard') }}</title>
+    <title>{{{ $title }}} :: {{ trans('cms.admin_dashboard') }}</title>
 
     @section('styles')
         {{-- Here goes the page level styles --}}
@@ -15,9 +15,9 @@
 
 <body>
     <!-- Container -->
-    <div class="container-fluid">
+    <div class="admin-modal modal-body">
 
-        <div class="modal-body">
+        <div class="container-fluid">
             @yield('content')
         </div>
 

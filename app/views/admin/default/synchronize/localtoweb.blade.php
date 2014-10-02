@@ -4,7 +4,7 @@
             <!-- BEGIN FORM PORTLET-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-reorder"></i>Synchronize Local to Remote</h4>
+                    <h4><i class="icon-reorder"></i>{{ trans('cms.synchronize') }} Local to Remote</h4>
                 </div>
                 <div class="widget-body form">
                     <h4>Enter your remote superadmin credentials to start synchronization</h4>

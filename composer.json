@@ -16,7 +16,7 @@
 		"mews/captcha": "dev-master"
 	},
 	"require-dev": {
-		"way/generators": "3",
+		"way/generators": "2.*",
 		"barryvdh/laravel-ide-helper": "dev-master"
 	},
 	"autoload": {

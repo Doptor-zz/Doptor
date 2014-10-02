@@ -24,12 +24,14 @@ class Setting extends Eloquent {
 	 * Finds the entry with the specified name.
 	 * If not found, creates it.
 	 */
-	public function scopeFindOrCreate($query, $name, $value)
+	public function scopeFindOrCreate($query, $name, $value=null)
 	{
 	    $obj = $query->whereName($name)->first();
 	    $config = $obj ?: new static;
 	    $config->name = $name;
-	    $config->value = $value;
+	    if ($value) {
+		    $config->value = $value;
+	    }
 	    $config->save();
 	}
 

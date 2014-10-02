@@ -46,7 +46,7 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($media_entry))
-                            <span class="hidden-480">Media Manager</span>
+                            <span class="hidden-480">{{ trans('cms.media_manager') }}</span>
                         @else
                             <span class="hidden-480">Edit Media Entry</span>
                         @endif
@@ -153,7 +153,7 @@
             folder_contents('{{ $base_dir }}');
 
             // Open the folder when clicked
-            $('.folder-image').live('click', function() {
+            $(document).on('click', '.folder-image', function() {
                 parent = $('input[name=folder]').val();
                 folder_name = $(this).find('.file-name').first().text();
                 new_folder = parent + '/' + folder_name;
@@ -188,7 +188,7 @@
                 });
             });
 
-            $('.delete-file').live('click', function() {
+            $(document).on('click', '.delete-file', function() {
                 doDelete = confirm("Are you sure you want to delete the file?");
                 if (!doDelete) return false;
                 $.ajax({

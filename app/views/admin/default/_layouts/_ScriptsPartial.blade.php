@@ -1,5 +1,6 @@
 <script>
     window.base_url = '{{ URL::to('/') }}';
+    window.link_type = 'admin';
 </script>
 {{ HTML::script("assets/admin/default/js/jquery.js") }}
 {{ HTML::script("assets/admin/default/js/jquery-ui-1.10.1.custom.min.js") }}

@@ -68,29 +68,29 @@ class AuthController extends BaseController {
         } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => 'Check your email for account activation details.'
+                                        'error' => trans('cms.check_activation_email')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors('Check your email for account activation details.');
+                                    ->withErrors(trans('cms.check_activation_email'));
             }
         } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => 'Your account has beed suspended for 10 minutes, please try again after 10 minutes.'
+                                        'error' => trans('cms.account_suspended', array('minutes' => 10))
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors('Your account has beed suspended for 10 minutes, please try again after 10 minutes.');
+                                    ->withErrors(trans('cms.account_suspended', array('minutes' => 10)));
             }
         } catch(Exception $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => 'Invalid username or password'
+                                        'error' => trans('cms.invalid_username_pw')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors('Invalid username or password');
+                                    ->withErrors(trans('cms.invalid_username_pw'));
             }
         }
     }

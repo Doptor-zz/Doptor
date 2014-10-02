@@ -4,7 +4,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-table"></i>Module Builder</h4>
+                    <h4><i class="icon-table"></i>{{ trans('cms.module_builder') }}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>

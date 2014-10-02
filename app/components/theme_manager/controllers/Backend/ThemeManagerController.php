@@ -76,8 +76,6 @@ class ThemeManagerController extends BaseController {
      */
     public function apply($id)
     {
-
-
         $theme = Theme::findOrFail($id);
 
         \Setting::setValue("{$theme->target}_theme", $theme->id);

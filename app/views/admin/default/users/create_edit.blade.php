@@ -10,6 +10,9 @@
         .controls .progress {
             display: none;
         }
+        .modal-backdrop {
+            z-index: 0 !important;
+        }
     </style>
 @stop
 
@@ -188,9 +191,14 @@
 @stop
 
 @section('scripts')
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modalmanager.js') }}
+    {{ HTML::script('assets/backend/default/plugins/bootstrap/js/bootstrap-modal.js') }}
+    {{ HTML::script("assets/admin/default/js/media-selection.js") }}
     {{ HTML::script("assets/admin/default/js/pwstrength-bootstrap-1.2.1.min.js") }}
     @parent
     <script>
+        MediaSelection.init('photo');
+
         jQuery(document).ready(function () {
             var options = {
                 minChar: 8,

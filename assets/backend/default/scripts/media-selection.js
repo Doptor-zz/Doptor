@@ -6,11 +6,13 @@ var MediaSelection = function () {
             var calling_div;
 
             $('.insert-media').on('click', function(event) {
+                console.log('clicked');
                 calling_div = event.target.id;
                 $('body').modalmanager('loading');
 
                 setTimeout(function(){
-                    insert_modal.load(window.base_url+'/backend/media-manager', '', function(){
+                    var media_manager_link = window.base_url+'/'+window.link_type+'/media-manager';
+                    insert_modal.load(media_manager_link, '', function(){
                         insert_modal.modal();
                     });
                 }, 1000);

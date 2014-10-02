@@ -4,15 +4,15 @@
             <!-- BEGIN FORM PORTLET-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-reorder"></i>Synchronize</h4>
+                    <h4><i class="icon-reorder"></i>{{ trans('cms.synchronize') }}</h4>
                 </div>
                 <div class="widget-body form">
                     @if ($current_user->hasAccess("synchronize.local-to-web"))
-                    <a href="{{url('admin/synchronize/localToWeb')}}" class="btn">Synchronize to Remote</a>
+                    <a href="{{url('admin/synchronize/localToWeb')}}" class="btn">{{ trans('cms.synchronize') }} to Remote</a>
                     @endif
                     <br><br>
                     @if ($current_user->hasAccess("synchronize.web-to-local"))
-                    <a href="{{url('admin/synchronize/webToLocal')}}" class="btn">Synchronize from Remote</a>
+                    <a href="{{url('admin/synchronize/webToLocal')}}" class="btn">{{ trans('cms.synchronize') }} from Remote</a>
                     @endif
                 </div>
             </div>
