@@ -481,7 +481,7 @@ CREATE TABLE IF NOT EXISTS `menu_categories` (
 
 INSERT INTO `menu_categories` (`id`, `name`, `position`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'Onepage Top', 1, '', '2014-10-01 17:23:19', '2014-10-01 17:23:19'),
-(2, 'Onepage Bottom', 2, '', '2014-10-01 17:23:28', '2014-10-01 17:23:28')
+(2, 'Onepage Bottom', 2, '', '2014-10-01 17:23:28', '2014-10-01 17:23:28'),
 (3, 'Multiplepage Top', 1, '', '2014-10-01 17:23:40', '2014-10-01 17:23:40'),
 (4, 'Multiplepage Bottom', 2, '', '2014-10-01 17:23:50', '2014-10-01 17:23:50');
 -- --------------------------------------------------------

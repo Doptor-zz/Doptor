@@ -44,7 +44,7 @@ class BuiltForm extends Eloquent {
     public static function validate($input, $id=false)
     {
         if ($id) {
-            static::$rules['name'] .= ','.$id;
+            static::$rules['hash'] .= ','.$id;
         }
         return Validator::make($input, static::$rules);
     }
