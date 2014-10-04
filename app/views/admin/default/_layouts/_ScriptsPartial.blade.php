@@ -43,7 +43,7 @@
     }
 
     $(function () {
-        $(".chosen").chosen();
+        $('select').chosen();
     });
 
     /**=========================
