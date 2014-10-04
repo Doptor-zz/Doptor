@@ -35,7 +35,7 @@ class ModulesController extends AdminController {
      */
     public function getIndex()
     {
-        $modules = Module::all();
+        $modules = Module::latest()->get();
 
         $this->layout->title = 'All Modules';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.modules.index')

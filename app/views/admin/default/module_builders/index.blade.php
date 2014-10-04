@@ -29,7 +29,7 @@
                                 <th>Version</th>
                                 <th>Author</th>
                                 <th>Website</th>
-                                <th>Selected Form</th>
+                                <th>Selected Form(s)</th>
                                 <th>Table Name(s)</th>
                                 <th>Download</th>
                                 <th>Created At</th>
@@ -44,13 +44,21 @@
                                     <td>{{ $module->version }}</td>
                                     <td>{{ $module->author }}</td>
                                     <td>{{ $module->website }}</td>
-                                    <td>{{ $module->form_name() }}</td>
+                                    <td>
+                                        @foreach ($module->forms() as $module_form)
+                                            {{ $module_form->name }}
+                                            @if ($current_user->hasAccess('form-builder.edit'))
+                                            <a href="{{ URL::to($link_type . '/form-builder/' . $module_form->id . '/edit') }}" class="btn btn-mini" title="Edit Form"><i class="icon-edit"></i></a>
+                                            @endif
+                                            <br>
+                                        @endforeach
+                                    </td>
                                     <td>{{ $module->tables() }}</td>
                                     <th>{{ HTML::link(url($link_type . '/module-builder/download/'.$module->id), 'Download') }}</th>
                                     <td>{{ $module->created_at }}</td>
                                     <td>
                                         @if ($current_user->hasAccess('module-builder.edit'))
-                                        <a href="{{ URL::to($link_type . '/module-builder/' . $module->id . '/edit') }}" class="btn btn-mini"><i class="icon-edit"></i></a>
+                                        <a href="{{ URL::to($link_type . '/module-builder/' . $module->id . '/edit') }}" class="btn btn-mini" title="Edit Module"><i class="icon-edit"></i></a>
                                         @endif
 
                                         @if ($current_user->hasAccess('module-builder.destroy'))

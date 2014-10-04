@@ -25,7 +25,6 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th class="span3">Created At</th>
@@ -35,7 +34,6 @@
                         <tbody id="menu-list">
                             @foreach ($form_cats as $form_cat)
                                 <tr class="">
-                                    <td class="element-row-id">{{ $form_cat->id }}</td>
                                     <td>{{ $form_cat->name }}</td>
                                     <td>{{ $form_cat->description }}</td>
                                     <td>{{ $form_cat->created_at }}</td>

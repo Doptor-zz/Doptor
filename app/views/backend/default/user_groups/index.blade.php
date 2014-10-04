@@ -31,7 +31,6 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Created At</th>
                                 <th class="span2"></th>
@@ -41,7 +40,6 @@
                             @foreach($user_groups as $user_group)
 
                                 <tr class="">
-                                    <td>{{ $user_group->id }}</td>
                                     <td>{{ $user_group->name }}</td>
                                     <td>{{ $user_group->created_at }}</td>
                                     <td>

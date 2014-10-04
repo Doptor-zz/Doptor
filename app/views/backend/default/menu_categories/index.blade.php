@@ -31,7 +31,6 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th class="span3">Created At</th>
@@ -41,7 +40,6 @@
                         <tbody id="menu-list">
                             @foreach ($menu_cats as $menu_cat)
                                 <tr class="">
-                                    <td class="element-row-id">{{ $menu_cat->id }}</td>
                                     <td>{{ $menu_cat->name }}</td>
                                     <td>{{ $menu_cat->description }}</td>
                                     <td>{{ $menu_cat->created_at }}</td>
