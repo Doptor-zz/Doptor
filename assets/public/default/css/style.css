@@ -1333,3 +1333,6 @@ h4.alt-title:before {
 .form-actions {
 	margin: 0 0 0 180px;
 }
+.chosen-container .chosen-results li {
+	background: none;
+}
