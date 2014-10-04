@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="{{URL::to("assets/public/default/css/prettyPhoto.css")}}" media="screen" />
 <!-- Layout and Media queries-->
 <link rel="stylesheet" href="{{URL::to("assets/public/default/css/layout.css")}}" media="screen" />
+<link rel="stylesheet" href="{{URL::to("assets/public/default/css/chosen.min.css")}}" media="screen" />
 <!--[if lt IE 9]>
     <link rel="stylesheet" href="{{URL::to("assets/public/default/css/ie/ie8.css")}}" media="screen" />
 <![endif]-->

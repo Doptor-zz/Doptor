@@ -19,6 +19,7 @@
 <script type="text/javascript" src="{{URL::to("assets/public/default/js/jquery.checkbox.js")}}"></script>
 <!-- Reveal Modal -->
 <script type="text/javascript" src="{{URL::to("assets/public/default/js/jquery.reveal.js")}}"></script>
+<script type="text/javascript" src="{{URL::to("assets/public/default/js/chosen.jquery.min.js")}}"></script>
 
 <!-- Custom -->
 <script type="text/javascript" src="{{URL::to("assets/public/default/js/custom.js")}}"></script>
@@ -28,6 +29,10 @@
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
         }
+    });
+
+    $(function () {
+        $("select:not(.select-menu)").chosen();
     });
 </script>
 @if (!Services\MenuManager::isImageShown())
