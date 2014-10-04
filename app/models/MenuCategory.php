@@ -22,7 +22,8 @@ class MenuCategory extends Eloquent implements PresentableInterface {
 	protected $guarded = array('id');
 
 	public static $rules = array(
-            'name'      => 'alpha_spaces|required|unique:menu_categories,name'
+            'name'  => 'alpha_spaces|required|unique:menu_categories,name',
+            'alias' => 'required|unique:menu_categories,alias'
         );
 
     /**
@@ -36,9 +37,33 @@ class MenuCategory extends Eloquent implements PresentableInterface {
     public static function validate($input, $id=false)
     {
         if ($id) {
-            static::$rules['name']      .= ','.$id;
+            static::$rules['name']  .= ','.$id;
+            static::$rules['alias'] .= ','.$id;
         }
         return Validator::make($input, static::$rules);
+    }
+
+    /**
+     * Automatically set the alias, if one is not provided
+     * @param string $alias
+     */
+    public function setAliasAttribute($alias)
+    {
+        if ($alias == '') {
+            $alias = Str::slug($this->attributes['name']);
+            $aliases = $this->whereRaw("alias REGEXP '^{$alias}(-[0-9]*)?$'");
+
+            if ($aliases->count() === 0) {
+                $this->attributes['alias'] = $alias;
+            } else {
+                // get reverse order and get first
+                $lastAliasNumber = intval(str_replace($alias . '-', '', $aliases->orderBy('alias', 'desc')->first()->alias));
+
+                $this->attributes['alias'] = $alias . '-' . ($lastAliasNumber + 1);
+            }
+        } else {
+            $this->attributes['alias'] = $alias;
+        }
     }
 
     /**

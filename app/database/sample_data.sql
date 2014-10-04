@@ -472,6 +472,7 @@ INSERT INTO `menu_positions` (`id`, `name`, `alias`, `created_at`, `updated_at`)
 CREATE TABLE IF NOT EXISTS `menu_categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `position` int(10) UNSIGNED NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -479,11 +480,11 @@ CREATE TABLE IF NOT EXISTS `menu_categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
-INSERT INTO `menu_categories` (`id`, `name`, `position`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Onepage Top', 1, '', '2014-10-01 17:23:19', '2014-10-01 17:23:19'),
-(2, 'Onepage Bottom', 2, '', '2014-10-01 17:23:28', '2014-10-01 17:23:28'),
-(3, 'Multiplepage Top', 1, '', '2014-10-01 17:23:40', '2014-10-01 17:23:40'),
-(4, 'Multiplepage Bottom', 2, '', '2014-10-01 17:23:50', '2014-10-01 17:23:50');
+INSERT INTO `menu_categories` (`id`, `name`, `alias`, `position`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Onepage Top', 'onepage-top', 1, '', '2014-10-01 17:23:19', '2014-10-01 17:23:19'),
+(2, 'Onepage Bottom', 'onepage-bottom', 2, '', '2014-10-01 17:23:28', '2014-10-01 17:23:28'),
+(3, 'Multiplepage Top', 'multiplepage-top', 1, '', '2014-10-01 17:23:40', '2014-10-01 17:23:40'),
+(4, 'Multiplepage Bottom', 'multiplepage-bottom', 2, '', '2014-10-01 17:23:50', '2014-10-01 17:23:50');
 -- --------------------------------------------------------
 
 --
