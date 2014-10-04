@@ -2,10 +2,12 @@
 <link href="{{url("assets/admin/default/css/jquery.gritter.css")}}" rel="stylesheet">
 <link href="{{url("assets/admin/default/css/bootstrap-responsive.css")}}" rel="stylesheet">
 <link rel="stylesheet" href="{{url("assets/admin/default/css/font-awesome.css")}}">
+<link href="{{url("assets/admin/default/css/chosen.css")}}" rel="stylesheet">
 <!--[if IE 7]>
 <link rel="stylesheet" href="{{url("assets/admin/default/css/font-awesome-ie7.min.css")}}">
 <![endif]-->
 <link href="{{url("assets/admin/default/css/styles.css")}}" rel="stylesheet">
+
 <link href="{{url("assets/admin/default/css/theme-blue.css")}}" rel="stylesheet">
 
 <!--[if IE 7]>

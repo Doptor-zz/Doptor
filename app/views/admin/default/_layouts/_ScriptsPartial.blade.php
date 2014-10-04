@@ -12,6 +12,7 @@
 {{ HTML::script("assets/admin/default/js/accordion.nav.js") }}
 {{ HTML::script("assets/admin/default/js/jquery.gritter.js") }}
 {{ HTML::script("assets/admin/default/js/custom.js") }}
+{{ HTML::script("assets/admin/default/js/chosen.jquery.js") }}
 {{ HTML::script("assets/admin/default/js/respond.min.js") }}
 {{ HTML::script("assets/admin/default/js/ios-orientationchange-fix.js") }}
 <script>
@@ -40,6 +41,10 @@
     function logout() {
         window.location.replace(window.base_url + '/logout');
     }
+
+    $(function () {
+        $(".chosen").chosen();
+    });
 
     /**=========================
     LEFT NAV ICON ANIMATION
