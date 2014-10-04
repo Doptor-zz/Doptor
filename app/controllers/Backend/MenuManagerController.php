@@ -20,7 +20,9 @@ class MenuManagerController extends AdminController {
      */
     public function index()
     {
-        $menu_entries = Menu::with('cat')->orderBy('parent', 'ASC')
+        $menu_entries = Menu::with('cat')
+                        ->latest()
+                        ->orderBy('parent', 'ASC')
                         ->orderBy('order', 'ASC')
                         ->orderBy('title', 'ASC')
                         ->get();

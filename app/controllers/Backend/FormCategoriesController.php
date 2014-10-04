@@ -18,8 +18,7 @@ class FormCategoriesController extends AdminController {
 	 */
 	public function index()
 	{
-
-		$form_cats = \FormCategory::all();
+		$form_cats = \FormCategory::latest()->get();
 
         $this->layout->title = 'All Form Categories';
         $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.form_categories.index')

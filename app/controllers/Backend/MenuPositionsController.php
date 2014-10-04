@@ -18,7 +18,7 @@ class MenuPositionsController extends AdminController {
      */
     public function index()
     {
-        $menu_positions = \MenuPosition::all();
+        $menu_positions = \MenuPosition::latest()->get();
 
         $this->layout->title = 'All Menu Positions';
         $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_positions.index')

@@ -20,8 +20,7 @@ class MenuCategoriesController extends AdminController {
 	 */
 	public function index()
 	{
-
-		$menu_cats = \MenuCategory::all();
+		$menu_cats = \MenuCategory::latest()->get();
 
         $this->layout->title = 'All Menu Categories';
         $this->layout->content = \View::make($this->link_type.'.'.$this->current_theme.'.menu_categories.index')

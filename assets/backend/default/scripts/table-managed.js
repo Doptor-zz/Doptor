@@ -14,6 +14,8 @@ var TableManaged = function () {
                     [5, 15, 20, -1],
                     [5, 15, 20, "All"] // change per page values here
                 ],
+                // Disable initial sort
+                "aaSorting": [],
                 // set the initial value
                 "iDisplayLength": 5,
                 "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
