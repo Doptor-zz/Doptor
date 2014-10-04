@@ -40,6 +40,14 @@
                                             {{ $errors->first('name', '<span class="help-inline">:message</span>') }}
                                         </div>
                                     </div>
+                                    <div class="control-group {{{ $errors->has('alias') ? 'error' : '' }}}">
+                                        <label class="control-label">Alias </label>
+                                        <div class="controls">
+                                            {{ Form::text('alias', (!isset($menu_cat)) ? Input::old('alias') : $menu_cat->alias, array('class' => 'input-xlarge')) }}
+                                            <span class="help-inline">Leave blank for automatic alias</span>
+                                            {{ $errors->first('alias', '<span class="help-inline">:message</span>') }}
+                                        </div>
+                                    </div>
                                     <div class="control-group {{{ $errors->has('position') ? 'error' : '' }}}">
                                         <label class="control-label">Menu Position</label>
                                         <div class="controls">
