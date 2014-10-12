@@ -82,11 +82,12 @@
             // Repopulate input fields with old data, in case of validation error(s)
             var old_inputs = {{ json_encode(Input::old()) }};
             delete(old_inputs._token);
+            delete(old_inputs.input_name);
             delete(old_inputs.captcha);
 
             $('input, textarea, select').each(function() {
                 var input_name = $(this).attr('name');
-                if (input_name != '_token') {
+                if (old_inputs[input_name] !== undefined) {
                     $(this).val(old_inputs[input_name]);
                 }
             });
