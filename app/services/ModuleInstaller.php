@@ -47,7 +47,6 @@ class ModuleInstaller {
         if (!$unzipSuccess) {
             throw new Exception("The module file {$filename} couldn\'t be extracted.");
         }
-
         if (!File::exists("{$this->temp_path}{$canonical}/module.json")) {
             throw new Exception('module.json doesn\'t exist in the module');
         }
@@ -69,7 +68,10 @@ class ModuleInstaller {
         $this->manageTables($config);
 
         $form_ids = $this->addToBuiltForms($config['forms']);
-        $this->addToBuiltModules($config, $form_ids);
+
+        if ($form_ids) {
+            $this->addToBuiltModules($config, $form_ids);
+        }
 
         $input = $this->fixInput($config);
 
@@ -112,7 +114,7 @@ class ModuleInstaller {
         $temp_module_dir = "{$this->temp_path}{$canonical}";
 
         File::copyDirectory("{$temp_module_dir}/{$config['info']['alias']}",
-            "{$this->modules_path}/{$config['info']['alias']}/");
+            "{$this->modules_path}{$config['info']['alias']}/");
         File::copy("{$temp_module_dir}/module.json",
             "{$this->modules_path}{$config['info']['alias']}/module.json");
 
@@ -206,6 +208,9 @@ class ModuleInstaller {
         $form_ids = array();
 
         foreach ($forms as $form) {
+            if (!isset($form['data'])) {
+                return false;
+            }
             $existing_form = BuiltForm::whereNotNull('hash')
                                     ->where('hash', $form['hash'])
                                     ->first();
