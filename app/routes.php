@@ -260,3 +260,10 @@ Route::group(array('prefix' => 'admin', 'before' => array('auth', 'auth.permissi
 });
 
 require_once(__DIR__ . '/errors.php');
+Route::when('backend/*', array('auth', 'auth.backend'));
+Route::when('admin/*', array('auth'));
+
+// Add the routes of installed modules
+foreach(glob("app/modules/*/routes.php") as $route) {
+    require_once($route);
+}
