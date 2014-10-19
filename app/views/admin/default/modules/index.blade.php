@@ -55,8 +55,7 @@
                                 <tr class="">
                                     <td>{{ $module->name }}</td>
                                     <td>
-                                        <?php $targets = explode('|', $module->target) ?>
-                                        @foreach ($targets as $target)
+                                        @foreach ($module->targets() as $target)
                                             {{ Str::title($target) }} :
                                             <?php $target = ($target=='public') ? '' : $target . '/' ?>
                                             {{ HTML::link(URL::to($target . 'modules/' . Str::slug($module->name, '_')), $module->name) }}
