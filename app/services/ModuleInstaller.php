@@ -131,6 +131,7 @@ class ModuleInstaller {
         // Get only the table names from the forms
         $table_names = array_pluck($config['forms'], 'table');
         $table = implode('|', $table_names);
+        $links = (isset($config['links'])) ? json_encode($config['links']) : '';
 
         $input = array(
             'name'    => $config['info']['name'],
@@ -140,6 +141,7 @@ class ModuleInstaller {
             'author'  => $config['info']['author'],
             'website' => $config['info']['website'],
             'target'  => $config['target'],
+            'links'   => $links,
             'table'   => $table,
             'enabled' => true
         );
