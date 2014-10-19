@@ -16,11 +16,33 @@ class ModulePresenter extends Presenter
 
     /**
      * Get the display targets of the module
-     * @return string
+     * @return array
      */
     public function targets()
     {
         return explode('|', $this->target);
+    }
+
+    /**
+     * Get the links of the module
+     * @return string
+     */
+    public function getLinks()
+    {
+        $ret_links = array();
+        if ($this->links == '') {
+            $alias = Str::slug($this->name, '_');
+            $name = $this->name;
+            $ret_links[$alias] = $name;
+        } else {
+            $links = json_decode($this->links);
+
+            foreach ($links as $link) {
+                $ret_links[$link->alias] = $link->name;
+            }
+        }
+
+        return $ret_links;
     }
 
     /**
