@@ -58,7 +58,7 @@ class ModulesController extends AdminController {
      */
     public function postInstall()
     {
-//        try {
+       try {
             $file = Input::file('file');
 
             $input = $this->moduleInstaller->installModule($file);
@@ -77,11 +77,11 @@ class ModulesController extends AdminController {
                     ->with('success_message', 'The module wasn\'t installed.');
             }
 
-//        } catch (Exception $e) {
-//            return Redirect::back()
-//                ->withInput()
-//                ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
-//        }
+       } catch (Exception $e) {
+           return Redirect::back()
+               ->withInput()
+               ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
+       }
     }
 
     /**

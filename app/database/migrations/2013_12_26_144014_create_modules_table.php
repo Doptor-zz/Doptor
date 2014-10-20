@@ -23,6 +23,7 @@ class CreateModulesTable extends Migration {
 			$table->string('website')->nullable();
 			$table->text('description')->nullable();
 			$table->string('target');
+			$table->text('links')->nullable();
 			$table->boolean('enabled')->default(false);
 			$table->timestamps();
 		});
