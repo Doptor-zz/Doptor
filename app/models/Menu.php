@@ -271,8 +271,15 @@ class Menu extends Eloquent implements PresentableInterface {
     public static function menu_lists()
     {
         $modules = array();
-        foreach (Module::all(array('name')) as $module) {
-            $modules['link_type/modules/' . Str::slug($module->name, '_')] = $module->name;
+        foreach (Module::all(array('name', 'links')) as $module) {
+            if ($module->links != '') {
+                $links = json_decode($module->links);
+                foreach ($links as $link) {
+                    $modules['link_type/modules/' . $link->alias] = $link->name;
+                }
+            } else {
+                $modules['link_type/modules/' . Str::slug($module->name, '_')] = $module->name;
+            }
         }
 
         $pages = array();
