@@ -50,8 +50,8 @@
                     $('[name='+field_name+']').html(options);
                 }
             }
+            $('select').chosen();
         });
-        $('select').chosen();
     </script>
     @if (isset($entry))
         <script>

@@ -39,6 +39,11 @@
                         options += '</option>';
                     }
                     $('[name='+field_name+']').html(options);
+
+                    // Reapply the chosen plugin
+                    $('[name='+field_name+']').siblings().remove();
+                    $('[name='+field_name+']').show().removeClass('chzn-done');
+                    $('[name='+field_name+']').chosen();
                 }
             }
         });
