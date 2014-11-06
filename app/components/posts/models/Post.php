@@ -164,15 +164,15 @@ class Post extends Eloquent implements PresentableInterface {
         }
     }
 
-    public function setCreatedAtAttribute($date)
+    public function setCreatedAtAttribute($created_at)
     {
-        if ($date == '') {
-            $this->attributes['date'] = Carbon::now();
+        if ($created_at == '') {
+            $this->attributes['created_at'] = Carbon::now();
         } else {
-            $date = str_replace('-000', '000', $date);
-            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date);
-            if ($date->year < 2000) {
-                $this->attributes['date'] = Carbon::now();
+            $created_at = str_replace('-000', '000', $created_at);
+            $this->attributes['created_at'] = Carbon::createFromFormat('Y-m-d H:i:s', $created_at);
+            if ($this->attributes['created_at']->year < 2000) {
+                $this->attributes['created_at'] = Carbon::now();
             }
         }
     }
