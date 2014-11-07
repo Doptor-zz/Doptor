@@ -334,7 +334,7 @@ class Menu extends Eloquent implements PresentableInterface {
         foreach ($menu_entries as $menu_entry) {
             if ($menu_entry->id == $id) continue;
             $menu = array(
-                    $menu_entry->id = $menu_entry->title
+                    $menu_entry->id => $menu_entry->title
                 );
 
             if ($menu_entry->cat) {
