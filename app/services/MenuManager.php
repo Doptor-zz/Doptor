@@ -19,7 +19,7 @@ use MenuPosition;
 
 class MenuManager {
 
-    public static function generate($menu_type, $menu_class='')
+    public static function generate($menu_type, $menu_class='', $child_class='', $inner_ul_class='', $dropdown_toggle_class='')
     {
         static::fixOldMenuCategories();
 
@@ -42,7 +42,7 @@ class MenuManager {
 
                     return $menu_items;
 
-                }, function($children, $item) {
+                }, function($children, $item) use ($child_class, $dropdown_toggle_class) {
                     if ($item->groups()->count() == 0 // If menu has no group,the menu is public
                             || (Sentry::check() // Check if the user is logged in
                                 && in_array(Sentry::getUser()->getGroups()->first()->name, $item->selected_groups('name'))) // Check if the current user group lies in the selected group for menu
@@ -53,10 +53,28 @@ class MenuManager {
 
                         $menus = MenuManager::findChildren($item);
 
-                        $children->add($item->link(), $item->title, $menus, (!$item->same_window) ? array('target'=>'_blank') : array());
+                        $attributes = array();
+                        if ($menus) {
+                            $attributes['class'] = $dropdown_toggle_class;
+                        }
+                        if (!$item->same_window) {
+                            $attributes['target'] = '_blank';
+                        }
+
+                        $children->add($item->link(), $item->title, $menus, $attributes);
                     }
 
                 }, 'id', 'parent');
+
+                if ($child_class != '') {
+                    Menus::handler($menu_type)
+                            ->getItemsAtDepth(0,1)
+                            ->addClass($child_class);
+
+                    Menus::handler($menu_type)
+                            ->getItemListsAtDepth(1)
+                            ->addClass($inner_ul_class);
+                }
 
                 $menu_render = Menus::handler($menu_type)->render();
             } else {
