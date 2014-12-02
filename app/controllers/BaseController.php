@@ -27,6 +27,7 @@ class BaseController extends Controller {
         list($this->link_type, $this->link, $this->layout, $this->current_theme) = current_section();
 
         View::share('link_type', $this->link_type);
+        View::share('current_theme', $this->current_theme);
 
         $website_settings = Setting::lists('value', 'name');
 
