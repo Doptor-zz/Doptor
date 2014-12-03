@@ -5,6 +5,8 @@ App::error(function($exception, $code) {
     Log::error($exception);
     if (App::environment() != 'local') {
         list($link_type, $link, $layout, $theme) = current_section();
+
+        View::share('current_theme', $theme);
         $current_user = current_user();
 
         if ($exception instanceof Illuminate\Database\Eloquent\ModelNotFoundException) {
