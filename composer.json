@@ -4,20 +4,20 @@
 	"keywords": ["framework", "laravel", "cms"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "4.2.*",
 		"cartalyst/sentry": "2.0.*",
 		"robclancy/presenter": "1.2.*",
 		"davejamesmiller/laravel-breadcrumbs": "~2.1.0",
 		"creolab/laravel-modules": "dev-master",
 		"intervention/image": "2.*",
-		"vespakoen/menu": "dev-master",
+		"vespakoen/menu": "2.0.15",
 		"guzzle/guzzle": "dev-master",
 		"barryvdh/laravel-dompdf": "*",
 		"mews/captcha": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
-		"barryvdh/laravel-ide-helper": "dev-master"
+		"barryvdh/laravel-ide-helper": "1.11.5"
 	},
 	"autoload": {
 		"classmap": [
