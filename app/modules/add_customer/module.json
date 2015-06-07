@@ -1,1 +1,0 @@
-{"enabled":true,"info":{"name":"Add Customer","canonical":"add_customer","version":"0.1","author":"Doptor","website":"http:\/\/www.tngbd.com"},"table":"add_customer","target":"admin|backend","fields":["customer_name","customer_email","customer_phone","customer_address"]}
