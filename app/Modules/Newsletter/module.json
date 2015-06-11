@@ -1,0 +1,35 @@
+{
+    "enabled": true,
+    "info": {
+        "name": "Newsletter",
+        "hash": "module_617574686f72",
+        "alias": "Newsletter",
+        "version": "1",
+        "author": "Rana",
+        "website": "",
+        "description": ""
+    },
+    "target": "admin|backend",
+    "links": [{
+            "alias": "newsletters",
+            "name": "Newsletters"
+        },
+        {
+            "alias": "newsletters/subscribers",
+            "name": "Newsletter Subscribers"
+        }],
+    "forms": [{
+        "hash": "form_5375626f6468",
+        "table": "newsletter_subscribers",
+        "fields": ["name", "email"],
+        "field_names": ["Name", "Emails"],
+        "model": "NewsletterSubscriber"
+    },
+    {
+        "hash": "form_446168616c",
+        "table": "newsletters",
+        "fields": ["subject", "content"],
+        "field_names": ["Subject", "Content"],
+        "model": "Newsletter"
+    }]
+}

@@ -3,6 +3,9 @@
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use App\Events\InstallationWasCompleted;
+use App\Handlers\Events\DeleteInstaller;
+
 class EventServiceProvider extends ServiceProvider {
 
 	/**
@@ -14,6 +17,10 @@ class EventServiceProvider extends ServiceProvider {
 		'event.name' => [
 			'EventListener',
 		],
+
+		InstallationWasCompleted::class => [
+			DeleteInstaller::class
+		]
 	];
 
 	/**

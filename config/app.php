@@ -39,7 +39,7 @@ return [
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => env('TIME_ZONE', 'UTC'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -144,6 +144,16 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'App\Providers\ValidatorServiceProvider',
+
+		'Illuminate\Html\HtmlServiceProvider',
+
+		'Cartalyst\Sentry\SentryServiceProvider',
+		'Robbo\Presenter\PresenterServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
+		'Menu\MenuServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
+		'Mews\Captcha\CaptchaServiceProvider',
 
 	],
 
@@ -192,6 +202,16 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+		'Str'       => 'Illuminate\Support\Str',
+		'Form'      => 'Illuminate\Html\FormFacade',
+        'HTML'      => 'Illuminate\Html\HtmlFacade',
+
+        'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+		'Image'  => 'Intervention\Image\Facades\Image',
+		'Menus'  => 'Menu\Menu',
+		'PDF'    => 'Barryvdh\DomPDF\Facade',
+		'Captcha' => 'Mews\Captcha\Facades\Captcha',
 
 	],
 
