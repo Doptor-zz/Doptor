@@ -164,13 +164,13 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
   | Admin Routes
   |--------------------------------------------------------------------------
  */
-Route::group(array('prefix' => 'admin', 'before' => array('auth', 'auth.permissions')), function() {
+Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions')), function() {
     // For changing the current user's password
     Route::get('users/change-password', 'Backend\UserController@getChangePassword');
     Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'admin.users.change-password'));
 });
 
-Route::group(array('prefix' => 'admin', 'before' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function() {
+Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function() {
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('config', 'Backend\HomeController@getConfig');
