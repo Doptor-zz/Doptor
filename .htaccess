@@ -1,5 +1,24 @@
 <IfModule mod_rewrite.c>
-     RewriteEngine on
-     RewriteCond %{REQUEST_URI} !^public
-     RewriteRule ^(.*)$ public/$1 [L]
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    # Deny access to environment configuration files
+    <Files ~ "\.[Ee][Nn][Vv]">
+        Order Allow,Deny
+        Deny from all
+    </Files>
+
+    RewriteEngine On
+
+    # Redirect Trailing Slashes...
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    RewriteRule ^(assets/.*)$ public/$1 [L]
+    RewriteRule ^(uploads/.*)$ public/$1 [L]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>
