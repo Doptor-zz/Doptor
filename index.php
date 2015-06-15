@@ -1,7 +1,7 @@
 <?php
 /**
  * Laravel - A PHP Framework For Web Artisans
- *
+ * (Intial server.php renamed to index.php to remove public from url)
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */

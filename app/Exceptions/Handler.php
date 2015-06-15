@@ -38,9 +38,13 @@ class Handler extends ExceptionHandler {
      */
     public function render($request, Exception $exception)
     {
-        $code = $exception->getStatusCode();
+        if ($exception && method_exists($exception, 'getStatusCode')) {
+            $code = $exception->getStatusCode();
+        } else {
+            $code = 500;
+        }
 
-        if (App::environment() == 'local') {
+        if (App::environment() != 'local') {
             list($link_type, $link, $layout, $theme) = current_section();
 
             View::share('current_theme', $theme);
