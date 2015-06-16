@@ -10,6 +10,7 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
+use Artisan;
 use DB;
 use Exception;
 use File;
@@ -23,6 +24,8 @@ use FormCategory;
 use Module;
 
 class ModuleInstaller {
+
+    private $config;
 
     function __construct()
     {
@@ -47,33 +50,34 @@ class ModuleInstaller {
         if (!$unzipSuccess) {
             throw new Exception("The module file {$filename} couldn\'t be extracted.");
         }
+
         if (!File::exists("{$this->temp_path}{$canonical}/module.json")) {
             throw new Exception('module.json doesn\'t exist in the module');
         }
 
-        $config = json_decode(file_get_contents("{$this->temp_path}{$canonical}/module.json"), true);
+        $this->config = json_decode(file_get_contents("{$this->temp_path}{$canonical}/module.json"), true);
 
         $replace_existing = (bool)Input::get('replace_existing');
-        if (Module::where('alias', '=', $config['info']['alias'])->first()
+        if (Module::where('alias', '=', $this->config['info']['alias'])->first()
             && !$replace_existing
         ) {
             throw new Exception('Another module with the same name already exists');
         }
 
         // Copy modules from temporary folder to modules folder
-        $this->copyModule($config, $canonical);
+        $this->copyModule($canonical);
 
         File::delete($file);
 
-        $this->manageTables($config);
+        $this->manageTables();
 
-        $form_ids = $this->addToBuiltForms($config['forms']);
+        $form_ids = $this->addToBuiltForms();
 
         if ($form_ids) {
-            $this->addToBuiltModules($config, $form_ids);
+            $this->addToBuiltModules($form_ids);
         }
 
-        $input = $this->fixInput($config);
+        $input = $this->fixInput();
 
         return $input;
     }
@@ -107,42 +111,43 @@ class ModuleInstaller {
 
     /**
      * Copy the module from temporary folder to modules
-     * @param $config
+     * @param
      */
-    public function copyModule($config, $canonical)
+    public function copyModule($canonical)
     {
         $temp_module_dir = "{$this->temp_path}{$canonical}";
 
-        File::copyDirectory("{$temp_module_dir}/{$config['info']['alias']}",
-            "{$this->modules_path}{$config['info']['alias']}/");
+        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}",
+            "{$this->modules_path}{$this->config['info']['alias']}/");
         File::copy("{$temp_module_dir}/module.json",
-            "{$this->modules_path}{$config['info']['alias']}/module.json");
+            "{$this->modules_path}{$this->config['info']['alias']}/module.json");
 
         File::deleteDirectory($temp_module_dir);
     }
 
     /**
      * Fix the input to store in DB
-     * @param $config
+     * @param
      * @return array
      */
-    public function fixInput($config)
+    public function fixInput()
     {
         // Get only the table names from the forms
-        $table_names = array_pluck($config['forms'], 'table');
+        $table_names = array_pluck($this->config['forms'], 'table');
         $table = implode('|', $table_names);
-        $links = (isset($config['links'])) ? json_encode($config['links']) : '';
+        $links = (isset($this->config['links'])) ? json_encode($this->config['links']) : '';
 
         $input = array(
-            'name'    => $config['info']['name'],
-            'alias'   => $config['info']['alias'],
-            'hash'    => $config['info']['hash'],
-            'version' => $config['info']['version'],
-            'author'  => $config['info']['author'],
-            'website' => $config['info']['website'],
-            'target'  => $config['target'],
+            'name'    => $this->config['info']['name'],
+            'alias'   => $this->config['info']['alias'],
+            'hash'    => $this->config['info']['hash'],
+            'version' => $this->config['info']['version'],
+            'author'  => $this->config['info']['author'],
+            'website' => $this->config['info']['website'],
+            'target'  => $this->config['target'],
             'links'   => $links,
             'table'   => $table,
+            'migrations' => json_encode($this->config['migrations']),
             'enabled' => true
         );
 
@@ -151,23 +156,25 @@ class ModuleInstaller {
 
     /**
      * Mange table(s) in DB (CREATE/ALTER)
-     * @param $config
+     * @param
      */
-    private function manageTables($config)
+    private function manageTables()
     {
-        foreach ($config['forms'] as $form) {
+        foreach ($this->config['forms'] as $form) {
             if (!Schema::hasTable("mdl_{$form['table']}")) {
                 $this->createTables($form);
             } else {
                 $this->alterTables($form);
             }
         }
+
+        $this->dbMigrate();
     }
 
     /**
      * Create new table(s) in DB
      * @param $form
-     * @internal param $config
+     * @internal param
      */
     public function createTables($form)
     {
@@ -199,14 +206,43 @@ class ModuleInstaller {
         DB::unprepared($alter_sql);
     }
 
+    public function dbMigrate()
+    {
+        $this->runMigrations();
+
+        $this->storeMigrationData();
+    }
+
+    public function runMigrations()
+    {
+        $directory = $this->config['info']['alias'];
+
+        $migrations_dir = 'app/Modules/' . $directory . '/Migrations';
+
+        Artisan::call('migrate', ['--path' => $migrations_dir]);
+    }
+
+    public function storeMigrationData()
+    {
+        $directory = $this->config['info']['alias'];
+        $migrations_dir = app_path('Modules/' . $directory . '/Migrations');
+        $migration_files = [];
+
+        foreach (File::files($migrations_dir) as $file) {
+            $migration_files[] = pathinfo($file)['filename'];
+        }
+
+        $this->config['migrations'] = json_encode($migration_files);
+    }
+
     /**
      * Get the information about the forms used in the module
      * and save/update their entries in the database, so that
      * they can be edited later(if required).
-     * @param $forms
      */
-    public function addToBuiltForms($forms)
+    public function addToBuiltForms()
     {
+        $forms = ['forms'];
         $form_ids = array();
 
         foreach ($forms as $form) {
