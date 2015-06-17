@@ -46,24 +46,29 @@ class MediaManagerController extends BaseController {
 
     public function folder_contents()
     {
-        $dir = Input::get('dir', '');
+        $directory = Input::get('dir', '');
 
         $files = array();
 
-        foreach (File::files("{$dir}") as $key => $file) {
-            $split = explode('/', $file);
-            $file_name = array_pop($split);
-            $thumbnail = implode('/', $split) . '/thumbs/' . $file_name;
+        foreach (File::files(public_path($directory)) as $key => $file) {
+            $pathinfo = pathinfo($file);
+
+            $dir = str_replace(base_path() . '/public/', '', $pathinfo['dirname']);
+            $dir = str_replace(base_path() . '/', '', $dir);
+
+            $filename = $dir . '/' . $pathinfo['filename'] . '.' . $pathinfo['extension'];
+            $thumbnail = $dir . '/thumbs/' . $filename;
+
             if (File::exists($thumbnail)) {
                 $files[] = $thumbnail;
             } else {
-                $files[] = $file;
+                $files[] = $filename;
             }
         }
 
         $dirs = array();
 
-        foreach (File::directories("{$dir}") as $dir) {
+        foreach (File::directories(public_path($directory)) as $dir) {
             if (!str_contains($dir, 'thumbs')) {
                 $dir_name = str_replace('\\', '/', $dir);
                 $dirs[] = $dir_name;
@@ -81,7 +86,7 @@ class MediaManagerController extends BaseController {
     {
         $dir = Input::get('dir', '');
 
-        if (File::makeDirectory(public_path() . "/{$dir}")) {
+        if (File::makeDirectory(public_path($dir))) {
             return Response::json('Success', 200);
         } else {
             return Response::json('Error', 400);
