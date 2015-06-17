@@ -647,7 +647,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 INSERT INTO `settings` (`id`, `name`, `description`, `value`, `created_at`, `updated_at`) VALUES
 (1, 'website_name', '', 'Doptor CMS', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'footer_text', '', 'Powered by : Doptor v1.2, Copyright @ 2011-2014', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'footer_text', '', 'Powered by : Doptor v1.2, Copyright @ 2011-2015', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'public_offline', '', 'no', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'public_offline_end', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (5, 'admin_offline', '', 'no', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
