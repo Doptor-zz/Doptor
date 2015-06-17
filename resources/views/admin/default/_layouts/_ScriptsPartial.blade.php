@@ -71,6 +71,17 @@
     {{-- Here goes the page level scripts and plugins --}}
     {{-- HTML::script("assets/backend/default/scripts/app.js") --}}
     <script>
+
+        var menu_list = $('.menu-list').find('li'),
+            menus_count = menu_list.length;
+
+        // Remove duplicate main menu entries
+        for (var i = 0; i < menus_count / 2; i++) {
+            if (menu_list.eq(i).html() == menu_list.eq((menus_count/2) + i).html()) {
+                menu_list.eq(i).remove();
+            }
+        };
+
         jQuery(document).ready(function() {
             // App.init();
             // Handle href data in buttons
