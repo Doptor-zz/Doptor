@@ -94,8 +94,24 @@ class ModulesController extends AdminController {
     {
         $module = Module::findOrFail($id);
 
+        $migrations = json_decode($module->migrations);
         $module_tables = explode('|', $module->table);
 
+        // Delete all migration entries for the module
+        foreach ($migrations as $migration_file) {
+            require_once(app_path("Modules/{$module->alias}/Migrations/{$migration_file}.php"));
+
+            $file = implode('_', array_slice(explode('_', $migration_file), 4));
+            $class_name = studly_case($file);
+            $class = new $class_name;
+
+            // Run the down method in the migration file
+            $class->down();
+
+            DB::table('migrations')->where('migration', $migration_file)->delete();
+        }
+
+        // Drop all tables created by the module
         foreach ($module_tables as $module_table) {
             $sql = "DROP TABLE IF EXISTS mdl_{$module_table}";
             DB::statement($sql);
