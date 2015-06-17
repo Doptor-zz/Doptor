@@ -138,17 +138,17 @@ class ModuleInstaller {
         $links = (isset($this->config['links'])) ? json_encode($this->config['links']) : '';
 
         $input = array(
-            'name'    => $this->config['info']['name'],
-            'alias'   => $this->config['info']['alias'],
-            'hash'    => $this->config['info']['hash'],
-            'version' => $this->config['info']['version'],
-            'author'  => $this->config['info']['author'],
-            'website' => $this->config['info']['website'],
-            'target'  => $this->config['target'],
-            'links'   => $links,
-            'table'   => $table,
-            'migrations' => json_encode($this->config['migrations']),
-            'enabled' => true
+            'name'       => $this->config['info']['name'],
+            'alias'      => $this->config['info']['alias'],
+            'hash'       => $this->config['info']['hash'],
+            'version'    => $this->config['info']['version'],
+            'author'     => $this->config['info']['author'],
+            'website'    => $this->config['info']['website'],
+            'target'     => $this->config['target'],
+            'links'      => $links,
+            'table'      => $table,
+            'migrations' => $this->config['migrations'],
+            'enabled'    => true
         );
 
         return $input;
