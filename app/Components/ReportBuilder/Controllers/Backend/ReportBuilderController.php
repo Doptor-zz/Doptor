@@ -153,7 +153,7 @@ class ReportBuilderController extends BaseController {
     {
         $module = Module::find($id);
 
-        $config = json_decode(file_get_contents(app_path() . '/modules/' . $module->alias  . '/module.json'), true);
+        $config = json_decode(file_get_contents(app_path() . '/Modules/' . $module->alias  . '/module.json'), true);
 
         $fieldAndNames = array();
         foreach ($config['forms'] as $form) {
@@ -161,13 +161,15 @@ class ReportBuilderController extends BaseController {
             $fields['created_at'] = 'Created At';
             $fields['updated_at'] = 'Updated At';
 
-            $form_info = array(
-                    'name'   => $form['form_name'],
-                    'model'  => $form['model'],
-                    'fields' => $fields
-                );
+            if (in_array('form_name', $form)) {
+                $form_info = array(
+                        'name'   => $form['form_name'],
+                        'model'  => $form['model'],
+                        'fields' => $fields
+                    );
 
-            $fieldAndNames[] = $form_info;
+                $fieldAndNames[] = $form_info;
+            }
         }
 
         return Response::json($fieldAndNames);
