@@ -30,6 +30,7 @@
 			"app/Models",
 			"app/Http/Controllers",
 			"app/Components",
+			"app/Facades",
 			"app/Presenters",
 			"app/Services",
 			"app/Components/posts/database/migrations",
