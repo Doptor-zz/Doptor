@@ -19,7 +19,9 @@
         <div class="left-secondary-nav tab-content">
             <div class="tab-pane active" id="main">
                 <h4 class="side-head">Menus</h4>
-                {!! Services\MenuManager::generate('admin-main-menu', 'accordion-nav') !!}
+                <div class="menu-list">
+                    {!! Services\MenuManager::generate('admin-main-menu', 'accordion-nav') !!}
+                </div>
             </div>
         </div>
     </div>

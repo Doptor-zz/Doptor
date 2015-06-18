@@ -1,8 +1,8 @@
 @extends('backend.default._layouts._layout')
 
 @section('styles')
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
-    {{ HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') }}
+    {!! HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') !!}
+    {!! HTML::style('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.css') !!}
 @stop
 
 @section('content')
@@ -12,7 +12,7 @@
             <div class="widget box blue tabbable">
                 <div class="widget-title">
                     <h4>
-                        <span>{{ $title }}</span>
+                        <span>{!! $title !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -30,14 +30,14 @@
 @stop
 
 @section('scripts')
-    {{ HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') }}
+    {!! HTML::script('assets/backend/default/plugins/chosen-bootstrap/chosen/chosen.jquery.min.js') !!}
 
     @parent
 
     <script>
         // Populate dropdown fields based on the selected sources
         jQuery(document).ready(function() {
-            var sources = {{ json_encode($sources) }};
+            var sources = {!! json_encode($sources) !!};
 
             for (var field_name in sources) {
                 if(sources.hasOwnProperty(field_name)){
@@ -62,12 +62,12 @@
                         $entry->{$field} = preg_replace('~[\r\n]+~', ' ', $entry->{$field});
                         $entry->{$field} = str_replace('\n', " ", $entry->{$field}) ;
                     ?>
-                    field = $('[name={{ $field }}]');
+                    field = $('[name={!! $field !!}]');
                     if (field.is('input[type=radio]')) {
-                        field.filter('[value="{{ $entry->{$field} }}"]').attr('checked', true);
+                        field.filter('[value="{!! $entry->{$field} !!}"]').attr('checked', true);
                         restore_uniformity();
                     } else {
-                        field.val('{{ $entry->{$field} }}');
+                        field.val('{!! $entry->{$field} !!}');
                     }
                 @endforeach
             });
@@ -80,7 +80,7 @@
     <script>
         $(function() {
             // Repopulate input fields with old data, in case of validation error(s)
-            var old_inputs = {{ json_encode(Input::old()) }};
+            var old_inputs = {!! json_encode(Input::old()) !!};
             delete(old_inputs._token);
             delete(old_inputs.input_name);
             delete(old_inputs.captcha);

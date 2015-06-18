@@ -285,14 +285,14 @@ class ModuleBuilder {
 
         $view = '<?php $link_type = ($link_type=="public") ? "" : $link_type . "." ?>' . "\n";
         $view .= '@if (!isset($entry))' . "\n";
-        $view .= '{{ Form::open(array("route"=>"{$link_type}modules.".$module_link.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
+        $view .= '{!! Form::open(array("route"=>"{$link_type}modules.".$module_link.".store", "method"=>"POST", "class"=>"form-horizontal", "files"=>true)) !!}' . "\n";
         $view .= '@else' . "\n";
-        $view .= '{{ Form::open(array("route" => array("{$link_type}modules.".$module_link.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) }}' . "\n";
+        $view .= '{!! Form::open(array("route" => array("{$link_type}modules.".$module_link.".update", $entry->id), "method"=>"PUT", "class"=>"form-horizontal", "files"=>true)) !!}' . "\n";
         $view .= '@endif' . "\n";
 
         $view .= '@if ($errors->has()) <div class="alert alert-error hide" style="display: block;"> <button data-dismiss="alert" class="close">×</button> You have some form errors. Please check below. </div> @endif';
 
-        $view .= "{{ Form::hidden('form_id', {$form_id}) }} \n";
+        $view .= "{!! Form::hidden('form_id', {$form_id}) !!} \n";
 
         $form_data = str_replace('<form class="form-horizontal">', '', urldecode($form_rendered));
         $view .= str_replace('</form>', '', $form_data);
@@ -305,7 +305,7 @@ class ModuleBuilder {
         $view .= '<button type="submit" class="btn btn-primary btn-danger" name="form_close">Close</button>' . "\n";
         $view .= '</div>' . "\n";
 
-        $view .= '{{ Form::close() }}';
+        $view .= '{!! Form::close() !!}';
 
         $captcha = $this->getCaptchaField($form);
         if ($captcha != '') {
@@ -323,7 +323,7 @@ class ModuleBuilder {
     {
         $captcha = '';
         if ($form->show_captcha) {
-            $captcha = '<div class="control-group {{{ $errors->has("captcha") ? "error" : "" }}}"> <label class="control-label">Enter captcha</label> <div class="controls"> {{ HTML::image(Captcha::img(), "Captcha image") }} {{ Form::text("captcha", "", array("required", "class"=>"input-medium")) }} {{ $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") }}</div> </div>';
+            $captcha = '<div class="control-group {{ $errors->has("captcha") ? "error" : "" }}"> <label class="control-label">Enter captcha</label> <div class="controls"> {!! HTML::image(Captcha::img(), "Captcha image") !!} {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!} {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}</div> </div>';
         }
 
         return $captcha;
@@ -578,11 +578,15 @@ class ModuleBuilder {
      */
     public function getFormSelects($form_id)
     {
+        $form_selects = array();
+
+        if ($form_id == 0) {
+            return $form_selects;
+        }
         $form = BuiltForm::find($form_id);
 
         $form_json = json_decode(str_replace('\\', '', $form->data), true);
 
-        $form_selects = array();
 
         for ($i = 1; $i < sizeof($form_json); $i++) {
             $this_form = $form_json[$i];
