@@ -4,6 +4,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    {{ $content }}
+    {!! $content !!}
 </body>
 </html>
