@@ -549,6 +549,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `description` text COLLATE utf8_unicode_ci,
   `target` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `links` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `migrations` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
