@@ -1,6 +1,6 @@
 @section('styles')
     <!-- BEGIN PAGE LEVEL STYLES -->
-    {{ HTML::style('assets/backend/default/plugins/data-tables/DT_bootstrap.css') }}
+    {!! HTML::style('assets/backend/default/plugins/data-tables/DT_bootstrap.css') !!}
     <!-- END PAGE LEVEL STYLES -->
 @stop
 
@@ -29,10 +29,10 @@
 
                                 @if ($current_user->hasAccess("modules.newsletters.destroy"))
                                     <li>
-                                        {{ Form::open(array('route' => array($link_type . '.modules.newsletters.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'newsletters');")) }}
-                                            {{ Form::hidden('selected_ids', '', array('id'=>'selected_ids')) }}
+                                        {!! Form::open(array('route' => array($link_type . '.modules.newsletters.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'newsletters');")) !!}
+                                            {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
                                             <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
-                                        {{ Form::close() }}
+                                        {!! Form::close() !!}
                                     </li>
                                 @endif
                                 </ul>
@@ -40,7 +40,7 @@
                         </div>
                         @if ($current_user->hasAccess("{$link_type}.newsletters.create"))
                         <div class="btn-group pull-right">
-                            <a href="{{ URL::to("{$link_type}/modules/newsletters/create") }}" class="btn btn-success">
+                            <a href="{!! URL::to("{$link_type}/modules/newsletters/create") !!}" class="btn btn-success">
                                 Add New <i class="icon-plus"></i>
                             </a>
                         </div>
@@ -59,13 +59,13 @@
                         <tbody id="menu-list">
                             @foreach ($newsletters as $newsletter)
                                 <tr class="">
-                                    <td>{{ Form::checkbox($newsletter->id, 'checked', false) }}</td>
-                                    <td>{{ $newsletter->subject }}</td>
-                                    <td>{{ $newsletter->content }}</td>
-                                    <td>{{ $newsletter->created_at }}</td>
+                                    <td>{!! Form::checkbox($newsletter->id, 'checked', false) !!}</td>
+                                    <td>{!! $newsletter->subject !!}</td>
+                                    <td>{!! $newsletter->content !!}</td>
+                                    <td>{!! $newsletter->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess("modules.newsletters.edit"))
-                                        <a href="{{ URL::route("$link_type.modules.newsletters.edit", $newsletter->id) }}" class="btn btn-mini"><i class="icon-edit"></i></a>
+                                        <a href="{!! URL::route("$link_type.modules.newsletters.edit", $newsletter->id) !!}" class="btn btn-mini"><i class="icon-edit"></i></a>
                                         @endif
 
                                         <div class="actions inline">
@@ -75,9 +75,9 @@
                                             <ul class="btn btn-mini">
                                             @if ($current_user->hasAccess("modules.newsletters.destroy"))
                                                 <li>
-                                                    {{ Form::open(array('route' => array($link_type . '.modules.newsletters.destroy', $newsletter->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'subscriber');")) }}
+                                                    {!! Form::open(array('route' => array($link_type . '.modules.newsletters.destroy', $newsletter->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'subscriber');")) !!}
                                                         <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
-                                                    {{ Form::close() }}
+                                                    {!! Form::close() !!}
                                                 </li>
                                             @endif
                                             </ul>
@@ -96,12 +96,12 @@
 
 @section('scripts')
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-{{ HTML::script("assets/backend/default/plugins/data-tables/jquery.dataTables.js") }}
-{{ HTML::script("assets/backend/default/plugins/data-tables/DT_bootstrap.js") }}
+{!! HTML::script("assets/backend/default/plugins/data-tables/jquery.dataTables.js") !!}
+{!! HTML::script("assets/backend/default/plugins/data-tables/DT_bootstrap.js") !!}
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @parent
-{{ HTML::script("assets/backend/default/scripts/table-managed.js") }}
+{!! HTML::script("assets/backend/default/scripts/table-managed.js") !!}
 <script>
     jQuery(document).ready(function() {
         TableManaged.init();

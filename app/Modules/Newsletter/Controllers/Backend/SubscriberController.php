@@ -18,7 +18,7 @@ class SubscriberController extends BaseController {
         parent::__construct();
 
         // Add location hinting for views
-        View::addNamespace('newsletter-subscribers', app_path() . "/modules/Newsletter/Views/{$this->current_theme}/{$this->link_type}/newsletter-subscribers");
+        View::addNamespace('newsletter-subscribers', app_path() . "/Modules/Newsletter/Views/{$this->current_theme}/{$this->link_type}/newsletter-subscribers");
     }
 
     /**

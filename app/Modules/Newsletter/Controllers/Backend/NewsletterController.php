@@ -21,7 +21,7 @@ class NewsletterController extends BaseController
         parent::__construct();
 
         // Add location hinting for views
-        View::addNamespace('newsletters', app_path() . "/modules/Newsletter/Views/{$this->current_theme}/{$this->link_type}/newsletters");
+        View::addNamespace('newsletters', app_path() . "/Modules/Newsletter/Views/{$this->current_theme}/{$this->link_type}/newsletters");
     }
 
     public function index()
