@@ -4,15 +4,7 @@ use Illuminate\Support\Facades\Schema as BaseSchema;
 
 class Schema extends BaseSchema {
 
-    /**
-     * Overload the drop method of Schema to prevent the dropping
-     * of core CMS tables
-     * @param  $table
-     * @return
-     */
-    public static function drop($table)
-    {
-        $core_tables = [
+    protected static $core_tables = [
             'built_forms',
             'built_modules',
             'built_reports',
@@ -44,10 +36,37 @@ class Schema extends BaseSchema {
             'users_groups'
         ];
 
+    /**
+     * Overload the drop method of Schema to prevent the dropping
+     * of core CMS tables
+     * @param  $table
+     * @return
+     */
+    public static function drop($table)
+    {
         // Drop the table only if it isn't one of the core tables
-        if (!in_array($table, $core_tables)) {
+        if (!static::isCoreTable($table)) {
             parent::drop($table);
         }
+    }
+
+    /**
+     * Overload the drop method of Schema to prevent the dropping
+     * of core CMS tables
+     * @param  $table
+     * @return
+     */
+    public static function dropIfExists($table)
+    {
+        // Drop the table only if it isn't one of the core tables
+        if (!static::isCoreTable($table)) {
+            parent::dropIfExists($table);
+        }
+    }
+
+    public static function isCoreTable($table)
+    {
+        return !in_array($table, static::$core_tables);
     }
 
 }
