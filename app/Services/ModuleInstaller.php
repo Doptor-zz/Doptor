@@ -132,9 +132,14 @@ class ModuleInstaller {
      */
     public function fixInput()
     {
-        // Get only the table names from the forms
-        $table_names = array_pluck($this->config['forms'], 'table');
-        $table = implode('|', $table_names);
+        if (isset($this->config['forms'])) {
+            // Get only the table names from the forms
+            $table_names = array_pluck($this->config['forms'], 'table');
+            $table = implode('|', $table_names);
+        } else {
+            $table = '';
+        }
+
         $links = (isset($this->config['links'])) ? json_encode($this->config['links']) : '';
 
         $input = array(
@@ -160,11 +165,13 @@ class ModuleInstaller {
      */
     private function manageTables()
     {
-        foreach ($this->config['forms'] as $form) {
-            if (!Schema::hasTable("mdl_{$form['table']}")) {
-                $this->createTables($form);
-            } else {
-                $this->alterTables($form);
+        if (isset($this->config['forms'])) {
+            foreach ($this->config['forms'] as $form) {
+                if (!Schema::hasTable("mdl_{$form['table']}")) {
+                    $this->createTables($form);
+                } else {
+                    $this->alterTables($form);
+                }
             }
         }
 
