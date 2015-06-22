@@ -29,7 +29,7 @@ class ModulePresenter extends Presenter
      */
     public function getLinks()
     {
-        $ret_links = array();
+        $ret_links = [];
         if ($this->links == '') {
             $alias = Str::slug($this->name, '_');
             $name = $this->name;
@@ -51,11 +51,15 @@ class ModulePresenter extends Presenter
      */
     public function tables()
     {
-        $tables = explode('|', $this->table);
+        if ($this->table != '') {
+            $tables = explode('|', $this->table);
 
-        $tables = array_map(function($table) {
-            return 'mdl_' . $table;
-        }, $tables);
+            $tables = array_map(function($table) {
+                return 'mdl_' . $table;
+            }, $tables);
+        } else {
+            $tables = [];
+        }
 
         return implode(', ', $tables);
     }
