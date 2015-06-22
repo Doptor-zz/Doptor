@@ -45,7 +45,7 @@ class Schema extends BaseSchema {
     public static function drop($table)
     {
         // Drop the table only if it isn't one of the core tables
-        if (!static::isCoreTable($table)) {
+        if (static::isNotCoreTable($table)) {
             parent::drop($table);
         }
     }
@@ -59,12 +59,17 @@ class Schema extends BaseSchema {
     public static function dropIfExists($table)
     {
         // Drop the table only if it isn't one of the core tables
-        if (!static::isCoreTable($table)) {
+        if (static::isNotCoreTable($table)) {
             parent::dropIfExists($table);
         }
     }
 
-    public static function isCoreTable($table)
+    /**
+     * Check if the table is not one of the core tables
+     * @param  $table
+     * @return boolean
+     */
+    public static function isNotCoreTable($table)
     {
         return !in_array($table, static::$core_tables);
     }
