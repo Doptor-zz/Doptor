@@ -97,18 +97,23 @@ class ModulesController extends AdminController {
         $migrations = json_decode($module->migrations);
         $module_tables = explode('|', $module->table);
 
-        // Delete all migration entries for the module
-        foreach ($migrations as $migration_file) {
-            require_once(app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php"));
+        // to run the migration in descending order
+        rsort($migrations);
 
-            $file = implode('_', array_slice(explode('_', $migration_file), 4));
-            $class_name = studly_case($file);
-            $class = new $class_name;
+        if (is_array($migrations)) {
+            // Delete all migration entries for the module
+            foreach ($migrations as $migration_file) {
+                require_once(app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php"));
 
-            // Run the down method in the migration file
-            $class->down();
+                $file = implode('_', array_slice(explode('_', $migration_file), 4));
+                $class_name = studly_case($file);
+                $class = new $class_name;
 
-            DB::table('migrations')->where('migration', $migration_file)->delete();
+                // Run the down method in the migration file
+                $class->down();
+
+                DB::table('migrations')->where('migration', $migration_file)->delete();
+            }
         }
 
         // Drop all tables created by the module
