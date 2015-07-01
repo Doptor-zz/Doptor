@@ -122,10 +122,12 @@ class ModulesController extends AdminController {
             DB::statement($sql);
         }
 
-        $module_alias = str_replace(' ', '', Str::title($module->name));
+        if ($module->alias == '') {
+            $module->alias = str_replace(' ', '', Str::title($module->name));
+        }
 
-        $module_dir = app_path() . '/modules/' . $module_alias . '/';
-        $module_file = $module_dir . $module_alias . '.zip';
+        $module_dir = app_path() . '/Modules/' . $module->alias . '/';
+        $module_file = $module_dir . $module->alias . '.zip';
 
         File::exists($module_file) && File::delete($module_file);
         File::exists($module_dir) && File::deleteDirectory($module_dir);
