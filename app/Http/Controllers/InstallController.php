@@ -21,27 +21,38 @@ class InstallController extends Controller {
      *
      * @return Response
      */
-    public function index($step=1)
+    public function index($step=0)
     {
         switch ($step) {
+            case 0:
+                if (File::exists(base_path('license.txt'))) {
+                    $license_text = file_get_contents(base_path('license.txt'));
+                } else {
+                    $license_text = '';
+                }
+                return view('install.license')
+                                ->with('title', 'Setup: License Agreement')
+                                ->with('license_text', $license_text);
+                break;
+
             case 1:
-                return View::make('install.db_config')
-                                ->with('title', 'Step 1');
+                return view('install.db_config')
+                                ->with('title', 'Setup: Step 1');
                 break;
 
             case 2:
-                return View::make('install.db_success')
-                                ->with('title', 'Step 2');
+                return view('install.db_success')
+                                ->with('title', 'Setup: Step 2');
                 break;
 
             case 3:
-                return View::make('install.site_config')
-                                ->with('title', 'Step 3');
+                return view('install.site_config')
+                                ->with('title', 'Setup: Step 3');
                 break;
 
             case 4:
-                return View::make('install.completed')
-                                ->with('title', 'Completed');
+                return view('install.completed')
+                                ->with('title', 'Setup: Completed');
                 break;
 
             default:
