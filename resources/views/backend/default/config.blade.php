@@ -182,29 +182,6 @@
                                 </div>
                             </div>
 
-                            <div class="control-group {{ $errors->has('backend_offline') ? 'error' : '' }}">
-                                <label class="control-label">Set Backend Offline?</label>
-                                <div class="controls line">
-                                    {!! Form::select('backend_offline', array('no'=>'No', 'yes'=>'Yes'), Setting::value('backend_offline')) !!}
-                                    {!! $errors->first('backend_offline', '<span class="help-inline">:message</span>') !!}
-                                </div>
-                            </div>
-
-                            <div class="control-group {{ $errors->has('backend_offline_end') ? 'error' : '' }}">
-                                <label class="control-label">Set Backend Offline Till</label>
-                                <div class="controls line">
-                                    <div id="backend_offline_end" class="input-append">
-                                        {!! Form::text('backend_offline_end', Setting::value('backend_offline_end'), array('style'=>'width:180px;', 'data-format'=>'yyyy-MM-dd hh:mm:ss')) !!}
-                                        <span class="add-on">
-                                            <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                                            </i>
-                                        </span>
-                                    </div>
-                                    <span class="help-inline">Leave blank to set offline until specified otherwise.</span>
-                                    {!! $errors->first('backend_offline_end', '<span class="help-inline">:message</span>') !!}
-                                </div>
-                            </div>
-
                             <div class="control-group">
                                 <label class="control-label">Offline Message</label>
                                 <div class="controls">
