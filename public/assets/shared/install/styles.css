@@ -207,6 +207,9 @@ box-sizing: border-box;
 box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
 vertical-align: top;
 }
+.button-disabled {
+    color: #D5D5D5;
+}
 #pass-strength-result {
     background-color: #eee;
     border-color: #ddd !important;

@@ -25,5 +25,8 @@
     </div>
 
     @yield('content')
+
+    @section('scripts')
+    @show
 </body>
 </html>
