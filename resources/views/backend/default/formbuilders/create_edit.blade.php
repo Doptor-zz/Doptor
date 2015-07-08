@@ -165,6 +165,15 @@
 @stop
 
 @section('scripts')
+    <script>
+        @if ($errors->has())
+            // Set the previously set data, if validation error
+            $('#json-data').html(sessionStorage.formbuilder_form);
+        @else if (!isset($form))
+            // If no errors and not editing form, then form is empty
+            $('#json-data').html('');
+        @endif
+    </script>
     <script data-main="{!! URL::to('assets/backend/default/plugins/bootstrap-formbuilder/js/main-built.js') !!}" src="{!! URL::to('assets/backend/default/plugins/bootstrap-formbuilder/js/lib/require.js') !!}" ></script>
     @parent
     <script>
@@ -214,9 +223,13 @@
 
                 $('#form-builder #form-name').val($('#target legend').html());
 
-                $form_data = $("#render").val();
+                var form_data = $("#render").val(),
+                    json_data = $('#json-data').val();
+
+                sessionStorage.setItem('formbuilder_form', json_data);
+
                 {{--Encode the form html to base64, so that firewalls will not detect it as attack--}}
-                $('#form-builder #form-data').val(base64_encode($form_data));
+                $('#form-builder #form-data').val(base64_encode(form_data));
                 $('[name="extra_code"]').val(base64_encode($('[name="extra_code"]').val()));
             });
         });
