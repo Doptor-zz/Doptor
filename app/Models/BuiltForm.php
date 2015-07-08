@@ -21,7 +21,7 @@ class BuiltForm extends Eloquent {
     protected $guarded = array('id');
 
     public static $rules = array(
-            'name'     => 'alpha_spaces|required',
+            'name'     => 'alpha_num_spaces|required',
             'hash'     => 'unique:built_forms,hash',
             'category' => 'required|not_in:0',
             'data'     => 'required'

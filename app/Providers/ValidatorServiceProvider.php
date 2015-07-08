@@ -14,6 +14,10 @@ class ValidatorServiceProvider extends ServiceProvider {
         $this->app['validator']->extend('alpha_spaces', function($attribute, $value, $parameters) {
             return preg_match('/^[\pL\s]+$/u', $value);
         });
+
+        $this->app['validator']->extend('alpha_num_spaces', function($attribute, $value, $parameters) {
+            return preg_match('/^[\pL\d\s]+$/u', $value);
+        });
     }
 
     /**
