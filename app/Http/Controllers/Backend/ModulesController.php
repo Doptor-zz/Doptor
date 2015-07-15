@@ -77,11 +77,11 @@ class ModulesController extends AdminController {
                     ->with('success_message', 'The module wasn\'t installed.');
             }
 
-       } catch (Exception $e) {
-           return Redirect::back()
-               ->withInput()
-               ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
-       }
+        } catch (Exception $e) {
+            return Redirect::back()
+                ->withInput()
+                ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
+        }
     }
 
     /**
@@ -126,11 +126,22 @@ class ModulesController extends AdminController {
             $module->alias = str_replace(' ', '', Str::title($module->name));
         }
 
-        $module_dir = app_path() . '/Modules/' . $module->alias . '/';
+        if ($module->vendor) {
+            $vendor_dir = app_path('/Modules/' . $module->vendor) . '/';
+            $module_dir = $vendor_dir . $module->alias . '/';
+        } else {
+            $module_dir = app_path('/Modules/' . $module->alias) . '/';
+        }
+
         $module_file = $module_dir . $module->alias . '.zip';
 
         File::exists($module_file) && File::delete($module_file);
         File::exists($module_dir) && File::deleteDirectory($module_dir);
+
+        if (isset($vendor_dir) && count(glob($vendor_dir . '*'), GLOB_NOSORT) == 0) {
+            // Delete the vendor directory also, if it is empty
+            File::exists($vendor_dir) && File::deleteDirectory($vendor_dir);
+        }
 
         if ($module->delete()) {
             return Redirect::to('backend/modules')
