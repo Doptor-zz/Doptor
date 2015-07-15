@@ -117,10 +117,15 @@ class ModuleInstaller {
     {
         $temp_module_dir = "{$this->temp_path}{$canonical}";
 
-        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}",
-            "{$this->modules_path}{$this->config['info']['alias']}/");
-        File::copy("{$temp_module_dir}/module.json",
-            "{$this->modules_path}{$this->config['info']['alias']}/module.json");
+        if (isset($this->config['info']['vendor'])) {
+            // if vendor is specified, copy the file first to the vendor directory
+            $target_dir = "{$this->modules_path}{$this->config['info']['vendor']}/{$this->config['info']['alias']}/";
+        } else {
+            $target_dir = "{$this->modules_path}{$this->config['info']['alias']}/";
+        }
+
+        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}", $target_dir);
+        File::copy("{$temp_module_dir}/module.json", $target_dir . "module.json");
 
         File::deleteDirectory($temp_module_dir);
     }
@@ -148,6 +153,7 @@ class ModuleInstaller {
             'hash'       => $this->config['info']['hash'],
             'version'    => $this->config['info']['version'],
             'author'     => $this->config['info']['author'],
+            'vendor'     => isset($this->config['info']['vendor']) ? $this->config['info']['vendor'] : '',
             'website'    => $this->config['info']['website'],
             'target'     => $this->config['target'],
             'links'      => $links,
