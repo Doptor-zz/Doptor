@@ -265,3 +265,7 @@ Route::when('admin/*', array('auth'));
 foreach(glob(base_path("app/Modules/*/routes.php")) as $route) {
     require_once($route);
 }
+
+foreach(glob(base_path("app/Modules/*/*/routes.php")) as $route) {
+    require_once($route);
+}
