@@ -18,6 +18,16 @@ class ValidatorServiceProvider extends ServiceProvider {
         $this->app['validator']->extend('alpha_num_spaces', function($attribute, $value, $parameters) {
             return preg_match('/^[\pL\d\s]+$/u', $value);
         });
+
+        $this->app['validator']->extend('unique_vendor_modulename', function($attribute, $value, $parameters) {
+            // The combination of vendor and module name must be unique
+            $result_count = \DB::table($parameters[0])
+                                        ->where('name', $value)
+                                        ->where('vendor', $parameters[2])
+                                        ->count();
+
+            return (!$result_count);
+        });
     }
 
     /**
