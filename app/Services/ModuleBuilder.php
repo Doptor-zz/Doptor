@@ -45,6 +45,7 @@ class ModuleBuilder {
         $this->generateHashForNullHashModules();
 
         $this->module_name = $input['name'];
+        $this->module_vendor = $input['vendor'];
 
         $module_alias = $this->generateModuleAlias($this->module_name);
 
@@ -373,7 +374,7 @@ class ModuleBuilder {
      */
     private function adjustFiles($input)
     {
-        $module_title_case = str_replace(' ', '', Str::title($this->module_name));
+        $module_title_case = $this->module_vendor . '\\' . $this->generateModuleAlias($this->module_name);
 
         $this->SearchandReplace($this->temp_dir, 'NameOfTheModule', $this->module_name);
         $this->SearchandReplace($this->temp_dir, 'VersionOfTheModule', $input['version']);
@@ -420,7 +421,7 @@ class ModuleBuilder {
 
             $replace = array(
                 'ModuleModel'  => $model_name,
-                'table_name'   => 'mdl_' . $selected_form['table'],
+                'table_name'   => 'mdl_' . Str::lower($this->module_vendor) . '_' . $selected_form['table'],
                 'table_fields' => "'" . implode("', '", $selected_form['fields']) . "'"
             );
 

@@ -118,7 +118,8 @@ class ModulesController extends AdminController {
 
         // Drop all tables created by the module
         foreach ($module_tables as $module_table) {
-            $sql = "DROP TABLE IF EXISTS mdl_{$module_table}";
+            $vendor = Str::lower($module->vendor);
+            $sql = "DROP TABLE IF EXISTS mdl_{$vendor}_{$module_table}";
             DB::statement($sql);
         }
 
