@@ -38,10 +38,12 @@ class BackendController extends BaseController {
 //        $this->field_names = $this->config['field_names'];
         $this->module_name = $this->config['info']['name'];
         $this->module_alias = $this->config['info']['alias'];
+        $this->module_vendor = $this->config['info']['vendor'];
         $this->module_link = Str::snake($this->module_alias, '_');
 
         View::share('module_name', $this->module_name);
         View::share('module_alias', $this->module_alias);
+        View::share('module_vendor', $this->module_vendor);
         View::share('module_link', $this->module_link);
 
         parent::__construct();
@@ -50,7 +52,7 @@ class BackendController extends BaseController {
 
         // Add location hinting for views
         View::addNamespace($this->module_alias,
-            app_path() . "/Modules/{$this->module_alias}/Views");
+            app_path() . "/Modules/{$this->module_vendor}/{$this->module_alias}/Views");
     }
 
     /**
@@ -59,8 +61,9 @@ class BackendController extends BaseController {
      */
     public function index()
     {
+        $vendor = Str::lower($this->module_vendor);
         foreach ($this->forms as $i => $form) {
-            $this->forms[$i]['entries'] = DB::table('mdl_' . $form['table'])->get();
+            $this->forms[$i]['entries'] = DB::table('mdl_' . $vendor . '_' . $form['table'])->get();
         }
 
         $this->layout->title = "All Entries in {$this->module_name}";
@@ -107,7 +110,12 @@ class BackendController extends BaseController {
 
         $form = $this->getForm($input['form_id']);
 
-        $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        if ($this->module_vendor) {
+            $model_name = "Modules\\{$this->module_vendor}\\{$this->module_alias}\\Models\\{$form['model']}";
+        } else {
+            $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        }
+
 
         try {
             $entry = $model_name::create($input);

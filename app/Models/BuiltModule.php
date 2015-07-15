@@ -12,7 +12,7 @@ Description :  Doptor is Opensource CMS.
 use Robbo\Presenter\PresentableInterface;
 
 class BuiltModule extends Eloquent implements PresentableInterface {
-    protected $fillable = array('name', 'hash', 'version', 'author', 'website', 'description', 'form_id', 'target', 'file', 'table_name', 'is_author');
+    protected $fillable = array('name', 'hash', 'version', 'author', 'vendor', 'website', 'description', 'form_id', 'target', 'file', 'table_name', 'is_author');
     protected $guarded = array('id', 'confirmed');
 
 	/**
@@ -23,16 +23,18 @@ class BuiltModule extends Eloquent implements PresentableInterface {
     protected $table = 'built_modules';
 
     public static $rules = array(
-            'name'    => 'alpha_spaces|required',
+            'name'    => 'alpha_spaces|required|unique_vendor_modulename:built_modules',
             'hash'    => 'unique:built_modules,hash',
             'version' => 'required',
             'author'  => 'required',
+            'vendor'  => 'required|alpha_num',
             'form-1'  => 'required|not_in:0',
             'target'  => 'required'
         );
 
     public static $message = array(
-            'form-1.not_in' => 'At least the first form is required'
+            'form-1.not_in' => 'At least the first form is required',
+            'unique_vendor_modulename' => 'The combination of vendor and module name must be unique'
         );
 
     /**
@@ -42,6 +44,7 @@ class BuiltModule extends Eloquent implements PresentableInterface {
      */
     public static function validate($input, $id=false)
     {
+        static::$rules['name'] .= ',vendor,' . $input['vendor'];
         if ($id) {
             $built_module = static::find($id);
             if (!(bool) $built_module->is_author) {
@@ -50,8 +53,11 @@ class BuiltModule extends Eloquent implements PresentableInterface {
                 unset(static::$rules['name']);
                 unset(static::$rules['version']);
                 unset(static::$rules['author']);
+            } else {
+                static::$rules['name'] .= ',' . $id;
             }
         }
+
         return Validator::make($input, static::$rules, static::$message);
     }
 

@@ -16,6 +16,7 @@ use Exception;
 use File;
 use Input;
 use Schema;
+use Str;
 use ZipArchive;
 
 use BuiltForm;
@@ -117,10 +118,15 @@ class ModuleInstaller {
     {
         $temp_module_dir = "{$this->temp_path}{$canonical}";
 
-        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}",
-            "{$this->modules_path}{$this->config['info']['alias']}/");
-        File::copy("{$temp_module_dir}/module.json",
-            "{$this->modules_path}{$this->config['info']['alias']}/module.json");
+        if (isset($this->config['info']['vendor'])) {
+            // if vendor is specified, copy the file first to the vendor directory
+            $target_dir = "{$this->modules_path}{$this->config['info']['vendor']}/{$this->config['info']['alias']}/";
+        } else {
+            $target_dir = "{$this->modules_path}{$this->config['info']['alias']}/";
+        }
+
+        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}", $target_dir);
+        File::copy("{$temp_module_dir}/module.json", $target_dir . "module.json");
 
         File::deleteDirectory($temp_module_dir);
     }
@@ -148,6 +154,7 @@ class ModuleInstaller {
             'hash'       => $this->config['info']['hash'],
             'version'    => $this->config['info']['version'],
             'author'     => $this->config['info']['author'],
+            'vendor'     => isset($this->config['info']['vendor']) ? $this->config['info']['vendor'] : '',
             'website'    => $this->config['info']['website'],
             'target'     => $this->config['target'],
             'links'      => $links,
@@ -165,9 +172,10 @@ class ModuleInstaller {
      */
     private function manageTables()
     {
+        $vendor = Str::lower($this->config['info']['vendor']);
         if (isset($this->config['forms'])) {
             foreach ($this->config['forms'] as $form) {
-                if (!Schema::hasTable("mdl_{$form['table']}")) {
+                if (!Schema::hasTable("mdl_{$vendor}_{$form['table']}")) {
                     $this->createTables($form);
                 } else {
                     $this->alterTables($form);
@@ -185,7 +193,8 @@ class ModuleInstaller {
      */
     public function createTables($form)
     {
-        $create_sql = "CREATE TABLE IF NOT EXISTS `mdl_{$form['table']}`";
+        $vendor = Str::lower($this->config['info']['vendor']);
+        $create_sql = "CREATE TABLE IF NOT EXISTS `mdl_{$vendor}_{$form['table']}`";
         $create_sql .= "(`id` int(10) unsigned NOT NULL AUTO_INCREMENT, ";
         foreach ($form['fields'] as $field) {
             $create_sql .= "`$field` text COLLATE utf8_unicode_ci NULL, ";
@@ -200,11 +209,13 @@ class ModuleInstaller {
      */
     public function alterTables($form)
     {
-        $alter_sql = "ALTER TABLE mdl_{$form['table']} ";
+        $vendor = Str::lower($this->config['info']['vendor']);
+        $alter_sql = "ALTER TABLE mdl_{$vendor}_{$form['table']} ";
         $add_columns = array();
         $previous_field = 'id';
+
         foreach ($form['fields'] as $field) {
-            if (!Schema::hasColumn("mdl_{$form['table']}", $field)) {
+            if (!Schema::hasColumn("mdl_{$vendor}_{$form['table']}", $field)) {
                 $add_columns[] = "ADD COLUMN `{$field}` text COLLATE utf8_unicode_ci NULL AFTER `{$previous_field}`";
             }
             $previous_field = $field;

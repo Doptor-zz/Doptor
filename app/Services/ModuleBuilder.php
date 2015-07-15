@@ -45,6 +45,7 @@ class ModuleBuilder {
         $this->generateHashForNullHashModules();
 
         $this->module_name = $input['name'];
+        $this->module_vendor = $input['vendor'];
 
         $module_alias = $this->generateModuleAlias($this->module_name);
 
@@ -139,10 +140,10 @@ class ModuleBuilder {
                 'alias'       => $module_alias,
                 'version'     => $input['version'],
                 'author'      => $input['author'],
+                'vendor'      => $input['vendor'],
                 'website'     => $input['website'],
                 'description' => $input['description'],
             ),
-            // 'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
             'target'  => implode('|', $input['target']),
             'forms'   => $this->selected_forms
         );
@@ -323,7 +324,7 @@ class ModuleBuilder {
     {
         $captcha = '';
         if ($form->show_captcha) {
-            $captcha = '<div class="control-group {{ $errors->has("captcha") ? "error" : "" }}"> <label class="control-label">Enter captcha</label> <div class="controls"> {!! HTML::image(Captcha::img(), "Captcha image") !!} {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!} {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}</div> </div>';
+            $captcha = '<div class="control-group {{ $errors->has("captcha") ? "error" : "" }}"> <label class="control-label">Enter captcha</label> <div class="controls"> {!! Captcha::img() !!} {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!} {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}</div> </div>';
         }
 
         return $captcha;
@@ -373,7 +374,7 @@ class ModuleBuilder {
      */
     private function adjustFiles($input)
     {
-        $module_title_case = str_replace(' ', '', Str::title($this->module_name));
+        $module_title_case = $this->module_vendor . '\\' . $this->generateModuleAlias($this->module_name);
 
         $this->SearchandReplace($this->temp_dir, 'NameOfTheModule', $this->module_name);
         $this->SearchandReplace($this->temp_dir, 'VersionOfTheModule', $input['version']);
@@ -420,7 +421,7 @@ class ModuleBuilder {
 
             $replace = array(
                 'ModuleModel'  => $model_name,
-                'table_name'   => 'mdl_' . $selected_form['table'],
+                'table_name'   => 'mdl_' . Str::lower($this->module_vendor) . '_' . $selected_form['table'],
                 'table_fields' => "'" . implode("', '", $selected_form['fields']) . "'"
             );
 
