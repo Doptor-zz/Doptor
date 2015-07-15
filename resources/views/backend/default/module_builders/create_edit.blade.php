@@ -80,6 +80,14 @@
                                         {!! $errors->first('author', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
+                                <div class="control-group {{ $errors->has('vendor') ? 'error' : '' }}">
+                                    <label class="control-label">Vendor Name <i class="red">*</i></label>
+                                    <div class="controls">
+                                        {!! Form::text('vendor', (!isset($module)) ? Input::old('vendor') : $module->vendor, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        <span class="help-inline">Shouldn't contain spaces or special characters</span>
+                                        {!! $errors->first('vendor', '<span class="help-inline">:message</span>') !!}
+                                    </div>
+                                </div>
                                 <div class="control-group {{ $errors->has('website') ? 'error' : '' }}">
                                     <label class="control-label">Website Address</label>
                                     <div class="controls">

@@ -139,10 +139,10 @@ class ModuleBuilder {
                 'alias'       => $module_alias,
                 'version'     => $input['version'],
                 'author'      => $input['author'],
+                'vendor'      => $input['vendor'],
                 'website'     => $input['website'],
                 'description' => $input['description'],
             ),
-            // 'provider'    => 'App\Modules\\' . $module_title_case . '\\ServiceProvider',
             'target'  => implode('|', $input['target']),
             'forms'   => $this->selected_forms
         );
@@ -323,7 +323,7 @@ class ModuleBuilder {
     {
         $captcha = '';
         if ($form->show_captcha) {
-            $captcha = '<div class="control-group {{ $errors->has("captcha") ? "error" : "" }}"> <label class="control-label">Enter captcha</label> <div class="controls"> {!! HTML::image(Captcha::img(), "Captcha image") !!} {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!} {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}</div> </div>';
+            $captcha = '<div class="control-group {{ $errors->has("captcha") ? "error" : "" }}"> <label class="control-label">Enter captcha</label> <div class="controls"> {!! Captcha::img() !!} {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!} {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}</div> </div>';
         }
 
         return $captcha;

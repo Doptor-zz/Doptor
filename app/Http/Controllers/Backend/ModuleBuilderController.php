@@ -136,6 +136,7 @@ class ModuleBuilderController extends AdminController {
                 if (!(bool) $module->is_author) {
                     $input['name'] = $module->name;
                     $input['author'] = $module->author;
+                    $input['vendor'] = $module->vendor;
                     $input['version'] = $module->version;
                     $input['website'] = $module->website;
                     $input['description'] = $module->description;
