@@ -1,19 +1,12 @@
 /**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
-	// For the complete reference:
+	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
-
-	// config.filebrowserBrowseUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/browse.php?type=files';
-	// config.filebrowserImageBrowseUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/browse.php?type=images';
-	// config.filebrowserFlashBrowseUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/browse.php?type=flash';
-	// config.filebrowserUploadUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/upload.php?type=files';
-	// config.filebrowserImageUploadUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/upload.php?type=images';
-	// config.filebrowserFlashUploadUrl = window.base_url + '/assets/backend/default/plugins/ckeditor/kcfinder/upload.php?type=flash';
 
 	config.extraPlugins = 'wpmore';
 
@@ -29,14 +22,18 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
 		{ name: 'colors' }
 	];
 
-	// Remove some buttons, provided by the standard plugins, which we don't
-	// need to have in the Standard(s) toolbar.
+	// Remove some buttons provided by the standard plugins, which are
+	// not needed in the Standard(s) toolbar.
 	config.removeButtons = 'Subscript,Superscript';
 
-	config.removeDialogTabs = 'link:upload;image:Upload';
+	// Set the most common block elements.
+	// config.format_tags = 'p;h1;h2;h3;pre';
+
+	// Simplify the dialog windows.
+	config.removeDialogTabs = 'image:advanced;link:advanced';
 };
