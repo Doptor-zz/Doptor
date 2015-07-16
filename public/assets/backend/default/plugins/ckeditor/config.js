@@ -8,6 +8,12 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
+	// allow code in the Source tab to be written as it is
+	config.allowedContent = true;
+
+	// ALLOW <i></i>
+	config.protectedSource.push(/<i[^>]*><\/i>/g);
+
 	config.extraPlugins = 'wpmore';
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
