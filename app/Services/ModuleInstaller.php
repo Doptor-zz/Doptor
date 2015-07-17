@@ -172,8 +172,12 @@ class ModuleInstaller {
      */
     private function manageTables()
     {
-        $vendor = Str::lower($this->config['info']['vendor']);
         if (isset($this->config['forms'])) {
+            if (isset($this->config['info']['vendor'])) {
+                $vendor = Str::lower($this->config['info']['vendor']);
+            } else {
+                $vendor = '';
+            }
             foreach ($this->config['forms'] as $form) {
                 if (!Schema::hasTable("mdl_{$vendor}_{$form['table']}")) {
                     $this->createTables($form);
@@ -193,7 +197,11 @@ class ModuleInstaller {
      */
     public function createTables($form)
     {
-        $vendor = Str::lower($this->config['info']['vendor']);
+        if (isset($this->config['info']['vendor'])) {
+            $vendor = Str::lower($this->config['info']['vendor']);
+        } else {
+            $vendor = '';
+        }
         $create_sql = "CREATE TABLE IF NOT EXISTS `mdl_{$vendor}_{$form['table']}`";
         $create_sql .= "(`id` int(10) unsigned NOT NULL AUTO_INCREMENT, ";
         foreach ($form['fields'] as $field) {
@@ -209,7 +217,11 @@ class ModuleInstaller {
      */
     public function alterTables($form)
     {
-        $vendor = Str::lower($this->config['info']['vendor']);
+        if (isset($this->config['info']['vendor'])) {
+            $vendor = Str::lower($this->config['info']['vendor']);
+        } else {
+            $vendor = '';
+        }
         $alter_sql = "ALTER TABLE mdl_{$vendor}_{$form['table']} ";
         $add_columns = array();
         $previous_field = 'id';
