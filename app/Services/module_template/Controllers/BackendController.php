@@ -34,12 +34,18 @@ class BackendController extends BaseController {
     {
         $this->config = json_decode(file_get_contents(__DIR__ . '/../module.json'), true);
         $this->forms = $this->config['forms'];
-//        $this->fields = $this->config['fields'];
-//        $this->field_names = $this->config['field_names'];
+        // $this->fields = $this->config['fields'];
+        // $this->field_names = $this->config['field_names'];
         $this->module_name = $this->config['info']['name'];
         $this->module_alias = $this->config['info']['alias'];
         $this->module_vendor = $this->config['info']['vendor'];
         $this->module_link = Str::snake($this->module_alias, '_');
+
+        if ($this->module_vendor) {
+            $this->module_namespace = "Modules\\{$this->module_vendor}\\{$this->module_alias}\\";
+        } else {
+            $this->module_namespace = "Modules\\{$this->module_alias}\\";
+        }
 
         View::share('module_name', $this->module_name);
         View::share('module_alias', $this->module_alias);
@@ -110,12 +116,7 @@ class BackendController extends BaseController {
 
         $form = $this->getForm($input['form_id']);
 
-        if ($this->module_vendor) {
-            $model_name = "Modules\\{$this->module_vendor}\\{$this->module_alias}\\Models\\{$form['model']}";
-        } else {
-            $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
-        }
-
+        $model_name = $this->module_namespace . "Models\\{$form['model']}";
 
         try {
             $entry = $model_name::create($input);
@@ -143,7 +144,7 @@ class BackendController extends BaseController {
         // Get only the form that matches the specified form id
         $form = $this->getForm($form_id);
 
-        $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        $model_name = $this->module_namespace . "Models\\{$form['model']}";
         $entry = $model_name::findOrFail($id);
 
         $this->layout->title = "Showing Entry in {$this->module_name}";;
@@ -166,7 +167,7 @@ class BackendController extends BaseController {
         $form = $this->getForm($form_id);
         $sources = $this->getSources();
 
-        $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        $model_name = $this->module_namespace . "Models\\{$form['model']}";
         $entry = $model_name::findOrFail($id);
 
         $this->layout->title = "Edit Entry in {$this->module_name}";;
@@ -199,7 +200,7 @@ class BackendController extends BaseController {
         }
 
         $form = $this->getForm($input['form_id']);
-        $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        $model_name = $this->module_namespace . "Models\\{$form['model']}";
 
         try {
             $entry = $model_name::find($id)->update($input);
@@ -237,7 +238,7 @@ class BackendController extends BaseController {
         }
 
         $form = $this->getForm(Input::get('form_id'));
-        $model_name = "Modules\\{$this->module_alias}\\Models\\{$form['model']}";
+        $model_name = $this->module_namespace . "Models\\{$form['model']}";
 
         foreach ($selected_ids as $id) {
             $entry = $model_name::findOrFail($id);
