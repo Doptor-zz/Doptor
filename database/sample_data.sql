@@ -802,6 +802,56 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- ---------------------------------------------------------
+-- Other changes to the database
+ALTER TABLE `built_forms` MODIFY `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `built_forms` MODIFY `hash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `built_modules` MODIFY `hash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `built_modules` MODIFY `is_author` tinyint(1) NOT NULL DEFAULT '1';
+ALTER TABLE `built_modules` ADD `vendor` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `built_reports` MODIFY `modules` text COLLATE utf8_unicode_ci;
+ALTER TABLE `built_reports` MODIFY `show_calendars` tinyint(1) NOT NULL DEFAULT '1';
+ALTER TABLE `built_reports` ADD CONSTRAINT `built_reports_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`);
+ALTER TABLE `menu_categories` ADD `menu_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `menus` MODIFY `category` int(10) unsigned NOT NULL;
+ALTER TABLE `menus` ADD INDEX `menus_category_index` (`category`);
+ALTER TABLE `menus` ADD INDEX `menus_position_foreign` (`position`);
+ALTER TABLE `menus` DROP INDEX `menus_position_index`;
+ALTER TABLE `modules` MODIFY `hash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE `modules` MODIFY `links` text COLLATE utf8_unicode_ci;
+ALTER TABLE `modules` MODIFY `migrations` text COLLATE utf8_unicode_ci;
+ALTER TABLE `modules` ADD `vendor` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
+CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS `newsletters` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE `posts` ADD `language_id` int(10) unsigned NOT NULL;
+ALTER TABLE `posts` MODIFY `status` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'published';
+ALTER TABLE `posts` MODIFY `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'post';
+ALTER TABLE `posts` ADD INDEX `posts_language_id_index` (`language_id`);
+ALTER TABLE `report_generators` ADD `fields` varchar(255) COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `report_generators` ADD `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `report_generators` ADD `module_alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `report_generators` ADD `module_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `report_generators` MODIFY `modules` text COLLATE utf8_unicode_ci;
+ALTER TABLE `report_generators` MODIFY `show_calendars` tinyint(1) NOT NULL DEFAULT '1';
+ALTER TABLE `users` MODIFY `last_pw_changed` datetime NOT NULL;
+ALTER TABLE `users` MODIFY `security_answer` text COLLATE utf8_unicode_ci;
+ALTER TABLE `users` MODIFY `security_question` text COLLATE utf8_unicode_ci;
+-- ---------------------------------------------------------
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
