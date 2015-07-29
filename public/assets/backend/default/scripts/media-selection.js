@@ -6,7 +6,6 @@ var MediaSelection = function () {
             var calling_div;
 
             $('.insert-media').on('click', function(event) {
-                console.log('clicked');
                 calling_div = event.target.id;
                 $('body').modalmanager('loading');
 
@@ -14,16 +13,21 @@ var MediaSelection = function () {
                     var media_manager_link = window.base_url+'/'+window.link_type+'/media-manager';
                     insert_modal.load(media_manager_link, '', function(){
                         insert_modal.modal();
+                        var modalManager = $("body").data("modalmanager");
+                        var openModals = modalManager.getOpenModals();
+                        modalManager.removeLoading();
                     });
                 }, 1000);
             });
 
             $('.preview.processing img').live('click', function(event) {
-                var folder_name = $('input[name=folder]').val();
+                var folder_name = $('input[name=folder]').val(),
+                    image;
+
                 if ($(this).parent().find('.file-name').length) {
-                    var image = $(this).parent().find('.file-name').first().text();
+                    image = $(this).parent().find('.file-name').first().text();
                 } else {
-                    var image = $(this).parent().find('.filename').first().text();
+                    image = $(this).parent().find('.filename').first().text();
                 }
 
                 var image_path = folder_name.trimLeft()+'/'+image;
@@ -43,6 +47,7 @@ var MediaSelection = function () {
 
                 }
                 insert_modal.modal('hide');
+                $('.modal-backdrop').hide();
             });
         }
     };
