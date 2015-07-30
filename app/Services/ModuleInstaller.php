@@ -249,7 +249,13 @@ class ModuleInstaller {
     {
         $directory = $this->config['info']['alias'];
 
-        $migrations_dir = 'app/Modules/' . $directory . '/Database/Migrations';
+        if (isset($this->config['info']['vendor'])) {
+            $vendor = $this->config['info']['vendor'] . '/';
+        } else {
+            $vendor = '';
+        }
+
+        $migrations_dir = 'app/Modules/' . $vendor . $directory . '/Database/Migrations';
 
         Artisan::call('migrate', ['--path' => $migrations_dir]);
     }
@@ -257,7 +263,14 @@ class ModuleInstaller {
     public function storeMigrationData()
     {
         $directory = $this->config['info']['alias'];
-        $migrations_dir = app_path('Modules/' . $directory . '/Database/Migrations');
+
+        if (isset($this->config['info']['vendor'])) {
+            $vendor = $this->config['info']['vendor'] . '/';
+        } else {
+            $vendor = '';
+        }
+
+        $migrations_dir = app_path('Modules/' . $vendor . $directory . '/Database/Migrations');
         $migration_files = [];
 
         foreach (File::files($migrations_dir) as $file) {
@@ -270,7 +283,13 @@ class ModuleInstaller {
     private function seedDatabase()
     {
         $directory = $this->config['info']['alias'];
-        $seed_dir = app_path('Modules/' . $directory . '/Database/Seeds');
+        if (isset($this->config['info']['vendor'])) {
+            $vendor = $this->config['info']['vendor'] . '/';
+        } else {
+            $vendor = '';
+        }
+
+        $seed_dir = app_path('Modules/' . $vendor . $directory . '/Database/Seeds');
 
         foreach (File::files($seed_dir) as $file) {
             require_once($file);
