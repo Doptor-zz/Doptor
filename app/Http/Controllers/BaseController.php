@@ -36,6 +36,7 @@ class BaseController extends Controller {
         $this->user = current_user();
 
         View::share('current_user', $this->user);
+        View::share('current_user_company', current_user_company());
     }
 
 
@@ -84,7 +85,6 @@ class BaseController extends Controller {
         $this->setupLayout();
 
         $response = call_user_func_array(array($this, $method), $parameters);
-
 
         if (is_null($response) && ! is_null($this->layout))
         {

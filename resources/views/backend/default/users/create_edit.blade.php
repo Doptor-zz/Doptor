@@ -133,6 +133,16 @@
                                     </div>
 
                                     @if (!Request::is('*profile*'))
+                                        <div class="control-group {{ $errors->has('company_id') ? 'error' : '' }}">
+                                            <label class="control-label">Associated Company</label>
+                                            <div class="controls">
+                                            {!! Form::select('company_id', $companies, (!isset($user)) ? Input::old('company_id') : $user->company_id, array('class'=>'chosen input-xlarge')) !!}
+                                                {!! $errors->first('company_id', '<span class="help-inline">:message</span>') !!}
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if (!Request::is('*profile*'))
                                         {{-- Don't show status selection while editing profile --}}
                                         <div class="control-group">
                                             <label class="control-label">Status</label>

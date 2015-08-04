@@ -101,6 +101,15 @@ function current_user()
     return $user;
 }
 
+function current_user_company()
+{
+    if (current_user()) {
+        return current_user()->company_id;
+    } else {
+        return null;
+    }
+}
+
 function can_access_menu($user, $menus=array())
 {
     $menus = (array)$menus;
