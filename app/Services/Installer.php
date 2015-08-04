@@ -9,7 +9,7 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use Artisan, App, Event, Exception, Input, Str, View, Redirect, Response, Validator;
+use Artisan, App, DB, Event, Exception, Input, Str, View, Redirect, Response, Validator;
 use Group;
 use Sentry;
 
@@ -80,9 +80,9 @@ class Installer {
             if (isset($input['sample_data']) && $input['sample_data']=='true') {
                 $file = file_get_contents(database_path() . "/sample_data.sql");
 
-                // \DB::statement("SET foreign_key_checks = 0");
+                // DB::statement("SET foreign_key_checks = 0");
                 // Execute the whole sql statements in the sql file
-                \DB::unprepared($file);
+                DB::unprepared($file);
                 $this->createSuperAdmin($input);
             } else {
                 // Migrate all the tables
@@ -97,8 +97,12 @@ class Installer {
                 Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/Components/ReportBuilder/Database/Migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/Components/ReportGenerator/Database/Migrations/'));
+                Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/'));
 
                 Artisan::call('db:seed', array('--class' => 'MenuPositionTableSeeder'));
+                Artisan::call('db:seed', array('--class' => 'ThemesTableSeeder'));
+                Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
+                Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
             }
 
         } catch (Exception $e) {
@@ -116,7 +120,7 @@ class Installer {
     public function checkCompatibility()
     {
         if (!version_compare(phpversion(), '5.5.9', '>=')) {
-            return $this->listener->installerFails('PHP version must be at least 5.3.7');
+            return $this->listener->installerFails('PHP version must be at least 5.5.9');
         }
 
         $required_extensions = array(

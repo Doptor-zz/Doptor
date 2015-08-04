@@ -1,4 +1,5 @@
 <?php
+
 /*
   =================================================
   CMS Name  :  DOPTOR
@@ -8,12 +9,14 @@
   License : GNU/GPL, visit LICENSE.txt
   Description :  Doptor is Opensource CMS.
   ===================================================
- */
-Route::get('/', function() {
+*/
+Route::get('/', function () {
     if (!Schema::hasTable('settings') || Config::get('database.default') == 'sqlite') {
+
         // If not installed, redirect to install page
         return Redirect::to('install');
-    } else {
+    }
+    else {
         return Redirect::action('HomeController@index');
     }
 });
@@ -24,7 +27,7 @@ Route::when('*', array('csrf'));
 Route::get('home', 'HomeController@index');
 Route::get('wrapper/{id}', 'HomeController@wrapper');
 
-Route::group(array('prefix' => 'install', 'middleware' => 'isInstalled'), function() {
+Route::group(array('prefix' => 'install', 'middleware' => 'isInstalled'), function () {
     Route::get('{step?}', 'InstallController@index');
     Route::post('configure/{step?}', 'InstallController@configure');
     Route::post('delete_files', 'InstallController@delete_files');
@@ -44,14 +47,13 @@ Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicCo
 Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
 Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\PublicController@sendMessage');
 
-Route::resource('form', 'FormController', array('only'=>array('store', 'show')));
+Route::resource('form', 'FormController', array('only' => array('store', 'show')));
 
 /*
   |--------------------------------------------------------------------------
   | Backend Routes
   |--------------------------------------------------------------------------
- */
-
+*/
 
 Route::get('pages/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('pages', 'Components\Posts\Controllers\PostsController');
@@ -59,13 +61,15 @@ Route::resource('pages', 'Components\Posts\Controllers\PostsController');
 Route::get('posts/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('posts', 'Components\Posts\Controllers\PostsController');
 
-Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions')), function() {
+Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions')), function () {
+
     // For changing the current user's password
     Route::get('users/change-password', 'Backend\UserController@getChangePassword');
-    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'backend.users.change-password'));
+    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword',
+    'as' => 'backend.users.change-password'));
 });
 
-Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions', 'auth.pw_6_months')), function() {
+Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions', 'auth.pw_6_months')), function () {
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('change_language/{lang}', 'Backend\HomeController@getChangeLang');
@@ -79,7 +83,7 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::resource('form-builder', 'Backend\FormBuilderController');
     Route::resource('form-categories', 'Backend\FormCategoriesController');
 
-    Route::resource('form', 'FormController', array('only'=>array('index', 'store', 'show', 'destroy')));
+    Route::resource('form', 'FormController', array('only' => array('index', 'store', 'show', 'destroy')));
     Route::get('form/{id}/list', 'FormController@index');
 
     Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
@@ -92,6 +96,7 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::get('synchronize/webToLocal', 'Backend\SynchronizeController@getWebToLocal');
     Route::post('synchronize/webToLocal', 'Backend\SynchronizeController@postWebToLocal');
     Route::post('synchronize/syncFromFile', 'Backend\SynchronizeController@postSyncFromFile');
+
     // Route::get('synchronize/syncToFile', 'Backend\SynchronizeController@postSyncToFile');
     Route::post('synchronize/syncToFile', 'Backend\SynchronizeController@postSyncToFile');
 
@@ -123,7 +128,10 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::any('media-manager/folder_contents', 'Components\MediaManager\Controllers\Backend\MediaManagerController@folder_contents');
     Route::resource('media-manager', 'Components\MediaManager\Controllers\Backend\MediaManagerController');
 
-    Route::post('theme-manager/apply/{id}', array('uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply', 'as' => 'backend.theme-manager.apply'));
+    Route::post('theme-manager/apply/{id}', array(
+                                'uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply',
+                                'as' => 'backend.theme-manager.apply'
+                            ));
     Route::resource('theme-manager', 'Components\ThemeManager\Controllers\Backend\ThemeManagerController');
 
     Route::get('report-builder/module-fields/{id}', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController@getModuleFields');
@@ -137,40 +145,25 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
 
     Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
 
-    Route::resource('contact-manager',
-                    'Components\ContactManager\Controllers\Backend\ContactController');
-    Route::get('contact-manager/create/{form_id}',
-                    array(
-                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@create',
-                        'as' => 'backend.contact-manager.create'
-                    )
-                );
-    Route::get('contact-manager/{id}/{form_id}',
-                    array(
-                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@show',
-                        'as' => 'backend.contact-manager.show'
-                    )
-                );
-    Route::get('contact-manager/{id}/edit/{form_id}',
-                    array(
-                        'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@edit',
-                        'as' => 'backend.contact-manager.edit'
-                    )
-                );
+    Route::resource('contact-manager', 'Components\ContactManager\Controllers\Backend\ContactController');
+    Route::get('contact-manager/create/{form_id}', array('uses' => 'Components\ContactManager\Controllers\Backend\ContactController@create', 'as' => 'backend.contact-manager.create'));
+    Route::get('contact-manager/{id}/{form_id}', array('uses' => 'Components\ContactManager\Controllers\Backend\ContactController@show', 'as' => 'backend.contact-manager.show'));
+    Route::get('contact-manager/{id}/edit/{form_id}', array('uses' => 'Components\ContactManager\Controllers\Backend\ContactController@edit', 'as' => 'backend.contact-manager.edit'));
 });
 
 /*
   |--------------------------------------------------------------------------
   | Admin Routes
   |--------------------------------------------------------------------------
- */
-Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions')), function() {
+*/
+Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions')), function () {
+
     // For changing the current user's password
     Route::get('users/change-password', 'Backend\UserController@getChangePassword');
     Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'admin.users.change-password'));
 });
 
-Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function() {
+Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function () {
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('config', 'Backend\HomeController@getConfig');
@@ -180,7 +173,7 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
     Route::resource('menu-categories', 'Backend\MenuCategoriesController');
     Route::resource('menu-positions', 'Backend\MenuPositionsController');
 
-    Route::resource('form', 'FormController', array('only'=>array('index', 'store', 'show', 'destroy')));
+    Route::resource('form', 'FormController', array('only' => array('index', 'store', 'show', 'destroy')));
     Route::get('form/{id}/list', 'FormController@index');
 
     Route::resource('form-builder', 'Backend\FormBuilderController');
@@ -195,6 +188,7 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
     Route::get('synchronize/webToLocal', 'Backend\SynchronizeController@getWebToLocal');
     Route::post('synchronize/webToLocal', 'Backend\SynchronizeController@postWebToLocal');
     Route::post('synchronize/syncFromFile', 'Backend\SynchronizeController@postSyncFromFile');
+
     // Route::get('synchronize/syncToFile', 'Backend\SynchronizeController@postSyncToFile');
     Route::post('synchronize/syncToFile', 'Backend\SynchronizeController@postSyncToFile');
 
@@ -231,41 +225,36 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
     Route::get('report-builder/module-fields/{id}', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController@getModuleFields');
     Route::resource('report-builder', 'Components\ReportBuilder\Controllers\Backend\ReportBuilderController');
     Route::get('report-generators/generate/{id}', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@getGenerate');
-    Route::post('report-generators/generate/{id}', array('uses' => 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@postGenerate', 'as' => 'admin.report-generators.generate'));
+    Route::post('report-generators/generate/{id}', array(
+                            'uses' => 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController@postGenerate',
+                        'as' => 'admin.report-generators.generate'));
     Route::resource('report-generators', 'Components\ReportGenerator\Controllers\Backend\ReportGeneratorController');
 
     Route::resource('contact-categories', 'Components\ContactManager\Controllers\Backend\ContactCategoriesController');
 
-    Route::resource('contact-manager',
-                    'Components\ContactManager\Controllers\Backend\ContactController');
-    Route::get('contact-manager/create/{form_id}',
-                    array(
+    Route::resource('contact-manager', 'Components\ContactManager\Controllers\Backend\ContactController');
+    Route::get('contact-manager/create/{form_id}', array(
                         'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@create',
                         'as' => 'backend.contact-manager.create'
-                    )
-                );
-    Route::get('contact-manager/{id}/{form_id}',
-                    array(
+                    ));
+    Route::get('contact-manager/{id}/{form_id}', array(
                         'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@show',
                         'as' => 'backend.contact-manager.show'
-                    )
-                );
-    Route::get('contact-manager/{id}/edit/{form_id}',
-                    array(
+                    ));
+    Route::get('contact-manager/{id}/edit/{form_id}', array(
                         'uses' => 'Components\ContactManager\Controllers\Backend\ContactController@edit',
                         'as' => 'backend.contact-manager.edit'
-                    )
-                );
+                    ));
 });
 
 Route::when('backend/*', array('auth', 'auth.backend'));
 Route::when('admin/*', array('auth'));
 
 // Add the routes of installed modules
-foreach(glob(base_path("app/Modules/*/routes.php")) as $route) {
-    require_once($route);
+foreach (glob(base_path("app/Modules/*/routes.php")) as $route) {
+    require_once ($route);
 }
 
-foreach(glob(base_path("app/Modules/*/*/routes.php")) as $route) {
-    require_once($route);
+foreach (glob(base_path("app/Modules/*/*/routes.php")) as $route) {
+    require_once ($route);
 }

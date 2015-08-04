@@ -1,0 +1,14 @@
+{
+    "enabled": true,
+    "info": {
+        "name": "Company Info",
+        "hash": "module_55ad0a9988993",
+        "alias": "CompanyInfo",
+        "version": "1.0",
+        "author": "Doptor",
+        "vendor": "Doptor",
+        "website": "http:\/\/doptor.net",
+        "description": ""
+    },
+    "target": "public|admin|backend"
+}

@@ -20,7 +20,7 @@ var MediaSelection = function () {
                 }, 1000);
             });
 
-            $('.preview.processing img').live('click', function(event) {
+            $(document).on('click', '.preview.processing img', function(event) {
                 var folder_name = $('input[name=folder]').val(),
                     image;
 

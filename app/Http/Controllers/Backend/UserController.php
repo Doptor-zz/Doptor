@@ -49,8 +49,17 @@ class UserController extends AdminController {
      */
     public function create()
     {
+        $company_module = 'Modules\Doptor\CompanyInfo\Models\Company';
+
+        if (class_exists($company_module)) {
+            $companies = $company_module::names();
+        } else {
+            $companies = null;
+        }
+
         $this->layout->title = 'Create New User';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit')
+                                        ->with('companies', $companies);
     }
 
     /**
@@ -111,10 +120,19 @@ class UserController extends AdminController {
      */
     public function edit($id)
     {
+        $company_module = 'Modules\Doptor\CompanyInfo\Models\Company';
+
+        if (class_exists($company_module)) {
+            $companies = $company_module::names();
+        } else {
+            $companies = null;
+        }
+
         $user = $this->user_manager->findUserById($id);
         $this->layout->title = 'Edit User';
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.users.create_edit')
-                                        ->with('user', $user);
+                                        ->with('user', $user)
+                                        ->with('companies', $companies);
     }
 
     /**
