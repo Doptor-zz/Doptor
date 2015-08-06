@@ -97,13 +97,13 @@ class Installer {
                 Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/Components/ReportBuilder/Database/Migrations/'));
                 Artisan::call('migrate', array('--path' => 'app/Components/ReportGenerator/Database/Migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/'));
 
                 Artisan::call('db:seed', array('--class' => 'MenuPositionTableSeeder'));
                 Artisan::call('db:seed', array('--class' => 'ThemesTableSeeder'));
-                Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
-                Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
             }
+            Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/'));
+            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
+            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
 
         } catch (Exception $e) {
             return $this->listener->installerFails($e->getMessage());
