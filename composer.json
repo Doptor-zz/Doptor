@@ -27,6 +27,7 @@
 	"autoload": {
 		"classmap": [
 			"database",
+			"database/seeds",
 			"app/Models",
 			"app/Http/Controllers",
 			"app/Components",
@@ -37,7 +38,8 @@
 			"app/Components/ContactManager/Database/Migrations",
 			"app/Components/ReportBuilder/Database/Migrations",
 			"app/Components/ReportGenerator/Database/Migrations",
-			"app/Components/posts/database/seeds"
+			"app/Components/posts/database/seeds",
+			"app/Components/theme_manager/database/seeds"
 		],
 		"files": [
 			"app/Http/helpers.php"
