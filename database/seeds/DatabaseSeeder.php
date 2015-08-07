@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
 		$this->call('MediaEntriesTableSeeder');
 		$this->call('MenusTableSeeder');
 		$this->call('MenuCategoriesTableSeeder');
-		$this->call('ModulesTableSeeder');
 		$this->call('PostsTableSeeder');
 		$this->call('ReportGeneratorsTableSeeder');
 		$this->call('SettingsTableSeeder');
