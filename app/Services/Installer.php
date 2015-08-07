@@ -77,31 +77,29 @@ class Installer {
 
         try {
             @ini_set('max_execution_time', 0);     // Temporarily increase maximum execution time
-            if (isset($input['sample_data']) && $input['sample_data']=='true') {
-                $file = file_get_contents(database_path() . "/sample_data.sql");
 
-                // DB::statement("SET foreign_key_checks = 0");
-                // Execute the whole sql statements in the sql file
-                DB::unprepared($file);
-                $this->createSuperAdmin($input);
-            } else {
-                // Migrate all the tables
-                Artisan::call('migrate');
+            // Migrate all the tables
+            Artisan::call('migrate');
 
-                $this->createSuperAdmin($input);
-
-                Artisan::call('migrate', array('--path' => 'app/Components/posts/database/migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Modules/Slideshow/Database/migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Components/MediaManager/database/migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Components/theme_manager/database/migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Components/ReportBuilder/Database/Migrations/'));
-                Artisan::call('migrate', array('--path' => 'app/Components/ReportGenerator/Database/Migrations/'));
-
-                Artisan::call('db:seed', array('--class' => 'MenuPositionTableSeeder'));
-                Artisan::call('db:seed', array('--class' => 'ThemesTableSeeder'));
-            }
+            Artisan::call('migrate', array('--path' => 'app/Components/posts/database/migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Modules/Slideshow/Database/migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Components/MediaManager/database/migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Components/theme_manager/database/migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Components/ReportBuilder/Database/Migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Components/ReportGenerator/Database/Migrations/'));
             Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/'));
+
+            $this->createSuperAdmin($input);
+
+            if (isset($input['sample_data']) && $input['sample_data']=='true') {
+                // Install sample seed data
+                Artisan::call('db:seed');
+            }
+
+            Artisan::call('db:seed', array('--class' => 'MenuPositionTableSeeder'));
+            Artisan::call('db:seed', array('--class' => 'ThemesTableSeeder'));
+
             Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
             Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
 
