@@ -36,8 +36,7 @@ class ModuleBuilderController extends AdminController {
      */
     public function index()
     {
-        $modules = BuiltModule::latest()->get();
-        // dd($modules->toArray());
+        $modules = BuiltModule::visible()->latest()->get();
         $this->layout->title = 'All Built Modules';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.index')
             ->with('modules', $modules);

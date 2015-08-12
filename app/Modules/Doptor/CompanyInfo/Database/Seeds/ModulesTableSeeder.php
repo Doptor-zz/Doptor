@@ -27,5 +27,14 @@ class ModulesTableSeeder extends Seeder
         ];
 
         DB::table('modules')->insert($module);
+
+        unset($module['alias']);
+        unset($module['table']);
+        unset($module['links']);
+        unset($module['migrations']);
+        unset($module['enabled']);
+        $module['is_visible'] = false;
+
+        DB::table('built_modules')->insert($module);
     }
 }
