@@ -112,7 +112,7 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
 
     Route::get('module-builder/download/{id}', 'Backend\ModuleBuilderController@download');
     Route::get('module-builder/form-dropdowns/{id}', 'Backend\ModuleBuilderController@getFormDropdowns');
-    Route::get('module-builder/form-fields/{id}', 'Backend\ModuleBuilderController@getFormFields');
+    Route::get('module-builder/form-fields/{form_id}/{module_id}', 'Backend\ModuleBuilderController@getFormFields');
     Route::resource('module-builder', 'Backend\ModuleBuilderController');
 
     Route::resource('slideshow', 'Modules\Slideshow\Controllers\Backend\SlideshowController');

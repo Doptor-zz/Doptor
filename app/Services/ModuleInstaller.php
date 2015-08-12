@@ -147,20 +147,24 @@ class ModuleInstaller {
         }
 
         $links = (isset($this->config['links'])) ? json_encode($this->config['links']) : '';
+        $models = (isset($this->config['models'])) ? json_encode($this->config['models']) : '';
+        $form_fields = (isset($this->config['form_fields'])) ? json_encode($this->config['form_fields']) : '';
 
         $input = array(
-            'name'       => $this->config['info']['name'],
-            'alias'      => $this->config['info']['alias'],
-            'hash'       => $this->config['info']['hash'],
-            'version'    => $this->config['info']['version'],
-            'author'     => $this->config['info']['author'],
-            'vendor'     => isset($this->config['info']['vendor']) ? $this->config['info']['vendor'] : '',
-            'website'    => $this->config['info']['website'],
-            'target'     => $this->config['target'],
-            'links'      => $links,
-            'table'      => $table,
-            'migrations' => $this->config['migrations'],
-            'enabled'    => true
+            'name'        => $this->config['info']['name'],
+            'alias'       => $this->config['info']['alias'],
+            'hash'        => $this->config['info']['hash'],
+            'version'     => $this->config['info']['version'],
+            'author'      => $this->config['info']['author'],
+            'vendor'      => isset($this->config['info']['vendor']) ? $this->config['info']['vendor'] : '',
+            'website'     => $this->config['info']['website'],
+            'target'      => $this->config['target'],
+            'links'       => $links,
+            'models'      => $models,
+            'form_fields' => $form_fields,
+            'table'       => $table,
+            'migrations'  => $this->config['migrations'],
+            'enabled'     => true
         );
 
         return $input;
@@ -291,11 +295,13 @@ class ModuleInstaller {
 
         $seed_dir = app_path('Modules/' . $vendor . $directory . '/Database/Seeds');
 
-        foreach (File::files($seed_dir) as $file) {
-            require_once($file);
+        if (File::files($seed_dir)) {
+            foreach (File::files($seed_dir) as $file) {
+                require_once($file);
+            }
+            $seeder = new \DatabaseSeeder;
+            $seeder->run();
         }
-        $seeder = new \DatabaseSeeder;
-        $seeder->run();
     }
 
     /**
