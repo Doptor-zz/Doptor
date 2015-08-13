@@ -62,6 +62,14 @@ class BuiltModule extends Eloquent implements PresentableInterface {
     }
 
     /**
+     * Show only visible built modules
+     */
+    public function scopeVisible($query)
+    {
+        return $query->where('is_visible', true);
+    }
+
+    /**
      * Get all the targets available for a module-builder
      * @return array
      */

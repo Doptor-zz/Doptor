@@ -36,8 +36,7 @@ class ModuleBuilderController extends AdminController {
      */
     public function index()
     {
-        $modules = BuiltModule::latest()->get();
-        // dd($modules->toArray());
+        $modules = BuiltModule::visible()->latest()->get();
         $this->layout->title = 'All Built Modules';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.index')
             ->with('modules', $modules);
@@ -219,13 +218,31 @@ class ModuleBuilderController extends AdminController {
      * @param $id
      * @return array
      */
-    public function getFormFields($id)
+    public function getFormFields($id, $module_id=null)
     {
-        $form = BuiltForm::find($id);
+        $ret = [];
+        if (is_int($id)) {
+            // if form id is specified
+            $form = BuiltForm::find($id);
 
-        $form_fields = $this->moduleBuilder->getFormFields($form->data);
+            $form_fields = $this->moduleBuilder->getFormFields($form->data);
 
-        $ret = array_combine($form_fields['fields'], $form_fields['field_names']);
+            $ret = array_combine($form_fields['fields'], $form_fields['field_names']);
+        } else {
+            if ($module_id) {
+                $module = BuiltModule::find($module_id);
+                $model = $id;
+
+                $module_models = json_decode($module->models, true);
+                $module_fields = json_decode($module->form_fields, true);
+
+                $model_index = array_search($model, array_keys($module_models));
+
+                if ($model_index !== false) {
+                    $ret = $module_fields[$model_index];
+                }
+            }
+        }
 
         return $ret;
     }
@@ -264,13 +281,20 @@ class ModuleBuilderController extends AdminController {
             $all_modules = BuiltModule::latest();
         }
 
-        $all_modules = $all_modules->get(array('id', 'name', 'form_id'));
+        $all_modules = $all_modules->get(array('id', 'name', 'form_id', 'models'));
         foreach ($all_modules as $this_module) {
-            $form_ids = explode(', ', $this_module->form_id);
-            foreach ($form_ids as $form_id) {
-                $form = BuiltForm::find($form_id);
-                if (isset($form)) {
-                    $select[$this_module->name][$this_module->id . '-' . $form->id] = $form->name;
+            if ($this_module->models) {
+                $models = json_decode($this_module->models);
+                foreach ($models as $model => $model_text) {
+                    $select[$this_module->name][$this_module->id . '-' . $model] = $model_text;
+                }
+            } else {
+                $form_ids = explode(', ', $this_module->form_id);
+                foreach ($form_ids as $form_id) {
+                    $form = BuiltForm::find($form_id);
+                    if (isset($form)) {
+                        $select[$this_module->name][$this_module->id . '-' . $form->id] = $form->name;
+                    }
                 }
             }
         }

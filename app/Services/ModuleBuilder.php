@@ -636,8 +636,17 @@ class ModuleBuilder {
                 $form = BuiltForm::find($form_id);
 
                 $module_alias = $this->generateModuleAlias($module->name);
-                $table_name = $this->generateTableName($module->name, $form->name);
-                $model_name = $this->generateModelName($table_name);
+
+                if (is_int($form_id)) {
+                    $table_name = $this->generateTableName($module->name, $form->name);
+                    $model_name = $this->generateModelName($table_name);
+                } else {
+                    $model_name = $form_id;
+                }
+
+                if ($module->vendor != '') {
+                    $module_alias = "{$module->vendor}\\{$module_alias}";
+                }
 
                 $sources[$field_name] = "\\Modules\\{$module_alias}\\Models\\{$model_name}::lists('{$target_field}', '{$target_field}')";
             }

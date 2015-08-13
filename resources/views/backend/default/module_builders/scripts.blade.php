@@ -116,7 +116,7 @@
             .html('<div class="loading inline">Loading...</div>');
 
         $.ajax({
-            url: '{!! URL::to("backend/module-builder/form-fields/") !!}/' + form_id
+            url: '{!! URL::to("backend/module-builder/form-fields/") !!}/' + form_id + '/' + module_id
         }).done(function(form_fields) {
             var form_name = selected_form.attr('name').replace('moduleform-', '');
             var selects = '&nbsp;&nbsp;&nbsp;&nbsp;<label class="inline">Form fields:</label>';
