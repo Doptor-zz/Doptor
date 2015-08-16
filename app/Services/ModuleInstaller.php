@@ -123,6 +123,7 @@ class ModuleInstaller {
         $required_modules = (isset($module_details['requires'])) ? $module_details['requires'] : null;
 
         if ($required_modules) {
+            $missing_modules = [];
             foreach ($required_modules as $required_module) {
                 $split = explode('/', $required_module);
 
@@ -141,9 +142,11 @@ class ModuleInstaller {
                 }
 
                 if (!$module) {
-                    throw new Exception("Required module {$required_module} doesn't exist.");
+                    $missing_modules[] = $required_module;
                 }
             }
+            $missing = implode(', ', $missing_modules);
+            throw new Exception("Required module(s) {$missing} doesn't exist.");
         }
     }
 
