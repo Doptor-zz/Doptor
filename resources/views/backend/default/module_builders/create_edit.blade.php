@@ -145,6 +145,14 @@
                                     <label class="control-label">Source for form dropdowns</label>
                                     {!! Form::select('', $select, '', array('id'=>'dropdown-options', 'class'=>'hide')) !!}
                                 </div>
+
+                                <div class="control-group {{ $errors->has('requires') ? 'error' : '' }}">
+                                    <label class="control-label">Depends on modules</label>
+                                    <div class="controls line">
+                                        {!! Form::select('requires[]', $all_modules, (!isset($module)) ? Input::old('requires') : $module->required_modules(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select modules required for this module')) !!}
+                                        {!! $errors->first('requires', '<span class="help-inline">:message</span>') !!}
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="tab3">
                                 <h4>Confirm options</h4>

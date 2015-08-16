@@ -17,6 +17,7 @@ use Str;
 use BuiltForm;
 use BuiltModule;
 use FormCategory;
+use Module;
 
 class ModuleBuilder {
 
@@ -62,8 +63,10 @@ class ModuleBuilder {
         // Adjust the template files, based on the input
         $this->adjustFiles($input);
 
+        $requires = $this->getRequiredModulesInfo($input['requires']);
+
         // Save the module configuration as json
-        $this->saveModuleConfig($input, $module_alias);
+        $this->saveModuleConfig($input, $module_alias, $requires);
 
         // Finally compress the temporary folder
         $zip_file = $this->generateZip($module_alias);
@@ -125,12 +128,26 @@ class ModuleBuilder {
         File::copyDirectory($this->templatePath, $this->temp_dir);
     }
 
+    private function getRequiredModulesInfo($requires)
+    {
+        $req_modules = [];
+
+        foreach ($requires as $module_id) {
+            $module = Module::find($module_id);
+            $vendor = ($module->vendor) ? $module->vendor . '/' : '';
+            $req_modules[] = $vendor . $module->alias;
+        }
+
+        return $req_modules;
+    }
+
     /**
      * Save the module configuration to a json file
      * @param $input
      * @param $module_alias
+     * @param $requires
      */
-    private function saveModuleConfig($input, $module_alias)
+    private function saveModuleConfig($input, $module_alias, $requires)
     {
         $module_config = array(
             'enabled' => true,
@@ -145,6 +162,7 @@ class ModuleBuilder {
                 'description' => $input['description'],
             ),
             'target'  => implode('|', $input['target']),
+            'requires'=> $requires,
             'forms'   => $this->selected_forms
         );
 
