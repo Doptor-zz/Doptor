@@ -12,7 +12,7 @@ Description :  Doptor is Opensource CMS.
 use Robbo\Presenter\PresentableInterface;
 
 class BuiltModule extends Eloquent implements PresentableInterface {
-    protected $fillable = array('name', 'hash', 'version', 'author', 'vendor', 'website', 'description', 'form_id', 'target', 'file', 'table_name', 'is_author');
+    protected $fillable = array('name', 'hash', 'version', 'author', 'vendor', 'website', 'description', 'form_id', 'target', 'file', 'requires', 'table_name', 'is_author');
     protected $guarded = array('id', 'confirmed');
 
 	/**
@@ -85,6 +85,11 @@ class BuiltModule extends Eloquent implements PresentableInterface {
     public function selected_targets()
     {
         return explode(', ', $this->target);
+    }
+
+    public function required_modules()
+    {
+        return json_decode($this->requires);
     }
 
     /**

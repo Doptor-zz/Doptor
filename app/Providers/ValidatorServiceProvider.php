@@ -23,8 +23,14 @@ class ValidatorServiceProvider extends ServiceProvider {
             // The combination of vendor and module name must be unique
             $result_count = \DB::table($parameters[0])
                                         ->where('name', $value)
-                                        ->where('vendor', $parameters[2])
-                                        ->count();
+                                        ->where('vendor', $parameters[2]);
+
+            if (isset($parameters[3])) {
+                // the result is not the current entry
+                $result_count = $result_count->where('id', '<>', $parameters[3]);
+            }
+
+            $result_count = $result_count->count();
 
             return (!$result_count);
         });

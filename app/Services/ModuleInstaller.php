@@ -65,6 +65,8 @@ class ModuleInstaller {
             throw new Exception('Another module with the same name already exists');
         }
 
+        $this->checkIfRequiredModulesExist();
+
         // Copy modules from temporary folder to modules folder
         $this->copyModule($canonical);
 
@@ -108,6 +110,44 @@ class ModuleInstaller {
 //        }
 
         return $filename;
+    }
+
+    /**
+     * Check if the modules required for this module exist or not
+     * @return
+     */
+    private function checkIfRequiredModulesExist()
+    {
+        $module_details = $this->config;
+
+        $required_modules = (isset($module_details['requires'])) ? $module_details['requires'] : null;
+
+        if ($required_modules) {
+            $missing_modules = [];
+            foreach ($required_modules as $required_module) {
+                $split = explode('/', $required_module);
+
+                if (sizeof($split) == 2) {
+                    // If module contains vendor
+                    $vendor = $split[0];
+                    $module_alias = $split[1];
+
+                    $module = Module::where('alias', $module_alias)
+                                        ->where('vendor', $vendor)
+                                        ->first();
+                } else {
+                    $module_alias = $split[0];
+
+                    $module = Module::where('alias', $module_alias)->first();
+                }
+
+                if (!$module) {
+                    $missing_modules[] = $required_module;
+                }
+            }
+            $missing = implode(', ', $missing_modules);
+            throw new Exception("Required module(s) {$missing} doesn't exist.");
+        }
     }
 
     /**

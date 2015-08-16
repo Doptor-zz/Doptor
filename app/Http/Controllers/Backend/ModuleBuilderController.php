@@ -11,8 +11,6 @@ Description :  Doptor is Opensource CMS.
 ===================================================
 */
 use App;
-use BuiltForm;
-use BuiltModule;
 use Exception;
 use File;
 use Input;
@@ -22,6 +20,10 @@ use Services\ModuleBuilder;
 use Session;
 use Str;
 use View;
+
+use BuiltForm;
+use BuiltModule;
+use Module;
 
 class ModuleBuilderController extends AdminController {
 
@@ -48,8 +50,11 @@ class ModuleBuilderController extends AdminController {
     public function create()
     {
         $select = $this->formDropdownSources();
+        $all_modules = Module::latest()->lists('name', 'id');
+
         $this->layout->title = 'Create New Module';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
+            ->with('all_modules', $all_modules)
             ->with('select', $select);
     }
 
@@ -104,9 +109,11 @@ class ModuleBuilderController extends AdminController {
         }
 
         $select = $this->formDropdownSources($id);
+        $all_modules = Module::latest()->lists('name', 'id');
 
         $this->layout->title = 'Edit Existing Built Module';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
+            ->with('all_modules', $all_modules)
             ->with('module', $module)
             ->with('selected_forms', $selected_forms)
             ->with('select', $select);
@@ -262,6 +269,8 @@ class ModuleBuilderController extends AdminController {
 
         $table_names = array_pluck($this->moduleBuilder->selected_forms, 'table');
         $input['table_name'] = implode('|', $table_names);
+
+        $input['requires'] = json_encode($input['requires']);
 
         return $input;
     }
