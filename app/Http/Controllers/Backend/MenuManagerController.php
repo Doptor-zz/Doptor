@@ -169,6 +169,23 @@ class MenuManagerController extends AdminController {
     }
 
     /**
+     * Set default menu for the target section
+     * @param  $menu_id
+     */
+    public function setDefault($menu_id)
+    {
+        $menu_entry = Menu::findOrFail($menu_id);
+
+        Menu::where('target', $menu_entry->target)->update(['is_default' => false]);
+
+        $menu_entry->is_default = true;
+        $menu_entry->save();
+
+        return Redirect::to('backend/menu-manager')
+                                ->with('success_message', 'The menu entry was set as default.');
+    }
+
+    /**
      * Remove the specified menu entry from storage.
      *
      * @param  int  $id
