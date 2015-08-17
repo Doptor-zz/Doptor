@@ -17,6 +17,13 @@ Route::get('/', function () {
         return Redirect::to('install');
     }
     else {
+        $default_menu = Menu::published()->default('public')->first();
+
+        if ($default_menu) {
+            $link = str_replace('link_type', '', $default_menu->link);
+            return Redirect::to($link);
+        }
+
         return Redirect::action('HomeController@index');
     }
 });
@@ -76,6 +83,10 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 
+    Route::get('menu-manager/set-default/{menu_id}', [
+            'uses' => 'Backend\MenuManagerController@setDefault',
+            'as' => 'backend.menu-manager.set-default'
+        ]);
     Route::resource('menu-manager', 'Backend\MenuManagerController');
     Route::resource('menu-categories', 'Backend\MenuCategoriesController');
     Route::resource('menu-positions', 'Backend\MenuPositionsController');
@@ -165,7 +176,17 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
 
 Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function () {
 
-    Route::any('/', 'Backend\HomeController@getIndex');
+    Route::get('/', function() {
+        $default_menu = Menu::published()->default('admin')->first();
+
+        if ($default_menu) {
+            $link = str_replace('link_type', 'admin', $default_menu->link);
+            return Redirect::to($link);
+        } else {
+            Route::action('Backend\HomeController@getIndex');
+        }
+    });
+
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 

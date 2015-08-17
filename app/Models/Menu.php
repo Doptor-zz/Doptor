@@ -105,6 +105,12 @@ class Menu extends Eloquent implements PresentableInterface {
                         });
     }
 
+    public function scopeDefault($query, $target)
+    {
+        return $query->where('target', $target)
+                ->where('is_default', true);
+    }
+
     /**
      * Get the icon with its directory location
      * @return string

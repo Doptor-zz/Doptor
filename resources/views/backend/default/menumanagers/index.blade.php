@@ -79,6 +79,9 @@
                                                 <i class="icon-cog"> Actions</i>
                                             </div>
                                             <ul class="btn btn-mini">
+                                                <li>
+                                                    {!! HTML::link(route($link_type . '.menu-manager.set-default', [$menu->id]), 'Set as default') !!}
+                                                </li>
                                                 @if ($current_user->hasAccess('menu-manager.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.menu-manager.destroy', $menu->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>'return deleteRecord($(this), "menu");')) !!}
