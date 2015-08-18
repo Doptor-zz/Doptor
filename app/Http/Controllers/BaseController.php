@@ -36,7 +36,7 @@ class BaseController extends Controller {
         $this->user = current_user();
 
         View::share('current_user', $this->user);
-        View::share('current_user_company', current_user_company());
+        View::share('current_user_companies', current_user_companies());
     }
 
 

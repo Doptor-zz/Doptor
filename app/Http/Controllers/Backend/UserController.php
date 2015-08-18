@@ -143,7 +143,9 @@ class UserController extends AdminController {
      */
     public function update($id)
     {
-        if (!($this->user->hasAccess('users.edit') || Sentry::getUser()->id == $id)) App::abort('401');
+        if (!($this->user->hasAccess('users.edit') || Sentry::getUser()->id == $id)) {
+            App::abort('401');
+        }
 
         try {
             if (current_user()->id != $id ) {

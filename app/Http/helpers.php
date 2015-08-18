@@ -101,15 +101,36 @@ function current_user()
     return $user;
 }
 
-function current_user_company()
+/**
+ * Get the companies that the user belongs to
+ * @return
+ */
+function current_user_companies()
 {
     if (current_user()) {
-        return current_user()->company_id;
+        return json_decode(current_user()->company_id);
     } else {
-        return null;
+        return [];
     }
 }
 
+/**
+ * Check whether or not user can access the company
+ * @param   $company_id
+ * @return  boolean
+ */
+function can_user_access_company($company_id)
+{
+    $current_user_companies = current_user_companies();
+    return (!$current_user_companies || in_array($company_id, $current_user_companies));
+}
+
+/**
+ * Check whether or not user can access menu
+ * @param   $user
+ * @param   $menus
+ * @return  boolean
+ */
 function can_access_menu($user, $menus=array())
 {
     $menus = (array)$menus;
@@ -135,7 +156,6 @@ function can_access_menu($user, $menus=array())
 
 /**
  * Return an array of timezones
- *
  * @return array
  */
 function timezoneList()
