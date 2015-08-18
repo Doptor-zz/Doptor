@@ -45,8 +45,8 @@ class CompanyController extends CompanyBaseController {
 
         $company_branches = $company_branch_model::with('country');
 
-        if (current_user_company()) {
-            $company_branches = $company_branches->where('company_id', current_user_company());
+        if (current_user_companies()) {
+            $company_branches = $company_branches->where('company_id', current_user_companies());
         }
 
         $company_branches = $company_branches->get();
@@ -151,7 +151,7 @@ class CompanyController extends CompanyBaseController {
      */
     public function edit($id)
     {
-        if (current_user_company() && $id != current_user_company()) {
+        if (!can_user_access_company($id)) {
             abort(501);
         }
         if ($this->module_vendor) {
@@ -184,7 +184,7 @@ class CompanyController extends CompanyBaseController {
      */
     public function update($id)
     {
-        if (current_user_company() && $id != current_user_company()) {
+        if (!can_user_access_company($id)) {
             abort(501);
         }
         $input = Input::all();
@@ -253,7 +253,7 @@ class CompanyController extends CompanyBaseController {
         $company_model = $this->module_namespace . "Models\\Company";
 
         foreach ($selected_ids as $id) {
-            if (!current_user_company() && $id == current_user_company()) {
+            if (can_user_access_company($id)) {
                 $company = $company_model::findOrFail($id);
 
                 $company->delete();

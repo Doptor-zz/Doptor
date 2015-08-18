@@ -66,9 +66,9 @@ class CompanyBranchController extends CompanyBaseController {
 
         $countries = $country_model::names();
 
-        $current_user_company = current_user_company();
-        if ($current_user_company) {
-            $companies = $company_model::where('id', $current_user_company)->lists('name', 'id');
+        $current_user_companies = current_user_companies();
+        if ($current_user_companies) {
+            $companies = $company_model::where('id', $current_user_companies)->lists('name', 'id');
         } else {
             $companies = $company_model::names();
         }
@@ -164,7 +164,7 @@ class CompanyBranchController extends CompanyBaseController {
 
         $company_branch = $company_branch_model::with('incharges')->findOrFail($id);
 
-        if (current_user_company() && $company_branch->company_id != current_user_company( )) {
+        if (!can_user_access_company($company_branch->company_id)) {
             abort(501);
         }
         $incharge_count = ($company_branch->incharges->count() ? : 1);

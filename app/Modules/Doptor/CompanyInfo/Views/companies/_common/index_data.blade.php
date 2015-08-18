@@ -23,12 +23,12 @@
                     {{ $company->address }}
                 </td>
                 <td>
-                    @if (!$current_user_company || $company->id == $current_user_company)
+                    @if (can_user_access_company($company->id))
                         <a href="{!! route($link_type . '.modules.' . $module_link . '.companies.branches', $company->id) !!}" class="btn btn-mini"><i class="icon-eye-open"></i> View</a>
                     @endif
                 </td>
                 <td>
-                    @if (!$current_user_company || $company->id == $current_user_company)
+                    @if (can_user_access_company($company->id))
                         <a href="{!! route($link_type . '.modules.' . $module_link .'.companies.edit', [$company->id]) !!}" class="btn btn-mini"><i class="icon-edit"></i></a>
 
                         <div class="actions inline">
