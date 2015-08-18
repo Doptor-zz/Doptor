@@ -48,6 +48,8 @@ var MediaSelection = function () {
                 }
                 insert_modal.modal('hide');
                 $('.modal-backdrop').hide();
+                $('.modal-scrollable').hide();
+                $('body').removeClass('modal-open').removeClass('page-overflow');
             });
         }
     };
