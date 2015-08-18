@@ -102,6 +102,7 @@ class Installer {
 
             Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
             Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
+            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\Slideshow\Database\Seeds\ModulesTableSeeder'));
 
         } catch (Exception $e) {
             return $this->listener->installerFails($e->getMessage());
