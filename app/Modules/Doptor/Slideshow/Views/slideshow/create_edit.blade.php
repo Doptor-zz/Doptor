@@ -25,9 +25,9 @@
                             <div class="tab-pane active" id="widget_tab1">
                                 <!-- BEGIN FORM-->
                                 @if (!isset($slide))
-                                {!! Form::open(array('route'=>$link_type . '.slideshow.store', 'method'=>'POST', 'class'=>'form-horizontal', 'files'=>true)) !!}
+                                {!! Form::open(array('route'=>$link_type . '.modules.doptor.slideshow.store', 'method'=>'POST', 'class'=>'form-horizontal', 'files'=>true)) !!}
                                 @else
-                                {!! Form::open(array('route' => array($link_type . '.slideshow.update', $slide->id), 'method'=>'PUT', 'class'=>'form-horizontal', 'files'=>true)) !!}
+                                {!! Form::open(array('route' => array($link_type . '.modules.doptor.slideshow.update', $slide->id), 'method'=>'PUT', 'class'=>'form-horizontal', 'files'=>true)) !!}
                                 @endif
 
                                     @if ($errors->has())
