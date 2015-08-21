@@ -27,16 +27,6 @@
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
-                    <a href="{!! url('backend/slideshow') !!}">
-                        <span class="widget-icon icon-picture"></span>
-
-                        <span class="widget-label">{!! trans('cms.slideshow') !!}</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="span3">
-                <div class="board-widgets black small-widget">
                     <a href="{!! url('backend/pages') !!}">
                         <span class="widget-icon icon-book"></span>
 
@@ -44,9 +34,6 @@
                     </a>
                 </div>
             </div>
-
-        </div>
-        <div class="row-fluid">
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
@@ -57,6 +44,9 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <div class="row-fluid">
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
@@ -88,9 +78,6 @@
                 </div>
             </div>
 
-        </div>
-        <div class="row-fluid">
-
             <div class="span3">
                 <div class="board-widgets black small-widget">
                     <a href="{!! url('backend/form-builder') !!}">
@@ -100,6 +87,9 @@
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="row-fluid">
+
 
             <div class="span3">
                 <div class="board-widgets black small-widget">

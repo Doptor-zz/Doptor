@@ -56,14 +56,6 @@
                     </ul>
                 </li>
             @endif
-            @if (can_access_menu($current_user, array('slideshow')))
-                <li class="{!! Request::is('backend/slideshow') ? 'active' : null !!}">
-                   <a href="{!! URL::to('backend/slideshow') !!}">
-                       <i class="icon-picture"></i>
-                       <span class="title">{!! trans('cms.slideshow') !!}</span>
-                   </a>
-                </li>
-            @endif
             @if (can_access_menu($current_user, array('pages', 'page-categories')))
             <li class="has-sub {!! Request::is('backend/pages*') || Request::is('backend/page-categories*') ? 'active' : null !!} ">
                 <a href="javascript:;">

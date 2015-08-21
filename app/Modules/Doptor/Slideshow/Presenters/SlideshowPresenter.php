@@ -1,4 +1,4 @@
-<?php namespace Modules\Slideshow\Presenters;
+<?php namespace Modules\Doptor\Slideshow\Presenters;
 /*
 =================================================
 CMS Name  :  DOPTOR

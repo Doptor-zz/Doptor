@@ -1,4 +1,4 @@
-<?php namespace Modules\Slideshow\Models;
+<?php namespace Modules\Doptor\Slideshow\Models;
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -17,7 +17,7 @@ use Input;
 use Image;
 use Robbo\Presenter\PresentableInterface;
 
-use Modules\Slideshow\Presenters\SlideshowPresenter;
+use Modules\Doptor\Slideshow\Presenters\SlideshowPresenter;
 
 class Slideshow extends Eloquent implements PresentableInterface {
     protected $table = 'slideshow';
@@ -35,7 +35,7 @@ class Slideshow extends Eloquent implements PresentableInterface {
      */
     public static function create(array $attributes = array())
     {
-        App::make('Modules\\Slideshow\\Validation\\SlideshowValidator')->validateForCreation($attributes);
+        App::make('Modules\\Doptor\\Slideshow\\Validation\\SlideshowValidator')->validateForCreation($attributes);
 
         parent::create($attributes);
     }
@@ -47,7 +47,7 @@ class Slideshow extends Eloquent implements PresentableInterface {
      */
     public function update(array $attributes = array())
     {
-        App::make('Modules\\Slideshow\\Validation\\SlideshowValidator')->validateForUpdate($attributes);
+        App::make('Modules\\Doptor\\Slideshow\\Validation\\SlideshowValidator')->validateForUpdate($attributes);
 
         parent::update($attributes);
     }

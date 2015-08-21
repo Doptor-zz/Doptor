@@ -22,9 +22,9 @@
                     @if ($current_user->hasAccess("slideshow.create"))
                     <div class="clearfix margin-bottom-10">
                         <div class="btn-group pull-right">
-                            <button data-href="{!! URL::to($link_type . '/slideshow/create') !!}" class="btn btn-success">
+                            <a href="{!! route($link_type . '.modules.doptor.slideshow.create') !!}" class="btn btn-success">
                                 Add New <i class="icon-plus"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     @endif
@@ -45,7 +45,7 @@
                                     <td>{!! $slide->author() !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess("slideshow.edit"))
-                                        <a href="{!! URL::to($link_type . '/slideshow/' . $slide->id . '/edit') !!}" class="btn btn-mini"><i class="icon-edit"></i></a>
+                                        <a href="{!! route($link_type . '.modules.doptor.slideshow.edit', [$slide->id]) !!}" class="btn btn-mini"><i class="icon-edit"></i></a>
                                         @endif
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
@@ -54,7 +54,7 @@
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess("slideshow.destroy"))
                                                 <li>
-                                                    {!! Form::open(array('route' => array($link_type . '.slideshow.destroy', $slide->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'slideshow');")) !!}
+                                                    {!! Form::open(array('route' => array($link_type . '.modules.doptor.slideshow.destroy', $slide->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'slideshow');")) !!}
                                                         <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
                                                     {!! Form::close() !!}
                                                 </li>

@@ -1,4 +1,4 @@
-<?php namespace Modules\Slideshow\Controllers\Backend;
+<?php namespace Modules\Doptor\Slideshow\Controllers\Backend;
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -19,9 +19,17 @@ use Sentry;
 
 use Backend\AdminController;
 use Services\Validation\ValidationException as ValidationException;
-use Modules\Slideshow\Models\Slideshow;
+use Modules\Doptor\Slideshow\Models\Slideshow;
 
 class SlideshowController extends AdminController {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        View::addNamespace('slideshow',
+            app_path() . "/Modules/Doptor/Slideshow/Views");
+    }
 
     /**
      * Display a listing of the resource.
@@ -33,7 +41,7 @@ class SlideshowController extends AdminController {
 
         $this->layout->title = 'All Slides';
 
-        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.slideshow.index')
+        $this->layout->content = View::make('slideshow::slideshow.index')
             ->with('slides', $slides);
     }
 
@@ -47,7 +55,7 @@ class SlideshowController extends AdminController {
 
         $all_statuses = Slideshow::all_status();
 
-        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.slideshow.create_edit')
+        $this->layout->content = View::make('slideshow::slideshow.create_edit')
             ->with('all_statuses', $all_statuses);
     }
 
@@ -64,7 +72,7 @@ class SlideshowController extends AdminController {
             $slide = new Slideshow($input);
             $slide->save();
 
-            return Redirect::route("{$this->link_type}.slideshow.index")
+            return Redirect::route("{$this->link_type}.modules.doptor.slideshow.index")
                 ->with('success_message', 'The slide was added.');
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
@@ -79,7 +87,7 @@ class SlideshowController extends AdminController {
      */
     public function show($id)
     {
-        return View::make('slideshows.show');
+        return View::make('slideshow::slideshow.show');
     }
 
     /**
@@ -94,7 +102,7 @@ class SlideshowController extends AdminController {
 
         $all_statuses = Slideshow::all_status();
 
-        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.slideshow.create_edit')
+        $this->layout->content = View::make('slideshow::slideshow.create_edit')
             ->with('slide', Slideshow::findOrFail($id))
             ->with('all_statuses', $all_statuses);
     }
@@ -115,7 +123,7 @@ class SlideshowController extends AdminController {
 
             $slide->update($input);
 
-            return Redirect::route("{$this->link_type}.slideshow.index")
+            return Redirect::route("{$this->link_type}.modules.doptor.slideshow.index")
                 ->with('success_message', 'The slideshow was updated.');
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
@@ -135,10 +143,10 @@ class SlideshowController extends AdminController {
         File::exists($slide->image) && File::delete($slide->image);
 
         if ($slide->delete()) {
-            return Redirect::route("{$this->link_type}.slideshow.index")
+            return Redirect::route("{$this->link_type}.modules.doptor.slideshow.index")
                 ->with('success_message', 'The slide was deleted.');
         } else {
-            return Redirect::route("{$this->link_type}.slideshow.index")
+            return Redirect::route("{$this->link_type}.modules.doptor.slideshow.index")
                 ->with('error_message', 'The slide was not deleted.');
         }
     }

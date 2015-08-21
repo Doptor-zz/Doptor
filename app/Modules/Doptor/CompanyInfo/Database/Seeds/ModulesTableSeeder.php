@@ -23,7 +23,9 @@ class ModulesTableSeeder extends Seeder
             'models' => '{"Company": "Companies", "CompanyBranch": "Company Branches"}',
             'links' => '',
             'migrations' => '["2015_07_20_190240_create_mdl_doptor_incharges_table","2015_07_20_201633_create_mdl_doptor_countries_table","2015_07_20_203952_create_mdl_doptor_companies_table","2015_07_21_205437_create_mdl_doptor_company_branches_table"]',
-            'enabled' => '1'
+            'enabled' => '1',
+            'created_at' => date('Y-m-d h:i:s'),
+            'updated_at' => date('Y-m-d h:i:s')
         ];
 
         DB::table('modules')->insert($module);
