@@ -2931,9 +2931,10 @@ Bootstrap Tree CSS changes(new in v1.4)
 .board-widgets {
   position:relative;
   margin-bottom:20px;
+  color: #FFF;
 }
 .board-widgets a {
-  color: #FFC;
+  color: #FFF;
   text-decoration:none;
 }
 .small-widget a {
@@ -2946,8 +2947,39 @@ Bootstrap Tree CSS changes(new in v1.4)
 .board-widgets.black {
   background:#555;
 }
-.board-widgets.black:hover {
+ .board-widgets.black:hover {
   background:#333;
+}
+.board-sub {
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #555;
+  display: none;
+  z-index: 99;
+  top: 0px;
+  list-style: none;
+  margin: 0;
+  width: 100%;
+  padding: 20px;
+  font-size: 16px;
+}
+.board-sub li {
+  margin-bottom: 10px;
+}
+.board-sub li:last-child {
+  margin-bottom: 0;
+}
+.board-sub li:before {
+  content: "\f054";
+  font-weight: normal;
+  font-family: 'FontAwesome';
+  float: left;
+}
+.board-sub:hover {
+  background: #333;
+}
+.board-sub li:hover {
+  text-decoration: underline;
 }
 .board-widgets .widget-stat {
   height:50px;
