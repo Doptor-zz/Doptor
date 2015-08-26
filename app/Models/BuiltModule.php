@@ -28,12 +28,10 @@ class BuiltModule extends Eloquent implements PresentableInterface {
             'version' => 'required',
             'author'  => 'required',
             'vendor'  => 'required|alpha_num',
-            'form-1'  => 'required|not_in:0',
             'target'  => 'required'
         );
 
     public static $message = array(
-            'form-1.not_in' => 'At least the first form is required',
             'unique_vendor_modulename' => 'The combination of vendor and module name must be unique'
         );
 

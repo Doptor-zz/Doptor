@@ -55,7 +55,8 @@ class ModuleBuilderController extends AdminController {
         $this->layout->title = 'Create New Module';
         $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.module_builders.create_edit')
             ->with('all_modules', $all_modules)
-            ->with('select', $select);
+            ->with('select', $select)
+            ->with('selected_forms', [0]);
     }
 
     /**
@@ -126,8 +127,9 @@ class ModuleBuilderController extends AdminController {
      */
     public function update($id)
     {
-        try {
+        // try {
             $input = Input::all();
+        // dd($input);
 
             $validator = BuiltModule::validate($input, $id);
 
@@ -165,11 +167,11 @@ class ModuleBuilderController extends AdminController {
                     ->withInput()
                     ->withErrors($validator);
             }
-        } catch (Exception $e) {
-            return Redirect::back()
-                ->withInput()
-                ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
-        }
+        // } catch (Exception $e) {
+        //     return Redirect::back()
+        //         ->withInput()
+        //         ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
+        // }
     }
 
     /**
@@ -271,6 +273,7 @@ class ModuleBuilderController extends AdminController {
         $table_names = array_pluck($this->moduleBuilder->selected_forms, 'table');
         $input['table_name'] = implode('|', $table_names);
 
+        $input['requires'] = isset($input['requires']) ? $input['requires'] : [];
         $input['requires'] = json_encode($input['requires']);
 
         return $input;

@@ -63,7 +63,7 @@ class ModuleBuilder {
         // Adjust the template files, based on the input
         $this->adjustFiles($input);
 
-        $requires = $this->getRequiredModulesInfo($input['requires']);
+        $requires = $this->getRequiredModulesInfo($input);
 
         // Save the module configuration as json
         $this->saveModuleConfig($input, $module_alias, $requires);
@@ -102,15 +102,8 @@ class ModuleBuilder {
      */
     private function getSelectedForms($input)
     {
-        $count = 0;
-
-        for ($i = 1; $i <= $input['form-count']; $i++) {
-            if (isset($input["form-{$i}"])) {
-                if ($input["form-{$i}"] != 0) {
-                    $this->selected_forms[$count]['form_id'] = $input["form-{$i}"];
-                }
-                $count++;
-            }
+        foreach ($input['selected-forms'] as $key => $selected_form) {
+            $this->selected_forms[$key]['form_id'] = $selected_form;
         }
     }
 
@@ -128,9 +121,13 @@ class ModuleBuilder {
         File::copyDirectory($this->templatePath, $this->temp_dir);
     }
 
-    private function getRequiredModulesInfo($requires)
+    private function getRequiredModulesInfo($input)
     {
         $req_modules = [];
+
+        if (!isset($input['requires'])) {
+            return $req_modules;
+        }
 
         foreach ($requires as $module_id) {
             $module = Module::find($module_id);

@@ -19,10 +19,6 @@
             }
         });
 
-        $('#all_forms_chzn').css('width', '300px');
-        $('.chzn-drop').css('width', '300px');
-        $('#all_forms_chzn').find('input').css('width', '265px');
-
         // Populate the overview of the selections in the last step
         $('.button-next').click(function() {
             $('#name').html($('input[name=name]').val());
@@ -51,47 +47,28 @@
 
     function multipleForms() {
         // Things to do to dynamically add/remove as much forms as needed
-        var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
-        var AddButton       = $("#AddMore"); //Add button ID
+        $(document).on('click', '.form-list .btn', function(e) {
+            e.preventDefault();
+            var this_list = $(this).closest('.form-list');
 
-    @if (!isset($module))
-            var x = InputsWrapper.length; //initial text box count
-        var FieldCount = 1; //to keep track of text box added
-    @else
-        var x = {!! count($selected_forms) !!};
-        var FieldCount = {!! count($selected_forms) !!};
-    @endif
+            if ($(this).hasClass('btn-add')) {
+                $(".chosen").chosen('destroy');
 
-    // on add input button click
-    $(AddButton).click(function (e) {
-        FieldCount++; //text box added increment
-        //add input box
-        $(InputsWrapper).append('<p>{!! Form::select("form-form_count", BuiltForm::all_forms(), Input::old("form-form_count"), array("class"=>"chosen")) !!}<a href="#" class="removeclass">&nbsp;&nbsp;<i class="icon-remove"></i></a></p>');
-        // Dynamically change the select name
-        $('select[name="form-form_count"]').attr('name', function(){
-            return 'form-' + FieldCount;
-        });
-        // Don't show the form(s) already selected
-        for (var i = 1; i <= FieldCount; i++) {
-            selected_value = $('select[name="form-' + i +'"]').val();
-            if (selected_value != 0) {
-                $('select[name="form-' + FieldCount +'"] option[value='+selected_value+']').remove();
+                var clone = this_list.clone();
+
+                clone.removeAttr('selected');
+
+                // insert form after the last form
+                clone.insertAfter(this_list.last());
+
+                $(".chosen").chosen();
+            } else if ($(this).hasClass('btn-remove')) {
+                // remove this form
+                if ($('.form-list').length > 1) {
+                    this_list.remove();
+                }
             }
-        };
-        $('input[name=form-count]').val(FieldCount);
-        x++; //text box increment
-        $(".chosen").chosen();
-        return false;
-    });
-
-    $("body").on("click",".removeclass", function(e) { //user click on remove text
-        if( x > 1 ) {
-            $(this).parent('p').remove(); //remove text box
-            x--; //decrement textbox
-            repopulateDropdowns();
-        }
-        return false;
-    });
+        });
     }
 
     function getFormFields(selected_form) {
@@ -135,6 +112,9 @@
 
     function getDropdowns(selected_form) {
         // Get all the dropdown fields that are present in a form
+        if (selected_form == 0) {
+            return false;
+        }
         var form_id = selected_form.val();
         var form_name = selected_form.find('option:selected').text();
 
