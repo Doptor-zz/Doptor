@@ -227,11 +227,12 @@ class ModuleBuilderController extends AdminController {
      */
     public function getFormFields($id, $module_id=null)
     {
+        $form_id = (int)$id;
         $ret = [];
-        if (is_int($id)) {
-            // if form id is specified
-            $form = BuiltForm::find($id);
 
+        if ($form_id != 0) {
+            // if form id is specified
+            $form = BuiltForm::find($form_id);
             $form_fields = $this->moduleBuilder->getFormFields($form->data);
 
             $ret = array_combine($form_fields['fields'], $form_fields['field_names']);
