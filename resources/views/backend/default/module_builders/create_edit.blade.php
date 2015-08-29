@@ -1,7 +1,6 @@
 @section('styles')
     <style>
         #styler { top:0; }
-        #AddMore, .removeclass { margin: 0 0 0 220px;}
     </style>
 @stop
 
@@ -107,29 +106,20 @@
                                 <h4>Select form(s)</h4>
                                 <div class="control-group">
                                     <label class="control-label">Form(s) <i class="red">*</i></label>
-                                    <div class="controls" id="InputsWrapper">
-                                        @if (isset($selected_forms))
-                                            <input name="form-count" type="hidden" value="{!! count($selected_forms) !!}">
-                                            @for ($i = 1; $i <= count($selected_forms); $i++)
+                                    <div class="controls">
+                                        @for ($i = 0; $i < count($selected_forms); $i++)
+                                            <div class="form-list">
                                                 <p>
-
-                                                    {!! Form::select("form-{$i}", BuiltForm::all_forms(), $selected_forms[$i-1], array('class'=>'chosen module-form')) !!}
-                                                    @if ($i == 1)
-                                                        &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
-                                                    @else
-                                                        <a href="#" class="removeclass">&nbsp;&nbsp;<i class="icon-remove"></i></a>
-                                                    @endif
+                                                    {!! Form::select("selected-forms[]", BuiltForm::all_forms(), $selected_forms[$i], array('class'=>'chosen module-form')) !!}
+                                                    &nbsp;&nbsp;<a id="AddMore" class="btn btn-add"><i class="icon-plus"></i></a>
+                                                    <a href="#" class="btn btn-remove"><i class="icon-remove"></i></a>
                                                 </p>
-                                            @endfor
-                                        @else
-                                            <input name="form-count" type="hidden" value="1">
-                                            <p>
-                                                {!! Form::select("form-1", BuiltForm::all_forms(), Input::old('form-1'), array('class'=>'chosen module-form')) !!}
-                                                &nbsp;&nbsp;<a id="AddMore"><i class="icon-plus"></i></a>
-                                            </p>
-                                        @endif
+                                            </div>
+                                        @endfor
 
-                                        {!! HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}
+                                        <span class="pull-right">{!! HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</span>
+
+                                        <span class="clearfix"></span>
                                     </div>
                                 </div>
 

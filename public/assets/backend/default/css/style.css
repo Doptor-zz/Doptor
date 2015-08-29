@@ -3098,3 +3098,10 @@ Bootstrap Tree CSS changes(new in v1.4)
   top: 20% !important;
   width: 95%;
 }
+.chosen-container {
+  width: 300px !important;
+}
+.chosen-container-single .chosen-single {
+  height: 30px !important;
+  padding: 3px 10px !important;
+}
