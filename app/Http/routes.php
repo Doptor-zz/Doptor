@@ -1,5 +1,4 @@
 <?php
-
 /*
   =================================================
   CMS Name  :  DOPTOR
@@ -15,16 +14,16 @@ Route::get('/', function () {
 
         // If not installed, redirect to install page
         return Redirect::to('install');
-    }
-    else {
+    } else {
         $default_menu = Menu::published()->default('public')->first();
 
-        if ($default_menu) {
+        if (!$default_menu || $default_menu->link == '/') {
+            return Redirect::action('HomeController@index');
+        } else {
             $link = str_replace('link_type', '', $default_menu->link);
+
             return Redirect::to($link);
         }
-
-        return Redirect::action('HomeController@index');
     }
 });
 
