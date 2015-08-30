@@ -9,7 +9,7 @@ License : GNU/GPL, visit LICENSE.txt
 Description :  Doptor is Opensource CMS.
 ===================================================
 */
-use Modules\Slideshow\Models\Slideshow;
+use Modules\Doptor\Slideshow\Models\Slideshow;
 
 class HomeController extends BaseController {
 
