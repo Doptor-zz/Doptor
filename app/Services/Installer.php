@@ -82,7 +82,7 @@ class Installer {
             Artisan::call('migrate');
 
             Artisan::call('migrate', array('--path' => 'app/Components/posts/database/migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Modules/Slideshow/Database/migrations/'));
+            Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/Slideshow/Database/Migrations/'));
             Artisan::call('migrate', array('--path' => 'app/Components/MediaManager/database/migrations/'));
             Artisan::call('migrate', array('--path' => 'app/Components/theme_manager/database/migrations/'));
             Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
