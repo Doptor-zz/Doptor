@@ -104,6 +104,7 @@ class ModuleBuilder {
     {
         foreach ($input['selected-forms'] as $key => $selected_form) {
             $this->selected_forms[$key]['form_id'] = $selected_form;
+            $this->selected_forms[$key]['fields_to_show'] = $input['form-fields-'.$selected_form];
         }
     }
 
