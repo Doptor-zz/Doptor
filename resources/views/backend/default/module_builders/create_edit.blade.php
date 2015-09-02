@@ -1,6 +1,14 @@
 @section('styles')
     <style>
         #styler { top:0; }
+        .form-group {
+            border: 1px solid #d3d3d3;
+            border-radius: 3px;
+            padding: 10px;
+            margin-left: 0 !important;
+            margin-right: 20px !important;
+            margin-bottom: 20px !important;
+        }
     </style>
 @stop
 
@@ -108,18 +116,25 @@
                                     <label class="control-label">Form(s) <i class="red">*</i></label>
                                     <div class="controls">
                                         @for ($i = 0; $i < count($selected_forms); $i++)
-                                            <div class="form-list">
+                                            <div class="form-list pull-left form-group">
                                                 <p>
-                                                    {!! Form::select("selected-forms[]", BuiltForm::all_forms(), $selected_forms[$i], array('class'=>'chosen module-form')) !!}
-                                                    &nbsp;&nbsp;<a id="AddMore" class="btn btn-add"><i class="icon-plus"></i></a>
+                                                    {!! Form::select('selected-forms[]', BuiltForm::all_forms(), $selected_forms[$i], array('class'=>'chosen module-form')) !!}
+                                                </p>
+                                                <p>
+                                                    Fields to show in data list: <br>
+                                                    {!! Form::select('form-fields-'.$i.'[]', [], '', array('class'=>'chosen form-fields', 'multiple')) !!}
+                                                </p>
+                                                <p class="pull-right">
+                                                    <a href="#" class="btn btn-add"><i class="icon-plus"></i></a>
                                                     <a href="#" class="btn btn-remove"><i class="icon-remove"></i></a>
                                                 </p>
+                                                <div class="clearfix"></div>
                                             </div>
                                         @endfor
 
-                                        <span class="pull-right">{!! HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</span>
+                                        <div class="pull-right">{!! HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</div>
 
-                                        <span class="clearfix"></span>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
 

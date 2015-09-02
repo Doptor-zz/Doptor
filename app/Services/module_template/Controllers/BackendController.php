@@ -67,15 +67,39 @@ class BackendController extends BaseController {
      */
     public function index()
     {
-        $vendor = Str::lower($this->module_vendor);
-        foreach ($this->forms as $i => $form) {
-            $this->forms[$i]['entries'] = DB::table('mdl_' . $vendor . '_' . $form['table'])->get();
-        }
+        $this->getFormEntries();
 
         $this->layout->title = "All Entries in {$this->module_name}";
         $this->layout->content = View::make("{$this->module_alias}::{$this->type}.index")
             ->with('title', "All Entries in {$this->module_name}")
             ->with('forms', $this->forms);
+    }
+
+    /**
+     * Get the form entries for the fields that have to be shown
+     */
+    private function getFormEntries()
+    {
+        $vendor = Str::lower($this->module_vendor);
+        $forms = $this->forms;
+
+        foreach ($forms as $i => $form) {
+            $form_fields = $form['fields'];
+
+            foreach ($form_fields as $key => $form_field) {
+                if (isset($form['fields_to_show']) &&
+                    !in_array($form_field, $form['fields_to_show'])
+                ) {
+                    // Remove fields that are not to be shown
+                    unset($forms[$i]['fields'][$key]);
+                    unset($forms[$i]['field_names'][$key]);
+                } else {
+                    $forms[$i]['entries'] = DB::table('mdl_' . $vendor . '_' . $form['table'])->get();
+                }
+            }
+        }
+
+        $this->forms = $forms;
     }
 
     /**
