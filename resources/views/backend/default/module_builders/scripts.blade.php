@@ -34,6 +34,7 @@
 
         $('.module-form').each(function() {
             getDropdowns($(this));
+            getSelectedFormFields($(this));
         });
 
         $('.module-form').change(function() {
@@ -106,7 +107,38 @@
             selects += '</select>';
 
             selected_form.parent().find('.loading').html('');
+            $(".chosen").chosen('destroy');
             selected_form.parent().find('.form-fields').html(selects);
+            $(".chosen").chosen();
+        });
+    }
+
+    function getSelectedFormFields(selected_form) {
+        // Populate the list of form fields for the selected form
+        // to select which fields to show
+        var form_id = selected_form.val();
+
+        if (form_id == 0) {
+            return false;
+        }
+
+        var parent_list = selected_form.closest('.form-list'),
+            this_form_fields = parent_list.find('.form-fields');
+
+        this_form_fields.attr('name', 'form-fields-' + form_id + '[]');
+
+        $.ajax({
+            url: '{!! URL::to("backend/module-builder/form-fields/") !!}/' + form_id
+        }).done(function(form_fields) {
+            var options = '';
+            for (var field in form_fields) {
+                if (form_fields.hasOwnProperty(field)) {
+                    options += '<option value="'+field+'" selected>'+form_fields[field]+'</option>';
+                }
+            }
+            $(".chosen").chosen('destroy');
+            this_form_fields.html(options);
+            $(".chosen").chosen();
         });
     }
 
@@ -134,7 +166,9 @@
                 }
             }
 
+            $(".chosen").chosen('destroy');
             $('#form-dropdowns').append(selects);
+            $(".chosen").chosen();
         });
     }
 
@@ -144,6 +178,7 @@
         // Show dropdown source selection for all selected form
         $('.module-form').each(function () {
             getDropdowns($(this));
+            getSelectedFormFields($(this));
         });
     }
 </script>
