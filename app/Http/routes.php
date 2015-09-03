@@ -173,16 +173,16 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
 
 Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function () {
 
-    Route::get('/', function() {
-        $default_menu = Menu::published()->default('admin')->first();
+    $default_menu = Menu::published()->default('admin')->first();
 
-        if ($default_menu) {
-            $link = str_replace('link_type', 'admin', $default_menu->link);
+    if ($default_menu) {
+        $link = str_replace('link_type', 'admin', $default_menu->link);
+        Route::any('/', function() {
             return Redirect::to($link);
-        } else {
-            Route::action('Backend\HomeController@getIndex');
-        }
-    });
+        });
+    } else {
+        Route::any('/', 'Backend\HomeController@getIndex');
+    }
 
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
