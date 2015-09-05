@@ -1,13 +1,45 @@
 @extends ('install._layout')
 
+@section('style')
+    <style>
+        #loading-wrapper {
+            width: 100%;
+        }
+        #loading {
+            font-size: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -150px;
+            margin-top: -41px;
+            width: 300px;
+            padding: 30px;
+            background: #DDD;
+            z-index: 99;
+        }
+        #popup-bg {
+            background: rgba(92, 92, 92, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9;
+        }
+        .overflow-hidden {
+            overflow: hidden !important;
+        }
+    </style>
+@stop
+
 @section('content')
-<body class="wp-core-ui" style="">
+<div>
 
     <h1>Website Configuration</h1>
     <p>Please provide the following information. Don’t worry, you can always change these settings later.</p>
     <p>All the fields are required.</p>
 
-    {!! Form::open(array('url'=>'install/configure/3', 'method'=>'POST')) !!}
+    {!! Form::open(array('url'=>'install/configure/3', 'method'=>'POST', 'id'=>'site-config')) !!}
         <table class="form-table">
             <tbody>
                 <tr>
@@ -88,4 +120,35 @@
         </p>
     {!! Form::close() !!}
 
+    <div id="loading-wrapper" style="display:none;">
+        <div id="loading">
+            Doptor is installing. Please wait ...
+        </div>
+    </div>
+    <div id="popup-bg" style="display:none;"></div>
+</div>
+@stop
+
+@section('scripts')
+    <script>
+        var site_config = document.getElementById('site-config');
+
+        if (site_config.addEventListener) {
+            site_config.addEventListener("click", submitForm, false);
+        } else {
+            site_config.attachEvent('onclick', submitForm);
+        }
+
+        function submitForm(e) {
+            var loading_div = document.getElementById('loading-wrapper');
+
+            loading_div.removeAttribute('style');
+
+            var popup_bg = document.getElementById('popup-bg');
+
+            popup_bg.removeAttribute('style');
+
+            document.body.className = 'overflow-hidden';
+        }
+    </script>
 @stop

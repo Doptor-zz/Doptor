@@ -19,7 +19,7 @@
 <!--[if IE 9]>
 {!! HTML::style('assets/admin/default/css/ie/ie9.css') !!}
 <![endif]-->
-<link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+{{-- <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'> --}}
 
 @section('styles')
     {{-- Here goes the page level styles --}}
