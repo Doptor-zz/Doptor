@@ -3,7 +3,7 @@ html {
     margin: 0 20px;
 }
 
-body {
+#wrapper {
     background: #fff;
     color: #555;
     font-family: "Open Sans", sans-serif;
