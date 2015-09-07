@@ -134,9 +134,9 @@
         var site_config = document.getElementById('site-config');
 
         if (site_config.addEventListener) {
-            site_config.addEventListener("click", submitForm, false);
+            site_config.addEventListener("submit", submitForm, false);
         } else {
-            site_config.attachEvent('onclick', submitForm);
+            site_config.attachEvent('onsubmit', submitForm);
         }
 
         function submitForm(e) {
