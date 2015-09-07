@@ -195,6 +195,31 @@
                 </ul>
             </li>
             @endif
+            @if (can_access_menu($current_user, array('backup', 'restore')))
+            <li class="has-sub {!! Request::is('backend/backup*') || Request::is('backend/restore*') ? 'active' : null !!} ">
+                <a href="javascript:;">
+                    <i class="icon-download-alt"></i>
+                    <span class="title">{!! trans('cms.backup-and-restore') !!}</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub">
+                    @if (can_access_menu($current_user, array('backup')))
+                        <li class="{!! Request::is('backend/backup/*') ? 'active' : null !!}">
+                           <a href="{!! URL::to('backend/backup') !!}">
+                               <span class="title">{!! trans('cms.backup') !!}</span>
+                           </a>
+                        </li>
+                    @endif
+                    @if (can_access_menu($current_user, array('restore')))
+                        <li class="{!! Request::is('backend/restore/*') ? 'active' : null !!}">
+                           <a href="{!! URL::to('backend/restore') !!}">
+                               <span class="title">{!! trans('cms.restore') !!}</span>
+                           </a>
+                        </li>
+                    @endif
+                </ul>
+            </li>
+            @endif
             @if (can_access_menu($current_user, array('synchronize')))
             <li class="{!! Request::is('backend/synchronize') ? 'active' : null !!}">
                <a href="{!! URL::to('backend/synchronize') !!}">
