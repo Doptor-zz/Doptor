@@ -7,12 +7,16 @@
                     <h4><i class="icon-reorder"></i>{!! trans('cms.restore') !!}</h4>
                 </div>
                 <div class="widget-body form">
+                    <div class="alert alert-warning">
+                        <strong>Warning!</strong>
+                        Restoring from backup file will replace every data with the data from the backup file
+                    </div>
                     {!! Form::open(['method'=>'POST', 'files'=>true]) !!}
 
                         <div class="control-group">
                             <label class="control-label">Select the backup file</label>
                             <div class="controls">
-                                <input type="file" class="default" name="backup_file" />
+                                <input type="file" class="default" name="file" />
                             </div>
                         </div>
 
