@@ -184,7 +184,7 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
 
         if ($default_menu) {
             $link = str_replace('link_type', 'admin', $default_menu->link);
-            Route::any('/', function() {
+            Route::any('/', function() use ($link) {
                 return Redirect::to($link);
             });
         } else {
