@@ -19,7 +19,7 @@ class IsAuthorized {
         $route = str_replace('.store', '.create', $route);
         $route = str_replace('.update', '.edit', $route);
 
-        if(!current_user()->hasAccess($route)) {
+        if(current_user()->permissions != [] && !current_user()->hasAccess($route)) {
             return abort(401);
         }
 
