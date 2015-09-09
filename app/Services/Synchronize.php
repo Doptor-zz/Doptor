@@ -212,17 +212,17 @@ class Synchronize {
      */
     public function copyToRestore($input)
     {
-        File::cleanDirectory(storage_path() . '/restore/');
+        File::cleanDirectory(restore_path());
 
         $file = $input['file'];
-        $destinationPath = storage_path() . '/restore/';
+        $destinationPath = restore_path();
+
         $filename = $file->getClientOriginalName();
         // $extension = $file->getClientOriginalExtension();
-
         $uploadSuccess = $file->move($destinationPath, $filename);
 
         if ($uploadSuccess) {
-            $file = $destinationPath . $filename;
+            $file = $destinationPath . '/' . $filename;
             return $file;
         } else {
             return false;
@@ -235,8 +235,7 @@ class Synchronize {
      */
     public function restore($restore_file)
     {
-        $this->Unzip($restore_file, app_path() . '/storage/restore/');
-
+        $this->Unzip($restore_file, restore_path());
         $restore_dir = restore_path() . '/backup';
 
         // $this->dropTables();
@@ -474,6 +473,7 @@ class Synchronize {
     {
         $zip = new \ZipArchive;
         $res = $zip->open($file);
+
         if ($res === true) {
             // extract it to the path we determined above
             try {
