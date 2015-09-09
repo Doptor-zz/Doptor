@@ -20,6 +20,8 @@ use Session;
 use Str;
 use View;
 
+use Sentry;
+
 use BuiltForm;
 use BuiltModule;
 use Module;
@@ -55,6 +57,8 @@ class BackupRestoreController extends AdminController {
 
     public function postRestore()
     {
+        Sentry::logout();
+
         $synchronizer = new Synchronize($this);
 
         $restore_file = $synchronizer->copyToRestore(Input::all());
