@@ -42,6 +42,11 @@ return array(
     'extensions'             => 'Extensions',
     'modules'                => 'Modules',
     'report_generators'      => 'Report Generators',
+    'backup-and-restore'     => 'Backup & Restore',
+    'backup'                 => 'Backup',
+    'create_backup'          => 'Create Backup',
+    'restore'                => 'Restore',
+    'restore_backup'         => 'Restore Backup',
     'synchronize'            => 'Synchronize',
     'settings'               => 'Settings'
 );

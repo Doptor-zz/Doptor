@@ -164,7 +164,30 @@
             </div>
         </div>
         <div class="row-fluid">
+            <div class="span3">
+                <div class="board-widgets black small-widget">
+                    <span class="widget-icon icon-download-alt"></span>
 
+                    <span class="widget-label">{!! trans('cms.backup-and-restore') !!}</span>
+
+                    <ul class="board-sub">
+                        @if (can_access_menu($current_user, array('backup')))
+                            <li class="{!! Request::is('backend/backup/*') ? 'active' : null !!}">
+                               <a href="{!! URL::to('backend/backup') !!}">
+                                   <span class="title">{!! trans('cms.backup') !!}</span>
+                               </a>
+                            </li>
+                        @endif
+                        @if (can_access_menu($current_user, array('restore')))
+                            <li class="{!! Request::is('backend/restore/*') ? 'active' : null !!}">
+                               <a href="{!! URL::to('backend/restore') !!}">
+                                   <span class="title">{!! trans('cms.restore') !!}</span>
+                               </a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
 
             <div class="span3">
                 <div class="board-widgets black small-widget">
