@@ -19,7 +19,7 @@ use MenuPosition;
 
 class MenuManager {
 
-    public static function generate($menu_type, $menu_class='', $child_class='', $inner_ul_class='', $dropdown_toggle_class='')
+    public static function generate($menu_type, $menu_class='', $child_class='', $inner_ul_class='', $dropdown_toggle_class='', $inner_li_class='')
     {
         static::fixOldMenuCategories();
 
@@ -67,20 +67,24 @@ class MenuManager {
                 }, 'id', 'parent');
 
                 if ($child_class != '') {
+                    // Add classes to the menus
                     Menus::handler($menu_type)
                             ->getItemsAtDepth(0,1)
                             ->addClass($child_class);
 
                     Menus::handler($menu_type)
-                            ->getItemListsAtDepth(1)
+                            ->getItemListsAtDepthRange(1,5)
                             ->addClass($inner_ul_class);
+
+                    Menus::handler($menu_type)
+                            ->getItemsAtDepthRange(1,5)
+                            ->addClass($inner_li_class);
                 }
 
                 $menu_render = Menus::handler($menu_type)->render();
             } else {
                 $menu_render = '';
             }
-
         }
 
         return $menu_render;

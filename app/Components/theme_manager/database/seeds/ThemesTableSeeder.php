@@ -38,7 +38,17 @@ class ThemesTableSeeder extends Seeder {
                     'directory'   => 'default',
                     'target'      => 'backend',
                     'created_by'  => 1
-                )
+                ),
+                array(
+                    'name'        => 'Default Public Theme 2',
+                    'version'     => '1.0',
+                    'author'      => '',
+                    'description' => 'Default Public Theme 2',
+                    'screenshot'  => '',
+                    'directory'   => 'default2',
+                    'target'      => 'public',
+                    'created_by'  => 1
+                ),
             );
 
         DB::table('themes')->insert($themes);
