@@ -108,7 +108,8 @@ function current_user()
 function current_user_companies()
 {
     if (current_user()) {
-        return json_decode(current_user()->company_id);
+        $company_ids = json_decode(current_user()->company_id);
+        return array_map('intval', $company_ids);
     } else {
         return [];
     }
