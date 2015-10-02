@@ -114,7 +114,7 @@ class ThemeInstaller {
      */
     protected function copyFiles()
     {
-        $status = File::copyDirectory("{$this->full_path}{$this->theme_directory}/views/", app_path() . '/views/' . $this->target . '/' . $this->theme_directory . '/');
+        $status = File::copyDirectory("{$this->full_path}{$this->theme_directory}/views/", base_path() . '/resources/views/' . $this->target . '/' . $this->theme_directory . '/');
 
         File::copyDirectory("{$this->full_path}{$this->theme_directory}/assets/", public_path() . '/assets/' . $this->target . '/' . $this->theme_directory . '/');
     }
