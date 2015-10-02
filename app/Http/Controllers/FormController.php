@@ -20,7 +20,7 @@ class FormController extends BaseController {
 
         // Add location hinting for views
         View::addNamespace('forms',
-            app_path() . "/views/{$this->link_type}/{$this->current_theme}/forms");
+             base_path() . "/resources/views/{$this->link_type}/{$this->current_theme}/forms");
     }
 
     public function index($id=null)
