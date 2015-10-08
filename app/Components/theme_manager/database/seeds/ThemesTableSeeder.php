@@ -49,6 +49,16 @@ class ThemesTableSeeder extends Seeder {
                     'target'      => 'public',
                     'created_by'  => 1
                 ),
+                array(
+                    'name'        => 'Zeltrax Theme',
+                    'version'     => '1.0',
+                    'author'      => '',
+                    'description' => 'Zeltrax Theme',
+                    'screenshot'  => 'assets/public/zeltrax/images/zeltrax_screenshot.png',
+                    'directory'   => 'zeltrax',
+                    'target'      => 'public',
+                    'created_by'  => 1
+                ),
             );
 
         DB::table('themes')->insert($themes);
