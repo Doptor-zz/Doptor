@@ -103,16 +103,18 @@ function current_user()
 
 /**
  * Get the companies that the user belongs to
- * @return
+ * @return $companies
  */
 function current_user_companies()
 {
+    $companies = [];
     if (current_user()) {
         $company_ids = json_decode(current_user()->company_id);
-        return array_map('intval', $company_ids);
-    } else {
-        return [];
+        if ($company_ids) {
+            return array_map('intval', $company_ids);
+        }
     }
+    return $companies;
 }
 
 /**
