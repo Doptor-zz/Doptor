@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("menu-manager.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.menu-manager.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'menu entrie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -40,7 +40,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-manager.create'))
                                 <button data-href="{!! URL::to($link_type . '/menu-manager/create') !!}" class="btn btn-success">
-                                    Add New <i class="icon-plus"></i>
+                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -76,7 +76,7 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
@@ -85,7 +85,7 @@
                                                 @if ($current_user->hasAccess('menu-manager.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.menu-manager.destroy', $menu->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>'return deleteRecord($(this), "menu");')) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

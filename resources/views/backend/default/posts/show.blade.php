@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Created At</label>
+                            <label class="control-label">{!! trans('cms.created_at') !!}</label>
                             <div class="controls line">
                                 {!! $post->created_at !!}
                             </div>

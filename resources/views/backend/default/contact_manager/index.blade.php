@@ -10,7 +10,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box blue">
                 <div class="widget-title">
-                    <h4><i class="icon-th-list"></i> All Entries</h4>
+                    <h4><i class="icon-th-list"></i> {!! trans('cms.contact_manager') !!}</h4>
                 </div>
                 <div class="widget-body">
                     <div class="row-fluid">
@@ -31,14 +31,14 @@
                                             <div class="btn-group pull-right">
                                                 <div class="actions inline">
                                                     <div class="btn">
-                                                        <i class="icon-cog"> Actions</i>
+                                                        <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                                     </div>
                                                     <ul class="btn">
                                                         <li>
                                                             {!! Form::open(array('route' => array('backend.contact-manager.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'entries');")) !!}
                                                             {!! Form::hidden('form_id', $form['form_id']) !!}
                                                             {!! Form::hidden('selected_ids', '', array('class'=>'selected_ids')) !!}
-                                                                <button type="submit" class="danger"><i class="icon-trash"></i> Delete</button>
+                                                                <button type="submit" class="danger"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                             {!! Form::close() !!}
                                                         </li>
                                                     </ul>
@@ -47,7 +47,7 @@
                                             @if ($i == 0)
                                             <div class="btn-group pull-right">
                                                 <a href="{!! URL::to('backend/contact-manager/create/'.$form['form_id']) !!}" class="btn btn-success">
-                                                    Add New <i class="icon-plus"></i>
+                                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                                                 </a>
                                             </div>
                                             @endif
@@ -65,8 +65,8 @@
                                                     @if ($i == 1)
                                                         <th>For Contact</th>
                                                     @endif
-                                                    <th>Created At</th>
-                                                    <th class="span2">Actions</th>
+                                                    <th>{!! trans('cms.created_at') !!}</th>
+                                                    <th class="span2">{!! trans('cms.actions') !!}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -91,7 +91,7 @@
                                                             @if ($entry->contact)
                                                             <td>{!! HTML::link("backend/contact-manager/{$entry->contact->id}/18", $entry->contact->name) !!}</td>
                                                             @else
-                                                            <td>Contact Deleted</td>
+                                                            <td>Contact {!! trans('cms.delete') !!}d</td>
                                                             @endif
                                                         @endif
                                                         <td>{!! $entry->created_at !!}</td>
@@ -102,13 +102,13 @@
 
                                                             <div class="actions inline">
                                                                 <div class="btn btn-mini">
-                                                                    <i class="icon-cog"> Actions</i>
+                                                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                                                 </div>
                                                                 <ul class="btn btn-mini">
                                                                     <li>
                                                                         {!! Form::open(array('route' => array('backend.contact-manager.destroy', $entry->id), 'method' => 'delete', 'class'=>'inline')) !!}
                                                                             {!! Form::hidden('form_id', $form['form_id']) !!}
-                                                                            <button type="submit" class="danger" onclick="return deleteRecord($(this))"><i class="icon-trash"></i> Delete</button>
+                                                                            <button type="submit" class="danger" onclick="return deleteRecord($(this))"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                                         {!! Form::close() !!}
                                                                     </li>
                                                                 </ul>

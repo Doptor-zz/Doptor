@@ -11,14 +11,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("form.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.form.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'forms');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -28,7 +28,7 @@
                         @if ($current_user->hasAccess("form.create"))
                         <div class="btn-group pull-right">
                             <a href="{!! URL::to($link_type . '/form/' . $form_id) !!}" class="btn btn-success">
-                                Add New <i class="icon-plus"></i>
+                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                             </a>
                         </div>
                         @endif
@@ -51,13 +51,13 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess("form.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.form.destroy', $form_entry->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'forms');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

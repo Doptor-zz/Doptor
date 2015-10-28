@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                 @if ($current_user->hasAccess("{$type}-categories.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.' . $type . '-categories.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), '{$type} categorie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                 @endif
@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("{$type}-categories.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/' . $type . '-categories/create') !!}" class="btn btn-success">
-                                Add New <i class="icon-plus"></i>
+                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif
@@ -53,7 +53,7 @@
                                 <th>Alias</th>
                                 <th>Description</th>
                                 <th>Status</th>
-                                <th class="span3">Created At</th>
+                                <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -73,13 +73,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                             @if ($current_user->hasAccess("{$type}-categories.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.' . $type . '-categories.destroy', $post_cat->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), '{$type} category');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                             @endif

@@ -30,17 +30,6 @@
         <!-- END SIDEBAR -->
         <!-- BEGIN PAGE -->
         <div id="body">
-            <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-            <div id="widget-config" class="modal hide">
-                <div class="modal-header">
-                    <button data-dismiss="modal" class="close" type="button">×</button>
-                    <h3>Widget {!! trans('cms.settings') !!}</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Here will be a configuration form</p>
-                </div>
-            </div>
-            <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
             <!-- BEGIN PAGE CONTAINER-->
             <div class="container-fluid">
                 <!-- BEGIN PAGE HEADER-->
@@ -81,12 +70,6 @@
                                 <i class="icon-angle-right"></i>
                             </li>
                             <li><a href="#">{!! $title !!}</a></li>
-                            {{-- <li class="pull-right dashboard-report-li">
-                                <div id="dashboard-report-range" class="dashboard-report-range-container no-text-shadow tooltips" data-placement="top" data-original-title="Change dashboard date range">
-                                    <i class="icon-calendar icon-large"></i><span></span>
-                                    <b class="caret"></b>
-                                </div>
-                            </li> --}}
                         </ul>
                         <!-- END PAGE TITLE & BREADCRUMB-->
                     </div>
@@ -97,13 +80,13 @@
                     @if (Session::has('error_message'))
                         <div class="alert alert-error">
                             <button data-dismiss="alert" class="close">×</button>
-                            <strong>Error!</strong> {!! Session::get('error_message') !!}
+                            <strong>{!! trans('cms.error') !!}</strong> {!! Session::get('error_message') !!}
                         </div>
                     @endif
                     @if (Session::has('success_message'))
                         <div class="alert alert-success">
                             <button data-dismiss="alert" class="close">×</button>
-                            <strong>Success!</strong> {!! Session::get('success_message') !!}
+                            <strong>{!! trans('cms.success') !!}</strong> {!! Session::get('success_message') !!}
                         </div>
                     @endif
                 </div>

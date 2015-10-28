@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("theme-manager.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.theme-manager.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'theme entrie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -77,7 +77,7 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if (Setting::value("{$theme->target}_theme") != $theme->id)
@@ -93,7 +93,7 @@
                                                 @if ($current_user->hasAccess("theme-manager.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.theme-manager.destroy', $theme->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'theme entry');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

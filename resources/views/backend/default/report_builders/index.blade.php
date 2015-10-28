@@ -4,7 +4,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-table"></i>All Report {!! trans('cms.builders') !!}</h4>
+                    <h4><i class="icon-table"></i>All {!! str_plural(trans('cms.report_builder')) !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -17,7 +17,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('report-builder.create'))
                                 <a href="{!! URL::to($link_type . '/report-builder/create') !!}" class="btn btn-success">
-                                    Add New <i class="icon-plus"></i>
+                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                                 </a>
                             @endif
                         </div>
@@ -30,7 +30,7 @@
                                 <th>Author</th>
                                 <th>Website</th>
                                 <th>Download</th>
-                                <th>Created At</th>
+                                <th>{!! trans('cms.created_at') !!}</th>
                                 <!-- <th class="span2">Edit</th> -->
                                 <th class="span2"></th>
                             </tr>
@@ -52,12 +52,12 @@
                                         @if ($current_user->hasAccess('report-builder.destroy'))
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
                                                 {!! Form::open(array('route' => array($link_type . '.report-builder.destroy', $report->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecords($(this), 'module');")) !!}
-                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                 {!! Form::close() !!}
                                                 </li>
                                             </ul>

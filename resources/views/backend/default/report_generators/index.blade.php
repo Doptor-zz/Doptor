@@ -60,13 +60,13 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('report-generators.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.report-generators.destroy', $generator->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'report generator');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

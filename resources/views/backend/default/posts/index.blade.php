@@ -10,7 +10,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i> All Entries</h4>
+                    <h4><i class="icon-th-list"></i> {!! trans('cms.all_entries') !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("{$type}.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.' . $type .'s.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), '{$type}');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("{$type}.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/' . $type .'s/create') !!}" class="btn btn-success">
-                                Add New <i class="icon-plus"></i>
+                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif
@@ -67,13 +67,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess("{$type}.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.' . $type .'s.destroy', $post->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecord($(this), '{$type}');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

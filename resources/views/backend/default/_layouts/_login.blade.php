@@ -42,13 +42,13 @@
             @if (Session::has('error_message'))
                 <div class="alert alert-error">
                     <button data-dismiss="alert" class="close">×</button>
-                    <strong>Error!</strong> {!! Session::get('error_message') !!}
+                    <strong>{!! trans('cms.error') !!}</strong> {!! Session::get('error_message') !!}
                 </div>
             @endif
             @if (Session::has('success_message'))
                 <div class="alert alert-success">
                     <button data-dismiss="alert" class="close">×</button>
-                    <strong>Success!</strong> {!! Session::get('success_message') !!}
+                    <strong>{!! trans('cms.success') !!}</strong> {!! Session::get('success_message') !!}
                 </div>
             @endif
         </div>

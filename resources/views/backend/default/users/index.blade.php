@@ -10,21 +10,21 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i>{!! trans('cms.all_users') !!}</h4>
+                    <h4><i class="icon-th-list"></i>{!! trans('cms.users') !!}</h4>
                 </div>
                 <div class="widget-body">
                     <div class="clearfix margin-bottom-10">
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                 @if ($current_user->hasAccess("users.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.users.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'user');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                 @endif
@@ -34,7 +34,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('users.create'))
                                 <button data-href="{!! URL::to($link_type . '/users/create') !!}" class="btn btn-success">
-                                    Add New <i class="icon-plus"></i>
+                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -47,7 +47,7 @@
                                 <th>Full Name</th>
                                 <th>User Group</th>
                                 <th>Status</th>
-                                <th>Created At</th>
+                                <th>{!! trans('cms.created_at') !!}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -68,7 +68,7 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('users.activate'))
@@ -88,7 +88,7 @@
                                                 @if ($current_user->hasAccess("users.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.users.destroy', $user->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'user');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

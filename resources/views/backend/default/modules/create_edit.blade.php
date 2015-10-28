@@ -6,7 +6,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
-                        <span class="hidden-480">Add New Module</span>
+                        <span class="hidden-480">{!! trans('cms.add_new') !!} Module</span>
                         &nbsp;
                     </h4>
                 </div>

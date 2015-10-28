@@ -5,7 +5,7 @@
             <div class="widget light-gray box">
                 <div class="blue widget-title">
                     <h4>
-                        <i class="icon-th-list"></i>All {!! trans('cms.modules') !!}
+                        <i class="icon-th-list"></i>{!! trans('cms.modules') !!}
                         @if ($link_type == 'admin')
                             @if ($current_user->hasAccess('modules.create'))
                                 <div class="btn-group pull-right">
@@ -76,13 +76,13 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('modules.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.modules.destroy', $module->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'module');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

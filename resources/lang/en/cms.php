@@ -9,7 +9,12 @@ return array(
     'invalid_username_pw'    => 'Invalid username or password',
     'account_suspended'      => 'Your account has beed suspended for :minutes minutes, please try again after :minutes minutes.',
     'check_activation_email' => 'Check your email for account activation details.',
+    'change_password'        => 'Change User Password',
 
+    'error'                  => 'Error!',
+    'success'                => 'Success!',
+
+    'welcome'                => 'Welcome',
     'home'                   => 'Home',
     'backend_dashboard'      => 'Backend Dashboard',
     'admin_dashboard'        => 'Admin Dashboard',
@@ -19,12 +24,12 @@ return array(
 
     'dashboard'              => 'Dashboard',
     'user_manager'           => 'User Manager',
-    'all_user_groups'        => 'All User Groups',
-    'all_users'              => 'All Users',
+    'user_groups'            => 'User Groups',
+    'users'                  => 'Users',
     'menu_manager'           => 'Menu Manager',
-    'all_menu_positions'     => 'All Menu Positions',
-    'all_menu_categories'    => 'All Menu Categories',
-    'all_menu_entries'       => 'All Menu Entries',
+    'menu_positions'         => 'Menu Positions',
+    'menu_categories'        => 'Menu Categories',
+    'menu_entries'           => 'Menu Entries',
     'slideshow'              => 'Slideshow',
     'pages'                  => 'Pages',
     'page_categories'        => 'Page Categories',
@@ -43,5 +48,12 @@ return array(
     'modules'                => 'Modules',
     'report_generators'      => 'Report Generators',
     'synchronize'            => 'Synchronize',
-    'settings'               => 'Settings'
+    'settings'               => 'Settings',
+
+    'all_entries'            => 'All Entries',
+    'add_new'                => 'Add New',
+    'created_at'             => 'Created At',
+    'actions'                => 'Actions',
+    'delete'                 => 'Delete',
+    'form_errors'            => 'You have some form errors. Please check below.'
 );

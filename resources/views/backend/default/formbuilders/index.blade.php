@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('form-builder.create'))
                                 <button data-href="{!! URL::to($link_type . '/form-builder/create') !!}" class="btn btn-success">
-                                    Add New <i class="icon-plus"></i>
+                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -35,7 +35,7 @@
                                 <th>Form Name</th>
                                 <th class="hidden-480">Category</th>
                                 <th class="hidden-480">Description</th>
-                                <th class="hidden-480">Created At</th>
+                                <th class="hidden-480">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -59,13 +59,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('form-builder.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.form-builder.destroy', $form->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'form builder');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

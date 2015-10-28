@@ -27,7 +27,7 @@
                         @if ($errors->has())
                              <div class="alert alert-error hide" style="display: block;">
                                <button data-dismiss="alert" class="close">×</button>
-                               You have some form errors. Please check below.
+                               {!! trans('cms.form_errors') !!}
                                {!! $errors->first('name', '<br><span>:message</span>') !!}
                             </div>
                         @endif

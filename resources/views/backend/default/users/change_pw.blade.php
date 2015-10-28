@@ -6,7 +6,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
-                        <span class="hidden-480">Change User Password</span>
+                        <span class="hidden-480">{!! trans('language.line') !!}</span>
                     </h4>
                 </div>
 
@@ -20,7 +20,7 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('cms.form_errors') !!}
                                         </div>
                                     @endif
                                     <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">

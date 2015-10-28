@@ -38,7 +38,7 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('cms.form_errors') !!}
                                         </div>
                                     @endif
 
@@ -102,7 +102,7 @@
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.destroy'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> Delete Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('cms.delete') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
@@ -162,7 +162,7 @@
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.destroy'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> Delete Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('cms.delete') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
