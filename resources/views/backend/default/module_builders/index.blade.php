@@ -25,13 +25,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Version</th>
-                                <th>Author</th>
-                                <th>Website</th>
-                                <th>Selected Form(s)</th>
-                                <th>Table Name(s)</th>
-                                <th>Download</th>
+                                <th>{!! trans('modules.name') !!}</th>
+                                <th>{!! trans('modules.version') !!}</th>
+                                <th>{!! trans('modules.author') !!}</th>
+                                <th>{!! trans('modules.website') !!}</th>
+                                <th>{!! trans('modules.selected_forms') !!}</th>
+                                <th>{!! trans('modules.table_names') !!}</th>
+                                <th>{!! trans('modules.download') !!}</th>
                                 <th>{!! trans('cms.created_at') !!}</th>
                                 <!-- <th class="span2">Edit</th> -->
                                 <th class="span2"></th>

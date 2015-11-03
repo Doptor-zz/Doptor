@@ -23,14 +23,14 @@
                                            {!! trans('cms.form_errors') !!}
                                         </div>
                                     @endif
-                                    <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
                                         <label class="control-label">Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('password_confirmation') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('password_confirmation') ? 'error' : '' !!}">
                                         <label class="control-label">Confirm Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password_confirmation', array('class' => 'input-xlarge'))!!}

@@ -53,7 +53,7 @@
                                 <th>Parent Menu</th>
                                 <th>Title</th>
                                 <th>Link</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th class="span1">Order</th>
                                 <th class="span2"></th>
                                 <th class="hide"></th>

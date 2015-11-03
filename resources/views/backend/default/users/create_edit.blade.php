@@ -50,28 +50,28 @@
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('username') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
                                         <label class="control-label">Username <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('username', (!isset($user)) ? Input::old('username') : $user->username, array('id'=>'username', 'class' => 'input-xlarge'))!!}
                                             {!! $errors->first('username', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
                                         <label class="control-label">Email Address <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('email', (!isset($user)) ? Input::old('email') : $user->email, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('email', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('first_name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('first_name') ? 'error' : '' !!}">
                                         <label class="control-label">First Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('first_name', (!isset($user)) ? Input::old('first_name') : $user->first_name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('first_name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('last_name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('last_name') ? 'error' : '' !!}">
                                         <label class="control-label">Last Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('last_name', (!isset($user)) ? Input::old('last_name') : $user->last_name, array('class' => 'input-xlarge'))!!}
@@ -80,14 +80,14 @@
                                     </div>
 
                                     @if (!isset($user) || (isset($user) && $user->id == $current_user->id))
-                                    <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
                                         <label class="control-label">Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('password_confirmation') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('password_confirmation') ? 'error' : '' !!}">
                                         <label class="control-label">Confirm Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password_confirmation', array('class' => 'input-xlarge'))!!}
@@ -97,7 +97,7 @@
 
                                     @if (isset($user))
                                     {{--For administrators, no need to input security question/answer while creating an user--}}
-                                    <div class="control-group {{ $errors->has('security_question') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('security_question') ? 'error' : '' !!}">
                                         <label class="control-label">Security Question <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('security_question', (!isset($user)) ? Input::old('security_question') : $user->security_question, array('class' => 'input-xlarge'))!!}
@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('security_answer') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('security_answer') ? 'error' : '' !!}">
                                         <label class="control-label">Security Answer <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('security_answer', (!isset($user)) ? Input::old('security_answer') : $user->security_answer, array('class' => 'input-xlarge'))!!}
@@ -123,7 +123,7 @@
                                         @endif
                                     @endif
 
-                                    <div class="control-group {{ $errors->has('auto_logout_time') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('auto_logout_time') ? 'error' : '' !!}">
                                         <label class="control-label">Auto Logout Time</label>
                                         <div class="controls">
                                             {!! Form::text('auto_logout_time', (!isset($user)) ? Input::old('auto_logout_time') : $user->auto_logout_time, array('class' => 'input-xlarge'))!!}
@@ -133,7 +133,7 @@
                                     </div>
 
                                     @if (!Request::is('*profile*'))
-                                        <div class="control-group {{ $errors->has('company_id[]') ? 'error' : '' }}">
+                                        <div class="control-group {!! $errors->has('company_id[]') ? 'error' : '' !!}">
                                             <label class="control-label">Associated Companies</label>
                                             <div class="controls">
                                             {!! Form::select('company_id[]', $companies, (!isset($user)) ? Input::old('company_id[]') : $user->company_id, array('multiple', 'class'=>'chosen input-xlarge')) !!}
@@ -143,9 +143,9 @@
                                     @endif
 
                                     @if (!Request::is('*profile*'))
-                                        {{-- Don't show status selection while editing profile --}}
+                                        {{-- Don't show {!! trans('cms.status') !!} selection while editing profile --}}
                                         <div class="control-group">
-                                            <label class="control-label">Status</label>
+                                            <label class="control-label">{!! trans('cms.status') !!}</label>
                                             <div class="controls">
                                                 @if (isset($user))
                                                     {!! Form::select('status', User::status(), ($user->is_banned)?'0':'1', array('class'=>'chosen input-xlarge')) !!}
@@ -169,14 +169,14 @@
                                         </div>
                                     @endif
 
-                                    <div class="control-group {{ $errors->has('photo') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('photo') ? 'error' : '' !!}">
                                         <label class="control-label">Profile Photo</label>
                                         <div class="controls">
                                             {{-- Form::file('photo', array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('photo') !!}
                                             <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> Select image</a>
                                             <span class="file-name">
-                                                {!! $user->photo or '' !!}
+                                                {!! $user->photo or '' }}
                                             </span>
                                             {!! $errors->first('photo', '<span class="help-inline">:message</span>') !!}
                                         </div>

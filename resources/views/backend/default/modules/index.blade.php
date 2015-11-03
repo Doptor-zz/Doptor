@@ -10,7 +10,7 @@
                             @if ($current_user->hasAccess('modules.create'))
                                 <div class="btn-group pull-right">
                                     <button data-href="{!! URL::to($link_type . '/modules/install') !!}" class="btn btn-success">
-                                        Install New Module <i class="icon-plus"></i>
+                                        {!! trans('modules.install_new') !!} <i class="icon-plus"></i>
                                     </button>
                                 </div>
                             @endif
@@ -29,7 +29,7 @@
                             <div class="btn-group pull-right">
                                 @if ($current_user->hasAccess('modules.create'))
                                     <button data-href="{!! URL::to($link_type . '/modules/install') !!}" class="btn btn-success">
-                                        Install New Module <i class="icon-plus"></i>
+                                        {!! trans('modules.install_new') !!} <i class="icon-plus"></i>
                                     </button>
                                 @endif
                             </div>
@@ -38,14 +38,14 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Links</th>
-                                <th>Version</th>
-                                <th>Author</th>
-                                <th>Website</th>
-                                <th>Table in DB</th>
-                                <th>Enabled</th>
-                                <th class="span3">Installed At</th>
+                                <th>{!! trans('modules.name') !!}</th>
+                                <th>{!! trans('modules.links') !!}</th>
+                                <th>{!! trans('modules.version') !!}</th>
+                                <th>{!! trans('modules.author') !!}</th>
+                                <th>{!! trans('modules.website') !!}</th>
+                                <th>{!! trans('modules.table_in_db') !!}</th>
+                                <th>{!! trans('modules.enabled') !!}</th>
+                                <th class="span3">{!! trans('modules.installed_at') !!}</th>
                                 <!-- <th class="span2">Edit</th> -->
                                 <th class="span2"></th>
                             </tr>

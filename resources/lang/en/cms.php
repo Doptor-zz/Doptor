@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'enter_username_pw'      => 'Enter your username and password',
     'remember_me'            => 'Remember me',
     'forgot_pw'              => 'Forgot Password?',
@@ -54,6 +54,6 @@ return array(
     'add_new'                => 'Add New',
     'created_at'             => 'Created At',
     'actions'                => 'Actions',
-    'delete'                 => 'Delete',
+    'status'                 => 'Status',
     'form_errors'            => 'You have some form errors. Please check below.'
-);
+];

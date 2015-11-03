@@ -46,7 +46,7 @@
                                 <th>Username</th>
                                 <th>Full Name</th>
                                 <th>User Group</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th>{!! trans('cms.created_at') !!}</th>
                                 <th></th>
                             </tr>

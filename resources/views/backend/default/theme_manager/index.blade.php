@@ -55,7 +55,7 @@
                                 <th>Version</th>
                                 <th>Description</th>
                                 <th>Target</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>

@@ -50,7 +50,7 @@
                             <tr>
                                 <th class="span1"><input type="checkbox" class="select_all" /></th>
                                 <th>Title</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th>Created by</th>
                                 <th class="span2"></th>
                             </tr>

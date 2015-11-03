@@ -60,7 +60,7 @@
                                 <!-- BEGIN FORM-->
                                 @if (!isset($media_entry))
                                     {!! Form::open(array('route'=>$link_type . '.media-manager.store', 'method'=>'POST', 'class'=>'dropzone form-horizontal')) !!}
-                                    <div class="control-group {{ $errors->has('folder') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('folder') ? 'error' : '' !!}">
                                         <label class="control-label">Current Folder</label>
                                         <div class="controls">
                                             {!! Form::text('folder', $base_dir, array('class' => 'input-xlarge', 'disabled') ) !!}
@@ -84,7 +84,7 @@
                                             <h3 id="myModalLabel3">Create New Folder</h3>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="control-group {{ $errors->has('folder') ? 'error' : '' }}">
+                                            <div class="control-group {!! $errors->has('folder') ? 'error' : '' !!}">
                                             <label class="control-label">Folder Name</label>
                                             <div class="controls">
                                                 {!! Form::text('folder_name', '') !!}
@@ -106,7 +106,7 @@
 
                                         <br><br>
 
-                                        <div class="control-group {{ $errors->has('caption') ? 'error' : '' }}">
+                                        <div class="control-group {!! $errors->has('caption') ? 'error' : '' !!}">
                                             <label class="control-label">Caption</label>
                                             <div class="controls">
                                                 {!! Form::text('caption', $media_entry->caption, array('class' => 'input-xlarge'))!!}

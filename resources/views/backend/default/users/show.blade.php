@@ -15,26 +15,26 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="widget_tab1">
                                 <form class="form-horizontal">
-                                    <div class="control-group {{ $errors->has('username') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
                                         <label class="control-label">Username</label>
                                         <div class="controls">
                                             {!! $user->username !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('first_name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('first_name') ? 'error' : '' !!}">
                                         <label class="control-label">First Name</label>
                                         <div class="controls">
                                             {!! $user->first_name !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('last_name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('last_name') ? 'error' : '' !!}">
                                         <label class="control-label">Last Name</label>
                                         <div class="controls">
                                             {!! $user->last_name !!}
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('photo') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('photo') ? 'error' : '' !!}">
                                         <label class="control-label">Profile Photo</label>
                                         <div class="controls">
                                             {!! HTML::image($user->photo) !!}

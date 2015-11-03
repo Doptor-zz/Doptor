@@ -2,14 +2,14 @@
     @if ($errors->any())
         <div class="alert alert-error">
             <button class="close" data-dismiss="alert">×</button>
-            <strong>Error!</strong><br> {!! implode('<br>', $errors->all()) !!}
+            <strong>{!! trans('cms.error') !!}</strong><br> {!! implode('<br>', $errors->all()) !!}
         </div>
     @endif
 
     @if ($errors->has('invalid_reset_code'))
         <!-- BEGIN FORGOT PASSWORD FORM -->
         {!! Form::open(array('url'=>'forgot_password', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) !!}
-            <p class="center">Enter your e-mail address below to receive the reset code.</p>
+            <p class="center">{!! trans('password_reset.enter_email') !!}</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
@@ -28,9 +28,9 @@
             {!! Form::hidden('token', $token) !!}
             {!! Form::hidden('target', $target) !!}
 
-            <h5>Password Reset Form</h5>
+            <h5>{!! trans('password_reset.reset_form') !!}</h5>
 
-            <p class="center">Enter your username</p>
+            <p class="center">{!! trans('password_reset.username') !!}</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <p class="center">Security question</p>
+            <p class="center">{!! trans('password_reset.security_question') !!}</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <p class="center">Enter your security answer</p>
+            <p class="center">{!! trans('password_reset.security_question') !!}</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <p class="center">Enter your new password</p>
+            <p class="center">{!! trans('password_reset.new_password') !!}</p>
             <div class="control-group">
                 <div class="controls">
                     <div class="input-prepend">

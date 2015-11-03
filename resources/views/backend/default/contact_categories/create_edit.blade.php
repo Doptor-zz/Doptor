@@ -36,7 +36,7 @@
                                         {!! Form::text('id', $contact_cat->id, array('class' => 'hide')) !!}
                                     @endif
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                         <label class="control-label">Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($contact_cat)) ? Input::old('name') : $contact_cat->name, array('class' => 'input-xlarge'))!!}
@@ -44,7 +44,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('alias') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('alias') ? 'error' : '' !!}">
                                         <label class="control-label">Alias</label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($contact_cat)) ? Input::old('alias') : $contact_cat->alias, array('class' => 'input-xlarge'))!!}
@@ -53,15 +53,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('status') ? 'error' : '' }} hide">
-                                        <label class="control-label">Status <span class="red">*</span></label>
+                                    <div class="control-group {!! $errors->has('status') ? 'error' : '' !!} hide">
+                                        <label class="control-label">{!! trans('cms.status') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                             {!! Form::select('status', Post::all_status(), (!isset($contact_cat)) ? Input::old('status') : $contact_cat->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('status', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">
                                             {!! Form::textarea('description', (!isset($contact_cat)) ? Input::old('description') : $contact_cat->description, array('class' => 'input-xlarge'))!!}

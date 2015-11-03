@@ -33,14 +33,14 @@
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                         <label class="control-label">Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($menu_cat)) ? Input::old('name') : $menu_cat->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('alias') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('alias') ? 'error' : '' !!}">
                                         <label class="control-label">Alias </label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($menu_cat)) ? Input::old('alias') : $menu_cat->alias, array('class' => 'input-xlarge')) !!}
@@ -48,14 +48,14 @@
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('position') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('position') ? 'error' : '' !!}">
                                         <label class="control-label">Menu Position</label>
                                         <div class="controls">
                                             {!! Form::select('position', $positions, (!isset($menu_cat)) ? Input::old('position') : $menu_cat->position, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('position', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">
                                             {!! Form::text('description', (!isset($menu_cat)) ? Input::old('description') : $menu_cat->description, array('class' => 'input-xlarge'))!!}

@@ -136,7 +136,7 @@
 
                         <fieldset>
                             <legend>Offline {!! trans('cms.settings') !!}</legend>
-                            <div class="control-group {{ $errors->has('public_offline') ? 'error' : '' }}">
+                            <div class="control-group {!! $errors->has('public_offline') ? 'error' : '' !!}">
                                 <label class="control-label">Set Public Offline?</label>
                                 <div class="controls line">
                                     {!! Form::select('public_offline', array('no'=>'No', 'yes'=>'Yes'), Setting::value('public_offline')) !!}
@@ -144,7 +144,7 @@
                                 </div>
                             </div>
 
-                            <div class="control-group {{ $errors->has('public_offline_end') ? 'error' : '' }}">
+                            <div class="control-group {!! $errors->has('public_offline_end') ? 'error' : '' !!}">
                                 <label class="control-label">Set Public Offline Till</label>
                                 <div class="controls line">
                                     <div id="public_offline_end" class="input-append">
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
 
-                            <div class="control-group {{ $errors->has('admin_offline') ? 'error' : '' }}">
+                            <div class="control-group {!! $errors->has('admin_offline') ? 'error' : '' !!}">
                                 <label class="control-label">Set Admin Offline?</label>
                                 <div class="controls line">
                                     {!! Form::select('admin_offline', array('no'=>'No', 'yes'=>'Yes'), Setting::value('admin_offline')) !!}
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
 
-                            <div class="control-group {{ $errors->has('admin_offline_end') ? 'error' : '' }}">
+                            <div class="control-group {!! $errors->has('admin_offline_end') ? 'error' : '' !!}">
                                 <label class="control-label">Set Admin Offline Till</label>
                                 <div class="controls line">
                                     <div id="admin_offline_end" class="input-append">

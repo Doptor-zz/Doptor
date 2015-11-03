@@ -38,7 +38,7 @@
 
                                     {!! Form::hidden('type', $type) !!}
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                         <label class="control-label">Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($post_cat)) ? Input::old('name') : $post_cat->name, array('class' => 'input-xlarge'))!!}
@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('alias') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('alias') ? 'error' : '' !!}">
                                         <label class="control-label">Alias</label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($post_cat)) ? Input::old('alias') : $post_cat->alias, array('class' => 'input-xlarge'))!!}
@@ -55,15 +55,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('status') ? 'error' : '' }}">
-                                        <label class="control-label">Status <span class="red">*</span></label>
+                                    <div class="control-group {!! $errors->has('status') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('cms.status') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                             {!! Form::select('status', Post::all_status(), (!isset($post)) ? Input::old('status') : $post->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('status', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
 
-                                    <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">
                                             {!! Form::textarea('description', (!isset($post_cat)) ? Input::old('description') : $post_cat->description, array('class' => 'input-xlarge'))!!}

@@ -32,7 +32,7 @@
                             </div>
                         @endif
 
-                        <div class="control-group {{ $errors->has('category') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('category') ? 'error' : '' !!}">
                             <label class="control-label">Form Category <span class="red">*</span></label>
                             <div class="controls">
 
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                             <label class="control-label">Form Description</label>
                             <div class="controls">
 
@@ -65,7 +65,7 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('redirect_to') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
                             <label class="control-label">Redirect to after saving</label>
                             <div class="controls">
 
@@ -80,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('redirect_to') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
                             <label class="control-label">Show Captcha</label>
                             <div class="controls line">
                                 {!! Form::checkbox('show_captcha', 'checked', (!isset($form)) ? Input::old('show_captcha') : $form->show_captcha, array('class'=>'span6 m-wrap')) !!}
@@ -88,7 +88,7 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('extra_code') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('extra_code') ? 'error' : '' !!}">
                             <label class="control-label">Extra code</label>
                             <div class="controls">
 
@@ -105,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
                             <label class="control-label">Send to Email</label>
                             <div class="controls">
                                 {!! Form::text('email', isset($form) ? $form->email : Input::old('email')) !!}

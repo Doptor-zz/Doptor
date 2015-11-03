@@ -43,14 +43,14 @@
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                         <label class="control-label">Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($user_group)) ? Input::old('name') : $user_group->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('permissions') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('permissions') ? 'error' : '' !!}">
                                         <label class="control-label">Permissions <span class="red">*</span></label>
                                         <div class="controls line">
                                             <label class="checkbox">

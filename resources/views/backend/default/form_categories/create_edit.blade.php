@@ -33,14 +33,14 @@
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                         <label class="control-label">Name <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($form_cat)) ? Input::old('name') : $form_cat->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                                         <label class="control-label">Description</label>
                                         <div class="controls">
                                             {!! Form::text('description', (!isset($form_cat)) ? Input::old('description') : $form_cat->description, array('class' => 'input-xlarge'))!!}

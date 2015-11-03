@@ -52,7 +52,7 @@
                                 <th>Name</th>
                                 <th>Alias</th>
                                 <th>Description</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>

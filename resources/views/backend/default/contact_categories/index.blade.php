@@ -52,7 +52,7 @@
                                 <th>Name</th>
                                 <th>Alias</th>
                                 <th>Description</th>
-                                <th>Status</th>
+                                <th>{!! trans('cms.status') !!}</th>
                                 <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
@@ -64,7 +64,7 @@
                                     <td>{!! $contact_cat->name !!}</td>
                                     <td>{!! $contact_cat->alias !!}</td>
                                     <td>{!! $contact_cat->description !!}</td>
-                                    <td>{!! $contact_cat->status() !!}</td>
+                                    <td>{!! $contact_cat->{!! trans('cms.status') !!}() !!}</td>
                                     <td>{!! $contact_cat->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess("contact-categories.edit"))

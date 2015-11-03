@@ -58,7 +58,7 @@
 
                                         <br><br>
 
-                                        <div class="control-group {{ $errors->has('caption') ? 'error' : '' }}">
+                                        <div class="control-group {!! $errors->has('caption') ? 'error' : '' !!}">
                                             <label class="control-label">Caption</label>
                                             <div class="controls">
                                                 {!! Form::text('caption', $theme->caption, array('class' => 'input-xlarge'))!!}

@@ -66,46 +66,46 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
                                 <h4>Provide module details</h4>
-                                <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
                                     <label class="control-label">Name <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('version') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('version') ? 'error' : '' !!}">
                                     <label class="control-label">Version <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('version', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('author') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('author') ? 'error' : '' !!}">
                                     <label class="control-label">Author <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('author', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('vendor') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('vendor') ? 'error' : '' !!}">
                                     <label class="control-label">Vendor Name <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('vendor', (!isset($module)) ? Input::old('vendor') : $module->vendor, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('vendor', (!isset($module)) ? Input::old('vendor') : $module->vendor, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         <span class="help-inline">Shouldn't contain spaces or special characters</span>
                                         {!! $errors->first('vendor', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('website') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('website') ? 'error' : '' !!}">
                                     <label class="control-label">Website Address</label>
                                     <div class="controls">
-                                        {!! Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('website', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
                                     <label class="control-label">Module Description</label>
                                     <div class="controls">
-                                        {!! Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2, (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2, (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('description', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                     </div>
                                 </div>
 
-                                <div class="control-group {{ $errors->has('target') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('target') ? 'error' : '' !!}">
                                     <label class="control-label">Target <i class="red">*</i></label>
                                     <div class="controls line">
                                         {!! Form::select('target[]', Menu::all_targets(), (!isset($module)) ? Input::old('target') : $module->selected_targets(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select target')) !!}
@@ -151,7 +151,7 @@
                                     {!! Form::select('', $select, '', array('id'=>'dropdown-options', 'class'=>'hide')) !!}
                                 </div>
 
-                                <div class="control-group {{ $errors->has('requires') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('requires') ? 'error' : '' !!}">
                                     <label class="control-label">Depends on modules</label>
                                     <div class="controls line">
                                         {!! Form::select('requires[]', $all_modules, (!isset($module)) ? Input::old('requires') : $module->required_modules(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select modules required for this module')) !!}

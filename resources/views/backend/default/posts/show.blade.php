@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Status</label>
+                            <label class="control-label">{!! trans('cms.status') !!}</label>
                             <div class="controls line">
                                 {!! Str::title($post->status) !!}
                             </div>

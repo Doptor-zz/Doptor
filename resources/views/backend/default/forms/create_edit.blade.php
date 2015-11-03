@@ -24,7 +24,7 @@
                 {!! $form->rendered !!}
 
                 @if ($form->show_captcha)
-                    <div class="control-group {{ $errors->has("captcha") ? "error" : "" }}">
+                    <div class="control-group {!! $errors->has("captcha") ? "error" : "" !!}">
                         <label class="control-label">Enter captcha</label>
                         <div class="controls">
                             {!! HTML::image(Captcha::img(), "Captcha image") !!}
