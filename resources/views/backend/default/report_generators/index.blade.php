@@ -29,7 +29,7 @@
                             <div class="btn-group pull-right">
                                 @if ($current_user->hasAccess('report-generators.create'))
                                     <button data-href="{!! URL::to($link_type . '/report-generators/install') !!}" class="btn btn-success">
-                                        Install New Module <i class="icon-plus"></i>
+                                        Install New Report Generator <i class="icon-plus"></i>
                                     </button>
                                 @endif
                             </div>
@@ -51,7 +51,9 @@
                         <tbody id="menu-list">
                             @foreach ($report_generators as $generator)
                                 <tr class="">
-                                    <td>{!! $generator->name !!}</td>
+                                    <td>
+                                        {!! HTML::link($link_type . '/report-generators/generate/' . $generator->id, $generator->name) !!}
+                                    </td>
                                     <td>{!! $generator->module_name !!}</td>
                                     <td>{!! $generator->version !!}</td>
                                     <td>{!! $generator->author !!}</td>
