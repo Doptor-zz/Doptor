@@ -213,12 +213,14 @@ class ReportBuilderController extends BaseController {
             $required_fields = $this->requiredFields($input, $i);
 
             if ($module && !empty($required_fields)) {
+                $model = 'Modules\\' . $module->vendor . '\\' . $module->alias . '\Models\\' . $model_name;
+
                 $modules[] = array(
                             'id'              => $module_id,
                             'name'            => $module->name,
                             'alias'           => $module->alias,
                             'form_name'       => $form_name,
-                            'model'           => 'Modules\\'.$module->alias.'\Models\\' . $model_name,
+                            'model'           => $model,
                             'required_fields' => $required_fields
                         );
             }
