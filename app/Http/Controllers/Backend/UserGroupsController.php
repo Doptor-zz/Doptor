@@ -74,7 +74,7 @@ class UserGroupsController extends AdminController {
                 $group = $this->usergroup_manager->createUserGroup($input);
 
                 return Redirect::to('backend/user-groups')
-                                    ->with('success_message', "The user group {$input['name']} was created.");
+                                    ->with('success_message', trans('messages.success.user_group_create', ['usergroup' => $input['name']]));
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -135,7 +135,7 @@ class UserGroupsController extends AdminController {
                 $group = $this->usergroup_manager->updateUserGroup($id, $input);
 
                 return Redirect::to('backend/user-groups')
-                                ->with('success_message', "The user group {$input['name']} was updated.");
+                                ->with('success_message', trans('messages.success.user_group_update', ['usergroup' => $input['name']]));
 
             } else {
                 // Form validation failed

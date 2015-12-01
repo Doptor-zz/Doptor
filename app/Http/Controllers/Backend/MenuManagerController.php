@@ -65,7 +65,7 @@ class MenuManagerController extends AdminController {
 
                 if ($menu) {
                     return Redirect::to('backend/menu-manager')
-                                        ->with('success_message', 'The menu entry was created.');
+                                        ->with('success_message', trans('messages.success.menu_create'));
                 } else {
                     return Redirect::to('backend/menu-manager')
                                         ->with('error_message', 'The menu entry wasn\'t created.');
@@ -136,7 +136,7 @@ class MenuManagerController extends AdminController {
                         return Response::json('The menu entry was updated.', 200);
                     } else {
                         return Redirect::to('backend/menu-manager')
-                                            ->with('success_message', 'The menu entry was updated.');
+                                            ->with('success_message', trans('messages.success.menu_update'));
                     }
                 } else {
                     if (Request::ajax()) {
@@ -182,7 +182,7 @@ class MenuManagerController extends AdminController {
         $menu_entry->save();
 
         return Redirect::to('backend/menu-manager')
-                                ->with('success_message', 'The menu entry was set as default.');
+                                ->with('success_message', trans('messages.success.menu_set_default'));
     }
 
     /**
@@ -214,9 +214,9 @@ class MenuManagerController extends AdminController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The menu entries were successfully deleted';
+            $message = trans('messages.success.menus_delete');
         } else {
-            $message = 'The menu entry was successfully deleted';
+            $message = trans('messages.success.menu_delete');
         }
 
         return Redirect::to('backend/menu-manager')

@@ -80,7 +80,7 @@ class ModuleBuilderController extends AdminController {
                 Session::put('download_file', $built_module->id);
 
                 return Redirect::to('backend/module-builder')
-                        ->with('success_message', 'The module was created');
+                        ->with('success_message', trans('messages.success.module_create'));
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -160,7 +160,7 @@ class ModuleBuilderController extends AdminController {
                 Session::put('download_file', $id);
 
                 return Redirect::to('backend/module-builder')
-                        ->with('success_message', 'The module was updated');
+                        ->with('success_message', trans('messages.success.module_update'));
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -188,7 +188,7 @@ class ModuleBuilderController extends AdminController {
         File::delete($module->file);
         if ($module->delete()) {
             return \Redirect::to($this->link_type . "/module-builder")
-                ->with('success_message', 'The module was deleted.');
+                ->with('success_message', trans('messages.success.module_delete'));
         } else {
             return \Redirect::to($this->link_type . "/module-builder")
                 ->with('error_message', 'The module was not deleted.');

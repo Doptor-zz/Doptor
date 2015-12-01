@@ -59,7 +59,7 @@ class MenuCategoriesController extends AdminController {
 
 		        if ($menu_cat) {
 		            return \Redirect::to('backend/menu-categories')
-		                                ->with('success_message', 'The menu category was created.');
+		                                ->with('success_message', trans('messages.success.menu_cat_create'));
 		        } else {
 		            return \Redirect::to('backend/menu-categories')
 		                                ->with('error_message', 'The menu category wasn\'t created.');
@@ -130,7 +130,7 @@ class MenuCategoriesController extends AdminController {
 		                return \Response::json('The menu category was updated.', 200);
 		            } else {
 		                return \Redirect::to('backend/menu-categories')
-		                                    ->with('success_message', 'The menu category was updated.');
+		                                    ->with('success_message', trans('messages.success.menu_cat_update'));
 		            }
 		        } else {
 		            if (\Request::ajax()) {
@@ -182,7 +182,7 @@ class MenuCategoriesController extends AdminController {
 		        return \Response::json('The menu category was deleted.', 200);
 		    }
 		    return \Redirect::to('backend/menu-categories')
-		                        ->with('success_message', 'The menu category was deleted.');
+		                        ->with('success_message', trans('messages.success.menu_cat_delete'));
 		} else {
 		    if (\Request::ajax()) {
 		        return \Response::json('The menu category wasn\'t deleted.', 400);

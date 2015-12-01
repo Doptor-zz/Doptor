@@ -67,7 +67,7 @@ class FormController extends BaseController {
         }
 
         return Redirect::back()
-                        ->with('success_message', 'The form was submitted');
+                        ->with('success_message', trans('messages.success.form_submit'));
     }
 
     public function destroy($id=null)
@@ -90,8 +90,8 @@ class FormController extends BaseController {
             $post->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-        $message = 'The form entry' . $wasOrWere . ' deleted.';
+        $translation = (count($selected_ids) > 1) ? 'form_entries_delete' : 'form_entry_delete';
+        $message = trans('messages.success.' . $translation);
 
         return Redirect::back()
                                 ->with('success_message', $message);

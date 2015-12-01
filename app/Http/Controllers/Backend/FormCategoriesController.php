@@ -55,7 +55,7 @@ class FormCategoriesController extends AdminController {
 
 		        if ($form_cat) {
 		            return \Redirect::to('backend/form-categories')
-		                                ->with('success_message', 'The form category was created.');
+		                                ->with('success_message', trans('messages.success.form_cat_create'));
 		        } else {
 		            return \Redirect::to('backend/form-categories')
 		                                ->with('error_message', 'The form category wasn\'t created.');
@@ -125,7 +125,7 @@ class FormCategoriesController extends AdminController {
 		                return \Response::json('The form category was updated.', 200);
 		            } else {
 		                return \Redirect::to('backend/form-categories')
-		                                    ->with('success_message', 'The form category was updated.');
+		                                    ->with('success_message', trans('messages.success.form_cat_update'));
 		            }
 		        } else {
 		            if (\Request::ajax()) {
@@ -177,7 +177,7 @@ class FormCategoriesController extends AdminController {
 		        return \Response::json('The form category was deleted.', 200);
 		    }
 		    return \Redirect::to('backend/form-categories')
-		                        ->with('success_message', 'The form category was deleted.');
+		                        ->with('success_message', trans('messages.success.form_cat_delete'));
 		} else {
 		    if (\Request::ajax()) {
 		        return \Response::json('The form category wasn\'t deleted.', 400);

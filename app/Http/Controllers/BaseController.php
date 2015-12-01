@@ -33,6 +33,9 @@ class BaseController extends Controller {
 
         View::share('website_settings', $website_settings);
 
+        $locale = Setting::value('language');
+        App::setLocale($locale);
+
         $this->user = current_user();
 
         View::share('current_user', $this->user);

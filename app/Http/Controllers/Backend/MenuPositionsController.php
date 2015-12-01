@@ -53,7 +53,7 @@ class MenuPositionsController extends AdminController {
 
                 if ($menu_position) {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('success_message', 'The menu position was created.');
+                                        ->with('success_message', trans('messages.success.menu_position_create'));
                 } else {
                     return \Redirect::to('backend/menu-positions')
                                         ->with('error_message', 'The menu position wasn\'t created.');
@@ -117,7 +117,7 @@ class MenuPositionsController extends AdminController {
 
                 if ($menu_position->update($input)) {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('success_message', 'The menu position was updated.');
+                                        ->with('success_message', trans('messages.success.menu_position_update'));
                 } else {
                     return \Redirect::to('backend/menu-positions')
                                         ->with('error_message', 'The menu position wasn\'t updated.');
@@ -149,7 +149,7 @@ class MenuPositionsController extends AdminController {
                 return \Response::json('The menu position was deleted.', 200);
             }
             return \Redirect::to('backend/menu-positions')
-                                ->with('success_message', 'The menu position was deleted.');
+                                ->with('success_message', trans('messages.success.menu_position_delete'));
         } else {
             if (\Request::ajax()) {
                 return \Response::json('The menu position wasn\'t deleted.', 400);

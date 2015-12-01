@@ -69,7 +69,7 @@ class HomeController extends AdminController {
         if (in_array(Request::getClientIp(), $disabled_ips)) {
             return Redirect::back()
                             ->withInput()
-                            ->with('error_message', 'Current IP address cannot be disabled access');
+                            ->with('error_message', trans('messages.error.cant_disable_ip'));
         }
 
         foreach ($input as $name => $value) {
@@ -77,7 +77,7 @@ class HomeController extends AdminController {
         }
 
         return Redirect::back()
-                            ->with('success_message', 'The settings were updated.');
+                            ->with('success_message', trans('messages.success.config_change'));
     }
 
     /**

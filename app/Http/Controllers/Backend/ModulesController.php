@@ -71,16 +71,16 @@ class ModulesController extends AdminController {
 
             if ($module) {
                 return Redirect::to('backend/modules')
-                    ->with('success_message', 'The module was installed.');
+                    ->with('success_message', trans('messages.success.module_install'));
             } else {
                 return Redirect::to('backend/modules')
-                    ->with('success_message', 'The module wasn\'t installed.');
+                    ->with('error_message', trans('messages.error.module_install'));
             }
 
         } catch (Exception $e) {
             return Redirect::back()
                 ->withInput()
-                ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
+                ->with('error_message', trans('messages.error.module_install') . $e->getMessage());
         }
     }
 
@@ -146,7 +146,7 @@ class ModulesController extends AdminController {
 
         if ($module->delete()) {
             return Redirect::to('backend/modules')
-                ->with('success_message', 'Module was deleted.');
+                ->with('success_message', trans('messages.success.module_delete'));
         } else {
             return Redirect::to('backend/modules')
                 ->with('error_message', 'Module wasn\'t deleted.');
