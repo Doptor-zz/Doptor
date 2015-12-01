@@ -17,21 +17,21 @@
                         @endif
 
                         <div class="control-group">
-                            <label class="control-label">Alias</label>
+                            <label class="control-label">{!! trans('cms.alias') !!}</label>
                             <div class="controls line">
                                 {!! $post->permalink !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Description</label>
+                            <label class="control-label">{!! trans('cms.description') !!}</label>
                             <div class="controls line">
                                 {!! $post->content !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Categories</label>
+                            <label class="control-label">{!! trans('cms.categories') !!}</label>
                             <div class="controls line">
                                 {!! implode(', ', $post->selected_categories('name')) !!}
                             </div>
@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Target Display</label>
+                            <label class="control-label">{!! trans('cms.target') !!} Display</label>
                             <div class="controls line">
                                 {!! Str::title($post->target) !!}
                             </div>
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Meta Description</label>
+                            <label class="control-label">Meta {!! trans('cms.description') !!}</label>
                             <div class="controls line">
                                 {!! $post->meta_description !!}
                             </div>
@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Updated At</label>
+                            <label class="control-label">{!! trans('cms.updated_at') !!}</label>
                             <div class="controls line">
                                 {!! $post->updated_at !!}
                             </div>

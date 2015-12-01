@@ -1,4 +1,4 @@
-<h1>Password Reset Code</h1>
+<h1>{!! trans('cms.password') !!} Reset Code</h1>
 <h2>For {!! Setting::value('website_name') !!}</h2>
 
 Click on the following link to reset your password and change to a new one:

@@ -4,7 +4,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i> All Form Entries</h4>
+                    <h4><i class="icon-th-list"></i> {!! trans('cms.form_builder') !!}</h4>
                 </div>
                 <div class="widget-body">
                     <div class="clearfix margin-bottom-10">
@@ -28,7 +28,7 @@
                         @if ($current_user->hasAccess("form.create"))
                         <div class="btn-group pull-right">
                             <a href="{!! URL::to($link_type . '/form/' . $form_id) !!}" class="btn btn-success">
-                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                             </a>
                         </div>
                         @endif
@@ -37,7 +37,7 @@
                         <thead>
                             <tr>
                                 <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                <th>Data</th>
+                                <th>{!! trans('cms.data') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>

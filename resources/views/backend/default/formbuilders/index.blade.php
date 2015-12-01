@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('form-builder.create'))
                                 <button data-href="{!! URL::to($link_type . '/form-builder/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -32,9 +32,9 @@
                         <thead>
                             <tr>
                                 <th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-                                <th>Form Name</th>
-                                <th class="hidden-480">Category</th>
-                                <th class="hidden-480">Description</th>
+                                <th>Form {!! trans('cms.name') !!}</th>
+                                <th class="hidden-480">{!! trans('cms.category') !!}</th>
+                                <th class="hidden-480">{!! trans('cms.description') !!}</th>
                                 <th class="hidden-480">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>

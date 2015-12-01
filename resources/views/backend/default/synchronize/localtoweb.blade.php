@@ -11,14 +11,14 @@
                     {!! Form::open(array('url' => 'backend/synchronize/localToWeb', 'method'=>'POST', 'class'=>'form-horizontal')) !!}
 
                         <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
-                            <label class="control-label">Username <span class="red">*</span></label>
+                            <label class="control-label">{!! trans('cms.username') !!} <span class="red">*</span></label>
                             <div class="controls">
                                 {!! Form::text('username', Input::old('username'), array('class' => 'input-xlarge'))!!}
                             </div>
                         </div>
 
                         <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
-                            <label class="control-label">Password <span class="red">*</span></label>
+                            <label class="control-label">{!! trans('cms.password') !!} <span class="red">*</span></label>
                             <div class="controls">
                                 {!! Form::password('password', array('class' => 'input-xlarge')) !!}
                             </div>

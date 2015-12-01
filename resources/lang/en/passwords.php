@@ -19,4 +19,6 @@ return [
 	"sent" => "We have e-mailed your password reset link!",
 	"reset" => "Your password has been reset!",
 
+	"change_password" => "Change User Password",
+    "reset_pw_email" => "Enter your e-mail address below to reset your password",
 ];

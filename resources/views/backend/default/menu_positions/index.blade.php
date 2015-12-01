@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-positions.create'))
                             <button data-href="{!! URL::to($link_type . '/menu-positions/create') !!}" class="btn btn-success">
-                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                             </button>
                             @endif
                         </div>
@@ -31,8 +31,8 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Alias</th>
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.alias') !!}</th>
                                 <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>

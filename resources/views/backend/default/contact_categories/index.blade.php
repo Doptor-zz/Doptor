@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("contact-categories.create"))
                         <div class="btn-group pull-right">
                             <a href="{!! URL::to($link_type . '/contact-categories/create') !!}" class="btn btn-success">
-                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                             </a>
                         </div>
                         @endif
@@ -49,9 +49,9 @@
                         <thead>
                             <tr>
                                 <th class="span1"></th>
-                                <th>Name</th>
-                                <th>Alias</th>
-                                <th>Description</th>
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.alias') !!}</th>
+                                <th>{!! trans('cms.description') !!}</th>
                                 <th>{!! trans('cms.status') !!}</th>
                                 <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>

@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("{$type}.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/' . $type .'s/create') !!}" class="btn btn-success">
-                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif

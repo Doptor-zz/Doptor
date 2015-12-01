@@ -14,7 +14,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-envelope"></i></span>
-                        <input id="input-email" type="text" placeholder="Email" name="email" />
+                        <input id="input-email" type="text" placeholder="{!! trans('cms.email') !!}" name="email" />
                     </div>
                 </div>
                 <div class="space10"></div>
@@ -35,7 +35,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-user"></i></span>
-                        {!! Form::text('username', Input::old('username'), array('id'=>'input-username', 'placeholder' => 'Username')) !!}
+                        {!! Form::text('username', Input::old('username'), array('id'=>'input-username', 'placeholder' => trans('cms.username'))) !!}
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-question-sign"></i></span>
-                        {!! Form::text('security_question', $user->security_question, array('id'=>'input-security_question', 'placeholder' => 'Security Question', 'disabled')) !!}
+                        {!! Form::text('security_question', $user->security_question, array('id'=>'input-security_question', 'placeholder' => trans('config.security_question'), 'disabled')) !!}
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-question-sign"></i></span>
-                        {!! Form::text('security_answer', Input::old('security_answer'), array('id'=>'input-security_answer', 'placeholder' => 'Security Answer')) !!}
+                        {!! Form::text('security_answer', Input::old('security_answer'), array('id'=>'input-security_answer', 'placeholder' => trans('config.security_answer'))) !!}
                     </div>
                 </div>
             </div>
@@ -65,11 +65,11 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-lock"></i></span>
-                        {!! Form::password('password', array('id'=>'input-password', 'placeholder' => 'Password')) !!}
+                        {!! Form::password('password', array('id'=>'input-password', 'placeholder' => trans('cms.password'))) !!}
                     </div>
                 </div>
             </div>
-            <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="Reset Password" />
+            <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="Reset {!! trans('cms.password') !!}" />
         {!! Form::close() !!}
     @endif
 

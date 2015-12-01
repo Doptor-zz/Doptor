@@ -40,7 +40,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-manager.create'))
                                 <button data-href="{!! URL::to($link_type . '/menu-manager/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -71,7 +71,7 @@
                                     <td>{!! $menu->order !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('menu-manager.edit'))
-                                        <a href="{!! URL::to($link_type . '/menu-manager/' . $menu->id . '/edit') !!}" class="btn btn-mini" title="Edit"><i class="icon-edit"></i></a>
+                                        <a href="{!! URL::to($link_type . '/menu-manager/' . $menu->id . '/edit') !!}" class="btn btn-mini" title="{!! trans('cms.edit') !!}"><i class="icon-edit"></i></a>
                                         @endif
 
                                         <div class="actions inline">

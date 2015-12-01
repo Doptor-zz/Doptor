@@ -47,7 +47,7 @@
                                             @if ($i == 0)
                                             <div class="btn-group pull-right">
                                                 <a href="{!! URL::to('backend/contact-manager/create/'.$form['form_id']) !!}" class="btn btn-success">
-                                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                                 </a>
                                             </div>
                                             @endif
@@ -60,10 +60,10 @@
                                                         <th>{!! Str::title($field_name) !!}</th>
                                                     @endforeach
                                                     @if ($i == 0)
-                                                        <th>Category</th>
+                                                        <th>{!! trans('cms.category') !!}</th>
                                                     @endif
                                                     @if ($i == 1)
-                                                        <th>For Contact</th>
+                                                        <th>For {!! trans('cms.contact') !!}</th>
                                                     @endif
                                                     <th>{!! trans('cms.created_at') !!}</th>
                                                     <th class="span2">{!! trans('cms.actions') !!}</th>
@@ -91,7 +91,7 @@
                                                             @if ($entry->contact)
                                                             <td>{!! HTML::link("backend/contact-manager/{$entry->contact->id}/18", $entry->contact->name) !!}</td>
                                                             @else
-                                                            <td>Contact {!! trans('cms.delete') !!}d</td>
+                                                            <td>{!! trans('cms.contact') !!} {!! trans('cms.delete') !!}d</td>
                                                             @endif
                                                         @endif
                                                         <td>{!! $entry->created_at !!}</td>

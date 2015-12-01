@@ -6,7 +6,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
-                        <span class="hidden-480">User Information</span>
+                        <span class="hidden-480">{!! trans('cms.user_info') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -16,40 +16,40 @@
                             <div class="tab-pane active" id="widget_tab1">
                                 <form class="form-horizontal">
                                     <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
-                                        <label class="control-label">Username</label>
+                                        <label class="control-label">{!! trans('cms.username') !!}</label>
                                         <div class="controls">
                                             {!! $user->username !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('first_name') ? 'error' : '' !!}">
-                                        <label class="control-label">First Name</label>
+                                        <label class="control-label">{!! trans('cms.first_name') !!}</label>
                                         <div class="controls">
                                             {!! $user->first_name !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('last_name') ? 'error' : '' !!}">
-                                        <label class="control-label">Last Name</label>
+                                        <label class="control-label">{!! trans('cms.last_name') !!}</label>
                                         <div class="controls">
                                             {!! $user->last_name !!}
                                         </div>
                                     </div>
 
                                     <div class="control-group {!! $errors->has('photo') ? 'error' : '' !!}">
-                                        <label class="control-label">Profile Photo</label>
+                                        <label class="control-label">{!! trans('cms.profile') !!} Photo</label>
                                         <div class="controls">
                                             {!! HTML::image($user->photo) !!}
                                         </div>
                                     </div>
 
                                     <div class="control-group">
-                                        <label class="control-label">User Group</label>
+                                        <label class="control-label">{!! trans('cms.user_group') !!}</label>
                                         <div class="controls">
                                             {!! Sentry::findGroupById(User::user_group($user))->name !!}
                                         </div>
                                     </div>
                                     @if (Request::is('*profile*'))
                                         <div class="form-actions">
-                                            <a href="{!! url("$link_type/profile/edit") !!}" class="btn btn-primary">Edit Profile</a>
+                                            <a href="{!! url("$link_type/profile/edit") !!}" class="btn btn-primary">{!! trans('cms.edit') !!} {!! trans('cms.profile') !!}</a>
                                         </div>
                                     @endif
                                 </form>

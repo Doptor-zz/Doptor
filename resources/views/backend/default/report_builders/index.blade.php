@@ -4,7 +4,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-table"></i>All {!! str_plural(trans('cms.report_builder')) !!}</h4>
+                    <h4><i class="icon-table"></i>{!! str_plural(trans('cms.report_builder')) !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -17,7 +17,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('report-builder.create'))
                                 <a href="{!! URL::to($link_type . '/report-builder/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                 </a>
                             @endif
                         </div>
@@ -25,13 +25,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Version</th>
-                                <th>Author</th>
-                                <th>Website</th>
-                                <th>Download</th>
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.version') !!}</th>
+                                <th>{!! trans('cms.author') !!}</th>
+                                <th>{!! trans('cms.website') !!}</th>
+                                <th>{!! trans('cms.download') !!}</th>
                                 <th>{!! trans('cms.created_at') !!}</th>
-                                <!-- <th class="span2">Edit</th> -->
+                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -42,7 +42,7 @@
                                     <td>{!! $report->version !!}</td>
                                     <td>{!! $report->author !!}</td>
                                     <td>{!! $report->website !!}</td>
-                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), 'Download') !!}</th>
+                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), trans('cms.download')) !!}</th>
                                     <td>{!! $report->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('report-builder.edit'))

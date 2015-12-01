@@ -9,8 +9,8 @@
                 <div class="widget-body">
                     <form class="form-horizontal">
                         <ul class="nav nav-tabs">
-                           <li class="active"><a href="#tab_1_1" data-toggle="tab">Contact Details</a></li>
-                           <li><a href="#tab_1_2" data-toggle="tab">Recent Emails</a></li>
+                           <li class="active"><a href="#tab_1_1" data-toggle="tab">{!! trans('cms.contact') !!} Details</a></li>
+                           <li><a href="#tab_1_2" data-toggle="tab">Recent {!! trans('cms.email') !!}s</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1_1">
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Updated At</label>
+                                    <label class="control-label">{!! trans('cms.updated_at') !!}</label>
                                     <div class="controls">
                                         {!! $contact->updated_at !!}
                                     </div>
@@ -44,10 +44,10 @@
                                     <thead>
                                         <tr>
                                             <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                            <th>Sender Name</th>
-                                            <th>Sender Email</th>
-                                            <th>Subject</th>
-                                            <th>Message</th>
+                                            <th>{!! trans('cms.sender') !!} {!! trans('cms.name') !!}</th>
+                                            <th>{!! trans('cms.sender') !!} {!! trans('cms.email') !!}</th>
+                                            <th>{!! trans('cms.subject') !!}</th>
+                                            <th>{!! trans('cms.message') !!}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

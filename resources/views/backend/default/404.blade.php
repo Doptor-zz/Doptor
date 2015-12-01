@@ -14,10 +14,9 @@
                     404
                 </div>
                 <div class="span7 details">
-                    <h3>Opps, You're lost.</h3>
+                    <h3>{!! trans('errors.404.message') !!}</h3>
                     <p>
-                        We can not find the page you're looking for.<br />
-                        Is there a typo in the url?
+                        {!! trans('errors.404.sub_message') !!}
                     </p>
                 </div>
             </div>

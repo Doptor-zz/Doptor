@@ -20,18 +20,18 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           {!! trans('cms.form_errors') !!}
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
                                     <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
-                                        <label class="control-label">Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                        <label class="control-label">{!! trans('cms.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('password_confirmation') ? 'error' : '' !!}">
-                                        <label class="control-label">Confirm Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                        <label class="control-label">{!! trans('cms.confirm') !!} {!! trans('cms.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password_confirmation', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password_confirmation', '<span class="help-inline">:message</span>') !!}
@@ -40,7 +40,7 @@
 
                                     <br>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('cms.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

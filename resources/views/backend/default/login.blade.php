@@ -2,7 +2,7 @@
     @if ($errors->any())
         <div class="alert alert-error">
             <button class="close" data-dismiss="alert">×</button>
-            <strong>Error!</strong><br> {!! implode('<br>', $errors->all()) !!}
+            <strong>{!! trans('cms.error') !!}</strong><br> {!! implode('<br>', $errors->all()) !!}
         </div>
     @endif
     <!-- BEGIN LOGIN FORM -->
@@ -39,12 +39,12 @@
 
     <!-- BEGIN FORGOT PASSWORD FORM -->
     {!! Form::open(array('url'=>'forgot_password', 'method'=>'POST', 'id'=>'forgotform', 'class'=>'form-vertical no-padding no-margin hide')) !!}
-        <p class="center">Enter your e-mail address below to reset your password.</p>
+        <p class="center">{!! trans('passwords.reset_pw_email') !!}</p>
         <div class="control-group">
             <div class="controls">
                 <div class="input-prepend">
                     <span class="add-on"><i class="icon-envelope"></i></span>
-                    <input id="input-email" type="text" placeholder="Email" name="email" />
+                    <input id="input-email" type="text" placeholder="{!! trans('cms.email') !!}" name="email" />
                 </div>
             </div>
             <div class="space10"></div>

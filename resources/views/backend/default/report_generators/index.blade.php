@@ -10,7 +10,7 @@
                             @if ($current_user->hasAccess('report-generators.create'))
                                 <div class="btn-group pull-right">
                                     <a href="{!! URL::to($link_type . '/report-generators/create') !!}" class="btn btn-success">
-                                        Install New Report Generator <i class="icon-plus"></i>
+                                        {!! trans('cms.install_new') !!} <i class="icon-plus"></i>
                                     </a>
                                 </div>
                             @endif
@@ -29,7 +29,7 @@
                             <div class="btn-group pull-right">
                                 @if ($current_user->hasAccess('report-generators.create'))
                                     <button data-href="{!! URL::to($link_type . '/report-generators/install') !!}" class="btn btn-success">
-                                        Install New Module <i class="icon-plus"></i>
+                                        {!! trans('cms.install_new') !!} <i class="icon-plus"></i>
                                     </button>
                                 @endif
                             </div>
@@ -38,13 +38,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>For Module Name</th>
-                                <th>Version</th>
-                                <th>Author</th>
-                                <th>Website</th>
-                                <th class="span3">Installed At</th>
-                                <!-- <th class="span2">Edit</th> -->
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.for_module') !!}</th>
+                                <th>{!! trans('cms.version') !!}</th>
+                                <th>{!! trans('cms.author') !!}</th>
+                                <th>{!! trans('cms.website') !!}</th>
+                                <th class="span3">{!! trans('cms.installed_at') !!}</th>
+                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>

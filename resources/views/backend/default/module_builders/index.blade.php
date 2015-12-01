@@ -17,7 +17,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('module-builder.create'))
                                 <button data-href="{!! URL::to($link_type . '/module-builder/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -33,7 +33,7 @@
                                 <th>{!! trans('modules.table_names') !!}</th>
                                 <th>{!! trans('modules.download') !!}</th>
                                 <th>{!! trans('cms.created_at') !!}</th>
-                                <!-- <th class="span2">Edit</th> -->
+                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -48,17 +48,17 @@
                                         @foreach ($module->forms() as $module_form)
                                             {!! $module_form->name !!}
                                             @if ($current_user->hasAccess('form-builder.edit'))
-                                            <a href="{!! URL::to($link_type . '/form-builder/' . $module_form->id . '/edit') !!}" class="btn btn-mini" title="Edit Form"><i class="icon-edit"></i></a>
+                                            <a href="{!! URL::to($link_type . '/form-builder/' . $module_form->id . '/edit') !!}" class="btn btn-mini" title="{!! trans('cms.edit') !!} Form"><i class="icon-edit"></i></a>
                                             @endif
                                             <br>
                                         @endforeach
                                     </td>
                                     <td>{!! $module->tables() !!}</td>
-                                    <th>{!! HTML::link(url($link_type . '/module-builder/download/'.$module->id), 'Download') !!}</th>
+                                    <th>{!! HTML::link(url($link_type . '/module-builder/download/'.$module->id), '{!! trans('cms.download') !!}') !!}</th>
                                     <td>{!! $module->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('module-builder.edit'))
-                                        <a href="{!! URL::to($link_type . '/module-builder/' . $module->id . '/edit') !!}" class="btn btn-mini" title="Edit Module"><i class="icon-edit"></i></a>
+                                        <a href="{!! URL::to($link_type . '/module-builder/' . $module->id . '/edit') !!}" class="btn btn-mini" title="{!! trans('cms.edit') !!} Module"><i class="icon-edit"></i></a>
                                         @endif
 
                                         @if ($current_user->hasAccess('module-builder.destroy'))

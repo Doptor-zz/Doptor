@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("theme-manager.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/theme-manager/create') !!}" class="btn btn-success">
-                                Install New <i class="icon-plus"></i>
+                                {!! trans('cms.install_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif
@@ -49,12 +49,12 @@
                         <thead>
                             <tr>
                                 <th class="span1"></th>
-                                <th>Name</th>
-                                <th>Screenshot</th>
-                                <th>Author</th>
-                                <th>Version</th>
-                                <th>Description</th>
-                                <th>Target</th>
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.screenshot') !!}</th>
+                                <th>{!! trans('cms.author') !!}</th>
+                                <th>{!! trans('cms.version') !!}</th>
+                                <th>{!! trans('cms.description') !!}</th>
+                                <th>{!! trans('cms.target') !!}</th>
                                 <th>{!! trans('cms.status') !!}</th>
                                 <th class="span2"></th>
                             </tr>
@@ -84,7 +84,7 @@
                                                     {{-- Show the apply theme button, only if the theme is not already applied --}}
                                                     @if ($current_user->hasAccess("theme-manager.apply"))
                                                     <li>
-                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return applyTheme($(this));")) !!}
+                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return apply{!! trans('cms.theme') !!}($(this));")) !!}
                                                             <button type="submit" class=""> Apply</button>
                                                         {!! Form::close() !!}
                                                     </li>
@@ -130,7 +130,7 @@
             $('#selected_ids').val('');
         });
 
-        function applyTheme(th) {
+        function apply{!! trans('cms.theme') !!}(th) {
             doInstall = confirm("Are you sure you want to apply the selected theme ?");
             if (!doInstall) {
                 // If cancel is selected, do nothing

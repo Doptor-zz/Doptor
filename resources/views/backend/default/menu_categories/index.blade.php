@@ -10,7 +10,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i>Menu Categories</h4>
+                    <h4><i class="icon-th-list"></i>Menu {!! trans('cms.categories') !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-categories.create'))
                             <button data-href="{!! URL::to($link_type . '/menu-categories/create') !!}" class="btn btn-success">
-                                {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                             </button>
                             @endif
                         </div>
@@ -31,8 +31,8 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Description</th>
+                                <th>{!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.description') !!}</th>
                                 <th class="span3">{!! trans('cms.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>

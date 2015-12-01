@@ -1,6 +1,6 @@
 @section('styles')
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link rel="stylesheet" href="{!! URL::to('assets/backend/default/plugins/data-tables/DT_bootstrap.css') !!}" />
+    {!! HTML::style('assets/backend/default/plugins/data-tables/DT_bootstrap.css') !!}
     <!-- END PAGE LEVEL STYLES -->
 @stop
 
@@ -34,7 +34,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('users.create'))
                                 <button data-href="{!! URL::to($link_type . '/users/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.add_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -43,9 +43,9 @@
                         <thead>
                             <tr>
                                 <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>User Group</th>
+                                <th>{!! trans('cms.username') !!}</th>
+                                <th>Full {!! trans('cms.name') !!}</th>
+                                <th>{!! trans('cms.user_group') !!}</th>
                                 <th>{!! trans('cms.status') !!}</th>
                                 <th>{!! trans('cms.created_at') !!}</th>
                                 <th></th>
@@ -75,11 +75,11 @@
                                                 <li>
                                                     @if (User::isBanned($user->id))
                                                     {!! Form::open(array('route' => array($link_type . '.users.activate', $user->id), 'method' => 'post', 'class'=>'inline')) !!}
-                                                        <button type="submit" class=""> Activate</button>
+                                                        <button type="submit" class=""> {!! trans('cms.activate') !!}</button>
                                                     {!! Form::close() !!}
                                                     @else
                                                     {!! Form::open(array('route' => array($link_type . '.users.deactivate', $user->id), 'method' => 'post', 'class'=>'inline')) !!}
-                                                        <button type="submit" class=""> Deactivate</button>
+                                                        <button type="submit" class=""> {!! trans('cms.deactivate') !!}</button>
                                                     {!! Form::close() !!}
                                                     @endif
                                                 </li>

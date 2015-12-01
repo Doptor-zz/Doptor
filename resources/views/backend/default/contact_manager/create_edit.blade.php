@@ -20,7 +20,7 @@
                         @if ($errors->has())
                              <div class="alert alert-error hide" style="display: block;">
                                <button data-dismiss="alert" class="close">×</button>
-                               {!! trans('cms.form_errors') !!}
+                               {!! trans('errors.form_errors') !!}
                             </div>
                         @endif
                         <!-- BEGIN FORM-->

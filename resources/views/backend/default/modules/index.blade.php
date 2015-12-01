@@ -46,7 +46,7 @@
                                 <th>{!! trans('modules.table_in_db') !!}</th>
                                 <th>{!! trans('modules.enabled') !!}</th>
                                 <th class="span3">{!! trans('modules.installed_at') !!}</th>
-                                <!-- <th class="span2">Edit</th> -->
+                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -71,7 +71,7 @@
                                     <td>{!! ($module->enabled) ? 'Yes' : 'No' !!}</td>
                                     <td>{!! $module->created_at !!}</td>
                                     <!-- <td>
-                                        <a href="{!! URL::to($link_type . '/modules/' . $module->id . '/edit') !!}" class="btn btn-mini"><i class="icon-edit"></i> Full Edit</a>
+                                        <a href="{!! URL::to($link_type . '/modules/' . $module->id . '/edit') !!}" class="btn btn-mini"><i class="icon-edit"></i> Full {!! trans('cms.edit') !!}</a>
                                     </td> -->
                                     <td>
                                         <div class="actions inline">
