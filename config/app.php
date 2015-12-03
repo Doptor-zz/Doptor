@@ -154,6 +154,7 @@ return [
         'Menu\MenuServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
         'Mews\Captcha\CaptchaServiceProvider',
+        'Barryvdh\TranslationManager\ManagerServiceProvider',
 
     ],
 
