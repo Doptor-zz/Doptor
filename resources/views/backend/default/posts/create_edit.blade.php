@@ -90,7 +90,7 @@
                                     <div class="control-group {!! $errors->has('categories') ? 'error' : '' !!}">
                                         <label class="control-label">{!! trans('cms.category') !!}</label>
                                         <div class="controls line">
-                                            {!! Form::select('categories[]', {!! trans('cms.category') !!}::all_categories($type), (!isset($post)) ? Input::old('categories') : $post->selected_categories(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple')) !!}
+                                            {!! Form::select('categories[]', Category::all_categories($type), (!isset($post)) ? Input::old('categories') : $post->selected_categories(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple')) !!}
                                             {!! $errors->first('categories', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>

@@ -7,7 +7,7 @@ return [
     'login' => 'Login',
     'logout' => 'Log Out',
     'invalid_username_pw' => 'Invalid username or password',
-    'account_suspended' => 'Your account has beed suspended for :minutes minutes, please try again after :minutes minutes.',
+    'account_suspended' => 'Your account has been suspended for :minutes minutes, please try again after :minutes minutes.',
     'check_activation_email' => 'Check your email for account activation details.',
 
     'error' => 'Error!',

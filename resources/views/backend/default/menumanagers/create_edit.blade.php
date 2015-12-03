@@ -167,9 +167,9 @@
                                         <label class="control-label">Menu {!! trans('cms.category') !!} <i class="red">*</i></label>
                                         <div class="controls">
                                             @if (isset($menu))
-                                                {!!Form::select('category', Menu{!! trans('cms.category') !!}::lists('name', 'id'), $menu->category, array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a category')) !!}
+                                                {!!Form::select('category', MenuCategory::lists('name', 'id'), $menu->category, array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a category')) !!}
                                             @else
-                                                {!!Form::select('category', Menu{!! trans('cms.category') !!}::lists('name', 'id'), Input::old('category'), array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a category')) !!}
+                                                {!!Form::select('category', MenuCategory::lists('name', 'id'), Input::old('category'), array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a category')) !!}
                                             @endif
 
                                             {!! HTML::link("$link_type/menu-categories/create", "Add {!! trans('cms.category') !!}", array('class'=>'btn btn-mini mb-15')) !!}
