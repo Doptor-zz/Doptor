@@ -134,7 +134,7 @@
 
                                     @if (!Request::is('*profile*'))
                                         <div class="control-group {!! $errors->has('company_id[]') ? 'error' : '' !!}">
-                                            <label class="control-label">{!! trans('options.associated_companies') !!}</label>
+                                            <label class="control-label">{!! trans('form_messages.associated_companies') !!}</label>
                                             <div class="controls">
                                             {!! Form::select('company_id[]', $companies, (!isset($user)) ? Input::old('company_id[]') : $user->company_id, array('multiple', 'class'=>'chosen input-xlarge')) !!}
                                                 {!! $errors->first('company_id', '<span class="help-inline">:message</span>') !!}
@@ -174,7 +174,7 @@
                                         <div class="controls">
                                             {{-- Form::file('photo', array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('photo') !!}
-                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('options.select_image') !!}</a>
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('form_messages.select_image') !!}</a>
                                             <span class="file-name">
                                                 {!! $user->photo or '' !!}
                                             </span>

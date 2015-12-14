@@ -28,7 +28,7 @@
                                 <label class="control-label">{!! trans('config.website_logo') !!}</label>
                                 <div class="controls">
                                     {!! Form::hidden('website_logo') !!}
-                                    <a class="btn btn-primary insert-media" id="insert-main-image" href="#">{!! trans('config.select_image') !!}</a>
+                                    <a class="btn btn-primary insert-media" id="insert-main-image" href="#">{!! trans('form_messages.select_image') !!}</a>
                                     <span class="file-name">
                                         {!! Setting::value('website_logo') !!}
                                     </span>

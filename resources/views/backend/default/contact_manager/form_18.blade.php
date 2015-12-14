@@ -9,7 +9,7 @@
 
 <ul class="nav nav-tabs">
    <li class="active"><a href="#tab_1_1" data-toggle="tab">{!! trans('fields.contact') !!} {!! trans('fields.details') !!}</a></li>
-   <li><a href="#tab_1_2" data-toggle="tab">{!! trans('options.display_options') !!}</a></li>
+   <li><a href="#tab_1_2" data-toggle="tab">{!! trans('form_messages.display_options') !!}</a></li>
 </ul>
 <div class="tab-content">
    <div class="tab-pane active" id="tab_1_1">
@@ -28,7 +28,7 @@
                 <label class="control-label" for="alias">{!! trans('fields.alias') !!}</label>
                 <div class="controls">
                     {!! Form::text('alias', (isset($entry) ? $entry->alias : Input::old('alias')), array('id'=>'alias', 'class'=>'input-xlarge')) !!}
-                    <div class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</div>
+                    <div class="help-inline">{!! trans('form_messages.blank_for_automatic_alias') !!}</div>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@
                 <label class="control-label" for="image">{!! trans('fields.image') !!}</label>
                 <div class="controls">
                     {!! Form::hidden('image') !!}
-                    <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('options.select_image') !!}</a>
+                    <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('form_messages.select_image') !!}</a>
                     <span class="file-name">
                         {!! $entry->image or '' !!}
                     </span>
@@ -106,7 +106,7 @@
                     <input type="hidden" name="location-lat" id="location-lat">
                     <input type="hidden" name="location-lon" id="location-lon">
                     <input type="hidden" name="location-name" id="location-name">
-                    <button href="#map-selection" data-toggle="modal" class="demo btn btn-primary">{!! trans('options.select_location') !!}</button>
+                    <button href="#map-selection" data-toggle="modal" class="demo btn btn-primary">{!! trans('form_messages.select_location') !!}</button>
                     <span id="location-coordinates">
                         {!! $entry->location['latitude'] or '' !!},
                         {!! $entry->location['longitude'] or '' !!}
@@ -156,7 +156,7 @@
     <div id="map-selection" class="modal hide fade" tabindex="-1" data-width="760" data-keyboard="false">
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>{!! trans('options.select_location') !!}</h3>
+        <h3>{!! trans('form_messages.select_location') !!}</h3>
         </div>
         <div class="modal-body">
             <div class="control-group hide">

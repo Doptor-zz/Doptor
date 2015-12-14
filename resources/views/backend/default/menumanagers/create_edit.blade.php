@@ -51,7 +51,7 @@
                                         <label class="control-label">{!! trans('fields.alias') !!} </label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($menu)) ? Input::old('alias') : $menu->alias, array('class' => 'input-xlarge'))!!}
-                                            <span class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</span>
+                                            <span class="help-inline">{!! trans('form_messages.blank_for_automatic_alias') !!}</span>
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                         <div class="controls">
                                             {{-- Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('icon') !!}
-                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('options.select_image') !!}</a>
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('form_messages.select_image') !!}</a>
                                             <span class="file-name">
                                                 {!! $menu->icon or '' !!}
                                             </span>

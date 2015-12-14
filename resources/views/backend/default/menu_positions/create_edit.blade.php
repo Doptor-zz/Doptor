@@ -44,7 +44,7 @@
                                         <label class="control-label">{!! trans('fields.alias') !!} </label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($menu_position)) ? Input::old('alias') : $menu_position->alias, array('class' => 'input-xlarge')) !!}
-                                            <span class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</span>
+                                            <span class="help-inline">{!! trans('form_messages.blank_for_automatic_alias') !!}</span>
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>

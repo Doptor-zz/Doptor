@@ -20,14 +20,14 @@
                         @endif
 
                         <div class="control-group">
-                           <label class="control-label">{!! trans('options.select_report_generator') !!}</label>
+                           <label class="control-label">{!! trans('form_messages.select_report_generator') !!}</label>
                            <div class="controls">
                               <input type="file" class="default" name="file" />
                            </div>
                         </div>
 
                         <div class="control-group">
-                           <label class="control-label">{!! trans('options.replace_existing') !!}</label>
+                           <label class="control-label">{!! trans('form_messages.replace_existing') !!}</label>
                            <div class="controls">
                                 {!! Form::hidden('replace_existing', false) !!}
                                 {!! Form::checkbox('replace_existing', true, Input::old('replace_existing', true)) !!}

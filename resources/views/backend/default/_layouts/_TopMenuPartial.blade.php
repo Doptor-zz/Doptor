@@ -17,7 +17,7 @@
                 </a>
             </li>
             <li class="divider"></li>
-            <li><a href="{!! url('logout') !!}"><i class="icon-key"></i> {!! trans('cms.logout') !!}</a></li>
+            <li><a href="{!! url('logout') !!}"><i class="icon-key"></i> {!! trans('users.logout') !!}</a></li>
         </ul>
     </li>
     <!-- END USER LOGIN DROPDOWN -->

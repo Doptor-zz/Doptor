@@ -39,13 +39,13 @@
                         <thead>
                             <tr>
                                 <th>{!! trans('fields.name') !!}</th>
-                                <th>{!! trans('modules.links') !!}</th>
+                                <th>{!! trans('fields.links') !!}</th>
                                 <th>{!! trans('fields.version') !!}</th>
                                 <th>{!! trans('fields.author') !!}</th>
                                 <th>{!! trans('fields.website') !!}</th>
-                                <th>{!! trans('modules.table_in_db') !!}</th>
-                                <th>{!! trans('modules.enabled') !!}</th>
-                                <th class="span3">{!! trans('modules.installed_at') !!}</th>
+                                <th>{!! trans('fields.table_in_db') !!}</th>
+                                <th>{!! trans('fields.enabled') !!}</th>
+                                <th class="span3">{!! trans('fields.installed_at') !!}</th>
                                 <!-- <th class="span2">{!! trans('options.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>

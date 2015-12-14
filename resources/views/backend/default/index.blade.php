@@ -148,10 +148,10 @@
 
                     <ul class="board-sub">
                         @if (can_access_menu($current_user, array('form-categories')))
-                            <li><a href="{!! URL::to('backend/form-categories') !!}">{!! trans('fields.form_categories') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/form-categories') !!}">{!! trans('cms.form_categories') !!}</a></li>
                         @endif
                         @if (can_access_menu($current_user, array('form-builder')))
-                            <li><a href="{!! URL::to('backend/form-builder') !!}">{!! trans('fields.form_builder') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/form-builder') !!}">{!! trans('cms.form_builder') !!}</a></li>
                         @endif
                         @if (can_access_menu($current_user, array('module-builder')))
                             <li><a href="{!! URL::to('backend/module-builder') !!}">{!! trans('cms.module_builder') !!}</a></li>

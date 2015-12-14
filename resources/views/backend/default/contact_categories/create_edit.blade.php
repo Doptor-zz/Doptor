@@ -48,7 +48,7 @@
                                         <label class="control-label">{!! trans('fields.alias') !!}</label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($contact_cat)) ? Input::old('alias') : $contact_cat->alias, array('class' => 'input-xlarge'))!!}
-                                            <div class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</div>
+                                            <div class="help-inline">{!! trans('form_messages.blank_for_automatic_alias') !!}</div>
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>

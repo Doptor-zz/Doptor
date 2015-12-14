@@ -61,13 +61,13 @@
                                 @if (!isset($media_entry))
                                     {!! Form::open(array('route'=>$link_type . '.media-manager.store', 'method'=>'POST', 'class'=>'dropzone form-horizontal')) !!}
                                     <div class="control-group {!! $errors->has('folder') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('options.current_folder') !!}</label>
+                                        <label class="control-label">{!! trans('form_messages.current_folder') !!}</label>
                                         <div class="controls">
                                             {!! Form::text('folder', $base_dir, array('class' => 'input-xlarge', 'disabled') ) !!}
                                             <a href="#" class="btn btn-mini" id="up-folder" title="Go up one directory"><i class="icon-arrow-up"></i></a>
                                             <a href="#" class="btn btn-mini" id="reload-folder" title="Reload Folder"><i class="icon-refresh"></i></a>
                                             {!! HTML::link("#create-folder", "Create Folder", array('class'=>'btn btn-mini', 'role'=>'button', 'data-toggle'=>'modal')) !!}
-                                            <span class="help-inline">{!! trans('options.drop_to_upload') !!}</span>
+                                            <span class="help-inline">{!! trans('form_messages.drop_to_upload') !!}</span>
                                         </div>
                                     </div>
                                     <ul class="media-manager">
@@ -88,7 +88,7 @@
                                             <label class="control-label">{!! trans('fields.folder') !!} {!! trans('fields.name') !!}</label>
                                             <div class="controls">
                                                 {!! Form::text('folder_name', '') !!}
-                                                <span class="help-inline">{!! trans('options.no_spaces_in_folder') !!}</span>
+                                                <span class="help-inline">{!! trans('form_messages.no_spaces_in_folder') !!}</span>
                                             </div>
                                         </div>
                                         </div>

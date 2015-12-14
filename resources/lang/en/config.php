@@ -33,7 +33,6 @@ return [
     'email_encryption'        => 'Email Encryption',
     'email_username'          => 'Email Username',
     'email_password'          => 'Email Password',
-    'select_image'            => 'Select image',
     'offline_leave_blank'     => 'Leave blank to set offline until specified otherwise',
     'time_in_min'             => 'Time in minutes. Leave blank or set 0 to use default time.',
     'separate_address'        => 'Optional. Separate addresses with a space',

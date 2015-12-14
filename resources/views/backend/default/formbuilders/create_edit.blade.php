@@ -9,7 +9,7 @@
     <div class="row-fluid clearfix">
         <!-- Building Form. -->
         <div class="span6">
-            <div class="widget box blue clearfix">
+            <div class="widsget box blue clearfix">
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('options.redirect_to_after_saving') !!}</label>
+                            <label class="control-label">{!! trans('form_messages.redirect_to_after_saving') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('options.show_captcha') !!}</label>
+                            <label class="control-label">{!! trans('form_messages.show_captcha') !!}</label>
                             <div class="controls line">
                                 {!! Form::checkbox('show_captcha', 'checked', (!isset($form)) ? Input::old('show_captcha') : $form->show_captcha, array('class'=>'span6 m-wrap')) !!}
                                 {!! $errors->first('show_captcha', '<span class="help-inline">:message</span>') !!}
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('extra_code') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('options.extra_code') !!}</label>
+                            <label class="control-label">{!! trans('form_messages.extra_code') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -98,7 +98,7 @@
                                 <textarea name="extra_code" rows="3" class="input-xlarge"></textarea>
                                 @endif
 
-                                <span class="help-inline">{!! trans('options.write_extra_code') !!}</span>
+                                <span class="help-inline">{!! trans('form_messages.write_extra_code') !!}</span>
 
                                 {!! $errors->first('extra_code', '<span class="help-inline">:message</span>') !!}
 
@@ -106,7 +106,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('options.send_to') !!} {!! trans('fields.email') !!}</label>
+                            <label class="control-label">{!! trans('form_messages.send_to') !!} {!! trans('fields.email') !!}</label>
                             <div class="controls">
                                 {!! Form::text('email', isset($form) ? $form->email : Input::old('email')) !!}
 
@@ -141,7 +141,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
-                        <span class="hidden-480">{!! trans('options.drag_drop_components') !!}</span>
+                        <span class="hidden-480">{!! trans('form_messages.drag_drop_components') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
