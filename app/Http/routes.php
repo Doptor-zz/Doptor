@@ -79,6 +79,7 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
 
     Route::any('/', 'Backend\HomeController@getIndex');
     Route::get('change_language/{lang}', 'Backend\HomeController@getChangeLang');
+    Route::get('datatableLangfile', 'Backend\HomeController@getDatatableLangfile');
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 
@@ -188,6 +189,7 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
         Route::any('/', 'Backend\HomeController@getIndex');
     }
 
+    Route::get('datatableLangfile', 'Backend\HomeController@getDatatableLangfile');
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 

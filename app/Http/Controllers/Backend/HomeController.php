@@ -97,4 +97,15 @@ class HomeController extends AdminController {
         return Redirect::to($this->link_type)
                             ->with('success_message', 'The language was changed.');
     }
+
+    /**
+     * Get the language file for the datatable
+     * @return [type] [description]
+     */
+    public function getDatatableLangfile()
+    {
+        $translation= \Lang::get('datatable');
+
+        return json_encode($translation);
+    }
 }

@@ -35,6 +35,7 @@ class BaseController extends Controller {
 
         $locale = Setting::value('language');
         App::setLocale($locale);
+        Lang::setLocale($locale);
 
         $this->user = current_user();
 
