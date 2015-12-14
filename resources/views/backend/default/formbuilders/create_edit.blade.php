@@ -13,7 +13,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
-                        <span class="hidden-480">{!! trans('cms.form') !!}</span>
+                        <span class="hidden-480">{!! trans('fields.form') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -33,7 +33,7 @@
                         @endif
 
                         <div class="control-group {!! $errors->has('category') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.form') !!} {!! trans('cms.category') !!} <span class="red">*</span></label>
+                            <label class="control-label">{!! trans('fields.form') !!} {!! trans('cms.category') !!} <span class="red">*</span></label>
                             <div class="controls">
 
                                 {!! Form::hidden('name', '', array('id'=>'form-name')) !!}
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.form') !!} {!! trans('cms.description') !!}</label>
+                            <label class="control-label">{!! trans('fields.form') !!} {!! trans('fields.description') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.redirect_to_after_saving') !!}</label>
+                            <label class="control-label">{!! trans('options.redirect_to_after_saving') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.show_captcha') !!}</label>
+                            <label class="control-label">{!! trans('options.show_captcha') !!}</label>
                             <div class="controls line">
                                 {!! Form::checkbox('show_captcha', 'checked', (!isset($form)) ? Input::old('show_captcha') : $form->show_captcha, array('class'=>'span6 m-wrap')) !!}
                                 {!! $errors->first('show_captcha', '<span class="help-inline">:message</span>') !!}
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('extra_code') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.extra_code') !!}</label>
+                            <label class="control-label">{!! trans('options.extra_code') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -98,7 +98,7 @@
                                 <textarea name="extra_code" rows="3" class="input-xlarge"></textarea>
                                 @endif
 
-                                <span class="help-inline">{!! trans('cms.write_extra_code') !!}</span>
+                                <span class="help-inline">{!! trans('options.write_extra_code') !!}</span>
 
                                 {!! $errors->first('extra_code', '<span class="help-inline">:message</span>') !!}
 
@@ -106,7 +106,7 @@
                         </div>
 
                         <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
-                            <label class="control-label">{!! trans('cms.send_to') !!} {!! trans('cms.email') !!}</label>
+                            <label class="control-label">{!! trans('options.send_to') !!} {!! trans('fields.email') !!}</label>
                             <div class="controls">
                                 {!! Form::text('email', isset($form) ? $form->email : Input::old('email')) !!}
 
@@ -122,7 +122,7 @@
                         @endif
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">{!! trans('cms.save') !!} Form</button>
+                            <button type="submit" class="btn btn-primary">{!! trans('options.save') !!} Form</button>
                         </div>
 
                     {!! Form::close() !!}
@@ -141,7 +141,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
-                        <span class="hidden-480">{!! trans('cms.drag_drop_components') !!}</span>
+                        <span class="hidden-480">{!! trans('options.drag_drop_components') !!}</span>
                         &nbsp;
                     </h4>
                 </div>

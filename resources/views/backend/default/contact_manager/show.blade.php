@@ -9,8 +9,8 @@
                 <div class="widget-body">
                     <form class="form-horizontal">
                         <ul class="nav nav-tabs">
-                           <li class="active"><a href="#tab_1_1" data-toggle="tab">{!! trans('cms.contact') !!} Details</a></li>
-                           <li><a href="#tab_1_2" data-toggle="tab">Recent {!! trans('cms.email') !!}s</a></li>
+                           <li class="active"><a href="#tab_1_1" data-toggle="tab">{!! trans('fields.contact') !!} Details</a></li>
+                           <li><a href="#tab_1_2" data-toggle="tab">Recent {!! trans('fields.email') !!}s</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1_1">
@@ -27,13 +27,13 @@
                                     </div>
                                 @endfor
                                 <div class="control-group">
-                                    <label class="control-label">{!! trans('cms.created_at') !!}</label>
+                                    <label class="control-label">{!! trans('options.created_at') !!}</label>
                                     <div class="controls">
                                         {!! $contact->created_at !!}
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">{!! trans('cms.updated_at') !!}</label>
+                                    <label class="control-label">{!! trans('options.updated_at') !!}</label>
                                     <div class="controls">
                                         {!! $contact->updated_at !!}
                                     </div>
@@ -44,10 +44,10 @@
                                     <thead>
                                         <tr>
                                             <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                            <th>{!! trans('cms.sender') !!} {!! trans('cms.name') !!}</th>
-                                            <th>{!! trans('cms.sender') !!} {!! trans('cms.email') !!}</th>
-                                            <th>{!! trans('cms.subject') !!}</th>
-                                            <th>{!! trans('cms.message') !!}</th>
+                                            <th>{!! trans('fields.sender') !!} {!! trans('fields.name') !!}</th>
+                                            <th>{!! trans('fields.sender') !!} {!! trans('fields.email') !!}</th>
+                                            <th>{!! trans('fields.subject') !!}</th>
+                                            <th>{!! trans('fields.message') !!}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

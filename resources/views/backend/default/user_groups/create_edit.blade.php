@@ -17,9 +17,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($user_group))
-                            <span class="hidden-480">{!! trans('cms.create_new') !!} {!! trans('cms.user_group') !!}</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} {!! trans('cms.user_group') !!}</span>
                         @else
-                            <span class="hidden-480">{!! trans('cms.edit') !!} {!! trans('cms.user_group') !!} Information</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('cms.user_group') !!} Information</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -44,7 +44,7 @@
 
 
                                     <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.name') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.name') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($user_group)) ? Input::old('name') : $user_group->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
@@ -92,17 +92,17 @@
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.create'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.create" {!! (isset($user_group->permissions[$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('cms.create_new') !!} Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.create" {!! (isset($user_group->permissions[$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('options.create_new') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.edit'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.edit" {!! (isset($user_group->permissions[$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('cms.edit') !!} Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.edit" {!! (isset($user_group->permissions[$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('options.edit') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.destroy'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('cms.delete') !!} Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('options.delete') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
@@ -152,17 +152,17 @@
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.create'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.create" {!! (isset($user_group->permissions['modules.'.$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('cms.create_new') !!} Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.create" {!! (isset($user_group->permissions['modules.'.$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('options.create_new') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.edit'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.edit" {!! (isset($user_group->permissions['modules.'.$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('cms.edit') !!} Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.edit" {!! (isset($user_group->permissions['modules.'.$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('options.edit') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.destroy'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('cms.delete') !!} Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('options.delete') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
@@ -182,7 +182,7 @@
                                  </div>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('cms.save') !!}</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

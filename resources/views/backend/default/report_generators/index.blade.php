@@ -10,7 +10,7 @@
                             @if ($current_user->hasAccess('report-generators.create'))
                                 <div class="btn-group pull-right">
                                     <a href="{!! URL::to($link_type . '/report-generators/create') !!}" class="btn btn-success">
-                                        {!! trans('cms.install_new') !!} <i class="icon-plus"></i>
+                                        {!! trans('options.install_new') !!} <i class="icon-plus"></i>
                                     </a>
                                 </div>
                             @endif
@@ -29,7 +29,7 @@
                             <div class="btn-group pull-right">
                                 @if ($current_user->hasAccess('report-generators.create'))
                                     <button data-href="{!! URL::to($link_type . '/report-generators/install') !!}" class="btn btn-success">
-                                        {!! trans('cms.install_new') !!} <i class="icon-plus"></i>
+                                        {!! trans('options.install_new') !!} <i class="icon-plus"></i>
                                     </button>
                                 @endif
                             </div>
@@ -38,13 +38,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>{!! trans('cms.name') !!}</th>
-                                <th>{!! trans('cms.for_module') !!}</th>
-                                <th>{!! trans('cms.version') !!}</th>
-                                <th>{!! trans('cms.author') !!}</th>
-                                <th>{!! trans('cms.website') !!}</th>
-                                <th class="span3">{!! trans('cms.installed_at') !!}</th>
-                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('options.for_module') !!}</th>
+                                <th>{!! trans('fields.version') !!}</th>
+                                <th>{!! trans('fields.author') !!}</th>
+                                <th>{!! trans('fields.website') !!}</th>
+                                <th class="span3">{!! trans('options.installed_at') !!}</th>
+                                <!-- <th class="span2">{!! trans('options.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -60,13 +60,13 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('report-generators.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.report-generators.destroy', $generator->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'report generator');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

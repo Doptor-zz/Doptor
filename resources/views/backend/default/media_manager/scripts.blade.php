@@ -79,7 +79,7 @@
             for (var i = 0; i < data.files.length; i++) {
                 file_name = data.files[i].match(/[^\/\\]+$/)[0];
                 @if ($current_user->hasAccess('media-manager.destroy'))
-                    delete_file = '<a href="#" class="delete-file" data-file="'+$dir+'/'+file_name+'">{!! trans('cms.delete') !!}</a>';
+                    delete_file = '<a href="#" class="delete-file" data-file="'+$dir+'/'+file_name+'">{!! trans('options.delete') !!}</a>';
                 @else
                     delete_file = '';
                 @endif

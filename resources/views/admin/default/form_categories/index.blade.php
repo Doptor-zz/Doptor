@@ -4,7 +4,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i>{!! trans('cms.form_categories') !!}</h4>
+                    <h4><i class="icon-th-list"></i>{!! trans('fields.form_categories') !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>

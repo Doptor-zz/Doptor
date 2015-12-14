@@ -24,7 +24,7 @@
                     @endif
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.name') !!}</label>
+                            <label class="control-label">{!! trans('fields.name') !!}</label>
                             <div class="controls">
                                 {!! Form::text('name', (isset($report_builder)) ? $report_builder->name : Input::old('name')) !!}
                             </div>
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.report_fields_to_show') !!}<i class="red">*</i></label>
+                            <label class="control-label">{!! trans('options.report_fields_to_show') !!}<i class="red">*</i></label>
 
                             <div id="module_fields">
                                 <div class="controls line">
@@ -62,28 +62,28 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.author') !!}</label>
+                            <label class="control-label">{!! trans('fields.author') !!}</label>
                             <div class="controls">
                                 {!! Form::text('author', (isset($report_builder)) ? $report_builder->author : Input::old('author')) !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.version') !!}</label>
+                            <label class="control-label">{!! trans('fields.version') !!}</label>
                             <div class="controls">
                                 {!! Form::text('version', (isset($report_builder)) ? $report_builder->version : Input::old('version')) !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.website') !!}</label>
+                            <label class="control-label">{!! trans('fields.website') !!}</label>
                             <div class="controls">
                                 {!! Form::text('website', (isset($report_builder)) ? $report_builder->website : Input::old('website')) !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.show_calendars') !!}</label>
+                            <label class="control-label">{!! trans('options.show_calendars') !!}</label>
                             <div class="controls line">
                                 {!! Form::checkbox('show_calendars', 'checked', (isset($report_builder)) ? $report_builder->show_calendars : true) !!}
                                 {!! $errors->first('show_calendars', '<span class="help-inline">:message</span>') !!}
@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary" name="print-report">{!! trans('cms.build_report') !!}</button>
+                            <button type="submit" class="btn btn-primary" name="print-report">{!! trans('options.build_report') !!}</button>
                         </div>
 
                     {!! Form::close() !!}

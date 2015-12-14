@@ -12,9 +12,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($menu))
-                            <span class="hidden-480">{!! trans('cms.create_new') !!} Menu Entry</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} Menu Entry</span>
                         @else
-                            <span class="hidden-480">{!! trans('cms.edit') !!} Existing Menu Entry</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} Existing Menu Entry</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -48,10 +48,10 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('alias') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.alias') !!} </label>
+                                        <label class="control-label">{!! trans('fields.alias') !!} </label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($menu)) ? Input::old('alias') : $menu->alias, array('class' => 'input-xlarge'))!!}
-                                            <span class="help-inline">{!! trans('cms.blank_for_automatic_alias') !!}</span>
+                                            <span class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</span>
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                         <div class="controls">
                                             {{-- Form::file('icon', Input::old('icon'), array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('icon') !!}
-                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('cms.select_image') !!}</a>
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('options.select_image') !!}</a>
                                             <span class="file-name">
                                                 {!! $menu->icon or '' !!}
                                             </span>
@@ -120,7 +120,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('status') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.status') !!} <i class="red">*</i></label>
+                                        <label class="control-label">{!! trans('options.status') !!} <i class="red">*</i></label>
                                         <div class="controls line">
                                             {!! Form::select('status', Menu::all_status(), (!isset($menu)) ? Input::old('status') : $menu->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('status', '<span class="help-inline">:message</span>') !!}
@@ -137,7 +137,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('target') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.target') !!} <i class="red">*</i></label>
+                                        <label class="control-label">{!! trans('fields.target') !!} <i class="red">*</i></label>
                                         <div class="controls line">
                                             {!! Form::select('target', Menu::all_targets(), (!isset($menu)) ? Input::old('target') : $menu->target, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('target', '<span class="help-inline">:message</span>') !!}
@@ -224,7 +224,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('meta_description') ? 'error' : '' !!}">
-                                        <label class="control-label">Meta {!! trans('cms.description') !!}</label>
+                                        <label class="control-label">Meta {!! trans('fields.description') !!}</label>
                                         <div class="controls line">
                                            <textarea class="span12 m-wrap" name="meta_description" rows="3">{!! (!isset($menu)) ? Input::old('meta_description') : $menu->meta_description !!}</textarea>
                                            {!! $errors->first('meta_description', '<span class="help-inline">:message</span>') !!}
@@ -242,7 +242,7 @@
                                     <br>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('cms.save') !!}</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

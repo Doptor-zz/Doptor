@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                    <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("menu-manager.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.menu-manager.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'menu entrie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -40,7 +40,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-manager.create'))
                                 <button data-href="{!! URL::to($link_type . '/menu-manager/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -53,7 +53,7 @@
                                 <th>Parent Menu</th>
                                 <th>Title</th>
                                 <th>Link</th>
-                                <th>{!! trans('cms.status') !!}</th>
+                                <th>{!! trans('options.status') !!}</th>
                                 <th class="span1">Order</th>
                                 <th class="span2"></th>
                                 <th class="hide"></th>
@@ -71,12 +71,12 @@
                                     <td>{!! $menu->order !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('menu-manager.edit'))
-                                        <a href="{!! URL::to($link_type . '/menu-manager/' . $menu->id . '/edit') !!}" class="btn btn-mini" title="{!! trans('cms.edit') !!}"><i class="icon-edit"></i></a>
+                                        <a href="{!! URL::to($link_type . '/menu-manager/' . $menu->id . '/edit') !!}" class="btn btn-mini" title="{!! trans('options.edit') !!}"><i class="icon-edit"></i></a>
                                         @endif
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
@@ -85,7 +85,7 @@
                                                 @if ($current_user->hasAccess('menu-manager.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.menu-manager.destroy', $menu->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>'return deleteRecord($(this), "menu");')) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

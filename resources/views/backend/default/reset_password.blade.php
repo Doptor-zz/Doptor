@@ -14,7 +14,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-envelope"></i></span>
-                        <input id="input-email" type="text" placeholder="{!! trans('cms.email') !!}" name="email" />
+                        <input id="input-email" type="text" placeholder="{!! trans('fields.email') !!}" name="email" />
                     </div>
                 </div>
                 <div class="space10"></div>
@@ -35,7 +35,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-user"></i></span>
-                        {!! Form::text('username', Input::old('username'), array('id'=>'input-username', 'placeholder' => trans('cms.username'))) !!}
+                        {!! Form::text('username', Input::old('username'), array('id'=>'input-username', 'placeholder' => trans('fields.username'))) !!}
                     </div>
                 </div>
             </div>
@@ -65,11 +65,11 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-lock"></i></span>
-                        {!! Form::password('password', array('id'=>'input-password', 'placeholder' => trans('cms.password'))) !!}
+                        {!! Form::password('password', array('id'=>'input-password', 'placeholder' => trans('fields.password'))) !!}
                     </div>
                 </div>
             </div>
-            <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="Reset {!! trans('cms.password') !!}" />
+            <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="Reset {!! trans('fields.password') !!}" />
         {!! Form::close() !!}
     @endif
 

@@ -17,7 +17,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('report-builder.create'))
                                 <a href="{!! URL::to($link_type . '/report-builder/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                                 </a>
                             @endif
                         </div>
@@ -25,13 +25,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>{!! trans('cms.name') !!}</th>
-                                <th>{!! trans('cms.version') !!}</th>
-                                <th>{!! trans('cms.author') !!}</th>
-                                <th>{!! trans('cms.website') !!}</th>
-                                <th>{!! trans('cms.download') !!}</th>
-                                <th>{!! trans('cms.created_at') !!}</th>
-                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.version') !!}</th>
+                                <th>{!! trans('fields.author') !!}</th>
+                                <th>{!! trans('fields.website') !!}</th>
+                                <th>{!! trans('fields.download') !!}</th>
+                                <th>{!! trans('options.created_at') !!}</th>
+                                <!-- <th class="span2">{!! trans('options.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -42,7 +42,7 @@
                                     <td>{!! $report->version !!}</td>
                                     <td>{!! $report->author !!}</td>
                                     <td>{!! $report->website !!}</td>
-                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), trans('cms.download')) !!}</th>
+                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), trans('fields.download')) !!}</th>
                                     <td>{!! $report->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('report-builder.edit'))
@@ -52,12 +52,12 @@
                                         @if ($current_user->hasAccess('report-builder.destroy'))
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
                                                 {!! Form::open(array('route' => array($link_type . '.report-builder.destroy', $report->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecords($(this), 'module');")) !!}
-                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                 {!! Form::close() !!}
                                                 </li>
                                             </ul>

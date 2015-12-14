@@ -4,21 +4,21 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i> {!! trans('cms.form_builder') !!}</h4>
+                    <h4><i class="icon-th-list"></i> {!! trans('fields.form_builder') !!}</h4>
                 </div>
                 <div class="widget-body">
                     <div class="clearfix margin-bottom-10">
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                    <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("form.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.form.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'forms');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -28,7 +28,7 @@
                         @if ($current_user->hasAccess("form.create"))
                         <div class="btn-group pull-right">
                             <a href="{!! URL::to($link_type . '/form/' . $form_id) !!}" class="btn btn-success">
-                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
+                                {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                             </a>
                         </div>
                         @endif
@@ -37,7 +37,7 @@
                         <thead>
                             <tr>
                                 <th class="span1"><input type="checkbox" class="select_all" /></th>
-                                <th>{!! trans('cms.data') !!}</th>
+                                <th>{!! trans('fields.data') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -51,13 +51,13 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess("form.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.form.destroy', $form_entry->id), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'forms');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

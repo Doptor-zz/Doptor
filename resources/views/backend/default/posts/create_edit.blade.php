@@ -13,9 +13,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($post))
-                            <span class="hidden-480">{!! trans('cms.create_new') !!} {!! Str::title($type) !!}</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} {!! Str::title($type) !!}</span>
                         @else
-                            <span class="hidden-480">{!! trans('cms.edit') !!} {!! Str::title($type) !!}</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! Str::title($type) !!}</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -52,16 +52,16 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('permalink') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.alias') !!}</label>
+                                        <label class="control-label">{!! trans('fields.alias') !!}</label>
                                         <div class="controls">
                                             {!! Form::text('permalink', (!isset($post)) ? Input::old('permalink') : $post->permalink, array('class' => 'input-xlarge'))!!}
-                                            <div class="help-inline">{!! trans('cms.blank_for_automatic_alias') !!}</div>
+                                            <div class="help-inline">{!! trans('options.blank_for_automatic_alias') !!}</div>
                                             {!! $errors->first('permalink', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
 
                                     <div class="control-group {!! $errors->has('image') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.image') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.image') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {{-- Form::file('image', array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('image') !!}
@@ -80,7 +80,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('content') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.description') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.description') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                            <textarea class="span12 ckeditor m-wrap" id="content" name="content" rows="6">{!! (!isset($post)) ? Input::old('content') : $post->content !!}</textarea>
                                            {!! $errors->first('content', '<span class="help-inline">:message</span>') !!}
@@ -96,7 +96,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('target') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.target') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.target') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                             {!! Form::select('target', Post::all_targets(), (!isset($post)) ? Input::old('target') : $post->target, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('target', '<span class="help-inline">:message</span>') !!}
@@ -104,7 +104,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('status') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.status') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('options.status') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                             {!! Form::select('status', Post::all_status(), (!isset($post)) ? Input::old('status') : $post->status, array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
                                             {!! $errors->first('status', '<span class="help-inline">:message</span>') !!}
@@ -150,7 +150,7 @@
                                     </div>
 
                                     <div class="control-group {!! $errors->has('meta_description') ? 'error' : '' !!}">
-                                        <label class="control-label">Meta {!! trans('cms.description') !!}</label>
+                                        <label class="control-label">Meta {!! trans('fields.description') !!}</label>
                                         <div class="controls line">
                                            <textarea class="span12 m-wrap" name="meta_description" rows="3">{!! (!isset($post)) ? Input::old('meta_description') : $post->meta_description !!}</textarea>
                                            {!! $errors->first('meta_description', '<span class="help-inline">:message</span>') !!}
@@ -168,11 +168,11 @@
                                     <br>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary" name="form_save">{!! trans('cms.save') !!}</button>
+                                        <button type="submit" class="btn btn-primary" name="form_save">{!! trans('options.save') !!}</button>
 
-                                        <button type="submit" class="btn btn-success" name="form_save_new">{!! trans('cms.save') !!} &amp; New</button>
+                                        <button type="submit" class="btn btn-success" name="form_save_new">{!! trans('options.save') !!} &amp; New</button>
 
-                                        <button type="submit" class="btn btn-primary btn-danger" name="form_close">{!! trans('cms.close') !!}</button>
+                                        <button type="submit" class="btn btn-primary btn-danger" name="form_close">{!! trans('options.close') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

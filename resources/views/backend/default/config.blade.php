@@ -45,7 +45,7 @@
                             <div class="control-group">
                                 <label class="control-label">Language</label>
                                 <div class="controls">
-                                    {!! Form::select('language', ['en'=>'English'], Setting::value('language')) !!}
+                                    {!! Form::select('language', $languages, Setting::value('language')) !!}
                                 </div>
                             </div>
 
@@ -230,7 +230,7 @@
                             <div class="control-group">
                                 <label class="control-label">{!! trans('config.email_password') !!}</label>
                                 <div class="controls">
-                                    <input type="password" name="email_password" value="{!!Setting::value('email_password')!!}" placeholder="{!! trans('cms.email') !!} {!! trans('cms.password') !!}" class="input-large">
+                                    <input type="password" name="email_password" value="{!!Setting::value('email_password')!!}" placeholder="{!! trans('fields.email') !!} {!! trans('fields.password') !!}" class="input-large">
                                 </div>
                             </div>
                         </fieldset>
@@ -244,7 +244,7 @@
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">{!! trans('cms.save') !!}</button>
+                            <button type="submit" class="btn btn-primary">{!! trans('options.save') !!}</button>
                         </div>
                     {!! Form::close() !!}
                     <!-- END FORM-->

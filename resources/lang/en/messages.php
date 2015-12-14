@@ -26,9 +26,8 @@ return [
         'menu_position_delete' => 'The menu position was deleted',
         'module_create' => 'The module was created',
         'module_update' => 'The module was updated',
-        'module_delete' => 'The module was deleted',
-        'module_install' => 'The module was installed',
         'module_delete' => 'Module was deleted',
+        'module_install' => 'The module was installed',
         'user_create' => 'The user :username was created.',
         'user_update' => 'The user :username was updated.',
         'user_delete' => 'The user was deleted.',
@@ -38,7 +37,6 @@ return [
         'user_group_create' => 'The user group :usergroup was created.',
         'user_group_update' => 'The user group :usergroup was updated.',
         'user_group_delete' => 'The user group was deleted.',
-        'users_delete' => 'The users were deleted.',
         'form_submit' => 'The form was submitted',
         'form_entry_delete' => 'The form entry was deleted',
         'form_entries_delete' => 'The form entries were deleted',
@@ -78,4 +76,4 @@ return [
         'user_group_update' => 'The user group {$input["name"]} wasn\'t updated',
         'form_found' => 'Form not found',
     ]
-];
+    ];

@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                    <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                 @if ($current_user->hasAccess("{$type}-categories.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.' . $type . '-categories.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), '{$type} categorie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                 @endif
@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("{$type}-categories.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/' . $type . '-categories/create') !!}" class="btn btn-success">
-                                {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
+                                {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif
@@ -49,11 +49,11 @@
                         <thead>
                             <tr>
                                 <th class="span1"></th>
-                                <th>{!! trans('cms.name') !!}</th>
-                                <th>{!! trans('cms.alias') !!}</th>
-                                <th>{!! trans('cms.description') !!}</th>
-                                <th>{!! trans('cms.status') !!}</th>
-                                <th class="span3">{!! trans('cms.created_at') !!}</th>
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.alias') !!}</th>
+                                <th>{!! trans('fields.description') !!}</th>
+                                <th>{!! trans('options.status') !!}</th>
+                                <th class="span3">{!! trans('options.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -73,13 +73,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                             @if ($current_user->hasAccess("{$type}-categories.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.' . $type . '-categories.destroy', $post_cat->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), '{$type} category');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                             @endif

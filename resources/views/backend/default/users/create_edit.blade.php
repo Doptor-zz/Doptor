@@ -23,9 +23,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($user))
-                            <span class="hidden-480">{!! trans('cms.create_new') !!} User</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} User</span>
                         @else
-                            <span class="hidden-480">{!! trans('cms.edit') !!} {!! trans('cms.user_info') !!}</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('cms.user_info') !!}</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -51,28 +51,28 @@
 
 
                                     <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.username') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.username') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('username', (!isset($user)) ? Input::old('username') : $user->username, array('id'=>'username', 'class' => 'input-xlarge'))!!}
                                             {!! $errors->first('username', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.email') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.email') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('email', (!isset($user)) ? Input::old('email') : $user->email, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('email', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('first_name') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.first_name') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.first_name') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('first_name', (!isset($user)) ? Input::old('first_name') : $user->first_name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('first_name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('last_name') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.last_name') !!} <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.last_name') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('last_name', (!isset($user)) ? Input::old('last_name') : $user->last_name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('last_name', '<span class="help-inline">:message</span>') !!}
@@ -81,14 +81,14 @@
 
                                     @if (!isset($user) || (isset($user) && $user->id == $current_user->id))
                                     <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                        <label class="control-label">{!! trans('fields.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('password_confirmation') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.confirm') !!} {!! trans('cms.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                        <label class="control-label">{!! trans('options.confirm') !!} {!! trans('fields.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password_confirmation', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password_confirmation', '<span class="help-inline">:message</span>') !!}
@@ -134,7 +134,7 @@
 
                                     @if (!Request::is('*profile*'))
                                         <div class="control-group {!! $errors->has('company_id[]') ? 'error' : '' !!}">
-                                            <label class="control-label">{!! trans('cms.associated_companies') !!}</label>
+                                            <label class="control-label">{!! trans('options.associated_companies') !!}</label>
                                             <div class="controls">
                                             {!! Form::select('company_id[]', $companies, (!isset($user)) ? Input::old('company_id[]') : $user->company_id, array('multiple', 'class'=>'chosen input-xlarge')) !!}
                                                 {!! $errors->first('company_id', '<span class="help-inline">:message</span>') !!}
@@ -143,9 +143,9 @@
                                     @endif
 
                                     @if (!Request::is('*profile*'))
-                                        {{-- Don't show {!! trans('cms.status') !!} selection while editing profile --}}
+                                        {{-- Don't show {!! trans('options.status') !!} selection while editing profile --}}
                                         <div class="control-group">
-                                            <label class="control-label">{!! trans('cms.status') !!}</label>
+                                            <label class="control-label">{!! trans('options.status') !!}</label>
                                             <div class="controls">
                                                 @if (isset($user))
                                                     {!! Form::select('status', User::status(), ($user->is_banned)?'0':'1', array('class'=>'chosen input-xlarge')) !!}
@@ -164,17 +164,17 @@
                                                     {!! Form::select('user-group', UserGroup::all_groups(), '', array('class'=>'chosen input-xlarge')) !!}
                                                 @endif
 
-                                                {!! HTML::link("$link_type/user-groups/create", trans('cms.create_new') . ' ' . trans('cms.user_group'), array('class'=>'btn btn-mini mb-15')) !!}
+                                                {!! HTML::link("$link_type/user-groups/create", trans('options.create_new') . ' ' . trans('cms.user_group'), array('class'=>'btn btn-mini mb-15')) !!}
                                             </div>
                                         </div>
                                     @endif
 
                                     <div class="control-group {!! $errors->has('photo') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.profile') !!} {!! trans('cms.image') !!}</label>
+                                        <label class="control-label">{!! trans('cms.profile') !!} {!! trans('fields.image') !!}</label>
                                         <div class="controls">
                                             {{-- Form::file('photo', array('class' => 'input-xlarge')) --}}
                                             {!! Form::hidden('photo') !!}
-                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('cms.select_image') !!}</a>
+                                            <a class="btn btn-primary insert-media" id="insert-main-image" href="#"> {!! trans('options.select_image') !!}</a>
                                             <span class="file-name">
                                                 {!! $user->photo or '' !!}
                                             </span>
@@ -184,7 +184,7 @@
 
                                     <br>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('cms.save') !!}</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->
@@ -211,7 +211,7 @@
             var options = {
                 minChar: 8,
                 bootstrap3: false,
-                error{!! trans('cms.message') !!}s: {
+                error{!! trans('fields.message') !!}s: {
                     password_too_short: "<font color='red'>{!! trans('errors.short_password') !!}</font>",
                     same_as_username: "{!! trans('errors.password_username_same') !!}"
                 },

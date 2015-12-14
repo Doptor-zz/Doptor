@@ -10,7 +10,7 @@
                             @if ($current_user->hasAccess('modules.create'))
                                 <div class="btn-group pull-right">
                                     <button data-href="{!! URL::to($link_type . '/modules/install') !!}" class="btn btn-success">
-                                        {!! trans('modules.install_new') !!} <i class="icon-plus"></i>
+                                        {!! trans('fields.install_new_module') !!} <i class="icon-plus"></i>
                                     </button>
                                 </div>
                             @endif
@@ -29,7 +29,7 @@
                             <div class="btn-group pull-right">
                                 @if ($current_user->hasAccess('modules.create'))
                                     <button data-href="{!! URL::to($link_type . '/modules/install') !!}" class="btn btn-success">
-                                        {!! trans('modules.install_new') !!} <i class="icon-plus"></i>
+                                        {!! trans('fields.install_new_module') !!} <i class="icon-plus"></i>
                                     </button>
                                 @endif
                             </div>
@@ -38,15 +38,15 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>{!! trans('modules.name') !!}</th>
+                                <th>{!! trans('fields.name') !!}</th>
                                 <th>{!! trans('modules.links') !!}</th>
-                                <th>{!! trans('modules.version') !!}</th>
-                                <th>{!! trans('modules.author') !!}</th>
-                                <th>{!! trans('modules.website') !!}</th>
+                                <th>{!! trans('fields.version') !!}</th>
+                                <th>{!! trans('fields.author') !!}</th>
+                                <th>{!! trans('fields.website') !!}</th>
                                 <th>{!! trans('modules.table_in_db') !!}</th>
                                 <th>{!! trans('modules.enabled') !!}</th>
                                 <th class="span3">{!! trans('modules.installed_at') !!}</th>
-                                <!-- <th class="span2">{!! trans('cms.edit') !!}</th> -->
+                                <!-- <th class="span2">{!! trans('options.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -71,18 +71,18 @@
                                     <td>{!! ($module->enabled) ? 'Yes' : 'No' !!}</td>
                                     <td>{!! $module->created_at !!}</td>
                                     <!-- <td>
-                                        <a href="{!! URL::to($link_type . '/modules/' . $module->id . '/edit') !!}" class="btn btn-mini"><i class="icon-edit"></i> Full {!! trans('cms.edit') !!}</a>
+                                        <a href="{!! URL::to($link_type . '/modules/' . $module->id . '/edit') !!}" class="btn btn-mini"><i class="icon-edit"></i> Full {!! trans('options.edit') !!}</a>
                                     </td> -->
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('modules.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.modules.destroy', $module->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'module');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

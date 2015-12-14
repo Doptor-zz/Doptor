@@ -17,14 +17,14 @@
                         @endif
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.alias') !!}</label>
+                            <label class="control-label">{!! trans('fields.alias') !!}</label>
                             <div class="controls line">
                                 {!! $post->permalink !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.description') !!}</label>
+                            <label class="control-label">{!! trans('fields.description') !!}</label>
                             <div class="controls line">
                                 {!! $post->content !!}
                             </div>
@@ -38,14 +38,14 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.status') !!}</label>
+                            <label class="control-label">{!! trans('options.status') !!}</label>
                             <div class="controls line">
                                 {!! Str::title($post->status) !!}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.target') !!} Display</label>
+                            <label class="control-label">{!! trans('fields.target') !!} Display</label>
                             <div class="controls line">
                                 {!! Str::title($post->target) !!}
                             </div>
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Meta {!! trans('cms.description') !!}</label>
+                            <label class="control-label">Meta {!! trans('fields.description') !!}</label>
                             <div class="controls line">
                                 {!! $post->meta_description !!}
                             </div>
@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.created_at') !!}</label>
+                            <label class="control-label">{!! trans('options.created_at') !!}</label>
                             <div class="controls line">
                                 {!! $post->created_at !!}
                             </div>
@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">{!! trans('cms.updated_at') !!}</label>
+                            <label class="control-label">{!! trans('options.updated_at') !!}</label>
                             <div class="controls line">
                                 {!! $post->updated_at !!}
                             </div>

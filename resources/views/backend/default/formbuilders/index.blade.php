@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('form-builder.create'))
                                 <button data-href="{!! URL::to($link_type . '/form-builder/create') !!}" class="btn btn-success">
-                                    {!! trans('cms.create_new') !!} <i class="icon-plus"></i>
+                                    {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                                 </button>
                             @endif
                         </div>
@@ -32,10 +32,10 @@
                         <thead>
                             <tr>
                                 <th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-                                <th>Form {!! trans('cms.name') !!}</th>
+                                <th>Form {!! trans('fields.name') !!}</th>
                                 <th class="hidden-480">{!! trans('cms.category') !!}</th>
-                                <th class="hidden-480">{!! trans('cms.description') !!}</th>
-                                <th class="hidden-480">{!! trans('cms.created_at') !!}</th>
+                                <th class="hidden-480">{!! trans('fields.description') !!}</th>
+                                <th class="hidden-480">{!! trans('options.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -59,13 +59,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> {!! trans('cms.actions') !!}</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('form-builder.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.form-builder.destroy', $form->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'form builder');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('cms.delete') !!}</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

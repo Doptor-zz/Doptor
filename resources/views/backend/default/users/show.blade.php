@@ -16,19 +16,19 @@
                             <div class="tab-pane active" id="widget_tab1">
                                 <form class="form-horizontal">
                                     <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.username') !!}</label>
+                                        <label class="control-label">{!! trans('fields.username') !!}</label>
                                         <div class="controls">
                                             {!! $user->username !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('first_name') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.first_name') !!}</label>
+                                        <label class="control-label">{!! trans('fields.first_name') !!}</label>
                                         <div class="controls">
                                             {!! $user->first_name !!}
                                         </div>
                                     </div>
                                     <div class="control-group {!! $errors->has('last_name') ? 'error' : '' !!}">
-                                        <label class="control-label">{!! trans('cms.last_name') !!}</label>
+                                        <label class="control-label">{!! trans('fields.last_name') !!}</label>
                                         <div class="controls">
                                             {!! $user->last_name !!}
                                         </div>
@@ -49,7 +49,7 @@
                                     </div>
                                     @if (Request::is('*profile*'))
                                         <div class="form-actions">
-                                            <a href="{!! url("$link_type/profile/edit") !!}" class="btn btn-primary">{!! trans('cms.edit') !!} {!! trans('cms.profile') !!}</a>
+                                            <a href="{!! url("$link_type/profile/edit") !!}" class="btn btn-primary">{!! trans('options.edit') !!} {!! trans('cms.profile') !!}</a>
                                         </div>
                                     @endif
                                 </form>

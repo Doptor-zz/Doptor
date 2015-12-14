@@ -132,7 +132,7 @@
                     @if (can_access_menu($current_user, array('contact-categories')))
                         <li class="{!! Request::is('backend/contact-categories') ? 'active' : null !!}">
                            <a href="{!! URL::to('backend/contact-categories') !!}">
-                               {!! trans('cms.contact_categories') !!}
+                               {!! trans('fields.contact_categories') !!}
                            </a>
                         </li>
                     @endif
@@ -156,10 +156,10 @@
                 </a>
                 <ul class="sub">
                     @if (can_access_menu($current_user, array('form-categories')))
-                        <li><a href="{!! URL::to('backend/form-categories') !!}">{!! trans('cms.form_categories') !!}</a></li>
+                        <li><a href="{!! URL::to('backend/form-categories') !!}">{!! trans('fields.form_categories') !!}</a></li>
                     @endif
                     @if (can_access_menu($current_user, array('form-builder')))
-                        <li><a href="{!! URL::to('backend/form-builder') !!}">{!! trans('cms.form_builder') !!}</a></li>
+                        <li><a href="{!! URL::to('backend/form-builder') !!}">{!! trans('fields.form_builder') !!}</a></li>
                     @endif
                     @if (can_access_menu($current_user, array('module-builder')))
                         <li><a href="{!! URL::to('backend/module-builder') !!}">{!! trans('cms.module_builder') !!}</a></li>

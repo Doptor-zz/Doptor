@@ -4,15 +4,15 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="widget-title">
-                    <h4><i class="icon-table"></i> All {!! trans('cms.contact') !!}s in {!! trans('cms.category') !!} "{!! $category->name !!}"</h4>
+                    <h4><i class="icon-table"></i> All {!! trans('fields.contact') !!}s in {!! trans('cms.category') !!} "{!! $category->name !!}"</h4>
                 </div>
                 <div class="widget-body">
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>{!! trans('cms.name') !!}</th>
-                                <th>{!! trans('cms.address') !!}</th>
-                                <th>{!! trans('cms.country') !!}</th>
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.address') !!}</th>
+                                <th>{!! trans('fields.country') !!}</th>
                             </tr>
                         </thead>
                         <tbody>
