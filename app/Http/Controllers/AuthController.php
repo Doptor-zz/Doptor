@@ -68,29 +68,29 @@ class AuthController extends BaseController {
         } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.check_activation_email')
+                                        'error' => trans('users.check_activation_email')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.check_activation_email'));
+                                    ->withErrors(trans('users.check_activation_email'));
             }
         } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.account_suspended', array('minutes' => 10))
+                                        'error' => trans('users.account_suspended', array('minutes' => 10))
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.account_suspended', array('minutes' => 10)));
+                                    ->withErrors(trans('users.account_suspended', array('minutes' => 10)));
             }
         } catch(Exception $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.invalid_username_pw')
+                                        'error' => trans('users.invalid_username_pw')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.invalid_username_pw'));
+                                    ->withErrors(trans('users.invalid_username_pw'));
             }
         }
     }

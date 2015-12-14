@@ -17,6 +17,8 @@ use Request;
 use Setting;
 use View;
 
+use Modules\Doptor\TranslationManager\Models\TranslationLanguage;
+
 class HomeController extends AdminController {
 
     /**
@@ -52,10 +54,13 @@ class HomeController extends AdminController {
      */
     public function getConfig()
     {
+        $languages = TranslationLanguage::lists('name', 'code');
+
         if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) App::abort('401');
 
         $this->layout->title = 'Website Configuration';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.config');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.config')
+                                        ->with('languages', $languages);
     }
 
     public function postConfig()
