@@ -1,4 +1,6 @@
 <?php namespace Services;
+error_reporting(E_ALL);
+            ini_set('display_errors', 1);
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -78,17 +80,22 @@ class Installer {
         try {
             @ini_set('max_execution_time', 0);     // Temporarily increase maximum execution time
 
+            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => 'migrations']);
+
             // Migrate all the tables
             Artisan::call('migrate');
 
-            Artisan::call('migrate', array('--path' => 'app/Components/posts/database/migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/Slideshow/Database/Migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Components/MediaManager/database/migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Components/theme_manager/database/migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Components/ContactManager/Database/Migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Components/ReportBuilder/Database/Migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Components/ReportGenerator/Database/Migrations/'));
-            Artisan::call('migrate', array('--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/'));
+            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => 'config']);
+
+            Artisan::call('migrate', ['--path' => 'app/Components/posts/database/migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Modules/Doptor/Slideshow/Database/Migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Components/MediaManager/database/migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Components/theme_manager/database/migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Components/ContactManager/Database/Migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Components/ReportBuilder/Database/Migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Components/ReportGenerator/Database/Migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Modules/Doptor/CompanyInfo/Database/Migrations/']);
+            Artisan::call('migrate', ['--path' => 'app/Modules/Doptor/TranslationManager/Database/Migrations/']);
 
             $this->createSuperAdmin($input);
 
@@ -97,12 +104,14 @@ class Installer {
                 Artisan::call('db:seed');
             }
 
-            Artisan::call('db:seed', array('--class' => 'MenuPositionTableSeeder'));
-            Artisan::call('db:seed', array('--class' => 'ThemesTableSeeder'));
+            Artisan::call('db:seed', ['--class' => 'MenuPositionTableSeeder']);
+            Artisan::call('db:seed', ['--class' => 'ThemesTableSeeder']);
 
-            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder'));
-            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder'));
-            Artisan::call('db:seed', array('--class' => 'Modules\Doptor\Slideshow\Database\Seeds\ModulesTableSeeder'));
+            Artisan::call('db:seed', ['--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\CountriesTableSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Modules\Doptor\TranslationManager\Database\Seeds\ModulesTableSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Modules\Doptor\TranslationManager\Database\Seeds\LanguageTableSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Modules\Doptor\CompanyInfo\Database\Seeds\ModulesTableSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Modules\Doptor\Slideshow\Database\Seeds\ModulesTableSeeder']);
 
         } catch (Exception $e) {
             return $this->listener->installerFails($e->getMessage());
