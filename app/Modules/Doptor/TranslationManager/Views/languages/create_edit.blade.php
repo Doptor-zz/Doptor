@@ -12,9 +12,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($language))
-                            <span class="hidden-480">Create New Language</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} {!! trans('fields.language') !!}</span>
                         @else
-                            <span class="hidden-480">Edit Language Info</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('fields.language') !!}</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -33,12 +33,12 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
 
                                     <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
-                                        <label class="control-label">Name <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.name') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                         {!! Form::text('name', (!isset($language)) ? Input::old('name') : $language->name) !!}
                                            {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
@@ -46,11 +46,11 @@
                                     </div>
 
                                     <div class="control-group {{ $errors->has('code') ? 'error' : '' }}">
-                                        <label class="control-label">Code <span class="red">*</span></label>
+                                        <label class="control-label">{!! trans('fields.code') !!} <span class="red">*</span></label>
                                         <div class="controls line">
                                         {!! Form::text('code', (!isset($language)) ? Input::old('code') : $language->code) !!}
                                         <span class="help-inline">
-                                            (Example: en for English)
+                                            {!! trans('form_messages.translation_lang_code_example') !!}
                                         </span>
                                         {!! $errors->first('code', '<span class="help-inline">:message</span>') !!}
                                         </div>
@@ -59,7 +59,7 @@
                                     <br>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->
@@ -80,18 +80,4 @@
     {!! HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") !!}
     {!! HTML::script("assets/backend/default/scripts/media-selection.js") !!}
     @parent
-    <script>
-        // jQuery(document).ready(function() {
-        //     $('#datetimepicker_start').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        //     $('#datetimepicker_end').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        // });
-
-        MediaSelection.init('image');
-    </script>
 @stop

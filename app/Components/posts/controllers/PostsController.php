@@ -40,7 +40,13 @@ class PostsController extends BaseController {
     {
         $posts = Post::type($this->type)->target('public')->published()->recent()->paginate(5);
 
-        $this->layout->title = 'All ' . Str::title($this->type) . 's';
+        if ($this->type == 'post') {
+            $title = trans('cms.pages');
+        } else {
+            $title = trans('cms.posts');
+        }
+
+        $this->layout->title = $title;
         $this->layout->content = View::make('public.'.$this->current_theme.'.posts.index')
                                         ->with('posts', $posts)
                                         ->with('type', $this->type);

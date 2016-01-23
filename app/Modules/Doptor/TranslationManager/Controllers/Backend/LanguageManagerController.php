@@ -89,16 +89,16 @@ class LanguageManagerController extends AdminController {
 
             if ($language) {
                 return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                    ->with('success_message', 'The translation language was added.');
+                    ->with('success_message', trans('success_messages.translate_lang_install'));
             } else {
                 return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                    ->with('error_message', 'The translation language wasn\'t added.');
+                    ->with('error_message', trans('error_messages.translate_lang_install'));
             }
 
         } catch (Exception $e) {
             return Redirect::back()
                 ->withInput()
-                ->with('error_message', trans('messages.error.module_install') . $e->getMessage());
+                ->with('error_message', trans('error_messages.module_install') . $e->getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ class LanguageManagerController extends AdminController {
             $this->language_service->createLanguage($input['code']);
 
             return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                ->with('success_message', 'The translation language was added.');
+                ->with('success_message', trans('success_messages.translate_lang_create'));
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
@@ -163,7 +163,7 @@ class LanguageManagerController extends AdminController {
             $language->update($input);
 
             return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                ->with('success_message', 'The translation language was updated.');
+                ->with('success_message', trans('success_messages.translate_lang_update'));
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
@@ -190,10 +190,10 @@ class LanguageManagerController extends AdminController {
 
         if ($language->delete()) {
             return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                ->with('success_message', 'The translation language was deleted.');
+                ->with('success_message', trans('success_messages.translate_lang_delete'));
         } else {
             return Redirect::route("{$this->link_type}.modules.doptor.translation_manager.languages.index")
-                ->with('error_message', 'The translation language was not deleted.');
+                ->with('error_message', trans('error_messages.translate_lang_delete'));
         }
     }
 

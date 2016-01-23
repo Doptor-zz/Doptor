@@ -150,10 +150,10 @@ class BackendController extends BaseController {
 
         if ($entry) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The entry has been successfully added.');
+                ->with('success_message', trans('success_messages.entry_create'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The entry couldn\'t be added.');
+                ->with('error_message', trans('error_messages.entry_create'));
         }
     }
 
@@ -234,10 +234,10 @@ class BackendController extends BaseController {
 
         if ($entry) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The entry has been successfully updated.');
+                ->with('success_message', trans('success_messages.entry_update'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The entry couldn\'t be updated.');
+                ->with('error_message', trans('error_messages.entry_update'));
         }
     }
 
@@ -254,7 +254,7 @@ class BackendController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -271,9 +271,9 @@ class BackendController extends BaseController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The entries were deleted';
+            $message = trans('success_messages.entries_delete');
         } else {
-            $message = 'The entry was deleted';
+            $message = trans('success_messages.entry_delete');
         }
 
         return Redirect::back()

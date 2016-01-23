@@ -10,7 +10,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i> Translations</h4>
+                    <h4><i class="icon-th-list"></i> {!! trans('cms.translations') !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -22,7 +22,7 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Group</th>
+                                <th>{!! trans('fields.group') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{!! $group->group !!}</td>
                                     <td>
-                                        {!! HTML::link(route('backend.modules.doptor.translation_manager.get_manage', [$language->id, $group->group]), 'Manage') !!}
+                                        {!! HTML::link(route('backend.modules.doptor.translation_manager.get_manage', [$language->id, $group->group]), trans('options.manage')) !!}
                                     </td>
                                 </tr>
                             @endforeach

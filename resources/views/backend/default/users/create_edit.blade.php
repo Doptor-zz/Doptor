@@ -23,9 +23,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($user))
-                            <span class="hidden-480">{!! trans('options.create_new') !!} User</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} {!! trans('fields.user') !!}</span>
                         @else
-                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('cms.user_info') !!}</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('fields.user') !!}</span>
                         @endif
                         &nbsp;
                     </h4>

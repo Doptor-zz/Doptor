@@ -55,10 +55,10 @@ class FormCategoriesController extends AdminController {
 
 		        if ($form_cat) {
 		            return \Redirect::to('backend/form-categories')
-		                                ->with('success_message', trans('messages.success.form_cat_create'));
+		                                ->with('success_message', trans('success_messages.form_cat_create'));
 		        } else {
 		            return \Redirect::to('backend/form-categories')
-		                                ->with('error_message', 'The form category wasn\'t created.');
+		                                ->with('error_message', trans('error_messages.form_cat_create'));
 		        }
 		    } else {
 		        // Form validation failed
@@ -68,7 +68,7 @@ class FormCategoriesController extends AdminController {
 		    }
 		} catch (\Exception $e) {
 		    return \Redirect::to('backend/form-categories')
-		                        ->with('error_message', 'The form category wasn\'t created.');
+		                        ->with('error_message', trans('error_messages.form_cat_create'));
 		}
 	}
 
@@ -122,17 +122,17 @@ class FormCategoriesController extends AdminController {
 
 		        if ($form_cat->update($input)) {
 		            if (\Request::ajax()) {
-		                return \Response::json('The form category was updated.', 200);
+		                return \Response::json(trans('success_message.form_cat_update'), 200);
 		            } else {
 		                return \Redirect::to('backend/form-categories')
-		                                    ->with('success_message', trans('messages.success.form_cat_update'));
+		                                    ->with('success_message', trans('success_messages.form_cat_update'));
 		            }
 		        } else {
 		            if (\Request::ajax()) {
-		                return \Response::json('The form category wasn\'t updated.', 400);
+		                return \Response::json(trans('error_messages.form_cat_update'), 400);
 		            } else {
 		                return \Redirect::to('backend/form-categories')
-		                                    ->with('error_message', 'The form category wasn\'t updated.');
+		                                    ->with('error_message', trans('error_messages.form_cat_update'));
 		            }
 		        }
 		    } else {
@@ -149,10 +149,10 @@ class FormCategoriesController extends AdminController {
 		    }
 		} catch (\Exception $e) {
 		    if (\Request::ajax()) {
-		        return \Response::json('The form category wasn\'t updated.', 400);
+		        return \Response::json(trans('error_messages.form_cat_update'), 400);
 		    } else {
 		        return \Redirect::to('backend/form-categories')
-		                            ->with('error_message', 'The form category wasn\'t created.');
+		                            ->with('error_message', trans('error_messages.form_cat_update'));
 		    }
 		}
 	}
@@ -169,21 +169,21 @@ class FormCategoriesController extends AdminController {
 
 		if ($form_cat->forms->count() > 0) {
 			return \Redirect::to('backend/form-categories')
-		                        ->with('error_message', 'The form category can\'t be deleted because one or more form belong to this category. <br> Either change the form category in those form(s) or delete the form(s) first to delete this form.');
+		                        ->with('error_message', trans('error_messages.form_cat_delete_assoc'));
 		}
 
 		if ($form_cat && $form_cat->delete()) {
 		    if (\Request::ajax()) {
-		        return \Response::json('The form category was deleted.', 200);
+		        return \Response::json(trans('success_messages.form_cat_delete'), 200);
 		    }
 		    return \Redirect::to('backend/form-categories')
-		                        ->with('success_message', trans('messages.success.form_cat_delete'));
+		                        ->with('success_message', trans('success_messages.form_cat_delete'));
 		} else {
 		    if (\Request::ajax()) {
 		        return \Response::json('The form category wasn\'t deleted.', 400);
 		    }
 		    return \Redirect::to('backend/form-categories')
-		                        ->with('error_message', 'The form category was not deleted.');
+		                        ->with('error_message', trans('error_messages.form_cat_delete'));
 		}
 	}
 

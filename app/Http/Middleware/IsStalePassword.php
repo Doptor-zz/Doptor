@@ -25,7 +25,7 @@ class IsStalePassword {
             Carbon::now()->diffInDays($last_pw_changed) > 180
         ) {
             return Redirect::to(Request::segment(1) . '/users/change-password')
-                            ->with('error_message', 'It has been more than 6 months since you last changed your password. You need to change it before you can log in.');
+                            ->with('error_message', trans('users.pw_change_6_months'));
         }
         return $next($request);
     }

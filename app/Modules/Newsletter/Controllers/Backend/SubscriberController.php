@@ -61,7 +61,7 @@ class SubscriberController extends BaseController {
         $redirect = (isset($input['form_save'])) ? "$this->link_type/modules/newsletters/subscribers" : "$this->link_type/modules/newsletters/subscribers/create";
 
         return Redirect::to($redirect)
-                        ->with('subscribe_success', 'You have been subscribed to the newsletter.');
+                        ->with('subscribe_success', trans('success_messages.subscriber_create'));
     }
 
     public function edit($id)
@@ -97,7 +97,7 @@ class SubscriberController extends BaseController {
         $redirect = (isset($input['form_save'])) ? "$this->link_type/modules/newsletters/subscribers" : "$this->link_type/modules/newsletters/subscribers/create";
 
         return Redirect::to($redirect)
-            ->with('success_message', 'The newsletter was sent.');
+            ->with('success_message', trans('success_messages.subscriber_update'));
     }
 
     /**
@@ -113,7 +113,7 @@ class SubscriberController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -128,6 +128,12 @@ class SubscriberController extends BaseController {
 
         $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
         $message = 'The subscriber' . $wasOrWere . ' deleted.';
+
+        if (count($selected_ids) > 1) {
+            $message = trans('success_messages.subscribers_delete');
+        } else {
+            $message = trans('success_messages.subscriber_delete');
+        }
 
         return Redirect::to("$this->link_type/modules/newsletters/subscribers")
             ->with('success_message', $message);

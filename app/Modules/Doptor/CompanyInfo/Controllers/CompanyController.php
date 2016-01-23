@@ -117,10 +117,10 @@ class CompanyController extends CompanyBaseController {
 
         if ($company) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The company has been successfully added.');
+                ->with('success_message', trans('success_messages.company_create'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The company couldn\'t be added.');
+                ->with('error_message', trans('error_messages.company_create'));
         }
     }
 
@@ -223,10 +223,10 @@ class CompanyController extends CompanyBaseController {
 
         if ($company) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The company has been successfully updated.');
+                ->with('success_message', trans('success_messages.company_delete'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The company couldn\'t be updated.');
+                ->with('error_message', trans('error_messages.company_delete'));
         }
     }
 
@@ -243,7 +243,7 @@ class CompanyController extends CompanyBaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -261,9 +261,9 @@ class CompanyController extends CompanyBaseController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The companies were deleted';
+            $message = trans('success_messages.companies_delete');
         } else {
-            $message = 'The company was deleted';
+            $message = trans('success_messages.company_delete');
         }
 
         return Redirect::back()

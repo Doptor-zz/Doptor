@@ -42,7 +42,11 @@ class PostsController extends BaseController {
         $posts = Post::type($this->type)
                         ->get();
 
-        $this->layout->title = 'All ' . Str::title($this->type) . 's';
+        if ($this->type == 'post') {
+            $title = trans('cms.pages');
+        } else {
+            $title = trans('cms.posts');
+        }
 
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.index')
                                         ->with('posts', $posts);
@@ -163,7 +167,7 @@ class PostsController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {

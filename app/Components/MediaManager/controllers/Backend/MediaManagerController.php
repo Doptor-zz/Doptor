@@ -38,7 +38,7 @@ class MediaManagerController extends BaseController {
             $ajax = false;
         }
 
-        $this->layout->title = 'Media Manager';
+        $this->layout->title = trans('cms.media_manager');;
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.media_manager.create_edit')
                                         ->with('base_dir', 'uploads')
                                         ->with('ajax', $ajax);
@@ -169,7 +169,7 @@ class MediaManagerController extends BaseController {
             $media_entry->update($input);
 
             return Redirect::to("backend/media-manager")
-                                ->with('success_message', 'The media entry was updated.');
+                                ->with('success_message', trans('success_messages.media_entry_update'));
         }
 
         catch(ValidationException $e)
@@ -206,7 +206,7 @@ class MediaManagerController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -222,8 +222,11 @@ class MediaManagerController extends BaseController {
             $media_entry->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? ' were' : ' was';
-        $message = 'The media entry'. $wasOrWere . ' deleted.';
+        if (count($selected_ids) > 1) {
+            $message = trans('success_messages.media_entry_delete');
+        } else {
+            $message = trans('success_messages.media_entries_delete');
+        }
 
         return Redirect::to("backend/media-manager")
                                 ->with('success_message', $message);

@@ -6,7 +6,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
-                        <span class="hidden-480">{!! trans('options.create_new') !!} Language</span>
+                        <span class="hidden-480">{!! trans('options.install_new') !!} {!! trans('fields.language') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -20,19 +20,19 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
 
                                     <div class="control-group">
-                                       <label class="control-label">Select the language file</label>
+                                       <label class="control-label">{!! trans('form_messages.select_lang_file') !!}</label>
                                        <div class="controls">
                                           <input type="file" class="default" name="file" />
                                        </div>
                                     </div>
 
                                     <div class="control-group">
-                                       <label class="control-label">Overwrite existing language files</label>
+                                       <label class="control-label">{!! trans('form_messages.overwrite_lang_file') !!}</label>
                                        <div class="controls">
                                             {!! Form::hidden('replace_existing', false) !!}
                                             {!! Form::checkbox('replace_existing', true, Input::old('replace_existing', true)) !!}
@@ -40,7 +40,7 @@
                                     </div>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Install</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.install') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

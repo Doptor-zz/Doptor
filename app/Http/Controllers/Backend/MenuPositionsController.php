@@ -53,10 +53,10 @@ class MenuPositionsController extends AdminController {
 
                 if ($menu_position) {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('success_message', trans('messages.success.menu_position_create'));
+                                        ->with('success_message', trans('success_messages.menu_position_create'));
                 } else {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('error_message', 'The menu position wasn\'t created.');
+                                        ->with('error_message', trans('error_messages.menu_position_create'));
                 }
             } else {
                 // Menu validation failed
@@ -66,7 +66,7 @@ class MenuPositionsController extends AdminController {
             }
         } catch (\Exception $e) {
             return \Redirect::to('backend/menu-positions')
-                                ->with('error_message', 'The menu position wasn\'t created. ' . $e->getMessage());
+                                ->with('error_message', trans('error_messages.menu_position_create') . ' ' . $e->getMessage());
         }
     }
 
@@ -117,10 +117,10 @@ class MenuPositionsController extends AdminController {
 
                 if ($menu_position->update($input)) {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('success_message', trans('messages.success.menu_position_update'));
+                                        ->with('success_message', trans('success_messages.menu_position_update'));
                 } else {
                     return \Redirect::to('backend/menu-positions')
-                                        ->with('error_message', 'The menu position wasn\'t updated.');
+                                        ->with('error_message', trans('error_messages.menu_position_update'));
                 }
             } else {
                 // Menu validation failed
@@ -130,7 +130,7 @@ class MenuPositionsController extends AdminController {
             }
         } catch (\Exception $e) {
             return \Redirect::to('backend/menu-positions')
-                                ->with('error_message', 'The menu position wasn\'t created.');
+                                ->with('error_message', trans('error_messages.menu_position_update'));
         }
     }
 
@@ -146,16 +146,16 @@ class MenuPositionsController extends AdminController {
 
         if ($menu_position && $menu_position->delete()) {
             if (\Request::ajax()) {
-                return \Response::json('The menu position was deleted.', 200);
+                return \Response::json(trans('success_messages.menu_position_delete'), 200);
             }
             return \Redirect::to('backend/menu-positions')
-                                ->with('success_message', trans('messages.success.menu_position_delete'));
+                                ->with('success_message', trans('success_messages.menu_position_delete'));
         } else {
             if (\Request::ajax()) {
-                return \Response::json('The menu position wasn\'t deleted.', 400);
+                return \Response::json(trans('error_messages.menu_position_delete'), 400);
             }
             return \Redirect::to('backend/menu-positions')
-                                ->with('error_message', 'The menu position was not deleted.');
+                                ->with('error_message', trans('error_messages.menu_position_delete'));
         }
     }
 

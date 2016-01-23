@@ -20,16 +20,20 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="widget_tab1">
                                 <!-- BEGIN FORM-->
-                                {!! Form::open(array('route'=>['backend.modules.doptor.translation_manager.post_manage', $language_id, $group], 'method'=>'POST', 'class'=>'form-horizontal', 'files'=>false)) !!}
+                                {!! Form::open(array('route'=>['backend.modules.doptor.translation_manager.post_manage', $language_id, $group], 'method'=>'POST', 'class'=>'form-horizontal', 'id' => 'translation-form', 'files'=>false)) !!}
                                     {!! Form::hidden('_language_id', $language_id) !!}
                                     {!! Form::hidden('_group', $group) !!}
 
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
+
+                                    <div class="alert alert-info">
+                                        {!! trans('form_messages.translation_note') !!}
+                                    </div>
 
                                     @foreach ($translations as $key => $translation)
                                         <div class="control-group {{ $errors->has('content') ? 'error' : '' }}">
@@ -38,7 +42,11 @@
                                                 @foreach ($locales as $i => $locale)
                                                     <?php $value = isset($translation[$locale]) ? $translation[$locale]->value : null?>
                                                     <strong>{!! $locale !!}</strong>
-                                                    {!! Form::text($key, $value, ['class'=>'input-xxlarge', ($i==0) ? 'disabled' : '']) !!}
+                                                    @if ($i == 1)
+                                                        {!! Form::text($key, $value, ['class'=>'input-xxlarge', ($i==0) ? 'disabled' : '']) !!}
+                                                    @else
+                                                        <span class="uneditable-input input-xxlarge">{!! $value !!}</span>
+                                                    @endif
                                                     <br>
                                                 @endforeach
                                             </div>
@@ -48,7 +56,7 @@
                                     <br>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->
@@ -70,17 +78,34 @@
     {!! HTML::script("assets/backend/default/scripts/media-selection.js") !!}
     @parent
     <script>
-        // jQuery(document).ready(function() {
-        //     $('#datetimepicker_start').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        //     $('#datetimepicker_end').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        // });
+        function htmlEscape(str) {
+            return String(str)
+                    .replace('<script>', '**script**')
+                    .replace('<\/script>', '**/script**');
+        }
 
-        MediaSelection.init('image');
+        function htmlUnescape(value){
+            return String(value)
+                .replace('**script**', '<script>')
+                .replace('**/script**', '<\/script>');
+        }
+
+        jQuery(document).ready(function() {
+            $('#translation-form').find('input').each(function(key, value) {
+                field_value = $(value).val();
+                field_value = htmlUnescape(field_value);
+                $(value).val(field_value);
+            });
+
+            $('#translation-form').submit(function(e) {
+                var field_value;
+
+                $(this).find('input').each(function(key, value) {
+                    field_value = $(value).val();
+                    field_value = htmlEscape(field_value);
+                    $(value).val(field_value);
+                });
+            })
+        });
     </script>
 @stop

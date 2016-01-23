@@ -140,10 +140,10 @@ class ContactController extends BaseController {
 
         if ($entry) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The contact has been successfully added.');
+                ->with('success_message', trans('success_messages.contact_create'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The contact couldn\'t be added.');
+                ->with('error_message', trans('error_messages.contact_create'));
         }
     }
 
@@ -238,7 +238,7 @@ class ContactController extends BaseController {
         }
 
         return Redirect::to($redirect)
-            ->with('success_message', 'The contact has been successfully updated.');
+            ->with('success_message', trans('success_messages.contact_update'));
     }
 
     /**
@@ -254,7 +254,7 @@ class ContactController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -271,9 +271,9 @@ class ContactController extends BaseController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The entries were deleted';
+            $message = trans('success_messages.contacts_delete');
         } else {
-            $message = 'The contact was deleted';
+            $message = trans('success_messages.contact_delete');
         }
 
         return Redirect::back()

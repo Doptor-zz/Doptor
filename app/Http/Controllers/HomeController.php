@@ -75,6 +75,6 @@ class HomeController extends BaseController {
         }
 
         return Redirect::back()
-                            ->with('success_message', trans('messages.success.mail_sent'));
+                            ->with('success_message', trans('success_messages.mail_sent'));
     }
 }

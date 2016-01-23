@@ -30,7 +30,8 @@ class TranslationManagerController extends AdminController {
     public function __construct(Manager $translation_manager)
     {
         $this->translation_manager = $translation_manager;
-
+        // $this->translation_manager->truncateTranslations();
+        // $this->translation_manager->importTranslations();
         parent::__construct();
 
         View::addNamespace('translation_manager',
@@ -88,6 +89,8 @@ class TranslationManagerController extends AdminController {
             $translation = Translation::where('locale', $language->code)
                         ->where('key', $key)->first();
             if ($translation) {
+                $value = str_replace('**script**', '<script>', $value);
+                $value = str_replace('**/script**', '</script>', $value);
                 $translation->value = $value;
                 $translation->save();
             }

@@ -132,7 +132,7 @@ class AuthController extends BaseController {
                 });
 
                 return Redirect::back()
-                                   ->with('success_message', trans('messages.success.pw_reset_code_sent'));
+                                   ->with('success_message', trans('success_messages.pw_reset_code_sent'));
             } else {
                 return Redirect::back()
                                 ->with('error_message', 'No user exists with the specified email address');
@@ -206,7 +206,7 @@ class AuthController extends BaseController {
                     $user->save();
 
                     return Redirect::to("login/${input['target']}")
-                                        ->with('success_message', trans('messages.success.pw_reset'));
+                                        ->with('success_message', trans('success_messages.pw_reset'));
                 } else {
                     return Redirect::back()
                                     ->with('error_message', 'Password reset failed');
@@ -231,7 +231,7 @@ class AuthController extends BaseController {
             $this->user_manager->deactivateUser($user_id);
 
             return Redirect::to('login/backend')
-                                ->with('success_message', trans('messages.success.user_suspend'));
+                                ->with('success_message', trans('success_messages.user_suspend'));
         } else {
             return Redirect::to('login/backend')
                                 ->with('error_message', 'The user cannot be suspended.');
