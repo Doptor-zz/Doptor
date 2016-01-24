@@ -35,7 +35,7 @@ class ContactCategoriesController extends BaseController {
     public function index()
     {
         $contact_cats = ContactCategory::all();
-        $this->layout->title = 'All Contact Categories';
+        $this->layout->title = trans('cms.contact_categories');
         $this->layout->content = View::make('contact_categories::index')
             ->with('contact_cats', $contact_cats);
     }
@@ -64,7 +64,7 @@ class ContactCategoriesController extends BaseController {
             ContactCategory::create($input);
 
             return Redirect::to("backend/contact-categories")
-                ->with('success_message', 'The contact category was created.');
+                ->with('success_message', trans('success_messages.contact_cat_create'));
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
@@ -112,7 +112,7 @@ class ContactCategoriesController extends BaseController {
             ContactCategory::findOrFail($id)->update(Input::all());
 
             return Redirect::to("backend/contact-categories")
-                ->with('success_message', 'The contact category was updated.');
+                ->with('success_message', trans('success_messages.contact_cat_update'));
         } catch (ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
@@ -131,7 +131,7 @@ class ContactCategoriesController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -145,7 +145,7 @@ class ContactCategoriesController extends BaseController {
         }
 
         $wasOrWere = (count($selected_ids) > 1) ? ' were' : ' was';
-        $message = 'The contact category' . $wasOrWere . ' deleted.';
+        $message = trans('success_messages.contact_cat_delete');
 
         return Redirect::to("backend/contact-categories")
             ->with('success_message', $message);

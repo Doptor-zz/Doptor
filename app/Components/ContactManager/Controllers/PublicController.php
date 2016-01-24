@@ -129,7 +129,7 @@ class PublicController extends BackendController {
         }
 
         return Redirect::back()
-                            ->with('success_message', 'The mail was sent.');
+                            ->with('success_message', trans('success_messages.mail_sent'));
     }
 
 }

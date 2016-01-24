@@ -1,5 +1,5 @@
 @section('styles')
-    <link href="{!! URL::to('assets/backend/default/plugins/bootstrap-formbuilder/css/custom.css') !!}" rel="stylesheet" />
+    {!! HTML::style('assets/backend/default/plugins/bootstrap-formbuilder/css/custom.css') !!}
     <style>
         #styler { top:0; }
     </style>
@@ -9,11 +9,11 @@
     <div class="row-fluid clearfix">
         <!-- Building Form. -->
         <div class="span6">
-            <div class="widget box blue clearfix">
+            <div class="widsget box blue clearfix">
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
-                        <span class="hidden-480">Your Form</span>
+                        <span class="hidden-480">{!! trans('fields.form') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -27,13 +27,13 @@
                         @if ($errors->has())
                              <div class="alert alert-error hide" style="display: block;">
                                <button data-dismiss="alert" class="close">×</button>
-                               You have some form errors. Please check below.
+                               {!! trans('errors.form_errors') !!}
                                {!! $errors->first('name', '<br><span>:message</span>') !!}
                             </div>
                         @endif
 
-                        <div class="control-group {{ $errors->has('category') ? 'error' : '' }}">
-                            <label class="control-label">Form Category <span class="red">*</span></label>
+                        <div class="control-group {!! $errors->has('category') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('fields.form') !!} {!! trans('cms.category') !!} <span class="red">*</span></label>
                             <div class="controls">
 
                                 {!! Form::hidden('name', '', array('id'=>'form-name')) !!}
@@ -50,8 +50,8 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
-                            <label class="control-label">Form Description</label>
+                        <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('fields.form') !!} {!! trans('fields.description') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -65,8 +65,8 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('redirect_to') ? 'error' : '' }}">
-                            <label class="control-label">Redirect to after saving</label>
+                        <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('form_messages.redirect_to_after_saving') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -80,16 +80,16 @@
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('redirect_to') ? 'error' : '' }}">
-                            <label class="control-label">Show Captcha</label>
+                        <div class="control-group {!! $errors->has('redirect_to') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('form_messages.show_captcha') !!}</label>
                             <div class="controls line">
                                 {!! Form::checkbox('show_captcha', 'checked', (!isset($form)) ? Input::old('show_captcha') : $form->show_captcha, array('class'=>'span6 m-wrap')) !!}
                                 {!! $errors->first('show_captcha', '<span class="help-inline">:message</span>') !!}
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('extra_code') ? 'error' : '' }}">
-                            <label class="control-label">Extra code</label>
+                        <div class="control-group {!! $errors->has('extra_code') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('form_messages.extra_code') !!}</label>
                             <div class="controls">
 
                                 @if (isset($form))
@@ -98,15 +98,15 @@
                                 <textarea name="extra_code" rows="3" class="input-xlarge"></textarea>
                                 @endif
 
-                                <span class="help-inline">Write php code within &lt;?php ?&gt; and javascript code within &lt;script&gt;&lt;/script&gt;</span>
+                                <span class="help-inline">{!! trans('form_messages.write_extra_code') !!}</span>
 
                                 {!! $errors->first('extra_code', '<span class="help-inline">:message</span>') !!}
 
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
-                            <label class="control-label">Send to Email</label>
+                        <div class="control-group {!! $errors->has('email') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('form_messages.send_to') !!} {!! trans('fields.email') !!}</label>
                             <div class="controls">
                                 {!! Form::text('email', isset($form) ? $form->email : Input::old('email')) !!}
 
@@ -122,7 +122,7 @@
                         @endif
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Save Form</button>
+                            <button type="submit" class="btn btn-primary">{!! trans('options.save') !!} Form</button>
                         </div>
 
                     {!! Form::close() !!}
@@ -141,7 +141,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-reorder"></i>
-                        <span class="hidden-480">Drag &amp; Drop Components</span>
+                        <span class="hidden-480">{!! trans('form_messages.drag_drop_components') !!}</span>
                         &nbsp;
                     </h4>
                 </div>
@@ -165,73 +165,5 @@
 @stop
 
 @section('scripts')
-    <script>
-        @if ($errors->has())
-            // Set the previously set data, if validation error
-            $('#json-data').html(sessionStorage.formbuilder_form);
-        @else if (!isset($form))
-            // If no errors and not editing form, then form is empty
-            $('#json-data').html('');
-        @endif
-    </script>
-    <script data-main="{!! URL::to('assets/backend/default/plugins/bootstrap-formbuilder/js/main-built.js') !!}" src="{!! URL::to('assets/backend/default/plugins/bootstrap-formbuilder/js/lib/require.js') !!}" ></script>
-    @parent
-    <script>
-        function base64_encode(data) {
-            var b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-            var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
-            ac = 0,
-            enc = '',
-            tmp_arr = [];
-
-            if (!data) {
-                return data;
-            }
-
-            do { // pack three octets into four hexets
-                o1 = data.charCodeAt(i++);
-                o2 = data.charCodeAt(i++);
-                o3 = data.charCodeAt(i++);
-
-                bits = o1 << 16 | o2 << 8 | o3;
-
-                h1 = bits >> 18 & 0x3f;
-                h2 = bits >> 12 & 0x3f;
-                h3 = bits >> 6 & 0x3f;
-                h4 = bits & 0x3f;
-
-            // use hexets to index into b64, and append result to encoded string
-            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
-            } while (i < data.length);
-
-            enc = tmp_arr.join('');
-
-            var r = data.length % 3;
-
-            return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
-        }
-        jQuery(document).ready(function () {
-
-            setInterval(function() {
-               if ($('#formtabs li').length != 0) {
-                    $('#formtabs li').last().html('');
-                }
-            }, 1000);
-
-            $("#container").addClass("sidebar-closed");
-            $("#form-builder").on('submit', function (e) {
-
-                $('#form-builder #form-name').val($('#target legend').html());
-
-                var form_data = $("#render").val(),
-                    json_data = $('#json-data').val();
-
-                sessionStorage.setItem('formbuilder_form', json_data);
-
-                {{--Encode the form html to base64, so that firewalls will not detect it as attack--}}
-                $('#form-builder #form-data').val(base64_encode(form_data));
-                $('[name="extra_code"]').val(base64_encode($('[name="extra_code"]').val()));
-            });
-        });
-    </script>
+    @include('backend.default.formbuilders.scripts')
 @stop

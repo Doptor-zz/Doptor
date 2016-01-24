@@ -11,11 +11,11 @@
             <h3 class="form-signin-heading">Please sign in</h3>
             <div class="controls input-icon">
                 <i class=" icon-user-md"></i>
-                {!! Form::text('username', Input::old('username'), array('class'=>'input-block-level', 'placeholder' => 'Username')) !!}
+                {!! Form::text('username', Input::old('username'), array('class'=>'input-block-level', 'placeholder' => trans('fields.username'))) !!}
             </div>
             <div class="controls input-icon">
                 <i class=" icon-key"></i>
-                {!! Form::password('password', array('class'=>'input-block-level', 'placeholder' => 'Password')) !!}
+                {!! Form::password('password', array('class'=>'input-block-level', 'placeholder' => trans('fields.password'))) !!}
             </div>
             <label class="checkbox">
                 {!! Form::checkbox('remember', 'checked', true) !!}

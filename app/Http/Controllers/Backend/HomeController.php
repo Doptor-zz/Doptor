@@ -17,6 +17,8 @@ use Request;
 use Setting;
 use View;
 
+use Modules\Doptor\TranslationManager\Models\TranslationLanguage;
+
 class HomeController extends AdminController {
 
     /**
@@ -52,10 +54,13 @@ class HomeController extends AdminController {
      */
     public function getConfig()
     {
+        $languages = TranslationLanguage::lists('name', 'code');
+
         if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) App::abort('401');
 
         $this->layout->title = 'Website Configuration';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.config');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.config')
+                                        ->with('languages', $languages);
     }
 
     public function postConfig()
@@ -69,7 +74,7 @@ class HomeController extends AdminController {
         if (in_array(Request::getClientIp(), $disabled_ips)) {
             return Redirect::back()
                             ->withInput()
-                            ->with('error_message', 'Current IP address cannot be disabled access');
+                            ->with('error_message', trans('error_messages.cant_disable_ip'));
         }
 
         foreach ($input as $name => $value) {
@@ -77,7 +82,7 @@ class HomeController extends AdminController {
         }
 
         return Redirect::back()
-                            ->with('success_message', 'The settings were updated.');
+                            ->with('success_message', trans('success_messages.config_change'));
     }
 
     /**
@@ -91,5 +96,16 @@ class HomeController extends AdminController {
 
         return Redirect::to($this->link_type)
                             ->with('success_message', 'The language was changed.');
+    }
+
+    /**
+     * Get the language file for the datatable
+     * @return [type] [description]
+     */
+    public function getDatatableLangfile()
+    {
+        $translation= \Lang::get('datatable');
+
+        return json_encode($translation);
     }
 }

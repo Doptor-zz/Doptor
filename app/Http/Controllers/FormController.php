@@ -59,7 +59,7 @@ class FormController extends BaseController {
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return Redirect::back()
                             ->withInput()
-                            ->with('error_message', 'Form not found.');
+                            ->with('error_message', trans('error_messages.form_found'));
         } catch (Exception $e) {
             return Redirect::back()
                             ->withInput()
@@ -67,7 +67,7 @@ class FormController extends BaseController {
         }
 
         return Redirect::back()
-                        ->with('success_message', 'The form was submitted');
+                        ->with('success_message', trans('success_messages.form_submit'));
     }
 
     public function destroy($id=null)
@@ -77,7 +77,7 @@ class FormController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -90,8 +90,8 @@ class FormController extends BaseController {
             $post->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-        $message = 'The form entry' . $wasOrWere . ' deleted.';
+        $translation = (count($selected_ids) > 1) ? 'form_entries_delete' : 'form_entry_delete';
+        $message = trans('success_messages.' . $translation);
 
         return Redirect::back()
                                 ->with('success_message', $message);

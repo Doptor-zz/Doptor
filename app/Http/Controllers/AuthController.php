@@ -68,29 +68,29 @@ class AuthController extends BaseController {
         } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.check_activation_email')
+                                        'error' => trans('users.check_activation_email')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.check_activation_email'));
+                                    ->withErrors(trans('users.check_activation_email'));
             }
         } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.account_suspended', array('minutes' => 10))
+                                        'error' => trans('users.account_suspended', array('minutes' => 10))
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.account_suspended', array('minutes' => 10)));
+                                    ->withErrors(trans('users.account_suspended', array('minutes' => 10)));
             }
         } catch(Exception $e) {
             if (isset($input['api'])) {
                 return Response::json(array(
-                                        'error' => trans('cms.invalid_username_pw')
+                                        'error' => trans('users.invalid_username_pw')
                                         ), 200);
             } else {
                 return Redirect::back()
-                                    ->withErrors(trans('cms.invalid_username_pw'));
+                                    ->withErrors(trans('users.invalid_username_pw'));
             }
         }
     }
@@ -132,7 +132,7 @@ class AuthController extends BaseController {
                 });
 
                 return Redirect::back()
-                                   ->with('success_message', 'Password reset code has been sent to the email address. Follow the instructions in the email to reset your password.');
+                                   ->with('success_message', trans('success_messages.pw_reset_code_sent'));
             } else {
                 return Redirect::back()
                                 ->with('error_message', 'No user exists with the specified email address');
@@ -206,7 +206,7 @@ class AuthController extends BaseController {
                     $user->save();
 
                     return Redirect::to("login/${input['target']}")
-                                        ->with('success_message', 'Password reset is successful. Now you can log in with your new password');
+                                        ->with('success_message', trans('success_messages.pw_reset'));
                 } else {
                     return Redirect::back()
                                     ->with('error_message', 'Password reset failed');
@@ -231,7 +231,7 @@ class AuthController extends BaseController {
             $this->user_manager->deactivateUser($user_id);
 
             return Redirect::to('login/backend')
-                                ->with('success_message', 'The user has been suspended.');
+                                ->with('success_message', trans('success_messages.user_suspend'));
         } else {
             return Redirect::to('login/backend')
                                 ->with('error_message', 'The user cannot be suspended.');

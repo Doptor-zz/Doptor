@@ -118,10 +118,10 @@ class CompanyBranchController extends CompanyBaseController {
 
         if ($company_branch) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The company branch has been successfully added.');
+                ->with('success_message', trans('success_messages.company_branch_create'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The company branch couldn\'t be added.');
+                ->with('error_message', trans('error_messages.company_branch_create'));
         }
     }
 
@@ -223,10 +223,10 @@ class CompanyBranchController extends CompanyBaseController {
 
         if ($company_branch) {
             return Redirect::to($redirect)
-                ->with('success_message', 'The company branch has been successfully updated.');
+                ->with('success_message', trans('success_messages.company_branch_update'));
         } else {
             return Redirect::back()
-                ->with('error_message', 'The company branch couldn\'t be updated.');
+                ->with('error_message', trans('error_messages.company_branch_update'));
         }
     }
 
@@ -243,7 +243,7 @@ class CompanyBranchController extends CompanyBaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                    ->with('error_message', "Nothing was selected to delete");
+                    ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -259,9 +259,9 @@ class CompanyBranchController extends CompanyBaseController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The company branches were deleted';
+            $message = trans('success_messages.company_branches_delete');
         } else {
-            $message = 'The company branch was deleted';
+            $message = trans('success_messages.company_branch_delete');
         }
 
         return Redirect::back()

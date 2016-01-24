@@ -4,7 +4,7 @@
 
 <head id="Starter-Site">
 
-    <title>{{ $title }} :: {!! trans('cms.backend_dashboard') !!}</title>
+    <title>{!! $title !!} :: {!! trans('cms.backend_dashboard') !!}</title>
 
     @section('styles')
         {{-- Here goes the page level styles --}}

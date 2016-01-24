@@ -6,7 +6,7 @@
                 <div class="blue widget-title">
                     <h4>
                         <i class="icon-user"></i>
-                        <span class="hidden-480">Change User Password</span>
+                        <span class="hidden-480">{!! trans('language.line') !!}</span>
                     </h4>
                 </div>
 
@@ -20,18 +20,18 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
-                                    <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
-                                        <label class="control-label">Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                    <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('fields.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('password_confirmation') ? 'error' : '' }}">
-                                        <label class="control-label">Confirm Password {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
+                                    <div class="control-group {!! $errors->has('password_confirmation') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('options.confirm') !!} {!! trans('fields.password') !!} {!! (!isset($user)) ? '<span class="red">*</span>' : '' !!}</label>
                                         <div class="controls">
                                             {!! Form::password('password_confirmation', array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('password_confirmation', '<span class="help-inline">:message</span>') !!}
@@ -40,7 +40,7 @@
 
                                     <br>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

@@ -10,21 +10,21 @@
                     <h4>Enter your web superadmin credentials to start synchronization</h4>
                     {!! Form::open(array('url' => 'backend/synchronize/webToLocal', 'method'=>'POST', 'class'=>'form-horizontal')) !!}
 
-                        <div class="control-group {{ $errors->has('username') ? 'error' : '' }}">
-                            <label class="control-label">Username <span class="red">*</span></label>
+                        <div class="control-group {!! $errors->has('username') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('fields.username') !!} <span class="red">*</span></label>
                             <div class="controls">
                                 {!! Form::text('username', Input::old('username'), array('class' => 'input-xlarge'))!!}
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
-                            <label class="control-label">Password <span class="red">*</span></label>
+                        <div class="control-group {!! $errors->has('password') ? 'error' : '' !!}">
+                            <label class="control-label">{!! trans('fields.password') !!} <span class="red">*</span></label>
                             <div class="controls">
                                 {!! Form::password('password', array('class' => 'input-xlarge')) !!}
                             </div>
                         </div>
 
-                        <div class="control-group {{ $errors->has('remote_url') ? 'error' : '' }}">
+                        <div class="control-group {!! $errors->has('remote_url') ? 'error' : '' !!}">
                             <label class="control-label">Remote URL <span class="red">*</span></label>
                             <div class="controls">
                                 {!! Form::text('remote_url', Input::old('remote_url'), array('class' => 'input-xlarge'))!!}

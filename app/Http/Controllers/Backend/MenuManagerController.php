@@ -65,10 +65,10 @@ class MenuManagerController extends AdminController {
 
                 if ($menu) {
                     return Redirect::to('backend/menu-manager')
-                                        ->with('success_message', 'The menu entry was created.');
+                                        ->with('success_message', trans('success_messages.menu_create'));
                 } else {
                     return Redirect::to('backend/menu-manager')
-                                        ->with('error_message', 'The menu entry wasn\'t created.');
+                                        ->with('error_message', trans('error_messages.menu_create'));
                 }
             } else {
                 // Form validation failed
@@ -78,7 +78,7 @@ class MenuManagerController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::to('backend/menu-manager')
-                                ->with('error_message', 'The menu entry wasn\'t created.');
+                                ->with('error_message', trans('error_messages.menu_create'));
         }
     }
 
@@ -136,14 +136,14 @@ class MenuManagerController extends AdminController {
                         return Response::json('The menu entry was updated.', 200);
                     } else {
                         return Redirect::to('backend/menu-manager')
-                                            ->with('success_message', 'The menu entry was updated.');
+                                            ->with('success_message', trans('success_messages.menu_update'));
                     }
                 } else {
                     if (Request::ajax()) {
-                        return Response::json('The menu entry wasn\'t updated.', 400);
+                        return Response::json(trans('error_messages.menu_update'), 400);
                     } else {
                         return Redirect::to('backend/menu-manager')
-                                            ->with('error_message', 'The menu entry wasn\'t updated.');
+                                            ->with('error_message', trans('error_messages.menu_update'));
                     }
                 }
             } else {
@@ -160,10 +160,10 @@ class MenuManagerController extends AdminController {
             }
         } catch (Exception $e) {
             if (Request::ajax()) {
-                return Response::json('The menu entry wasn\'t updated.', 400);
+                return Response::json(trans('error_messages.menu_update'), 400);
             } else {
                 return Redirect::to('backend/menu-manager')
-                                    ->with('error_message', 'The menu entry wasn\'t created.');
+                                    ->with('error_message', trans('error_messages.menu_update'));
             }
         }
     }
@@ -182,7 +182,7 @@ class MenuManagerController extends AdminController {
         $menu_entry->save();
 
         return Redirect::to('backend/menu-manager')
-                                ->with('success_message', 'The menu entry was set as default.');
+                                ->with('success_message', trans('success_messages.menu_set_default'));
     }
 
     /**
@@ -198,7 +198,7 @@ class MenuManagerController extends AdminController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -214,9 +214,9 @@ class MenuManagerController extends AdminController {
         }
 
         if (count($selected_ids) > 1) {
-            $message = 'The menu entries were successfully deleted';
+            $message = trans('success_messages.menus_delete');
         } else {
-            $message = 'The menu entry was successfully deleted';
+            $message = trans('success_messages.menu_delete');
         }
 
         return Redirect::to('backend/menu-manager')

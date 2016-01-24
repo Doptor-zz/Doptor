@@ -1,4 +1,6 @@
-<?php namespace Components\Posts\Controllers\Backend;
+<?php
+namespace Components\Posts\Controllers\Backend;
+
 /*
 =================================================
 CMS Name  :  DOPTOR
@@ -14,17 +16,19 @@ use App, Input, Redirect, Request, Sentry, Str, View, File;
 use Post, Category, PostCategory;
 use Services\Validation\ValidationException as ValidationException;
 
-class PostCategoriesController extends BaseController {
+class PostCategoriesController extends BaseController
+{
 
-    public function __construct()
-    {
+    public function __construct() {
+
         // Add location hinting for views
-        View::addLocation(app_path().'/components/posts/views');
-        View::addNamespace('posts', app_path().'/components/posts/views');
+        View::addLocation(app_path() . '/components/posts/views');
+        View::addNamespace('posts', app_path() . '/components/posts/views');
 
         if (Request::is('backend/page-categories*')) {
             $this->type = 'page';
-        } else {
+        }
+        else {
             $this->type = 'post';
         }
 
@@ -36,15 +40,16 @@ class PostCategoriesController extends BaseController {
      *
      * @return Response
      */
-    public function index()
-    {
-
-
+    public function index() {
         $post_cats = Category::type($this->type)->get();
-        $this->layout->title = 'All ' . Str::title($this->type) . ' Categories';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.index')
-                                        ->with('post_cats', $post_cats)
-                                        ->with('type', $this->type);
+        if ($this->type == 'post') {
+            $title = trans('cms.page_categories');
+        } else {
+            $title = trans('cms.post_categories');
+        }
+
+        $this->layout->title = $title;
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.categories.index')->with('post_cats', $post_cats)->with('type', $this->type);
     }
 
     /**
@@ -52,13 +57,9 @@ class PostCategoriesController extends BaseController {
      *
      * @return Response
      */
-    public function create()
-    {
-
-
+    public function create() {
         $this->layout->title = 'New ' . Str::title($this->type) . ' Category';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.create_edit')
-                                        ->with('type', $this->type);
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.categories.create_edit')->with('type', $this->type);
     }
 
     /**
@@ -66,20 +67,16 @@ class PostCategoriesController extends BaseController {
      *
      * @return Response
      */
-    public function store()
-    {
+    public function store() {
         $input = Input::all();
 
-        try
-        {
+        try {
             Category::create($input);
 
-            return Redirect::to("backend/{$this->type}-categories")
-                                ->with('success_message', 'The post category was created.');
+            return Redirect::to("backend/{$this->type}-categories")->with('success_message', trans('success_messages.post_cat_create'));
         }
 
-        catch(ValidationException $e)
-        {
+        catch(ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
     }
@@ -90,17 +87,14 @@ class PostCategoriesController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
-    {
-
+    public function show($id) {
 
         $post = Category::findOrFail($id);
 
         if (!$post) App::abort('404');
 
         $this->layout->title = $post->title;
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.show')
-                                        ->with('post', $post);
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.categories.show')->with('post', $post);
     }
 
     /**
@@ -109,14 +103,10 @@ class PostCategoriesController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
-    {
-
+    public function edit($id) {
 
         $this->layout->title = 'Edit ' . Str::title($this->type) . ' Category';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.categories.create_edit')
-                                        ->with('post_cat', Category::findOrFail($id))
-                                        ->with('type', $this->type);;
+        $this->layout->content = View::make($this->link_type . '.' . $this->current_theme . '.categories.create_edit')->with('post_cat', Category::findOrFail($id))->with('type', $this->type);;
     }
 
     /**
@@ -125,18 +115,14 @@ class PostCategoriesController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
-    {
-        try
-        {
+    public function update($id) {
+        try {
             Category::findOrFail($id)->update(Input::all());
 
-            return Redirect::to("backend/{$this->type}-categories")
-                                ->with('success_message', 'The post category was updated.');
+            return Redirect::to("backend/{$this->type}-categories")->with('success_message', trans('success_messages.post_cat_update'));
         }
 
-        catch(ValidationException $e)
-        {
+        catch(ValidationException $e) {
             return Redirect::back()->withInput()->withErrors($e->getErrors());
         }
     }
@@ -147,19 +133,17 @@ class PostCategoriesController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id=null)
-    {
-
+    public function destroy($id = null) {
 
         // If multiple ids are specified
         if ($id == 'multiple') {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
-                return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                return Redirect::back()->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
-        } else {
+        }
+        else {
             $selected_ids = array($id);
         }
 
@@ -169,11 +153,13 @@ class PostCategoriesController extends BaseController {
             $post_cat->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-        $message = 'The ' . $post_cat->type . ' category' . $wasOrWere . ' deleted.';
+        if (count($selected_ids) > 1) {
+            $message = trans('success_messages.post_cats_delete');
+        }
+        else {
+            $message = trans('success_messages.post_cat_delete');
+        }
 
-        return Redirect::to("backend/{$post_cat->type}-categories")
-                            ->with('success_message', $message);
+        return Redirect::to("backend/{$post_cat->type}-categories")->with('success_message', $message);
     }
-
 }

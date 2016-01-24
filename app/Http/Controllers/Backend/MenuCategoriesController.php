@@ -59,10 +59,10 @@ class MenuCategoriesController extends AdminController {
 
 		        if ($menu_cat) {
 		            return \Redirect::to('backend/menu-categories')
-		                                ->with('success_message', 'The menu category was created.');
+		                                ->with('success_message', trans('success_messages.menu_cat_create'));
 		        } else {
 		            return \Redirect::to('backend/menu-categories')
-		                                ->with('error_message', 'The menu category wasn\'t created.');
+		                                ->with('error_message', trans('error_messages.menu_cat_create'));
 		        }
 		    } else {
 		        // Menu validation failed
@@ -72,7 +72,7 @@ class MenuCategoriesController extends AdminController {
 		    }
 		} catch (\Exception $e) {
 		    return \Redirect::to('backend/menu-categories')
-		                        ->with('error_message', 'The menu category wasn\'t created.');
+		                        ->with('error_message', trans('error_messages.menu_cat_create'));
 		}
 	}
 
@@ -127,17 +127,17 @@ class MenuCategoriesController extends AdminController {
 
 		        if ($menu_cat->update($input)) {
 		            if (\Request::ajax()) {
-		                return \Response::json('The menu category was updated.', 200);
+		                return \Response::json(trans('success_messages.menu_cat_create'), 200);
 		            } else {
 		                return \Redirect::to('backend/menu-categories')
-		                                    ->with('success_message', 'The menu category was updated.');
+		                                    ->with('success_message', trans('success_messages.menu_cat_update'));
 		            }
 		        } else {
 		            if (\Request::ajax()) {
-		                return \Response::json('The menu category wasn\'t updated.', 400);
+		                return \Response::json(trans('error_messages.menu_cat_update'), 400);
 		            } else {
 		                return \Redirect::to('backend/menu-categories')
-		                                    ->with('error_message', 'The menu category wasn\'t updated.');
+		                                    ->with('error_message', trans('error_messages.menu_cat_update'));
 		            }
 		        }
 		    } else {
@@ -154,10 +154,10 @@ class MenuCategoriesController extends AdminController {
 		    }
 		} catch (\Exception $e) {
 		    if (\Request::ajax()) {
-		        return \Response::json('The menu category wasn\'t updated.', 400);
+		        return \Response::json(trans('error_messages.menu_cat_update'), 400);
 		    } else {
 		        return \Redirect::to('backend/menu-categories')
-		                            ->with('error_message', 'The menu category wasn\'t created.');
+		                            ->with('error_message', trans('error_messages.menu_cat_update'));
 		    }
 		}
 	}
@@ -174,21 +174,21 @@ class MenuCategoriesController extends AdminController {
 
 		if ($menu_cat->menus->count() > 0) {
 			return \Redirect::to('backend/menu-categories')
-		                        ->with('error_message', 'The menu category can\'t be deleted because one or more menu belong to this category. <br> Either change the menu category in those menu(s) or delete the menu(s) first to delete this menu.');
+		                        ->with('error_message', trans('error_messages.menu_cat_delete_assoc'));
 		}
 
 		if ($menu_cat && $menu_cat->delete()) {
 		    if (\Request::ajax()) {
-		        return \Response::json('The menu category was deleted.', 200);
+		        return \Response::json(trans('success_messages.menu_cat_delete'), 200);
 		    }
 		    return \Redirect::to('backend/menu-categories')
-		                        ->with('success_message', 'The menu category was deleted.');
+		                        ->with('success_message', trans('success_messages.menu_cat_delete'));
 		} else {
 		    if (\Request::ajax()) {
-		        return \Response::json('The menu category wasn\'t deleted.', 400);
+		        return \Response::json(trans('error_messages.menu_cat_delete'), 400);
 		    }
 		    return \Redirect::to('backend/menu-categories')
-		                        ->with('error_message', 'The menu category was not deleted.');
+		                        ->with('error_message', trans('error_messages.menu_cat_delete'));
 		}
 	}
 

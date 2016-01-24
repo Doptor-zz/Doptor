@@ -159,12 +159,12 @@ class UserManager {
                 $user->delete();
             }
 
-            $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-            $message = 'The user' . $wasOrWere . ' deleted.';
+            $translation = (count($selected_ids) > 1) ? 'users_delete' : 'user_delete';
+            $message = trans('success_messages.' . $translation);
 
             return $message;
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            throw new Exception('User was not found.');
+            throw new Exception(trans('error_messages.users_find'));
         }
     }
 

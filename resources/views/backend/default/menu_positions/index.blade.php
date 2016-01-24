@@ -23,7 +23,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('menu-positions.create'))
                             <button data-href="{!! URL::to($link_type . '/menu-positions/create') !!}" class="btn btn-success">
-                                Add New <i class="icon-plus"></i>
+                                {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                             </button>
                             @endif
                         </div>
@@ -31,9 +31,9 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Alias</th>
-                                <th class="span3">Created At</th>
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.alias') !!}</th>
+                                <th class="span3">{!! trans('options.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -50,13 +50,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if ($current_user->hasAccess('menu-positions.destroy'))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.menu-positions.destroy', $menu_position->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'menu position');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif

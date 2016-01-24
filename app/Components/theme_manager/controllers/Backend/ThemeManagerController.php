@@ -35,7 +35,7 @@ class ThemeManagerController extends BaseController {
 
         $themes = Theme::get();
 
-        $this->layout->title = 'Theme Manager';
+        $this->layout->title = trans('cms.theme_manager');
 
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.theme_manager.index')
                                         ->with('themes', $themes);
@@ -97,7 +97,7 @@ class ThemeManagerController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {

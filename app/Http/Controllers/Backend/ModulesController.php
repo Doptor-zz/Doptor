@@ -71,16 +71,16 @@ class ModulesController extends AdminController {
 
             if ($module) {
                 return Redirect::to('backend/modules')
-                    ->with('success_message', 'The module was installed.');
+                    ->with('success_message', trans('success_messages.module_install'));
             } else {
                 return Redirect::to('backend/modules')
-                    ->with('success_message', 'The module wasn\'t installed.');
+                    ->with('error_message', trans('error_messages.module_install'));
             }
 
         } catch (Exception $e) {
             return Redirect::back()
                 ->withInput()
-                ->with('error_message', 'The module wasn\'t installed. ' . $e->getMessage());
+                ->with('error_message', trans('error_messages.module_install') . $e->getMessage());
         }
     }
 
@@ -97,10 +97,11 @@ class ModulesController extends AdminController {
         $migrations = json_decode($module->migrations);
         $module_tables = explode('|', $module->table);
 
-        // to run the migration in descending order
-        rsort($migrations);
 
         if (is_array($migrations)) {
+            // to run the migration in descending order
+            rsort($migrations);
+
             // Delete all migration entries for the module
             foreach ($migrations as $migration_file) {
                 require_once(app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php"));
@@ -146,10 +147,10 @@ class ModulesController extends AdminController {
 
         if ($module->delete()) {
             return Redirect::to('backend/modules')
-                ->with('success_message', 'Module was deleted.');
+                ->with('success_message', trans('success_messages.module_delete'));
         } else {
             return Redirect::to('backend/modules')
-                ->with('error_message', 'Module wasn\'t deleted.');
+                ->with('error_message', trans('error_messages.module_delete'));
         }
     }
 }

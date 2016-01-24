@@ -4,7 +4,7 @@
             <!-- BEGIN TABLE widget-->
             <div class="widget box light-grey">
                 <div class="blue widget-title">
-                    <h4><i class="icon-table"></i>All Report {!! trans('cms.builders') !!}</h4>
+                    <h4><i class="icon-table"></i>{!! str_plural(trans('cms.report_builder')) !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -17,7 +17,7 @@
                         <div class="btn-group pull-right">
                             @if ($current_user->hasAccess('report-builder.create'))
                                 <a href="{!! URL::to($link_type . '/report-builder/create') !!}" class="btn btn-success">
-                                    Add New <i class="icon-plus"></i>
+                                    {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                                 </a>
                             @endif
                         </div>
@@ -25,13 +25,13 @@
                     <table class="table table-striped table-hover table-bordered" id="sample_1">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Version</th>
-                                <th>Author</th>
-                                <th>Website</th>
-                                <th>Download</th>
-                                <th>Created At</th>
-                                <!-- <th class="span2">Edit</th> -->
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.version') !!}</th>
+                                <th>{!! trans('fields.author') !!}</th>
+                                <th>{!! trans('fields.website') !!}</th>
+                                <th>{!! trans('fields.download') !!}</th>
+                                <th>{!! trans('options.created_at') !!}</th>
+                                <!-- <th class="span2">{!! trans('options.edit') !!}</th> -->
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -42,7 +42,7 @@
                                     <td>{!! $report->version !!}</td>
                                     <td>{!! $report->author !!}</td>
                                     <td>{!! $report->website !!}</td>
-                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), 'Download') !!}</th>
+                                    <th>{!! HTML::link(url($link_type . '/report-builder/download/'.$report->id), trans('fields.download')) !!}</th>
                                     <td>{!! $report->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('report-builder.edit'))
@@ -52,12 +52,12 @@
                                         @if ($current_user->hasAccess('report-builder.destroy'))
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 <li>
                                                 {!! Form::open(array('route' => array($link_type . '.report-builder.destroy', $report->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecords($(this), 'module');")) !!}
-                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                    <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                 {!! Form::close() !!}
                                                 </li>
                                             </ul>

@@ -7,9 +7,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($menu_position))
-                            <span class="hidden-480">Create New Menu Position</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} Menu Position</span>
                         @else
-                            <span class="hidden-480">Edit Existing Menu Position</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} Existing Menu Position</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -28,28 +28,28 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
-                                        <label class="control-label">Name <span class="red">*</span></label>
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('fields.name') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($menu_position)) ? Input::old('name') : $menu_position->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('alias') ? 'error' : '' }}">
-                                        <label class="control-label">Alias </label>
+                                    <div class="control-group {!! $errors->has('alias') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('fields.alias') !!} </label>
                                         <div class="controls">
                                             {!! Form::text('alias', (!isset($menu_position)) ? Input::old('alias') : $menu_position->alias, array('class' => 'input-xlarge')) !!}
-                                            <span class="help-inline">Leave blank for automatic alias</span>
+                                            <span class="help-inline">{!! trans('form_messages.blank_for_automatic_alias') !!}</span>
                                             {!! $errors->first('alias', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

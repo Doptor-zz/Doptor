@@ -80,7 +80,7 @@ class ModuleBuilderController extends AdminController {
                 Session::put('download_file', $built_module->id);
 
                 return Redirect::to('backend/module-builder')
-                        ->with('success_message', 'The module was created');
+                        ->with('success_message', trans('success_messages.module_create'));
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -90,7 +90,7 @@ class ModuleBuilderController extends AdminController {
         } catch (Exception $e) {
             return Redirect::back()
                 ->withInput()
-                ->with('error_message', 'The module wasn\'t created. ' . $e->getMessage());
+                ->with('error_message', trans('error_messages.module_create') . ' ' . $e->getMessage());
         }
     }
 
@@ -127,9 +127,8 @@ class ModuleBuilderController extends AdminController {
      */
     public function update($id)
     {
-        // try {
+        try {
             $input = Input::all();
-        // dd($input);
 
             $validator = BuiltModule::validate($input, $id);
 
@@ -160,18 +159,18 @@ class ModuleBuilderController extends AdminController {
                 Session::put('download_file', $id);
 
                 return Redirect::to('backend/module-builder')
-                        ->with('success_message', 'The module was updated');
+                        ->with('success_message', trans('success_messages.module_update'));
             } else {
                 // Form validation failed
                 return Redirect::back()
                     ->withInput()
                     ->withErrors($validator);
             }
-        // } catch (Exception $e) {
-        //     return Redirect::back()
-        //         ->withInput()
-        //         ->with('error_message', 'The module wasn\'t updated. ' . $e->getMessage());
-        // }
+        } catch (Exception $e) {
+            return Redirect::back()
+                ->withInput()
+                ->with('error_message', trans('error_messages.module_update') . ' ' . $e->getMessage());
+        }
     }
 
     /**
@@ -188,10 +187,10 @@ class ModuleBuilderController extends AdminController {
         File::delete($module->file);
         if ($module->delete()) {
             return \Redirect::to($this->link_type . "/module-builder")
-                ->with('success_message', 'The module was deleted.');
+                ->with('success_message', trans('success_messages.module_delete'));
         } else {
             return \Redirect::to($this->link_type . "/module-builder")
-                ->with('error_message', 'The module was not deleted.');
+                ->with('error_message', trans('error_messages.module_delete'));
         }
 
     }
@@ -206,7 +205,7 @@ class ModuleBuilderController extends AdminController {
 
         if (!File::exists($zip_file)) {
             return Redirect::to($this->link_type . "/module-builder/{$id}/edit")
-                ->with('error_message', 'The download file couldn\'t be found. Follow following steps to create and download the module file.');
+                ->with('error_message', trans('error_messages.module_file_download'));
         }
 
         return Response::download($zip_file, $canonical);

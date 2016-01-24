@@ -82,7 +82,7 @@ return array(
 
 	"alpha_spaces"     => "The :attribute may only contain letters and spaces.",
 
-	'custom' => array(),
+	"custom" => array(),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -95,6 +95,6 @@ return array(
 	|
 	*/
 
-	'attributes' => array(),
+	"attributes" => array(),
 
 );

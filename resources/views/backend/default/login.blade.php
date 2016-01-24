@@ -2,12 +2,12 @@
     @if ($errors->any())
         <div class="alert alert-error">
             <button class="close" data-dismiss="alert">×</button>
-            <strong>Error!</strong><br> {!! implode('<br>', $errors->all()) !!}
+            <strong>{!! trans('cms.error') !!}</strong><br> {!! implode('<br>', $errors->all()) !!}
         </div>
     @endif
     <!-- BEGIN LOGIN FORM -->
     {!! Form::open(array('url'=>'login/backend', 'method'=>'POST', 'class'=>'form-vertical no-padding no-margin')) !!}
-        <p class="center">{!! trans('cms.enter_username_pw') !!}</p>
+        <p class="center">{!! trans('users.enter_username_pw') !!}</p>
         <div class="control-group">
             <div class="controls">
                 <div class="input-prepend">
@@ -28,23 +28,23 @@
             <div class="controls">
                 <label class="checkbox">
                     {!! Form::checkbox('remember', 'checked', true) !!}
-                    {!! trans('cms.remember_me') !!}
+                    {!! trans('users.remember_me') !!}
                 </label>
-                <a href="javascript:;" class="pull-right" id="forget-password">{!! trans('cms.forgot_pw') !!}</a>
+                <a href="javascript:;" class="pull-right" id="forget-password">{!! trans('users.forgot_pw') !!}</a>
             </div>
         </div>
-        <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="{!! trans('cms.login') !!}" />
+        <input type="submit" id="login-btn" class="btn btn-block btn-inverse" value="{!! trans('users.login') !!}" />
     {!! Form::close() !!}
     <!-- END LOGIN FORM -->
 
     <!-- BEGIN FORGOT PASSWORD FORM -->
     {!! Form::open(array('url'=>'forgot_password', 'method'=>'POST', 'id'=>'forgotform', 'class'=>'form-vertical no-padding no-margin hide')) !!}
-        <p class="center">Enter your e-mail address below to reset your password.</p>
+        <p class="center">{!! trans('users.reset_pw_email') !!}</p>
         <div class="control-group">
             <div class="controls">
                 <div class="input-prepend">
                     <span class="add-on"><i class="icon-envelope"></i></span>
-                    <input id="input-email" type="text" placeholder="Email" name="email" />
+                    <input id="input-email" type="text" placeholder="{!! trans('fields.email') !!}" name="email" />
                 </div>
             </div>
             <div class="space10"></div>

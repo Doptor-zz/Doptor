@@ -113,9 +113,11 @@ class UserGroupManager {
 
             // Delete the group
             $group->delete();
+
+            $message = trans('success_messages.user_group_delete');
+            return $message;
         } catch (GroupNotFoundException $e) {
             throw new Exception('Group was not found.');
-
         }
     }
 

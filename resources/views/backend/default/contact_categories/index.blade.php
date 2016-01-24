@@ -10,7 +10,7 @@
             <!-- BEGIN EXAMPLE TABLE widget-->
             <div class="widget light-gray box">
                 <div class="blue widget-title">
-                    <h4><i class="icon-th-list"></i>{!! trans('cms.contact_categories') !!}</h4>
+                    <h4><i class="icon-th-list"></i>{!! trans('fields.contact_categories') !!}</h4>
                     <div class="tools">
                         <a href="javascript:;" class="collapse"></a>
                         <a href="#widget-config" data-toggle="modal" class="config"></a>
@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                 @if ($current_user->hasAccess("contact-categories.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.contact-categories.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'contact categorie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                 @endif
@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("contact-categories.create"))
                         <div class="btn-group pull-right">
                             <a href="{!! URL::to($link_type . '/contact-categories/create') !!}" class="btn btn-success">
-                                Add New <i class="icon-plus"></i>
+                                {!! trans('options.create_new') !!} <i class="icon-plus"></i>
                             </a>
                         </div>
                         @endif
@@ -49,11 +49,11 @@
                         <thead>
                             <tr>
                                 <th class="span1"></th>
-                                <th>Name</th>
-                                <th>Alias</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th class="span3">Created At</th>
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.alias') !!}</th>
+                                <th>{!! trans('fields.description') !!}</th>
+                                <th>{!! trans('options.status') !!}</th>
+                                <th class="span3">{!! trans('options.created_at') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -64,7 +64,7 @@
                                     <td>{!! $contact_cat->name !!}</td>
                                     <td>{!! $contact_cat->alias !!}</td>
                                     <td>{!! $contact_cat->description !!}</td>
-                                    <td>{!! $contact_cat->status() !!}</td>
+                                    <td>{!! $contact_cat->{!! trans('options.status') !!}() !!}</td>
                                     <td>{!! $contact_cat->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess("contact-categories.edit"))
@@ -73,13 +73,13 @@
 
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                             @if ($current_user->hasAccess("contact-categories.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.contact-categories.destroy', $contact_cat->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'contact category');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                             @endif

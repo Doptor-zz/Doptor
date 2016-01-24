@@ -84,7 +84,7 @@ class UserController extends AdminController {
                 }
 
                 return Redirect::back()
-                                ->with('success_message', "The user {$input['username']} was created.");
+                                ->with('success_message', trans('success_messages.user_create', ['username' => $input['username']]));
             } else {
                 // Form validation failed
                 return Redirect::back()
@@ -93,7 +93,7 @@ class UserController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::back()
-                                ->with('error_message', "The user {$input['username']} wasn't created. {$e->getMessage()}");
+                                ->with('error_message', trans('error_messages.user_create', ['username' => $input['username']]) . $e->getMessage());
         }
     }
 
@@ -171,7 +171,7 @@ class UserController extends AdminController {
                 }
 
                 return Redirect::to($redirect_to)
-                    ->with('success_message', "The user {$input['username']} was updated.");
+                    ->with('success_message', trans('success_messages.user_update', ['username' => $input['username']]));
 
             } else {
                 // Form validation failed
@@ -181,7 +181,7 @@ class UserController extends AdminController {
             }
         } catch (Exception $e) {
             return Redirect::to($redirect_to)
-                                ->with('error_message', "User information was not updated. {$e->getMessage()}");
+                                ->with('error_message', trans('error_messages.user_update', ['username' => $input['username']]) . $e->getMessage());
         }
     }
 
@@ -242,7 +242,7 @@ class UserController extends AdminController {
             $this->user_manager->activateUser($id);
 
             return Redirect::to("{$this->link_type}/users")
-                ->with('success_message', "User was activated.");
+                ->with('success_message', trans('success_messages.user_activate'));
         } catch (Exception $e) {
             return Redirect::back()->withInput()->with('error_message', $e->getMessage());
         }
@@ -260,7 +260,7 @@ class UserController extends AdminController {
             $this->user_manager->deactivateUser($id);
 
             return Redirect::to("{$this->link_type}/users")
-                ->with('success_message', "User was deactivated.");
+                ->with('success_message', trans('success_messages.user_deactivate'));
         } catch (Exception $e) {
             return Redirect::back()->withInput()->with('error_message', $e->getMessage());
         }

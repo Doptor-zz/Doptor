@@ -14,9 +14,9 @@
                     401
                 </div>
                 <div class="span7 details">
-                    <h3>Unauthorized Access.</h3>
+                    <h3>{!! trans('errors.401.message') !!}</h3>
                     <p>
-                        User have no sufficient permission. Please contact our administrator.
+                        {!! trans('errors.401.sub_message') !!}
                     </p>
                 </div>
             </div>

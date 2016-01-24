@@ -8,10 +8,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="control-group">
-                        Form Category: {!! $form->category !!}
+                        Form {!! trans('cms.category') !!}: {!! $form->category !!}
                     </div>
                     <div class="control-group">
-                        Form Description: {!! $form->description !!}
+                        Form {!! trans('fields.description') !!}: {!! $form->description !!}
                     </div>
                     {!! preg_replace("/\/(\n)?\//", '', $form->rendered) !!}
                 </div>

@@ -17,9 +17,9 @@
                     <h4>
                         <i class="icon-user"></i>
                         @if (!isset($user_group))
-                            <span class="hidden-480">Create New User Group</span>
+                            <span class="hidden-480">{!! trans('options.create_new') !!} {!! trans('cms.user_group') !!}</span>
                         @else
-                            <span class="hidden-480">Edit User Group Information</span>
+                            <span class="hidden-480">{!! trans('options.edit') !!} {!! trans('cms.user_group') !!} Information</span>
                         @endif
                         &nbsp;
                     </h4>
@@ -38,19 +38,19 @@
                                     @if ($errors->has())
                                          <div class="alert alert-error hide" style="display: block;">
                                            <button data-dismiss="alert" class="close">×</button>
-                                           You have some form errors. Please check below.
+                                           {!! trans('errors.form_errors') !!}
                                         </div>
                                     @endif
 
 
-                                    <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
-                                        <label class="control-label">Name <span class="red">*</span></label>
+                                    <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
+                                        <label class="control-label">{!! trans('fields.name') !!} <span class="red">*</span></label>
                                         <div class="controls">
                                             {!! Form::text('name', (!isset($user_group)) ? Input::old('name') : $user_group->name, array('class' => 'input-xlarge'))!!}
                                             {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="control-group {{ $errors->has('permissions') ? 'error' : '' }}">
+                                    <div class="control-group {!! $errors->has('permissions') ? 'error' : '' !!}">
                                         <label class="control-label">Permissions <span class="red">*</span></label>
                                         <div class="controls line">
                                             <label class="checkbox">
@@ -92,17 +92,17 @@
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.create'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.create" {!! (isset($user_group->permissions[$abbr.'.create'])) ? 'checked' : '' !!}/> Create New Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.create" {!! (isset($user_group->permissions[$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('options.create_new') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.edit'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.edit" {!! (isset($user_group->permissions[$abbr.'.edit'])) ? 'checked' : '' !!}/> Edit Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.edit" {!! (isset($user_group->permissions[$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('options.edit') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
                                                     @if ($current_user->hasAccess($abbr.'.destroy'))
-                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> Delete Record
+                                                        <input type="checkbox" value="1" name="{!! $abbr !!}.destroy" {!! (isset($user_group->permissions[$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('options.delete') !!} Record
                                                     @endif
                                                     </label>
                                                     <label class="checkbox">
@@ -152,17 +152,17 @@
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.create'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.create" {!! (isset($user_group->permissions['modules.'.$abbr.'.create'])) ? 'checked' : '' !!}/> Create New Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.create" {!! (isset($user_group->permissions['modules.'.$abbr.'.create'])) ? 'checked' : '' !!}/> {!! trans('options.create_new') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.edit'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.edit" {!! (isset($user_group->permissions['modules.'.$abbr.'.edit'])) ? 'checked' : '' !!}/> Edit Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.edit" {!! (isset($user_group->permissions['modules.'.$abbr.'.edit'])) ? 'checked' : '' !!}/> {!! trans('options.edit') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
                                                         @if ($current_user->hasAccess('modules.'.$abbr.'.destroy'))
-                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> Delete Record
+                                                            <input type="checkbox" value="1" name="modules.{!! $abbr !!}.destroy" {!! (isset($user_group->permissions['modules.'.$abbr.'.destroy'])) ? 'checked' : '' !!}/> {!! trans('options.delete') !!} Record
                                                         @endif
                                                         </label>
                                                         <label class="checkbox">
@@ -182,7 +182,7 @@
                                  </div>
 
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {!! trans('options.save') !!}</button>
                                     </div>
                                 {!! Form::close() !!}
                                 <!-- END FORM-->

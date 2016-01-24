@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="page" class="dashboard">
-        <h1>Welcome</h1>
+        <h1>{!! trans('cms.welcome') !!}</h1>
         <div class="row-fluid">
 
             <div class="span3">
@@ -13,10 +13,10 @@
 
                     <ul class="board-sub">
                         @if (can_access_menu($current_user, array('user-groups')))
-                            <li><a href="{!! URL::to('backend/user-groups') !!}">{!! trans('cms.all_user_groups') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/user-groups') !!}">{!! trans('cms.user_groups') !!}</a></li>
                         @endif
                         @if (can_access_menu($current_user, array('users')))
-                            <li><a href="{!! URL::to('backend/users') !!}">{!! trans('cms.all_users') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/users') !!}">{!! trans('cms.users') !!}</a></li>
                         @endif
                     </ul>
                 </div>
@@ -30,13 +30,13 @@
 
                     <ul class="board-sub">
                         @if (can_access_menu($current_user, array('menu-positions')))
-                            <li><a href="{!! URL::to('backend/menu-positions') !!}">{!! trans('cms.all_menu_positions') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/menu-positions') !!}">{!! trans('cms.menu_positions') !!}</a></li>
                         @endif
                         @if (can_access_menu($current_user, array('menu-categories')))
-                            <li><a href="{!! URL::to('backend/menu-categories') !!}">{!! trans('cms.all_menu_categories') !!}</a></li>
+                            <li><a href="{!! URL::to('backend/menu-categories') !!}">{!! trans('cms.menu_categories') !!}</a></li>
                         @endif
                         @if (can_access_menu($current_user, array('menu-manager')))
-                            <li><a href="{!! URL::to('backend/menu-manager') !!}">All Menu Entries</a></li>
+                            <li><a href="{!! URL::to('backend/menu-manager') !!}">{!! trans('cms.menu_entries') !!}</a></li>
                         @endif
                     </ul>
                 </div>
@@ -122,7 +122,7 @@
                         @if (can_access_menu($current_user, array('contact-categories')))
                             <li class="{!! Request::is('backend/contact-categories') ? 'active' : null !!}">
                                <a href="{!! URL::to('backend/contact-categories') !!}">
-                                   {!! trans('cms.contact_categories') !!}
+                                   {!! trans('fields.contact_categories') !!}
                                </a>
                             </li>
                         @endif

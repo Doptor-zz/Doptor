@@ -40,7 +40,7 @@ class ReportGeneratorController extends BaseController {
     {
         $report_generators = ReportGenerator::all();
 
-        $this->layout->title = 'All Report Generators';
+        $this->layout->title = trans('cms.report_generators');
         $this->layout->content = View::make('report_generators::index')
             ->with('report_generators', $report_generators);
     }
@@ -88,7 +88,7 @@ class ReportGeneratorController extends BaseController {
         }
 
         return Redirect::to("{$this->link_type}/report-generators")
-                        ->with('success_message', 'The report generator was installed');
+                        ->with('success_message', trans('success_messages.report_generator_install'));
     }
 
     public function destroy($id=null)
@@ -98,7 +98,7 @@ class ReportGeneratorController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -111,8 +111,11 @@ class ReportGeneratorController extends BaseController {
             $post->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-        $message = 'The report generator' . $wasOrWere . ' deleted.';
+        if (count($selected_ids) > 1) {
+            $message = trans('success_messages.report_generators_delete');
+        } else {
+            $message = trans('success_messages.report_generator_delete');
+        }
 
         return Redirect::to("backend/report-generator")
                                 ->with('success_message', $message);

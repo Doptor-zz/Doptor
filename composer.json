@@ -16,12 +16,13 @@
 		"guzzle/guzzle": "3.9.*",
 		"barryvdh/laravel-dompdf": "0.5.*",
 		"mews/captcha": "2.0.*",
-		"illuminate/support": "^5.0"
+		"illuminate/support": "^5.0",
+		"barryvdh/laravel-translation-manager": "^0.2"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
 		"phpspec/phpspec": "~2.1",
-		"way/generators": "3.*",
+		"laracasts/generators": "1.1.*",
 		"barryvdh/laravel-ide-helper": "2.*"
 	},
 	"autoload": {

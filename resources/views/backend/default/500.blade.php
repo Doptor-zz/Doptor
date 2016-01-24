@@ -14,10 +14,9 @@
                     500
                 </div>
                 <div class="span7 details">
-                    <h3>Oops, Something went wrong.</h3>
+                    <h3>{!! trans('errors.500.message') !!}</h3>
                     <p>
-                        We are fixing it!<br />
-                        Please come back in a while.<br />
+                        {!! trans('errors.500.sub_message') !!}
                     </p>
                 </div>
             </div>

@@ -41,7 +41,7 @@ class ReportBuilderController extends BaseController {
     {
         $report_builders = BuiltReport::all();
 
-        $this->layout->title = 'All Report Builders';
+        $this->layout->title = trans('cms.report_builders');
         $this->layout->content = View::make('report_builders::index')
             ->with('report_builders', $report_builders);
     }
@@ -73,7 +73,7 @@ class ReportBuilderController extends BaseController {
 
         Session::put('download_file', $report_builder->id);
         return Redirect::to('backend/report-builder')
-                        ->with('success_message', 'The report builder was created');
+                        ->with('success_message', trans('success_messages.report_builder_create'));
     }
 
     public function edit($id)
@@ -114,7 +114,7 @@ class ReportBuilderController extends BaseController {
 
         Session::put('download_file', $id);
         return Redirect::to('backend/report-builder')
-                        ->with('success_message', 'The report builder was updated');
+                        ->with('success_message', trans('success_messages.report_builder_update'));
     }
 
     public function destroy($id=null)
@@ -124,7 +124,7 @@ class ReportBuilderController extends BaseController {
             $selected_ids = trim(Input::get('selected_ids'));
             if ($selected_ids == '') {
                 return Redirect::back()
-                                ->with('error_message', "Nothing was selected to delete");
+                                ->with('error_message', trans('error_messages.nothing_selected_delete'));
             }
             $selected_ids = explode(' ', $selected_ids);
         } else {
@@ -137,8 +137,11 @@ class ReportBuilderController extends BaseController {
             $post->delete();
         }
 
-        $wasOrWere = (count($selected_ids) > 1) ? 's were' : ' was';
-        $message = 'The report builder' . $wasOrWere . ' deleted.';
+       if (count($selected_ids) > 1) {
+            $message = trans('success_messages.report_builder_delete');
+        } else {
+            $message = trans('success_messages.report_builders_delete');
+        }
 
         return Redirect::to("backend/report-builder")
                                 ->with('success_message', $message);

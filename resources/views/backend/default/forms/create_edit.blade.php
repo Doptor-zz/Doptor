@@ -11,7 +11,7 @@
                     @if ($errors->has())
                          <div class="alert alert-error hide" style="display: block;">
                            <button data-dismiss="alert" class="close">×</button>
-                           You have some form errors. Please check below.
+                           {!! trans('errors.form_errors') !!}
                         </div>
                     @endif
                 </div>
@@ -24,7 +24,7 @@
                 {!! $form->rendered !!}
 
                 @if ($form->show_captcha)
-                    <div class="control-group {{ $errors->has("captcha") ? "error" : "" }}">
+                    <div class="control-group {!! $errors->has("captcha") ? "error" : "" !!}">
                         <label class="control-label">Enter captcha</label>
                         <div class="controls">
                             {!! HTML::image(Captcha::img(), "Captcha image") !!}

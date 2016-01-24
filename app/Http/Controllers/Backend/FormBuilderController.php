@@ -61,10 +61,10 @@ class FormBuilderController extends AdminController {
 
                 if ($form) {
                     return \Redirect::to('backend/form-builder')
-                                        ->with('success_message', 'The form was created.');
+                                        ->with('success_message', trans('success_messages.form_create'));
                 } else {
                     return \Redirect::to('backend/form-builder')
-                                        ->with('error_message', 'The form was\'t created.');
+                                        ->with('error_message', trans('error_messages.form_create'));
                 }
             } else {
                 // Form validation failed
@@ -74,7 +74,7 @@ class FormBuilderController extends AdminController {
             }
         } catch (\Exception $e) {
             return \Redirect::back()
-                                ->with('error_message', 'The form wasn\'t created.');
+                                ->with('error_message', trans('error_messages.form_create'));
         }
     }
 
@@ -138,10 +138,10 @@ class FormBuilderController extends AdminController {
 
                 if ($form->save()) {
                     return \Redirect::to('backend/form-builder')
-                                        ->with('success_message', 'Form was updated.');
+                                        ->with('success_message', trans('success_messages.form_update'));
                 } else {
                     return \Redirect::to('backend/form-builder')
-                                        ->with('error_message', 'Form wasn\'t updated.');
+                                        ->with('error_message', trans('error_messages.form_cat_update'));
                 }
             } else {
                 // Form validation failed
@@ -152,7 +152,7 @@ class FormBuilderController extends AdminController {
         } catch (\Exception $e) {
             dd($e->getMessage());
             return \Redirect::back()
-                                ->with('error_message', 'The form wasn\'t updated.');
+                                ->with('error_message', trans('error_messages.form_cat_update'));
         }
     }
 
@@ -168,14 +168,14 @@ class FormBuilderController extends AdminController {
 
         if (\BuiltModule::where('form_id', '=', $id)->first()) {
             return \Redirect::back()
-                            ->with('error_message', 'The form can\'t be deleted because a built module is using this form. <br> Either change the form in that built module or delete the module first to delete this form.');
+                            ->with('error_message', trans('error_messages.form_delete_assoc'));
         }
         if ($form->delete()) {
             return \Redirect::to('backend/form-builder')
-                                ->with('success_message', 'Form was deleted.');
+                                ->with('success_message', trans('success_messages.form_delete'));
         } else {
             return \Redirect::to('backend/form-builder')
-                                ->with('error_message', 'Form wasn\'t deleted.');
+                                ->with('error_message', trans('error_messages.form_delete'));
         }
     }
 

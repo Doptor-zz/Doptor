@@ -31,7 +31,7 @@
                     @if ($errors->has())
                         <div class="alert alert-error hide" style="display: block;">
                             <button data-dismiss="alert" class="close">×</button>
-                            You have some form errors. Please check below.
+                            {!! trans('errors.form_errors') !!}
                         </div>
                     @endif
 
@@ -54,7 +54,7 @@
                                     <li class="span3">
                                         <a href="#tab3" data-toggle="tab" class="step">
                                             <span class="number">3</span>
-                                            <span class="desc"><i class="icon-ok"></i> Confirm</span>
+                                            <span class="desc"><i class="icon-ok"></i> {!! trans('options.confirm') !!}</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -66,46 +66,46 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
                                 <h4>Provide module details</h4>
-                                <div class="control-group {{ $errors->has('name') ? 'error' : '' }}">
-                                    <label class="control-label">Name <i class="red">*</i></label>
+                                <div class="control-group {!! $errors->has('name') ? 'error' : '' !!}">
+                                    <label class="control-label">{!! trans('fields.name') !!} <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('name', (!isset($module)) ? Input::old('name') : $module->name, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('name', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('version') ? 'error' : '' }}">
-                                    <label class="control-label">Version <i class="red">*</i></label>
+                                <div class="control-group {!! $errors->has('version') ? 'error' : '' !!}">
+                                    <label class="control-label">{!! trans('fields.version') !!} <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('version', (!isset($module)) ? Input::old('version') : $module->version, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('version', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('author') ? 'error' : '' }}">
-                                    <label class="control-label">Author <i class="red">*</i></label>
+                                <div class="control-group {!! $errors->has('author') ? 'error' : '' !!}">
+                                    <label class="control-label">{!! trans('fields.author') !!} <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('author', (!isset($module)) ? Input::old('author') : $module->author, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('author', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('vendor') ? 'error' : '' }}">
-                                    <label class="control-label">Vendor Name <i class="red">*</i></label>
+                                <div class="control-group {!! $errors->has('vendor') ? 'error' : '' !!}">
+                                    <label class="control-label">Vendor {!! trans('fields.name') !!} <i class="red">*</i></label>
                                     <div class="controls">
-                                        {!! Form::text('vendor', (!isset($module)) ? Input::old('vendor') : $module->vendor, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('vendor', (!isset($module)) ? Input::old('vendor') : $module->vendor, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         <span class="help-inline">Shouldn't contain spaces or special characters</span>
                                         {!! $errors->first('vendor', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('website') ? 'error' : '' }}">
-                                    <label class="control-label">Website Address</label>
+                                <div class="control-group {!! $errors->has('website') ? 'error' : '' !!}">
+                                    <label class="control-label">{!! trans('fields.website') !!} {!! trans('fields.address') !!}</label>
                                     <div class="controls">
-                                        {!! Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6', (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::text('website', (!isset($module)) ? Input::old('website') : $module->website, array('class' => 'span6', (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('website', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
-                                    <label class="control-label">Module Description</label>
+                                <div class="control-group {!! $errors->has('description') ? 'error' : '' !!}">
+                                    <label class="control-label">Module {!! trans('fields.description') !!}</label>
                                     <div class="controls">
-                                        {!! Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2, (isset($module) && !$module->is_author ? 'disabled' : '')))!!}
+                                        {!! Form::textarea('description', (!isset($module)) ? Input::old('description') : $module->description, array('class' => 'span6', 'rows'=>2, (isset($module) && !$module->is_author ? 'readonly' : '')))!!}
                                         {!! $errors->first('description', '<span class="help-inline">:message</span>') !!}
                                     </div>
                                 </div>
@@ -132,14 +132,14 @@
                                             </div>
                                         @endfor
 
-                                        <div class="pull-right">{!! HTML::link("$link_type/form-builder/create", "Create New Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</div>
+                                        <div class="pull-right">{!! HTML::link("$link_type/form-builder/create", "{!! trans('options.create_new') !!} Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</div>
 
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
 
-                                <div class="control-group {{ $errors->has('target') ? 'error' : '' }}">
-                                    <label class="control-label">Target <i class="red">*</i></label>
+                                <div class="control-group {!! $errors->has('target') ? 'error' : '' !!}">
+                                    <label class="control-label">{!! trans('fields.target') !!} <i class="red">*</i></label>
                                     <div class="controls line">
                                         {!! Form::select('target[]', Menu::all_targets(), (!isset($module)) ? Input::old('target') : $module->selected_targets(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select target')) !!}
                                         {!! $errors->first('target', '<span class="help-inline">:message</span>') !!}
@@ -151,7 +151,7 @@
                                     {!! Form::select('', $select, '', array('id'=>'dropdown-options', 'class'=>'hide')) !!}
                                 </div>
 
-                                <div class="control-group {{ $errors->has('requires') ? 'error' : '' }}">
+                                <div class="control-group {!! $errors->has('requires') ? 'error' : '' !!}">
                                     <label class="control-label">Depends on modules</label>
                                     <div class="controls line">
                                         {!! Form::select('requires[]', $all_modules, (!isset($module)) ? Input::old('requires') : $module->required_modules(), array('class'=>'chosen span6 m-wrap', 'style'=>'width:285px', 'multiple', 'data-placeholder'=>'Select modules required for this module')) !!}
@@ -160,33 +160,33 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="tab3">
-                                <h4>Confirm options</h4>
+                                <h4>{!! trans('options.confirm') !!} options</h4>
                                 <div class="control-group">
-                                    <label class="control-label">Module Name:</label>
+                                    <label class="control-label">Module {!! trans('fields.name') !!}:</label>
                                     <div class="controls">
                                         <span class="text" id="name"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Module Version:</label>
+                                    <label class="control-label">Module {!! trans('fields.version') !!}:</label>
                                     <div class="controls">
                                         <span class="text" id="version"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Module Author:</label>
+                                    <label class="control-label">Module {!! trans('fields.author') !!}:</label>
                                     <div class="controls">
                                         <span class="text" id="author"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Module Website:</label>
+                                    <label class="control-label">Module {!! trans('fields.website') !!}:</label>
                                     <div class="controls">
                                         <span class="text" id="website"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Module Description:</label>
+                                    <label class="control-label">Module {!! trans('fields.description') !!}:</label>
                                     <div class="controls">
                                         <span class="text" id="description"></span>
                                     </div>

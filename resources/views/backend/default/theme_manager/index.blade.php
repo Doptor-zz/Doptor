@@ -23,14 +23,14 @@
                         <div class="btn-group pull-right">
                             <div class="actions inline">
                                 <div class="btn">
-                                    <i class="icon-cog"> Actions</i>
+                                    <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                 </div>
                                 <ul class="btn">
                                     @if ($current_user->hasAccess("theme-manager.destroy"))
                                     <li>
                                         {!! Form::open(array('route' => array($link_type . '.theme-manager.destroy', 'multiple'), 'method' => 'delete', 'class'=>'inline', 'onsubmit'=>"return deleteRecords($(this), 'theme entrie');")) !!}
                                             {!! Form::hidden('selected_ids', '', array('id'=>'selected_ids')) !!}
-                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                            <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                         {!! Form::close() !!}
                                     </li>
                                     @endif
@@ -40,7 +40,7 @@
                         @if ($current_user->hasAccess("theme-manager.create"))
                         <div class="btn-group pull-right">
                             <button data-href="{!! URL::to($link_type . '/theme-manager/create') !!}" class="btn btn-success">
-                                Install New <i class="icon-plus"></i>
+                                {!! trans('options.install_new') !!} <i class="icon-plus"></i>
                             </button>
                         </div>
                         @endif
@@ -49,13 +49,13 @@
                         <thead>
                             <tr>
                                 <th class="span1"></th>
-                                <th>Name</th>
-                                <th>Screenshot</th>
-                                <th>Author</th>
-                                <th>Version</th>
-                                <th>Description</th>
-                                <th>Target</th>
-                                <th>Status</th>
+                                <th>{!! trans('fields.name') !!}</th>
+                                <th>{!! trans('fields.screenshot') !!}</th>
+                                <th>{!! trans('fields.author') !!}</th>
+                                <th>{!! trans('fields.version') !!}</th>
+                                <th>{!! trans('fields.description') !!}</th>
+                                <th>{!! trans('fields.target') !!}</th>
+                                <th>{!! trans('options.status') !!}</th>
                                 <th class="span2"></th>
                             </tr>
                         </thead>
@@ -77,14 +77,14 @@
                                     <td>
                                         <div class="actions inline">
                                             <div class="btn btn-mini">
-                                                <i class="icon-cog"> Actions</i>
+                                                <i class="icon-cog"> {!! trans('options.actions') !!}</i>
                                             </div>
                                             <ul class="btn btn-mini">
                                                 @if (Setting::value("{$theme->target}_theme") != $theme->id)
                                                     {{-- Show the apply theme button, only if the theme is not already applied --}}
                                                     @if ($current_user->hasAccess("theme-manager.apply"))
                                                     <li>
-                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return applyTheme($(this));")) !!}
+                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return apply{!! trans('fields.theme') !!}($(this));")) !!}
                                                             <button type="submit" class=""> Apply</button>
                                                         {!! Form::close() !!}
                                                     </li>
@@ -93,7 +93,7 @@
                                                 @if ($current_user->hasAccess("theme-manager.destroy"))
                                                 <li>
                                                     {!! Form::open(array('route' => array($link_type . '.theme-manager.destroy', $theme->id), 'method' => 'delete', 'class'=>'inline', 'onclick'=>"return deleteRecord($(this), 'theme entry');")) !!}
-                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> Delete</button>
+                                                        <button type="submit" class="danger delete"><i class="icon-trash"></i> {!! trans('options.delete') !!}</button>
                                                     {!! Form::close() !!}
                                                 </li>
                                                 @endif
@@ -130,7 +130,7 @@
             $('#selected_ids').val('');
         });
 
-        function applyTheme(th) {
+        function apply{!! trans('fields.theme') !!}(th) {
             doInstall = confirm("Are you sure you want to apply the selected theme ?");
             if (!doInstall) {
                 // If cancel is selected, do nothing
