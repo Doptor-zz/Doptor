@@ -23,6 +23,14 @@ class Synchronize {
     public function __construct($listener)
     {
         $this->listener = $listener;
+
+        if (!File::exists(backup_path())) {
+            File::makeDirectory(backup_path());
+        }
+
+        if (!File::exists(restore_path())) {
+            File::makeDirectory(restore_path());
+        }
     }
 
     protected function dbConnections()
@@ -111,8 +119,8 @@ class Synchronize {
      */
     public function backupModules($current_time)
     {
-        $modules_path = app_path() . '/modules';
-        $destination = backup_path() . "/backup/modules";
+        $modules_path = app_path() . '/Modules';
+        $destination = backup_path() . "/backup/Modules";
 
         $status = File::copyDirectory($modules_path, $destination);
     }
@@ -204,17 +212,17 @@ class Synchronize {
      */
     public function copyToRestore($input)
     {
-        File::cleanDirectory(app_path() . '/storage/restore/');
+        File::cleanDirectory(restore_path());
 
         $file = $input['file'];
-        $destinationPath = app_path() . '/storage/restore/';
+        $destinationPath = restore_path();
+
         $filename = $file->getClientOriginalName();
         // $extension = $file->getClientOriginalExtension();
-
         $uploadSuccess = $file->move($destinationPath, $filename);
 
         if ($uploadSuccess) {
-            $file = $destinationPath . $filename;
+            $file = $destinationPath . '/' . $filename;
             return $file;
         } else {
             return false;
@@ -227,8 +235,7 @@ class Synchronize {
      */
     public function restore($restore_file)
     {
-        $this->Unzip($restore_file, app_path() . '/storage/restore/');
-
+        $this->Unzip($restore_file, restore_path());
         $restore_dir = restore_path() . '/backup';
 
         // $this->dropTables();
@@ -284,8 +291,8 @@ class Synchronize {
      */
     public function restoreModules($restore_dir)
     {
-        File::cleanDirectory(app_path() . '/modules/');
-        File::copyDirectory("{$restore_dir}/modules/", app_path() . '/modules/');
+        File::cleanDirectory(app_path() . '/Modules/');
+        File::copyDirectory("{$restore_dir}/Modules/", app_path() . '/Modules/');
     }
 
     /**
@@ -318,17 +325,8 @@ class Synchronize {
              if ($mysqli->connect_errno) {
                  throw new Exception("Failed to connect to MySQL: " . $mysqli->connect_error);
              }
-             header('Pragma: public');
-             header('Expires: 0');
-             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-             header('Content-Type: application/force-download');
-             header('Content-Type: application/octet-stream');
-             header('Content-Type: application/download');
-             header('Content-Disposition: attachment;filename="backup_'.date('Y-m-d_h_i_s') . '.sql"');
-             header('Content-Transfer-Encoding: binary');
              // start buffering output
-             // However in the PHP 'header' documentation (http://php.net/manual/en/function.header.php) it says that "Headers will only be accessible and output when a SAPI that supports them is in use."
-             // rather than the possibility of falling through a real time window there seems to be no problem buffering the output anyway
+
              ob_start();
              $f_output = fopen($file_name, 'w');
              // put a few comments into the SQL file
@@ -473,18 +471,9 @@ class Synchronize {
      */
     public function Unzip($file, $path)
     {
-        // if(!is_file($file) || !is_readable($path)) {
-        //     return \Redirect::to('backend/modules')
-        //                         ->with('error_message', "Can't read input file");
-        // }
-
-        // if(!is_dir($path) || !is_writable($path)) {
-        //     return \Redirect::to('backend/modules')
-        //                         ->with('error_message', "Can't write to target");
-        // }
-
         $zip = new \ZipArchive;
         $res = $zip->open($file);
+
         if ($res === true) {
             // extract it to the path we determined above
             try {

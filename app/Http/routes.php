@@ -137,6 +137,12 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::any('media-manager/folder_contents', 'Components\MediaManager\Controllers\Backend\MediaManagerController@folder_contents');
     Route::resource('media-manager', 'Components\MediaManager\Controllers\Backend\MediaManagerController');
 
+    Route::get('backup', 'Backend\BackupRestoreController@getBackup');
+    Route::post('backup', 'Backend\BackupRestoreController@postBackup');
+
+    Route::get('restore', 'Backend\BackupRestoreController@getRestore');
+    Route::post('restore', 'Backend\BackupRestoreController@postRestore');
+
     Route::post('theme-manager/apply/{id}', array(
                                 'uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply',
                                 'as' => 'backend.theme-manager.apply'
@@ -179,7 +185,7 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
 
         if ($default_menu) {
             $link = str_replace('link_type', 'admin', $default_menu->link);
-            Route::any('/', function() {
+            Route::any('/', function() use ($link) {
                 return Redirect::to($link);
             });
         } else {

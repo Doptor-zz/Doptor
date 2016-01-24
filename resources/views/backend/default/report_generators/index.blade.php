@@ -51,7 +51,9 @@
                         <tbody id="menu-list">
                             @foreach ($report_generators as $generator)
                                 <tr class="">
-                                    <td>{!! $generator->name !!}</td>
+                                    <td>
+                                        {!! HTML::link($link_type . '/report-generators/generate/' . $generator->id, $generator->name) !!}
+                                    </td>
                                     <td>{!! $generator->module_name !!}</td>
                                     <td>{!! $generator->version !!}</td>
                                     <td>{!! $generator->author !!}</td>

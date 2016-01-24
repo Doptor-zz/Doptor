@@ -54,6 +54,7 @@
             <!-- END EXAMPLE TABLE widget-->
         </div>
     </div>
+@stop
 
 @section('scripts')
     {!! HTML::script("assets/backend/default/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") !!}

@@ -156,7 +156,10 @@ class ReportBuilderController extends BaseController {
     {
         $module = Module::find($id);
 
-        $config = json_decode(file_get_contents(app_path() . '/Modules/' . $module->alias  . '/module.json'), true);
+        $vendor = ($module->vendor) ? $module->vendor . '/' : '';
+        $json_file = app_path() . '/Modules/' . $vendor . $module->alias  . '/module.json';
+
+        $config = json_decode(file_get_contents($json_file), true);
 
         $fieldAndNames = array();
         foreach ($config['forms'] as $form) {
@@ -164,7 +167,7 @@ class ReportBuilderController extends BaseController {
             $fields['created_at'] = 'Created At';
             $fields['updated_at'] = 'Updated At';
 
-            if (in_array('form_name', $form)) {
+            if (array_key_exists('form_name', $form)) {
                 $form_info = array(
                         'name'   => $form['form_name'],
                         'model'  => $form['model'],
@@ -213,12 +216,14 @@ class ReportBuilderController extends BaseController {
             $required_fields = $this->requiredFields($input, $i);
 
             if ($module && !empty($required_fields)) {
+                $model = 'Modules\\' . $module->vendor . '\\' . $module->alias . '\Models\\' . $model_name;
+
                 $modules[] = array(
                             'id'              => $module_id,
                             'name'            => $module->name,
                             'alias'           => $module->alias,
                             'form_name'       => $form_name,
-                            'model'           => 'Modules\\'.$module->alias.'\Models\\' . $model_name,
+                            'model'           => $model,
                             'required_fields' => $required_fields
                         );
             }

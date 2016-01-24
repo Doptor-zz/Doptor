@@ -21,9 +21,12 @@ class PostPresenter extends Presenter
     {
         if (strpos($this->content, '<!--more-->')) {
             list($excerpt, $more) = explode('<!--more-->', $this->content);
+            $excerpt = strip_tags($excerpt);
             return Services\String::tidy($excerpt);
         } else {
-            return Services\String::tidy(Str::limit($this->content, $length));
+            $excerpt = Str::limit($this->content, $length);
+            $excerpt = strip_tags($excerpt);
+            return Services\String::tidy($excerpt);
         }
     }
 
@@ -31,7 +34,7 @@ class PostPresenter extends Presenter
      * Get the creation date of the page
      * @return string
      */
-    public function date()
+    public function date($format='')
     {
         return $this->created_at->format('d') . '<br>' . $this->created_at->format('M') . '<br>' . $this->created_at->format('Y');
     }
