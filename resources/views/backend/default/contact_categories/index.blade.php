@@ -64,7 +64,7 @@
                                     <td>{!! $contact_cat->name !!}</td>
                                     <td>{!! $contact_cat->alias !!}</td>
                                     <td>{!! $contact_cat->description !!}</td>
-                                    <td>{!! $contact_cat->{!! trans('options.status') !!}() !!}</td>
+                                    <td>{!! $contact_cat->status() !!}</td>
                                     <td>{!! $contact_cat->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess("contact-categories.edit"))

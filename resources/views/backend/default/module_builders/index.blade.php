@@ -54,7 +54,7 @@
                                         @endforeach
                                     </td>
                                     <td>{!! $module->tables() !!}</td>
-                                    <th>{!! HTML::link(url($link_type . '/module-builder/download/'.$module->id), '{!! trans('fields.download') !!}') !!}</th>
+                                    <th>{!! HTML::link(url($link_type . '/module-builder/download/'.$module->id), trans('fields.download')) !!}</th>
                                     <td>{!! $module->created_at !!}</td>
                                     <td>
                                         @if ($current_user->hasAccess('module-builder.edit'))

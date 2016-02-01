@@ -132,7 +132,7 @@
                                             </div>
                                         @endfor
 
-                                        <div class="pull-right">{!! HTML::link("$link_type/form-builder/create", "{!! trans('options.create_new') !!} Form", array('class'=>'pull-right btn btn-mini mb-15')) !!}</div>
+                                        <div class="pull-right">{!! HTML::link("$link_type/form-builder/create", trans('options.create_new'). " " . trans('fields.form'), array('class'=>'pull-right btn btn-mini mb-15')) !!}</div>
 
                                         <div class="clearfix"></div>
                                     </div>
