@@ -46,6 +46,7 @@ return [
     "post_category" => "Post Category",
     "posts" => "Posts",
     "report_builder" => "Report Builder",
+    "report_builders" => "Report Builders",
     "report_generator" => "Report Generator",
     "report_generators" => "Report Generators",
     "settings" => "Settings",
