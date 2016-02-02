@@ -12,6 +12,9 @@ return [
     "admin" => "Admin",
     "profile" => "Profile",
 
+    "backup-and-restore" => "Backup & Restore",
+    "backup" => "Backup",
+    "restore" => "Restore",
     "builders" => "Builders",
     "categories" => "Categories",
     "category" => "Category",
@@ -43,6 +46,7 @@ return [
     "post_category" => "Post Category",
     "posts" => "Posts",
     "report_builder" => "Report Builder",
+    "report_builders" => "Report Builders",
     "report_generator" => "Report Generator",
     "report_generators" => "Report Generators",
     "settings" => "Settings",
@@ -58,4 +62,7 @@ return [
     "all_entries" => "All Entries",
     "user_info" => "User Information",
     "user_group" => "User Group",
+    "create_backup" => "Create Backup",
+    "restore_backup" => "Restore Backup"
+
 ];

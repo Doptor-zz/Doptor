@@ -48,6 +48,7 @@ class PostsController extends BaseController {
             $title = trans('cms.posts');
         }
 
+        $this->layout->title = $title;
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.posts.index')
                                         ->with('posts', $posts);
     }

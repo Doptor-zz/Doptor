@@ -172,7 +172,7 @@
                                                 {!!Form::select('category', MenuCategory::lists('name', 'id'), Input::old('category'), array('class'=>'chosen input-xlarge', 'style'=>'width:285px', 'data-placeholder'=>'Select a category')) !!}
                                             @endif
 
-                                            {!! HTML::link("$link_type/menu-categories/create", "Add {!! trans('cms.category') !!}", array('class'=>'btn btn-mini mb-15')) !!}
+                                            {!! HTML::link("$link_type/menu-categories/create", trans('cms.create_new') . ' ' . trans('cms.category'), array('class'=>'btn btn-mini mb-15')) !!}
 
                                             {!! $errors->first('category', '<span class="help-inline">:message</span>') !!}
                                         </div>

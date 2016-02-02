@@ -84,7 +84,7 @@
                                                     {{-- Show the apply theme button, only if the theme is not already applied --}}
                                                     @if ($current_user->hasAccess("theme-manager.apply"))
                                                     <li>
-                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return apply{!! trans('fields.theme') !!}($(this));")) !!}
+                                                        {!! Form::open(array('route' => array($link_type . '.theme-manager.apply', $theme->id), 'method' => 'post', 'class'=>'inline', 'onclick'=>"return applyTheme($(this));")) !!}
                                                             <button type="submit" class=""> Apply</button>
                                                         {!! Form::close() !!}
                                                     </li>
@@ -130,7 +130,7 @@
             $('#selected_ids').val('');
         });
 
-        function apply{!! trans('fields.theme') !!}(th) {
+        function applyTheme(th) {
             doInstall = confirm("Are you sure you want to apply the selected theme ?");
             if (!doInstall) {
                 // If cancel is selected, do nothing
