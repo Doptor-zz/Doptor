@@ -5,7 +5,7 @@
     <div class="indent">
 
         <div class="container">
-            <h1>Contacts Category: {!! $category->name !!}</h1>
+            <h1>{!! trans('public.contacts_category') !!}: {!! $category->name !!}</h1>
             <!-- BEGIN GALLERY 4 COLS -->
             <ul class="gallery cols4 clearfix">
 

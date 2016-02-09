@@ -11,11 +11,7 @@
                         500
                     </div>
                     <div class="details">
-                        <h3>Oops! Something went wrong.</h3>
-                        <p>
-                            We are fixing it!<br>
-                            Please come back in a while.<br><br>
-                        </p>
+                        <h3>{!! trans('public.500_message') !!}</h3>
                     </div>
                 </div>
             </div>

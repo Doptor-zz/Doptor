@@ -10,8 +10,7 @@
             </div>
             <div class="grid_7 prefix_1">
                 <hgroup>
-                    <h2>The page you were trying to access doesn't<br/>
-                    exist or has been removed.</h2>
+                    <h2>{!! trans('public.404_message') !!}</h2>
                 </hgroup>
 
             </div>

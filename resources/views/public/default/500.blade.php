@@ -7,8 +7,7 @@
         <div id="error404" class="container">
             <div class="grid_7 prefix_1">
                 <hgroup>
-                    <H1>Oops, Something went wrong.<br/>
-                    We are fixing it!</H1>
+                    <h1>{!! trans('public.500_message') !!}</h1>
                 </hgroup>
 
             </div>

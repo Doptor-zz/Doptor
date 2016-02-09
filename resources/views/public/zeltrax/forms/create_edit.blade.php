@@ -14,19 +14,19 @@
                             @if (Session::has('error_message'))
                                 <div class="alert alert-error">
                                     <button data-dismiss="alert" class="close">×</button>
-                                    <strong>Error!</strong> {!! Session::get('error_message') !!}
+                                    <strong>{!! trans('cms.error') !!}</strong> {!! Session::get('error_message') !!}
                                 </div>
                             @endif
                             @if (Session::has('success_message'))
                                 <div class="alert alert-success">
                                     <button data-dismiss="alert" class="close">×</button>
-                                    <strong>Success!</strong> {!! Session::get('success_message') !!}
+                                    <strong>{!! trans('cms.success') !!}</strong> {!! Session::get('success_message') !!}
                                 </div>
                             @endif
                             @if ($errors->has())
                                  <div class="alert alert-error hide" style="display: block;">
                                    <button data-dismiss="alert" class="close">×</button>
-                                   You have some form errors. Please check below.
+                                   {!! trans('errors.form_errors') !!}
                                 </div>
                             @endif
                         </div>
@@ -34,17 +34,17 @@
                         {!! $form->rendered !!}
 
                         @if ($form->show_captcha)
-                            <div class="control-group {!! $errors->has("captcha") ? "error" : "" !!}">
-                                <label class="control-label">Enter captcha</label>
+                            <div class="control-group {{ $errors->has("captcha") ? "error" : "" }}">
+                                <label class="control-label">{!! trans('public.captcha') !!}</label>
                                 <div class="controls">
-                                    {!! Captcha::img() !!}
+                                    {!! HTML::image(Captcha::img(), "Captcha image") !!}
                                     {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!}
                                     {!! $errors->first("captcha", "<span class=\'help-inline\'>:message</span>") !!}
                                 </div>
                             </div>
                         @endif
 
-                        <button type="submit" class="button">Send message</button>
+                        <button type="submit" class="button">{!! trans('form_messages.send') !!}</button>
                     {!! Form::close() !!}
                 </div>
             </div>

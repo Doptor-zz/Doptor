@@ -10,14 +10,14 @@
                 <div class="row">
 
                     <div class="col-md-12">
-                        <h1>Contacts Category: {!! $category->name !!}</h1>
+                        <h1>{!! trans('public.contacts_category') !!}: {!! $category->name !!}</h1>
                         <!-- BEGIN GALLERY 4 COLS -->
                         <ul class="gallery cols4 clearfix">
 
                         @foreach ($category->contacts as $contact)
                             <li class="grid_3">
                                 <figure class="thumb-holder">
-                                    <a href='{!! url("contact/{$category->alias}/{$contact->alias}") !!}' title="Mauris ut velit non dolor">
+                                    <a href='{!! url("contact/{$category->alias}/{$contact->alias}") !!}'>
                                         {!! HTML::image($contact->image(), $contact->name, array("width"=>"456", "height"=>"302", "border"=>"0")) !!}
                                     </a>
                                 </figure>

@@ -9,9 +9,8 @@
 
                 <strong>404</strong>
                 <br />
-                <b>Oops... Page Not Found!</b>
 
-                <em>Sorry the Page Could not be Found here.</em>
+                <em>{!! trans('public.404_message') !!}</em>
 
                 <div class="clearfix margin_top3"></div>
 

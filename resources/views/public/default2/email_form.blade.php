@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <h2>Contacting from {!! Setting::value('website_name') !!}</h2>
+    <h2>{!! trans('public.contacting_from') !!} {!! Setting::value('website_name') !!}</h2>
 
     <div>
         {!! $exported_var !!}
