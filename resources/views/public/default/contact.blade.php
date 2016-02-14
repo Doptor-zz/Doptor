@@ -21,22 +21,22 @@
         <div class="container">
 
             <div class="grid_8">
-                <h4 class="alt-title">send us mail:</h4>
+                <h4 class="alt-title">{!! trans('public.contacts') !!}</h4>
 
                 <div id="errors-div">
                     @if (Session::has('error_message'))
                         <div class="alert alert-error">
-                            <strong>Error!</strong> {!! Session::get('error_message') !!}
+                            <strong>{!! trans('cms.error') !!}</strong> {!! Session::get('error_message') !!}
                         </div>
                     @endif
                     @if (Session::has('success_message'))
                         <div class="alert alert-success">
-                            <strong>Success!</strong> {!! Session::get('success_message') !!}
+                            <strong>{!! trans('cms.success') !!}</strong> {!! Session::get('success_message') !!}
                         </div>
                     @endif
                     @if( $errors->count() > 0 )
                         <div class="alert alert-error">
-                            <p>The following errors have occurred:</p>
+                            <p>{!! trans('public.errors_list') !!}:</p>
                             <ul id="form-errors">
                                 {!! $errors->first('email', '<li>:message</li>') !!}
                                 {!! $errors->first('name', '<li>:message</li>') !!}
@@ -54,16 +54,16 @@
                     </div>
                     <div class="grid_3 omega">
                         <div class="field clearfix">
-                            {!! Form::text('name', Input::old('name'), array('id'=>'name', 'placeholder'=>'your name...')) !!}
+                            {!! Form::text('name', Input::old('name'), array('id'=>'name', 'placeholder'=>trans('public.name'))) !!}
                         </div>
                         <div class="field clearfix">
-                            {!! Form::text('email', Input::old('email'), array('id'=>'email', 'placeholder'=>'your email...')) !!}
+                            {!! Form::text('email', Input::old('email'), array('id'=>'email', 'placeholder'=>trans('public.email'))) !!}
                         </div>
                         <div class="field clearfix">
-                            {!! Form::text('subject', Input::old('subject'), array('id'=>'subject', 'placeholder'=>'your subject...')) !!}
+                            {!! Form::text('subject', Input::old('subject'), array('id'=>'subject', 'placeholder'=>trans('public.subject'))) !!}
                         </div>
                         <div class="btn-wrapper">
-                            <input type="submit" id="submit" value="send"/><i class="btn-marker"></i>
+                            <input type="submit" id="submit" value="{!! trans('public.send') !!}"/><i class="btn-marker"></i>
                         </div>
                         <div id="response"></div>
                     </div>
@@ -75,7 +75,7 @@
             @if ($post->content != '')
                 <div class="grid_4">
                     <div class="prefix_1_2">
-                        <h4 class="alt-title">contacts:</h4>
+                        <h4 class="alt-title">{!! trans('public.contacts') !!}:</h4>
 
                         {!! $post->content !!}
 

@@ -9,9 +9,8 @@
 
                 <strong>404</strong>
                 <br />
-                <b>Oops... Something went wrong!</b>
 
-                <em>We are fixing it.</em>
+                <em>{!! trans('public.500_message') !!}</em>
 
                 <div class="clearfix margin_top3"></div>
 

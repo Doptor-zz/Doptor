@@ -12,13 +12,13 @@
                         @if (Session::has('error_message'))
                             <div class="alert alert-error">
                                 <button data-dismiss="alert" class="close">×</button>
-                                <strong>Error!</strong> {!! Session::get('error_message') !!}
+                                <strong>{!! trans('cms.error') !!}</strong> {!! Session::get('error_message') !!}
                             </div>
                         @endif
                         @if (Session::has('success_message'))
                             <div class="alert alert-success">
                                 <button data-dismiss="alert" class="close">×</button>
-                                <strong>Success!</strong> {!! Session::get('success_message') !!}
+                                <strong>{!! trans('cms.success') !!}</strong> {!! Session::get('success_message') !!}
                             </div>
                         @endif
                         @if ($errors->has())
@@ -33,7 +33,7 @@
 
                     @if ($form->show_captcha)
                         <div class="control-group {{ $errors->has("captcha") ? "error" : "" }}">
-                            <label class="control-label">Enter captcha</label>
+                            <label class="control-label">{!! trans('public.captcha') !!}</label>
                             <div class="controls">
                                 {!! HTML::image(Captcha::img(), "Captcha image") !!}
                                 {!! Form::text("captcha", "", array("required", "class"=>"input-medium")) !!}
@@ -43,7 +43,7 @@
                     @endif
 
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Send</button>
+                        <button type="submit" class="btn btn-primary">{!! trans('form_messages.send') !!}</button>
                     </div>
                 {!! Form::close() !!}
             </div>

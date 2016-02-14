@@ -4,11 +4,11 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <h2>Contacting from {!! Setting::value('website_name') !!}</h2>
+    <h2>{!! trans('public.contacting_from') !!} {!! Setting::value('website_name') !!}</h2>
 
-    <div>Name: {!! $name !!}</div>
-    <div>Email: {!! $email !!} </div>
-    <div>Subject: {!! $subject !!} </div>
-    <div>Message: {!! $message_text !!} </div>
+    <div>{!! trans('public.name') !!}: {!! $name !!}</div>
+    <div>{!! trans('public.email') !!}: {!! $email !!} </div>
+    <div>{!! trans('public.subject') !!}: {!! $subject !!} </div>
+    <div>{!! trans('public.message') !!}: {!! $message_text !!} </div>
 </body>
 </html>
