@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 // Apply CSRF protection to every routes
-Route::when('*', array('csrf'));
+// Route::when('*', array('csrf'));
 
 Route::get('home', 'HomeController@index');
 Route::get('wrapper/{id}', 'HomeController@wrapper');
@@ -55,26 +55,17 @@ Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\Pub
 
 Route::resource('form', 'FormController', array('only' => array('store', 'show')));
 
-/*
-  |--------------------------------------------------------------------------
-  | Backend Routes
-  |--------------------------------------------------------------------------
-*/
-
 Route::get('pages/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('pages', 'Components\Posts\Controllers\PostsController');
 
 Route::get('posts/category/{alias}', 'Components\Posts\Controllers\PostsController@category');
 Route::resource('posts', 'Components\Posts\Controllers\PostsController');
 
-Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions')), function () {
-
-    // For changing the current user's password
-    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
-    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword',
-    'as' => 'backend.users.change-password'));
-});
-
+/*
+  |--------------------------------------------------------------------------
+  | Backend Routes
+  |--------------------------------------------------------------------------
+*/
 Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.backend', 'auth.permissions', 'auth.pw_6_months')), function () {
 
     Route::any('/', 'Backend\HomeController@getIndex');
@@ -100,6 +91,11 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::post('users/{id}/activate', array('as' => 'backend.users.activate', 'uses' => 'Backend\UserController@activate'));
     Route::post('users/{id}/deactivate', array('as' => 'backend.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
     Route::get('users/forgot_password', 'AuthController@postForgotPassword');
+
+    // For changing the current user's password
+    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
+    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword',
+    'as' => 'backend.users.change-password'));
 
     Route::get('synchronize', 'Backend\SynchronizeController@getIndex');
     Route::get('synchronize/localToWeb', 'Backend\SynchronizeController@getLocalToWeb');
@@ -171,14 +167,7 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
   | Admin Routes
   |--------------------------------------------------------------------------
 */
-Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions')), function () {
-
-    // For changing the current user's password
-    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
-    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'admin.users.change-password'));
-});
-
-Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.permissions', 'auth.pw_6_months')), function () {
+Route::group(array('prefix' => 'admin'), function () {
 
     if (Schema::hasTable('menus')) {
         $default_menu = Menu::published()->default('admin')->first();
@@ -211,6 +200,10 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
 
     Route::post('users/{id}/activate', array('as' => 'admin.users.activate', 'uses' => 'Backend\UserController@activate'));
     Route::post('users/{id}/deactivate', array('as' => 'admin.users.deactivate', 'uses' => 'Backend\UserController@deactivate'));
+
+    // For changing the current user's password
+    Route::get('users/change-password', 'Backend\UserController@getChangePassword');
+    Route::put('users/change-password', array('uses' => 'Backend\UserController@putChangePassword', 'as' => 'admin.users.change-password'));
 
     Route::get('synchronize', 'Backend\SynchronizeController@getIndex');
     Route::get('synchronize/localToWeb', 'Backend\SynchronizeController@getLocalToWeb');
@@ -274,9 +267,6 @@ Route::group(array('prefix' => 'admin', 'middleware' => array('auth', 'auth.perm
                         'as' => 'backend.contact-manager.edit'
                     ));
 });
-
-Route::when('backend/*', array('auth', 'auth.backend'));
-Route::when('admin/*', array('auth'));
 
 // Add the routes of installed modules
 foreach (glob(base_path("app/Modules/*/routes.php")) as $route) {

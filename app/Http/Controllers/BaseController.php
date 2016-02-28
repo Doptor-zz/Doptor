@@ -24,6 +24,26 @@ class BaseController extends Controller {
      */
     public function __construct()
     {
+        $is_admin = Request::is('admin*');
+        $is_backend = Request::is('backend*');
+
+        /* Set middleware(s) based on route URLs */
+        if ($is_admin || $is_backend) {
+            $this->middleware('auth');
+
+            if ($is_backend) {
+                // Backend specific middleware
+                $this->middleware('auth.backend');
+            }
+
+            $this->middleware('auth.permissions');
+
+            if (!Request::is('*users/change-password')) {
+                // No validation for stale password if password is being changed
+                $this->middleware('auth.pw_6_months');
+            }
+        }
+
         list($this->link_type, $this->link, $this->layout, $this->current_theme) = current_section();
 
         View::share('link_type', $this->link_type);
