@@ -42,6 +42,8 @@ class ModuleInstaller {
      */
     public function installModule($file)
     {
+        @ini_set('max_execution_time', 0);     // Temporarily increase maximum execution time
+
         $filename = $this->uploadModule($file);
 
         $filename = str_replace('.ZIP', '.zip', $filename);
