@@ -130,7 +130,7 @@ class ModuleBuilder {
             return $req_modules;
         }
 
-        foreach ($requires as $module_id) {
+        foreach ($input['requires'] as $module_id) {
             $module = Module::find($module_id);
             $vendor = ($module->vendor) ? $module->vendor . '/' : '';
             $req_modules[] = $vendor . $module->alias;
