@@ -135,18 +135,17 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
+        'Illuminate\Broadcasting\BroadcastServiceProvider',
 
         /*
          * Application Service Providers...
          */
         'App\Providers\AppServiceProvider',
-        'App\Providers\BusServiceProvider',
-        'App\Providers\ConfigServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
         'App\Providers\ValidatorServiceProvider',
 
-        'Illuminate\Html\HtmlServiceProvider',
+        Collective\Html\HtmlServiceProvider::class,
 
         'Cartalyst\Sentry\SentryServiceProvider',
         'Robbo\Presenter\PresenterServiceProvider',
@@ -205,8 +204,8 @@ return [
         'View'      => 'Illuminate\Support\Facades\View',
 
         'Str'       => 'Illuminate\Support\Str',
-        'Form'      => 'Illuminate\Html\FormFacade',
-        'HTML'      => 'Illuminate\Html\HtmlFacade',
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
 
         // Packages related aliases
         'Sentry'    => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
