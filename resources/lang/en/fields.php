@@ -7,6 +7,7 @@ return [
     "caption" => "Caption",
     "city" => "City",
     "contact" => "Contact",
+    "contact_categories" => "Contact Categories",
     "country" => "Country",
     "data" => "Data",
     "description" => "Description",
