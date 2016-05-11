@@ -67,6 +67,7 @@ class CompanyBranchController extends CompanyBaseController {
         $countries = $country_model::names();
 
         $current_user_companies = current_user_companies();
+        
         if ($current_user_companies) {
             $companies = $company_model::where('id', $current_user_companies)->lists('name', 'id');
         } else {
