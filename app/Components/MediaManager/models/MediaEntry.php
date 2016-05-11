@@ -40,7 +40,7 @@ class MediaEntry extends Eloquent implements PresentableInterface {
      * @param array $attributes
      * @return void
      */
-    public function update(array $attributes = array())
+    public function update(array $attributes = array(), array $options = array())
     {
         App::make('Components\\MediaManager\\Validation\\MediaEntryValidator')->validateForUpdate($attributes);
 

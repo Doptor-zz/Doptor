@@ -32,7 +32,7 @@ class BuiltReport extends Eloquent implements PresentableInterface {
         return parent::create($attributes);
     }
 
-    public function update(array $attributes = array())
+    public function update(array $attributes = array(), array $options = array())
     {
         $attributes['modules'] = json_encode($attributes['modules']);
         $attributes['updated_by'] = current_user()->id;
