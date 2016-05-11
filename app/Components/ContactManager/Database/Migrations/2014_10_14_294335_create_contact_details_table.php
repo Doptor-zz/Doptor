@@ -31,7 +31,8 @@ class CreateContactDetailsTable extends Migration {
 			$table->text('location')->nullable();
 			$table->text('display_options')->nullable();
 			$table->integer('category_id')->unsigned()->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

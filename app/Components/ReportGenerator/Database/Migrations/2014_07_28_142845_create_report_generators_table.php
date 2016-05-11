@@ -21,7 +21,8 @@ class CreateReportGeneratorsTable extends Migration {
 			$table->string('version');
 			$table->string('website');
 			$table->boolean('show_calendars')->default(true);
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

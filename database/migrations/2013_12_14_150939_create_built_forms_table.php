@@ -24,7 +24,8 @@ class CreateBuiltFormsTable extends Migration {
 			$table->string('redirect_to');
 			$table->text('extra_code')->nullable();
 			$table->text('email')->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
 			$table->index('category');
 			$table->foreign('category')->references('id')->on('form_categories')->on_delete('restrict')->on_update('cascade');

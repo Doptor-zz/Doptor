@@ -33,7 +33,8 @@ class CreatePostsTable extends Migration {
 			$table->text('extras')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
 			// $table->index('language_id');
 			// $table->foreign('language_id')->references('id')->on('languages')->on_delete('restrict')->on_update('cascade');

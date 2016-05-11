@@ -25,7 +25,8 @@ class CreateModulesTable extends Migration {
 			$table->string('target');
 			$table->text('links')->nullable();
 			$table->boolean('enabled')->default(false);
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

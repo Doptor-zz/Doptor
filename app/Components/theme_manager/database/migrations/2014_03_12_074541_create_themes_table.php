@@ -22,7 +22,8 @@ class CreateThemesTable extends Migration {
 			$table->string('directory');
 			$table->string('target');
 			$table->integer('created_by')->unsigned();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
 			$table->index('created_by');
 			$table->foreign('created_by')->references('id')->on('users')->on_delete('restrict')->on_update('cascade');

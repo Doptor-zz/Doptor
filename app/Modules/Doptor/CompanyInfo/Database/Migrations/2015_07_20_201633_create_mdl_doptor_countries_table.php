@@ -17,7 +17,8 @@ class CreateMdlDoptorCountriesTable extends Migration
             $table->string('name');
             $table->string('code', 2);
             $table->string('dialing_code', 5);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
         });
     }
 
