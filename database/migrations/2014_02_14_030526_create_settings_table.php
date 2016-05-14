@@ -17,7 +17,8 @@ class CreateSettingsTable extends Migration {
 			$table->string('name');
 			$table->string('description');
 			$table->string('value');
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

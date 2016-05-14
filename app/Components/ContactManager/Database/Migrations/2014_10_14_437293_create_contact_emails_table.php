@@ -20,7 +20,8 @@ class CreateContactEmailsTable extends Migration {
             $table->string('subject')->nullable();
             $table->text('message');
             $table->integer('contact_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
         });
     }
 

@@ -80,12 +80,12 @@ class Installer {
         try {
             @ini_set('max_execution_time', 0);     // Temporarily increase maximum execution time
 
-            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => 'migrations']);
+            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => ['migrations']]);
 
             // Migrate all the tables
             Artisan::call('migrate');
 
-            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => 'config']);
+            Artisan::call('vendor:publish', ['--provider' => 'Barryvdh\TranslationManager\ManagerServiceProvider', '--tag' => ['config']]);
 
             Artisan::call('migrate', ['--path' => 'app/Components/posts/database/migrations/']);
             Artisan::call('migrate', ['--path' => 'app/Modules/Doptor/Slideshow/Database/Migrations/']);

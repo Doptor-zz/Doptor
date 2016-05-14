@@ -19,7 +19,7 @@ class Country extends Eloquent {
 
     public static function names()
     {
-        $countries = static::lists('name', 'id');
+        $countries = static::lists('name', 'id')->all();
         $countries[0] = 'Select Country';
         ksort($countries);
 

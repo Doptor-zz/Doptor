@@ -38,7 +38,8 @@ class CreateMenusTable extends Migration {
 			$table->string('meta_title')->nullable();
 			$table->string('meta_description')->nullable();
 			$table->string('meta_keywords')->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
 			$table->index('category');
 			$table->foreign('category')->references('id')->on('menu_categories')->on_delete('restrict')->on_update('cascade');

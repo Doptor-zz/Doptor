@@ -11,7 +11,7 @@ class ModulesTableSeeder extends Seeder
         $module = [
             'name' => 'Translation Manager',
             'alias' => 'translation_manager',
-            'hash' => 'module_32bc0a7573373',
+            'hash' => 'module_07375626f6468',
             'table' => '',
             'version' => '1.0',
             'author' => 'Doptor',

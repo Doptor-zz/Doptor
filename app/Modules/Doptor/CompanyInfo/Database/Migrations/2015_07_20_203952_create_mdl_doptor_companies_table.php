@@ -26,7 +26,8 @@ class CreateMdlDoptorCompaniesTable extends Migration {
             $table->string('fax')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
 			$table->index('country_id');
 			$table->foreign('country_id')->references('id')->on('mdl_doptor_countries')->on_delete('restrict')->on_update('cascade');

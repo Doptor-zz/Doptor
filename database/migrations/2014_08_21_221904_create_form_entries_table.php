@@ -18,7 +18,8 @@ class CreateFormEntriesTable extends Migration {
 			$table->integer('form_id')->unsigned();
 			$table->text('fields');
 			$table->text('data');
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

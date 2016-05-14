@@ -49,7 +49,7 @@ class BaseController extends Controller {
         View::share('link_type', $this->link_type);
         View::share('current_theme', $this->current_theme);
 
-        $website_settings = Setting::lists('value', 'name');
+        $website_settings = Setting::lists('value', 'name')->all();
 
         View::share('website_settings', $website_settings);
 

@@ -18,7 +18,8 @@ class CreateMenucategoriesTable extends Migration {
 			$table->string('alias');
 			$table->integer('position')->unsigned();
 			$table->text('description')->nullable();
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

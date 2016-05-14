@@ -25,7 +25,8 @@ class CreateBuiltModulesTable extends Migration {
 			$table->string('file');
 			$table->string('table_name');
 			$table->boolean('is_author')->default(true);
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

@@ -17,7 +17,8 @@ class CreateNewslettersTable extends Migration {
 			$table->increments('id');
 			$table->string('subject');
 			$table->text('content');
-			$table->timestamps();
+			$table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 		});
 	}
 

@@ -58,7 +58,7 @@ class Post extends Eloquent implements PresentableInterface {
      * @param array $attributes
      * @return void
      */
-    public function update(array $attributes = array())
+    public function update(array $attributes = array(), array $options = array())
     {
         App::make('Components\\Posts\\Validation\\PostValidator')->validateForUpdate($attributes);
 

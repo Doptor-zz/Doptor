@@ -24,7 +24,8 @@ class CreateMdlDoptorCompanyBranchesTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
             $table->integer('company_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+			$table->timestamp('updated_at')->nullable();
 
             $table->index('company_id');
             $table->foreign('company_id')->references('id')->on('mdl_doptor_companies')->on_delete('restrict')->on_update('cascade');
