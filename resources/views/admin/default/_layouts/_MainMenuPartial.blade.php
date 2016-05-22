@@ -1,7 +1,9 @@
 <div class="leftbar leftbar-close clearfix">
     <div class="admin-info clearfix">
         <div class="admin-thumb">
-            {!! HTML::image(url($current_user->photo)) !!}
+            @if($current_user->photo)
+                {!! HTML::image(url($current_user->photo)) !!}
+            @endif
         </div>
         <div class="admin-meta">
             <ul>
