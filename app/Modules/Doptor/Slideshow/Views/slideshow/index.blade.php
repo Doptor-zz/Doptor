@@ -40,7 +40,7 @@
                         <tbody>
                             @foreach ($slides as $slide)
                                 <tr>
-                                    <td>{!! $slide->caption !!}</td>
+                                    <td>{!! str_limit(strip_tags($slide->caption), 100) !!}</td>
                                     <td>{!! $slide->status() !!}</td>
                                     <td>{!! $slide->author() !!}</td>
                                     <td>
