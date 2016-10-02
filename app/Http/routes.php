@@ -49,6 +49,8 @@ Route::get('reset_password/{id}/{token}/{target?}', 'AuthController@getResetPass
 Route::post('reset_password', 'AuthController@postResetPassword');
 Route::get('suspend_user/{id}/{token}', 'AuthController@suspendUser');
 
+Route::post('contact', 'HomeController@postContact');
+
 Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicController@showCategory');
 Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
 Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\PublicController@sendMessage');
