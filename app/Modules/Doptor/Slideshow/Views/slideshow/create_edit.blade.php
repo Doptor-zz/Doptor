@@ -62,6 +62,25 @@
                                         </div>
                                     </div>
 
+                                    <div class="control-group {!! $errors->has('link') ? 'error' : '' !!} {!! $errors->has('link') ? 'wrapper_width' : '' !!} {!! $errors->has('wrapper_height') ? 'error' : '' !!}">
+                                        <label class="control-label">Link</label>
+                                        <div class="controls">
+                                            {!! Form::select('link', Menu::menu_lists(true), (!isset($slide)) ? Input::old('link') : $slide->link, array('id'=>'link', 'class' => 'chosen span6 m-wrap', 'style'=>'width:285px')) !!}
+                                            {!! $errors->first('link', '<span class="help-inline">:message</span>') !!}
+                                        </div>
+                                        <div id="manual-link" class="controls">
+                                            {!! Form::text('link_manual', (!isset($slide)) ? Input::old('link_manual') : $slide->link_manual, array('class' => 'input-xlarge'))!!}
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group {!! $errors->has('link_title') ? 'error' : '' !!}">
+                                        <label class="control-label">Link Title</label>
+                                        <div class="controls">
+                                            {!! Form::text('link_title', (!isset($slide)) ? Input::old('link_title') : $slide->link_title, array('class' => 'input-xlarge'))!!}
+                                            {!! $errors->first('link_title', '<span class="help-inline">:message</span>') !!}
+                                        </div>
+                                    </div>
+
                                     <div class="control-group {{ $errors->has('status') ? 'error' : '' }}">
                                         <label class="control-label">Status <span class="red">*</span></label>
                                         <div class="controls line">
@@ -125,16 +144,20 @@
     {!! HTML::script("assets/backend/default/scripts/media-selection.js") !!}
     @parent
     <script>
-        // jQuery(document).ready(function() {
-        //     $('#datetimepicker_start').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        //     $('#datetimepicker_end').datetimepicker({
-        //         language: 'en',
-        //         pick12HourFormat: false
-        //     });
-        // });
+        function showOrHideManualLinks() {
+            value = $('#link').val();
+            if (value == 'manual') {
+                $('#manual-link').show();
+            } else {
+                $('#manual-link').hide();
+            }
+        }
+        jQuery(document).ready(function() {
+            showOrHideManualLinks();
+            $('#link').on('change', function() {
+                showOrHideManualLinks();
+            });
+        });
 
         MediaSelection.init('image');
     </script>
