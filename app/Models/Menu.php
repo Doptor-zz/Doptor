@@ -272,11 +272,13 @@ class Menu extends Eloquent implements PresentableInterface {
 
     /**
      * The list that is displayed while selecting item for menu
+     * @param  boolean $allow_none Whether to display None value for user to select or not
      * @return array
      */
-    public static function menu_lists()
+    public static function menu_lists($allow_none=false)
     {
         $modules = array();
+
         foreach (Module::all(array('name', 'links')) as $module) {
             if ($module->links != '') {
                 $links = json_decode($module->links);
@@ -318,18 +320,25 @@ class Menu extends Eloquent implements PresentableInterface {
             $report_generators['admin/report-generators/generate/' . $report_generator->id] = $report_generator->name;
         }
 
-        return array(
-                '/'                  => 'Home',
-                'Pages'              => $pages,
-                'posts'              => 'Posts',
-                'Post Categories'    => $post_categories,
-                'Modules'            => $modules,
-                'Contact Categories' => $contact_categories,
-                'Contacts'           => $contacts,
-                'Forms'              => $forms,
-                'Report Generators'  => $report_generators,
-                'manual'             => 'External link'
-            );
+        $menu_list = [
+                    '/'                  => 'Home',
+                    'Pages'              => $pages,
+                    'posts'              => 'Posts',
+                    'Post Categories'    => $post_categories,
+                    'Modules'            => $modules,
+                    'Contact Categories' => $contact_categories,
+                    'Contacts'           => $contacts,
+                    'Forms'              => $forms,
+                    'Report Generators'  => $report_generators,
+                    'manual'             => 'External link'
+                ];
+
+        if ($allow_none) {
+            $menu_list[0] = 'None';
+            ksort($menu_list);
+        }
+
+        return $menu_list;
     }
 
     public static function menu_entries($id=0)
