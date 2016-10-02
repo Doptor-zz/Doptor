@@ -39,13 +39,14 @@ class ThemeInstaller {
             $this->copyScreenshot();
 
             $theme = \Theme::create(array(
-                    'name'        => $this->config['name'],
-                    'version'     => $this->config['version'],
-                    'author'      => $this->config['author'],
-                    'description' => $this->config['description'],
-                    'directory'   => $this->config['directory'],
-                    'screenshot'  => $this->screenshot,
-                    'target'      => $this->target
+                    'name'         => $this->config['name'],
+                    'version'      => $this->config['version'],
+                    'author'       => $this->config['author'],
+                    'description'  => $this->config['description'],
+                    'directory'    => $this->config['directory'],
+                    'screenshot'   => $this->screenshot,
+                    'target'       => $this->target,
+                    'has_settings' => $this->has_settings
                 ));
 
             $this->cleanup();
@@ -106,6 +107,8 @@ class ThemeInstaller {
         } else {
             $this->screenshot = '';
         }
+
+        $this->has_settings = isset($this->config['has_settings']) ? $this->config['has_settings'] : false;
     }
 
     /**
