@@ -233,7 +233,18 @@
                     </a>
                 </div>
             </div>
+        </div>
 
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="board-widgets black small-widget">
+                    <a href="{!! url('backend/theme_settings') !!}">
+                        <span class="widget-icon icon-desktop"></span>
+
+                        <span class="widget-label">{!! trans('cms.theme_settings') !!}</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 @stop

@@ -74,6 +74,9 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
 
+    Route::get('theme_settings', 'Backend\HomeController@getThemeConfig');
+    Route::post('theme_settings', array('uses' => 'Backend\HomeController@postThemeConfig', 'as' => 'theme_settings'));
+
     Route::get('menu-manager/set-default/{menu_id}', [
             'uses' => 'Backend\MenuManagerController@setDefault',
             'as' => 'backend.menu-manager.set-default'

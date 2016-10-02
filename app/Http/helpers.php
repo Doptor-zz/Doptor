@@ -38,6 +38,16 @@ function get_setting($key, $default='')
     }
 }
 
+/**
+ * Get the theme setting for the key
+ * @param  string $key
+ * @return string
+ */
+function theme_setting($key)
+{
+    return ThemeSetting::getSetting($key);
+}
+
 function temp_path()
 {
     return storage_path() . '/temp';

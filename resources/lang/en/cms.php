@@ -49,6 +49,7 @@ return [
     "report_builders" => "Report Builders",
     "report_generator" => "Report Generator",
     "report_generators" => "Report Generators",
+    "theme_settings" => "Theme Settings",
     "settings" => "Settings",
     "slideshow" => "Slideshow",
     "synchronize" => "Synchronize",
