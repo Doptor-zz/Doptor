@@ -54,6 +54,18 @@ function restore_path()
 }
 
 /**
+ * Get the assets URL for the active public theme
+ * @param  string $file URL for a specific asset file
+ * @return string       Full assets URL
+ */
+function assets_url($file='')
+{
+    $current_theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('public_theme', 1))->directory : 'default';
+
+    return url('public/assets/public/' . $current_theme . '/' . $file);
+}
+
+/**
  * Get the information whether the current section is backend, admin or public
  * @return array
  */
