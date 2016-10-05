@@ -106,6 +106,21 @@ class Slideshow extends Eloquent implements PresentableInterface {
     }
 
     /**
+     * Get the link associated with the menu
+     */
+    public function link()
+    {
+        if ($this->link == 'manual') {
+            return $this->link_manual;
+        } else {
+            list($link_type, $link, $layout) = current_section();
+
+            $this->link = str_replace('link_type/', $link, $this->link);
+            return $this->link;
+        }
+    }
+
+    /**
      * Get all the statuses available for a post
      * @return array
      */
