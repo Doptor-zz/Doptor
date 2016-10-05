@@ -11,11 +11,14 @@ Description :  Doptor is Opensource CMS.
 */
 use App;
 use Input;
-use MenuPosition;
 use Redirect;
 use Request;
-use Setting;
 use View;
+
+use MenuPosition;
+use Setting;
+use Theme;
+use ThemeSetting;
 
 use Modules\Doptor\TranslationManager\Models\TranslationLanguage;
 
@@ -79,6 +82,47 @@ class HomeController extends AdminController {
 
         foreach ($input as $name => $value) {
             Setting::findOrCreate($name, $value);
+        }
+
+        return Redirect::back()
+                            ->with('success_message', trans('success_messages.config_change'));
+    }
+
+    /**
+     * Display the settings for the current public theme
+     * @return View
+     */
+    public function getThemeConfig()
+    {
+        $public_theme_id = Setting::value('public_theme');
+
+        $public_theme = Theme::findOrFail($public_theme_id);
+
+        $theme_config_view = 'public.'.$public_theme->directory.'.theme-settings';
+
+        if (View::exists($theme_config_view)) {
+            $this->layout->title = 'Theme Settings';
+            $this->layout->content = View::make($theme_config_view);
+        } else {
+            App::abort(404);
+        }
+    }
+
+    /**
+     * Save the settings for the current public theme
+     * @return [type] [description]
+     */
+    public function postThemeConfig()
+    {
+        if (!$this->user->hasAnyAccess(array('config.create', 'config.update'))) App::abort('401');
+        $input = Input::all();
+
+        unset($input['_token']);
+
+        $public_theme_id = Setting::value('public_theme');
+
+        foreach ($input as $name => $value) {
+            ThemeSetting::saveSetting($name, $value, $public_theme_id);
         }
 
         return Redirect::back()

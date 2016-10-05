@@ -49,6 +49,8 @@ Route::get('reset_password/{id}/{token}/{target?}', 'AuthController@getResetPass
 Route::post('reset_password', 'AuthController@postResetPassword');
 Route::get('suspend_user/{id}/{token}', 'AuthController@suspendUser');
 
+Route::post('contact', 'HomeController@postContact');
+
 Route::get('contact/{category}', 'Components\ContactManager\Controllers\PublicController@showCategory');
 Route::get('contact/{category}/{contact}', 'Components\ContactManager\Controllers\PublicController@showPublic');
 Route::post('contact/{contact}/send', 'Components\ContactManager\Controllers\PublicController@sendMessage');
@@ -73,6 +75,9 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
     Route::get('datatableLangfile', 'Backend\HomeController@getDatatableLangfile');
     Route::get('config', 'Backend\HomeController@getConfig');
     Route::post('config', array('uses' => 'Backend\HomeController@postConfig', 'as' => 'config'));
+
+    Route::get('theme_settings', 'Backend\HomeController@getThemeConfig');
+    Route::post('theme_settings', array('uses' => 'Backend\HomeController@postThemeConfig', 'as' => 'theme_settings'));
 
     Route::get('menu-manager/set-default/{menu_id}', [
             'uses' => 'Backend\MenuManagerController@setDefault',

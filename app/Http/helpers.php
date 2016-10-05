@@ -38,6 +38,16 @@ function get_setting($key, $default='')
     }
 }
 
+/**
+ * Get the theme setting for the key
+ * @param  string $key
+ * @return string
+ */
+function theme_setting($key)
+{
+    return ThemeSetting::getSetting($key);
+}
+
 function temp_path()
 {
     return storage_path() . '/temp';
@@ -51,6 +61,18 @@ function backup_path()
 function restore_path()
 {
     return storage_path() . '/restore';
+}
+
+/**
+ * Get the assets URL for the active public theme
+ * @param  string $file URL for a specific asset file
+ * @return string       Full assets URL
+ */
+function assets_url($file='')
+{
+    $current_theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('public_theme', 1))->directory : 'default';
+
+    return url('public/assets/public/' . $current_theme . '/' . $file);
 }
 
 /**
