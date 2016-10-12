@@ -64,15 +64,51 @@ function restore_path()
 }
 
 /**
+ * Reference the theme style file
+ * @param  string $file
+ * @param  array  $attrs
+ * @return string
+ */
+function theme_css($file='', $attrs=[])
+{
+    $current_theme = current_theme('public');
+
+    return HTML::style("assets/public/{$current_theme}/{$file}", $attrs);
+}
+
+/**
+ * Reference the theme scripts file
+ * @param  string $file
+ * @param  array  $attrs
+ * @return string
+ */
+function theme_js($file='', $attrs=[])
+{
+    $current_theme = current_theme('public');
+
+    return HTML::script("assets/public/{$current_theme}/{$file}", $attrs);
+}
+
+/**
  * Get the assets URL for the active public theme
  * @param  string $file URL for a specific asset file
  * @return string       Full assets URL
  */
 function assets_url($file='')
 {
-    $current_theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('public_theme', 1))->directory : 'default';
+    $current_theme = current_theme('public');
 
-    return url('public/assets/public/' . $current_theme . '/' . $file);
+    return url("public/assets/public/{$current_theme}/{$file}");
+}
+
+/**
+ * Get the current theme
+ * @param  string $target
+ * @return string
+ */
+function current_theme($target='public')
+{
+    return (Schema::hasTable('themes')) ? Theme::find(Setting::value("{$target}_theme", 1))->directory : 'default';
 }
 
 /**
@@ -88,17 +124,17 @@ function current_section()
     if (Request::is('backend*') || Request::is('login/backend*')) {
         $link_type = 'backend';
         $link = 'backend/';
-        $theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('backend_theme', 1))->directory : 'default';
+        $theme = current_theme('backend');
         $layout = "backend.{$theme}._layouts._layout";
     } elseif (Request::is('admin*') || Request::is('login/admin*')) {
         $link_type = 'admin';
         $link = 'admin/';
-        $theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('admin_theme', 1))->directory : 'default';
+        $theme = current_theme('admin');
         $layout = "admin.{$theme}._layouts._layout";
     } else {
         $link_type = 'public';
         $link = '';
-        $theme = (Schema::hasTable('themes')) ? Theme::find(Setting::value('public_theme', 1))->directory : 'default';
+        $theme = current_theme('public');
         $layout = "public.{$theme}._layouts._layout";
     }
     return array($link_type, $link, $layout, $theme);
