@@ -2,10 +2,13 @@ var MediaSelection = function () {
     return {
 
         init: function(field_name) {
-            var insert_modal = $('#ajax-insert-modal');
-            var calling_div;
+            var insert_modal = $('#ajax-insert-modal'),
+                calling_div,
+                target;
 
             $('.insert-media').on('click', function(event) {
+                target = $(this).data('target');
+
                 calling_div = event.target.id;
                 $('body').modalmanager('loading');
 
@@ -21,22 +24,32 @@ var MediaSelection = function () {
             });
 
             $(document).on('click', '.preview.processing img', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
                 var folder_name = $('input[name=folder]').val(),
+                    $this = $(this),
                     image;
 
                 if ($(this).parent().find('.file-name').length) {
-                    image = $(this).parent().find('.file-name').first().text();
+                    image = $this.parent().find('.file-name').first().text();
                 } else {
-                    image = $(this).parent().find('.filename').first().text();
+                    image = $this.parent().find('.filename').first().text();
                 }
 
                 var image_path = folder_name.trimLeft()+'/'+image;
 
                 if (calling_div == 'insert-main-image') {
+                    if (!target) {
+                        $('input[name='+field_name+']').val(image_path);
+                        // Display the name of the current selected file
+                        $('#'+calling_div).parent().find('.file-name').text(image_path);
+                    } else {
+                        target = $(target);
 
-                    $('input[name='+field_name+']').val(image_path);
-                    // Display the name of the current selected file
-                    $('#'+calling_div).parent().find('.file-name').text(image_path);
+                        target.find('input').val(image_path);
+                        target.find('.file-name').text(image_path);
+                    }
 
                 } else {
                     var image_url = window.base_url+'/'+folder_name+'/'+image;
