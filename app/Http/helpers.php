@@ -48,16 +48,28 @@ function theme_setting($key)
     return ThemeSetting::getSetting($key);
 }
 
+/**
+ * Get the temporary directory
+ * @return string
+ */
 function temp_path()
 {
     return storage_path() . '/temp';
 }
 
+/**
+ * Get the backup directory
+ * @return string
+ */
 function backup_path()
 {
     return storage_path() . '/backup';
 }
 
+/**
+ * Get the restore directory
+ * @return string
+ */
 function restore_path()
 {
     return storage_path() . '/restore';
