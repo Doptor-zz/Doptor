@@ -129,11 +129,8 @@ class Post extends Eloquent implements PresentableInterface {
                 $file_name = $this->images_path . $file_name;
 
             } else {
-                $image = Image::make($file);
+                // If the input is not a file, save the filename received instead
                 $file_name = $file;
-
-                $image->fit(640, 180)
-                    ->save($this->thumbs_path . basename($file_name));
             }
 
             $this->attributes['image'] = $file_name;
