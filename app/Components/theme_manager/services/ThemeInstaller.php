@@ -12,6 +12,10 @@ Description :  Doptor is Opensource CMS.
 use Artisan, App, Exception, File, Input, Str, View, Redirect, Response, Validator;
 use Sentry;
 
+use Module;
+use Theme;
+use \Services\ModuleInstaller;
+
 class ThemeInstaller {
 
     protected $listener;
@@ -38,7 +42,7 @@ class ThemeInstaller {
 
             $this->copyScreenshot();
 
-            $theme = \Theme::create(array(
+            $theme = Theme::create(array(
                     'name'         => $this->config['name'],
                     'version'      => $this->config['version'],
                     'author'       => $this->config['author'],
@@ -48,6 +52,8 @@ class ThemeInstaller {
                     'target'       => $this->target,
                     'has_settings' => $this->has_settings
                 ));
+
+            $this->installModules();
 
             $this->cleanup();
 
@@ -102,12 +108,6 @@ class ThemeInstaller {
 
         $this->theme_directory = $this->config['directory'];
 
-        if (isset($this->config['screenshot']) && $this->config['screenshot'] != '') {
-            $this->screenshot = "uploads/themes/{$this->theme_directory}_{$this->config['screenshot']}";
-        } else {
-            $this->screenshot = '';
-        }
-
         $this->has_settings = isset($this->config['has_settings']) ? $this->config['has_settings'] : false;
     }
 
@@ -124,13 +124,44 @@ class ThemeInstaller {
 
     protected function copyScreenshot()
     {
-        if ($this->screenshot == '') {
+        if (isset($this->config['screenshot']) && $this->config['screenshot'] != '') {
+            $this->screenshot = "uploads/themes/{$this->theme_directory}_{$this->config['screenshot']}";
+        } else {
+            $this->screenshot = '';
             return;
         }
+
         File::exists(public_path() . '/uploads/') || File::makeDirectory(public_path() . '/uploads/');
         File::exists(public_path() . '/uploads/themes/') || File::makeDirectory(public_path() . '/uploads/themes/');
 
-        File::copy($this->full_path . $this->config['screenshot'], $this->screenshot);
+        File::copy($this->full_path . $this->config['screenshot'], public_path() . '/' . $this->screenshot);
+    }
+
+    /**
+     * Install all modules bundled with the theme
+     */
+    protected function installModules()
+    {
+        if (!isset($this->config['modules'])) {
+            return false;
+        }
+
+        $modules = $this->config['modules'];
+
+        $module_installer = new ModuleInstaller;
+
+        foreach ($modules as $module) {
+            $module_dir = "{$this->full_path}Modules/{$module}/";
+            if (file_exists($module_dir) && file_exists($module_dir . 'module.json')) {
+                $module_data = $module_installer->installModule($module_dir);
+
+                if ($module = Module::where('alias', '=', $module_data['alias'])->first()) {
+                    $module->update($module_data);
+                } else {
+                    $module = Module::create($module_data);
+                }
+            }
+        }
     }
 
     /**
