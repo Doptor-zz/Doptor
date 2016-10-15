@@ -49,6 +49,9 @@
             window.location.replace(window.base_url + '/logout');
         }
 
+        // Set the position of chosen parent div to absolute to prevent chosen dropdown being cut
+        jQuery('.chosen').parent().css('position', 'absolute');
+
         // Add CSRF protection tokens in ajax request also
         $.ajaxSetup({
             headers: {
