@@ -141,7 +141,12 @@ class ModulesController extends AdminController {
 
             // Delete all migration entries for the module
             foreach ($migrations as $migration_file) {
-                require_once(app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php"));
+                if ($module->vendor) {
+                    $migration_filename = app_path("Modules/{$module->vendor}/{$module->alias}/Database/Migrations/{$migration_file}.php");
+                } else {
+                    $migration_filename = app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php");
+                }
+                require_once($migration_filename);
 
                 $file = implode('_', array_slice(explode('_', $migration_file), 4));
                 $class_name = studly_case($file);
