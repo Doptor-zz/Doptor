@@ -43,9 +43,11 @@ function get_setting($key, $default='')
  * @param  string $key
  * @return string
  */
-function theme_setting($key)
+function theme_setting($key, $default='')
 {
-    return ThemeSetting::getSetting($key);
+    $public_theme_id = Setting::value("public_theme", 1);
+
+    return ThemeSetting::getSetting($key, $default, $public_theme_id);
 }
 
 /**
