@@ -94,35 +94,7 @@ class ModulesController extends AdminController {
     {
         $module = Module::findOrFail($id);
 
-        $migrations = json_decode($module->migrations);
-        $module_tables = explode('|', $module->table);
-
-
-        if (is_array($migrations)) {
-            // to run the migration in descending order
-            rsort($migrations);
-
-            // Delete all migration entries for the module
-            foreach ($migrations as $migration_file) {
-                require_once(app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php"));
-
-                $file = implode('_', array_slice(explode('_', $migration_file), 4));
-                $class_name = studly_case($file);
-                $class = new $class_name;
-
-                // Run the down method in the migration file
-                $class->down();
-
-                DB::table('migrations')->where('migration', $migration_file)->delete();
-            }
-        }
-
-        // Drop all tables created by the module
-        foreach ($module_tables as $module_table) {
-            $vendor = Str::lower($module->vendor);
-            $sql = "DROP TABLE IF EXISTS mdl_{$vendor}_{$module_table}";
-            DB::statement($sql);
-        }
+        $this->revertMigrations($module);
 
         if ($module->alias == '') {
             $module->alias = str_replace(' ', '', Str::title($module->name));
@@ -151,6 +123,47 @@ class ModulesController extends AdminController {
         } else {
             return Redirect::to('backend/modules')
                 ->with('error_message', trans('error_messages.module_delete'));
+        }
+    }
+
+    /**
+     * Revert the migrations and database tables created by the module
+     * @param  Object $module
+     */
+    private function revertMigrations($module)
+    {
+        $migrations = json_decode($module->migrations);
+        $module_tables = explode('|', $module->table);
+
+        if (is_array($migrations)) {
+            // to run the migration in descending order
+            rsort($migrations);
+
+            // Delete all migration entries for the module
+            foreach ($migrations as $migration_file) {
+                if ($module->vendor) {
+                    $migration_filename = app_path("Modules/{$module->vendor}/{$module->alias}/Database/Migrations/{$migration_file}.php");
+                } else {
+                    $migration_filename = app_path("Modules/{$module->alias}/Database/Migrations/{$migration_file}.php");
+                }
+                require_once($migration_filename);
+
+                $file = implode('_', array_slice(explode('_', $migration_file), 4));
+                $class_name = studly_case($file);
+                $class = new $class_name;
+
+                // Run the down method in the migration file
+                $class->down();
+
+                DB::table('migrations')->where('migration', $migration_file)->delete();
+            }
+        }
+
+        // Drop all tables created by the module
+        foreach ($module_tables as $module_table) {
+            $vendor = Str::lower($module->vendor);
+            $sql = "DROP TABLE IF EXISTS mdl_{$vendor}_{$module_table}";
+            DB::statement($sql);
         }
     }
 }
