@@ -43,9 +43,9 @@ class PostsController extends BaseController {
                         ->get();
 
         if ($this->type == 'post') {
-            $title = trans('cms.pages');
-        } else {
             $title = trans('cms.posts');
+        } else {
+            $title = trans('cms.pages');
         }
 
         $this->layout->title = $title;
