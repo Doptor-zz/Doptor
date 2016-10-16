@@ -44,23 +44,31 @@ class ModuleInstaller {
     {
         @ini_set('max_execution_time', 0);     // Temporarily increase maximum execution time
 
-        $filename = $this->uploadModule($file);
+        if (is_file($file)) {
+            $filename = $this->uploadModule($file);
 
-        $filename = str_replace('.ZIP', '.zip', $filename);
-        $canonical = str_replace('.zip', '', $filename);
+            $canonical = str_replace('.zip', '', $filename);
 
-        $unzipSuccess = $this->Unzip("{$this->temp_path}{$filename}", "{$this->temp_path}{$canonical}");
-        if (!$unzipSuccess) {
-            throw new Exception("The module file {$filename} couldn\'t be extracted.");
+            $unzipSuccess = $this->Unzip("{$this->temp_path}{$filename}", "{$this->temp_path}{$canonical}");
+            if (!$unzipSuccess) {
+                throw new Exception("The module file {$filename} couldn\'t be extracted.");
+            }
+
+            $temp_module_dir = "{$this->temp_path}{$canonical}/";
+            $replace_existing = (bool)Input::get('replace_existing');
+        } else {
+            $temp_module_dir = $file;
+            $replace_existing = true;
         }
 
-        if (!File::exists("{$this->temp_path}{$canonical}/module.json")) {
+        $config_file = $temp_module_dir . 'module.json';
+
+        if (!File::exists($config_file)) {
             throw new Exception('module.json doesn\'t exist in the module');
         }
 
-        $this->config = json_decode(file_get_contents("{$this->temp_path}{$canonical}/module.json"), true);
+        $this->config = json_decode(file_get_contents($config_file), true);
 
-        $replace_existing = (bool)Input::get('replace_existing');
         if (Module::where('alias', '=', $this->config['info']['alias'])->first()
             && !$replace_existing
         ) {
@@ -70,7 +78,7 @@ class ModuleInstaller {
         $this->checkIfRequiredModulesExist();
 
         // Copy modules from temporary folder to modules folder
-        $this->copyModule($canonical);
+        $this->copyModule($temp_module_dir);
 
         File::delete($file);
 
@@ -110,6 +118,8 @@ class ModuleInstaller {
 //        if (!isset($uploadSuccess->fileName)) {
 //            throw new Exception('The file couldn\'t be uploaded.');
 //        }
+
+        $filename = str_replace('.ZIP', '.zip', $filename);
 
         return $filename;
     }
@@ -154,12 +164,10 @@ class ModuleInstaller {
 
     /**
      * Copy the module from temporary folder to modules
-     * @param
+     * @param $temp_module_dir
      */
-    public function copyModule($canonical)
+    public function copyModule($temp_module_dir)
     {
-        $temp_module_dir = "{$this->temp_path}{$canonical}";
-
         if (isset($this->config['info']['vendor'])) {
             // if vendor is specified, copy the file first to the vendor directory
             $target_dir = "{$this->modules_path}{$this->config['info']['vendor']}/{$this->config['info']['alias']}/";
@@ -167,8 +175,8 @@ class ModuleInstaller {
             $target_dir = "{$this->modules_path}{$this->config['info']['alias']}/";
         }
 
-        File::copyDirectory("{$temp_module_dir}/{$this->config['info']['alias']}", $target_dir);
-        File::copy("{$temp_module_dir}/module.json", $target_dir . "module.json");
+        File::copyDirectory("{$temp_module_dir}{$this->config['info']['alias']}", $target_dir);
+        File::copy("{$temp_module_dir}module.json", $target_dir . "module.json");
 
         File::deleteDirectory($temp_module_dir);
     }
