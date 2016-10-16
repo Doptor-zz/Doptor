@@ -236,7 +236,7 @@
                </a>
             </li>
             @endif
-            @if (can_access_menu($current_user, array('theme_settings')))
+            @if (can_access_menu($current_user, array('theme_settings')) && has_theme_settings())
             <li class="{!! Request::is('backend/theme_settings') ? 'active' : null !!}">
                <a href="{!! URL::to('backend/theme_settings') !!}">
                    <i class="icon-desktop"></i>

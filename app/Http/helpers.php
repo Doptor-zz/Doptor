@@ -124,6 +124,19 @@ function current_theme($target='public')
 }
 
 /**
+ * Does the current public theme has theme settings or not
+ * @return boolean
+ */
+function has_theme_settings()
+{
+    $public_theme_id = Setting::value('public_theme');
+
+    $public_theme = Theme::findOrFail($public_theme_id);
+
+    return $public_theme->has_settings;
+}
+
+/**
  * Get the information whether the current section is backend, admin or public
  * @return array
  */

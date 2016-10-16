@@ -236,6 +236,7 @@
         </div>
 
         <div class="row-fluid">
+            @if (can_access_menu($current_user, array('theme_settings')) && has_theme_settings())
             <div class="span3">
                 <div class="board-widgets black small-widget">
                     <a href="{!! url('backend/theme_settings') !!}">
@@ -245,6 +246,7 @@
                     </a>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 @stop
