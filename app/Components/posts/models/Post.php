@@ -243,6 +243,16 @@ class Post extends Eloquent implements PresentableInterface {
     }
 
     /**
+     * Get the featured posts
+     * @param  query $query
+     * @return query
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
+    }
+
+    /**
      * Get all the posts that lie in the specified target
      * @param  Query $query
      * @param  string $target
