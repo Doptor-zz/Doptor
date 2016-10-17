@@ -72,7 +72,7 @@ class ThemeSetting extends Eloquent implements PresentableInterface {
      * @param  string $default
      * @return string
      */
-    public static function getSetting($name, $default='')
+    public static function getSetting($name, $default, $theme_id)
     {
         $subname = null;
 
@@ -83,7 +83,7 @@ class ThemeSetting extends Eloquent implements PresentableInterface {
             $subname = $matches['subname'];
         }
 
-        $setting = static::whereName($name)->first();
+        $setting = static::whereName($name)->whereThemeId($theme_id)->first();
 
         if (!$setting) {
             return $default;
