@@ -91,9 +91,9 @@ class MediaEntry extends Eloquent implements PresentableInterface {
                 File::exists($old_thumb) && File::delete($old_thumb);
             }
 
-            $image->save($this->images_path . $file_name)
+            $image->save(public_path($this->images_path . $file_name))
                     ->fit(150, 150)
-                    ->save($this->thumbs_path . $file_name);
+                    ->save(public_path($this->thumbs_path . $file_name));
 
             $this->attributes['image'] = "{$this->attributes['folder']}/{$file_name}";
             $this->attributes['thumbnail'] = "{$this->attributes['folder']}/thumbs/{$file_name}";
