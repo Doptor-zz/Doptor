@@ -50,7 +50,7 @@
         }
 
         // Set the position of chosen parent div to absolute to prevent chosen dropdown being cut
-        jQuery('.chosen').parent().css('position', 'absolute');
+        jQuery('.chosen:not(.module-form):not(.form-fields)').parent().css('position', 'absolute');
 
         // Add CSRF protection tokens in ajax request also
         $.ajaxSetup({
