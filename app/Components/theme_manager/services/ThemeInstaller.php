@@ -27,15 +27,16 @@ class ThemeInstaller {
     public function __construct($listener, $input)
     {
         $this->listener = $listener;
+
         $this->target = $input['target'];
-        $this->file = $input['file'];
+        $this->file = isset($input['file']) ? $input['file'] : null;
+        $this->install_sample_data = isset($input['install_sample_data']) && $input['install_sample_data'];
     }
 
     public function installTheme()
     {
         try {
             $this->full_path = $this->extractToTemporary();
-
             $success = $this->getAndCheckConfig();
 
             $this->copyFiles();
@@ -54,6 +55,10 @@ class ThemeInstaller {
                 ));
 
             $this->installModules();
+
+            if ($this->install_sample_data) {
+                $this->installSampleData();
+            }
 
             $this->cleanup();
 
@@ -97,7 +102,6 @@ class ThemeInstaller {
     protected function getAndCheckConfig()
     {
         $this->config = json_decode(file_get_contents($this->full_path . 'theme.json'), true);
-
         if (!isset($this->config['directory'])) {
             throw new Exception('No directory was specified in the theme.json file inside the theme package. <br> A directory containing the theme files must be specified in the theme package.');
         }
@@ -161,6 +165,46 @@ class ThemeInstaller {
                     $module = Module::create($module_data);
                 }
             }
+        }
+    }
+
+    /**
+     * Install sample data present in the theme
+     */
+    protected function installSampleData()
+    {
+        $this->seedDatabase();
+
+        $this->copySampleUploads();
+    }
+
+    /**
+     * Seed the database using theme sample data
+     */
+    protected function seedDatabase()
+    {
+        $seed_dir = $this->full_path . 'sample_data/seeds';
+
+        if (File::files($seed_dir)) {
+            foreach (File::files($seed_dir) as $file) {
+                require_once($file);
+            }
+            $seeder = new \DatabaseSeeder;
+            $seeder->run();
+        }
+    }
+
+    /**
+     * Copy the sample uploads(images, pdfs...) in the theme
+     */
+    protected function copySampleUploads()
+    {
+        $theme_sample_uploads = $this->full_path . 'sample_data/uploads';
+
+        if (File::exists($theme_sample_uploads)) {
+            $sample_uploads_dir = public_path('uploads/sample/' . $this->config['directory'];
+
+            File::copyDirectory($theme_sample_uploads, $sample_uploads_dir);
         }
     }
 
