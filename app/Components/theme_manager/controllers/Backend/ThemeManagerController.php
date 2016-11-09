@@ -13,6 +13,8 @@ use Backend\AdminController as BaseController;
 use App, Exception, Input, Theme, Redirect, Request, Response, Sentry, Str, View, File;
 use Services\Validation\ValidationException as ValidationException;
 
+use \Components\ThemeManager\Services\ThemeInstaller;
+
 class ThemeManagerController extends BaseController {
 
     public function __construct()
@@ -31,8 +33,6 @@ class ThemeManagerController extends BaseController {
      */
     public function index()
     {
-
-
         $themes = Theme::get();
 
         $this->layout->title = trans('cms.theme_manager');
@@ -48,8 +48,6 @@ class ThemeManagerController extends BaseController {
      */
     public function create()
     {
-
-
         $this->layout->title = 'New Theme Entry';
         $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.theme_manager.create_edit');
     }
@@ -61,7 +59,14 @@ class ThemeManagerController extends BaseController {
      */
     public function store()
     {
-        $theme_installer = new \Components\ThemeManager\Services\ThemeInstaller($this, Input::all());
+        $input = Input::all();
+
+        if (!isset($input['file'])) {
+            return Redirect::back()
+                            ->with('error_message', trans('error_messages.theme_file_select'));
+        }
+
+        $theme_installer = new ThemeInstaller($this, $input);
 
         return $theme_installer->installTheme();
     }
@@ -90,8 +95,6 @@ class ThemeManagerController extends BaseController {
      */
     public function destroy($id=null)
     {
-
-
         // If multiple ids are specified
         if ($id == 'multiple') {
             $selected_ids = trim(Input::get('selected_ids'));
