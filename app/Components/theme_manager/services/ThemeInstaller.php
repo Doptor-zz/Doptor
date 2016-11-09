@@ -189,7 +189,7 @@ class ThemeInstaller {
             foreach (File::files($seed_dir) as $file) {
                 require_once($file);
             }
-            $seeder = new \DatabaseSeeder;
+            $seeder = new \ThemeSeeder;
             $seeder->run();
         }
     }
@@ -202,7 +202,7 @@ class ThemeInstaller {
         $theme_sample_uploads = $this->full_path . 'sample_data/uploads';
 
         if (File::exists($theme_sample_uploads)) {
-            $sample_uploads_dir = public_path('uploads/sample/' . $this->config['directory'];
+            $sample_uploads_dir = public_path('uploads/sample/' . $this->config['directory']);
 
             File::copyDirectory($theme_sample_uploads, $sample_uploads_dir);
         }
