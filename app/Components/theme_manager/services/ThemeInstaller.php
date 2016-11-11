@@ -38,7 +38,6 @@ class ThemeInstaller {
         try {
             $this->full_path = $this->extractToTemporary();
             $success = $this->getAndCheckConfig();
-
             $this->copyFiles();
 
             $this->copyScreenshot();
@@ -57,7 +56,7 @@ class ThemeInstaller {
             $this->installModules();
 
             if ($this->install_sample_data) {
-                $this->installSampleData();
+                $this->installSampleData($theme);
             }
 
             $this->cleanup();
@@ -171,9 +170,9 @@ class ThemeInstaller {
     /**
      * Install sample data present in the theme
      */
-    protected function installSampleData()
+    protected function installSampleData($theme)
     {
-        $this->seedDatabase();
+        $this->seedDatabase($theme);
 
         $this->copySampleUploads();
     }
@@ -181,7 +180,7 @@ class ThemeInstaller {
     /**
      * Seed the database using theme sample data
      */
-    protected function seedDatabase()
+    protected function seedDatabase($theme)
     {
         $seed_dir = $this->full_path . 'sample_data/seeds';
 
@@ -189,7 +188,7 @@ class ThemeInstaller {
             foreach (File::files($seed_dir) as $file) {
                 require_once($file);
             }
-            $seeder = new \ThemeSeeder;
+            $seeder = new \ThemeSeeder($theme);
             $seeder->run();
         }
     }
