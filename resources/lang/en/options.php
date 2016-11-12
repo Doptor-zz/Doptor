@@ -3,6 +3,7 @@
 return [
     "create_new" => "Create New",
     "install_new" => "Install New",
+    "upload_backup" => "Upload Backup File",
     "edit" => "Edit",
     "delete" => "Delete",
     "save" => "Save",

@@ -25,4 +25,5 @@ return [
     "translation_lang_code_example" => "(Example: en for English)",
     "select_lang_file" => "Select the language file",
     "overwrite_lang_file" => "Overwrite existing language files",
+    "restore_warning" => "Restoring from backup will replace every data with the data from the backup file"
 ];

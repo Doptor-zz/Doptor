@@ -140,9 +140,11 @@ Route::group(array('prefix' => 'backend', 'middleware' => array('auth', 'auth.ba
 
     Route::get('backup', 'Backend\BackupRestoreController@getBackup');
     Route::post('backup', 'Backend\BackupRestoreController@postBackup');
+    Route::delete('backup/delete/{id}', array('uses' => 'Backend\BackupRestoreController@deleteBackup', 'as' => 'backups.destroy'));
 
     Route::get('restore', 'Backend\BackupRestoreController@getRestore');
-    Route::post('restore', 'Backend\BackupRestoreController@postRestore');
+    Route::get('restore/upload', 'Backend\BackupRestoreController@getRestoreFromFile');
+    Route::post('restore',  array('uses' => 'Backend\BackupRestoreController@postRestore', 'as' => 'backups.restore'));
 
     Route::post('theme-manager/apply/{id}', array(
                                 'uses' => 'Components\ThemeManager\Controllers\Backend\ThemeManagerController@apply',

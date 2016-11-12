@@ -172,9 +172,28 @@ class ThemeInstaller {
      */
     protected function installSampleData($theme)
     {
+        $this->backupDatabase();
+
         $this->seedDatabase($theme);
 
         $this->copySampleUploads();
+    }
+
+    protected function backupDatabase()
+    {
+        if (!File::exists(stored_backups_path())) {
+            File::makeDirectory(stored_backups_path());
+        }
+
+        $this->current_time = date("Y-m-d-H-i-s");
+        $this->backup_file = stored_backups_path() . "/backup_{$this->current_time}.zip";
+
+        $synchronizer = new \Services\Synchronize($this);
+
+        $synchronizer->startBackup(true, false, false);
+
+        $backup_description = 'Backup created before installing ' . $this->config['name'];
+        $synchronizer->saveBackupToDB($backup_description);
     }
 
     /**

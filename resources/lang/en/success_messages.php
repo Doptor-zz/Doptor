@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "backup_delete" => "The backup file was deleted",
     "companies_delete" => "The companies were deleted",
     "company_branch_create" => "The company branch was created",
     "company_branch_delete" => "The company branch was deleted",

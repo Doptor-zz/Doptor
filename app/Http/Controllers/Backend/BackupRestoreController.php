@@ -22,6 +22,7 @@ use View;
 
 use Sentry;
 
+use Backup;
 use BuiltForm;
 use BuiltModule;
 use Module;
@@ -46,25 +47,62 @@ class BackupRestoreController extends AdminController {
 
         $synchronizer->startBackup();
 
+        $backup_description = 'Manual backup created';
+        $synchronizer->saveBackupToDB($backup_description);
+
         return Response::download($this->backup_file, "backup_{$this->current_time}.zip");
     }
 
     public function getRestore()
     {
+        $backups = Backup::latest()->get();
+
         $this->layout->title = 'Restore from Backup';
-        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.backup_restore.restore');
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.backup_restore.restore')
+                                    ->with('backups', $backups);
+    }
+
+    public function getRestoreFromFile()
+    {
+        $this->layout->title = 'Restore from Backup File';
+        $this->layout->content = View::make($this->link_type.'.'.$this->current_theme.'.backup_restore.restore_from_file');
     }
 
     public function postRestore()
     {
-        Sentry::logout();
+        $input = Input::all();
 
         $synchronizer = new Synchronize($this);
 
-        $restore_file = $synchronizer->copyToRestore(Input::all());
+        if (isset($input['backup_id'])) {
+            $backup = Backup::findOrFail($input['backup_id']);
+
+            $restore_file = $backup->file;
+        } else {
+            $restore_file = $synchronizer->copyToRestore($input);
+        }
+
+        Sentry::logout();
 
         $synchronizer->restore($restore_file);
 
         return Redirect::to('/');
+    }
+
+    public function deleteBackup($id)
+    {
+        $backup = Backup::findOrFail($id);
+
+        if (File::exists($backup->file) && is_file($backup->file)) {
+            File::delete($backup->file);
+
+            if ($backup->delete()) {
+                return Redirect::to('backend/restore')
+                    ->with('success_message', trans('success_messages.backup_delete'));
+            } else {
+                return Redirect::to('backend/restore')
+                    ->with('error_message', trans('error_messages.backup_delete'));
+            }
+        }
     }
 }

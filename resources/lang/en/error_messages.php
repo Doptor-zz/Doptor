@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "backup_delete" => "The backup file wasn't deleted",
     "cant_disable_ip" => "Current IP address cannot be disabled access",
     "company_branch_create" => "The company branch wasn't created",
     "company_branch_delete" => "The company branch wasn't deleted",
@@ -58,6 +59,7 @@ return [
     "subscriber_create" => "The subscriber wasn't created",
     "subscriber_delete" => "The subscriber wasn't deleted",
     "subscriber_update" => "The subscriber wasn't updated",
+    "theme_file_select" => "No theme file was selected to upload",
     "translate_lang_create" => "The translation language wasn't created",
     "translate_lang_delete" => "The translation language wasn't deleted",
     "translate_lang_install" => "The translation language wasn't installed",

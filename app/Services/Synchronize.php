@@ -11,6 +11,8 @@ Description :  Doptor is Opensource CMS.
 */
 use App, Config, Exception, File, Input, Str, View, Redirect, Response;
 
+use Backup;
+
 use Guzzle\Service\Client as GuzzleClient;
 use Guzzle\Plugin\Cookie\Cookie;
 use Guzzle\Plugin\Cookie\CookiePlugin;
@@ -20,9 +22,16 @@ class Synchronize {
 
     protected $listener;
 
+    /**
+     * What is backed up(can be database, modules, public directory)
+     * @var array
+     */
+    protected $includes;
+
     public function __construct($listener)
     {
         $this->listener = $listener;
+        $this->includes = [];
 
         if (!File::exists(backup_path())) {
             File::makeDirectory(backup_path());
@@ -67,15 +76,43 @@ class Synchronize {
         }
     }
 
-    public function startBackup()
+    public function startBackup($backup_db=true, $backup_modules=true, $backup_public=true)
     {
-        $this->backupDB($this->listener->current_time);
-        $this->backupModules($this->listener->current_time);
-        $this->backupPublic($this->listener->current_time);
+        $backup_dir = backup_path() . "/backup/";
 
-        $this->Zip($this->listener->backup_dir, $this->listener->backup_file);
+        if ($backup_db) {
+            $this->includes[] = 'Database';
+            $this->backupDB($this->listener->current_time);
+        }
 
-        File::deleteDirectory($this->listener->backup_dir);
+        if ($backup_modules) {
+            $this->includes[] = 'Modules';
+            $this->backupModules($this->listener->current_time);
+        }
+
+        if ($backup_public) {
+            $this->includes[] = 'Public';
+            $this->backupPublic($this->listener->current_time);
+        }
+
+        $this->Zip($backup_dir, $this->listener->backup_file);
+
+        File::deleteDirectory($backup_dir);
+    }
+
+    /**
+     * Save the information of the created backup to database
+     * @return Object
+     */
+    public function saveBackupToDB($description='')
+    {
+        $backup = Backup::create([
+            'file' => $this->listener->backup_file,
+            'includes' => $this->includes,
+            'description' => $description
+        ]);
+
+        return $backup;
     }
 
     /**
@@ -235,6 +272,8 @@ class Synchronize {
      */
     public function restore($restore_file)
     {
+        @ini_set('max_execution_time', 300);     // Temporarily increase maximum execution time
+
         $this->Unzip($restore_file, restore_path());
         $restore_dir = restore_path() . '/backup';
 
@@ -263,10 +302,16 @@ class Synchronize {
      */
     public function restoreDB($restore_dir)
     {
+        $restore_db_file = "{$restore_dir}/db/database_backup.sql";
+
+        if (!File::exists(stored_backups_path($restore_db_file))) {
+            return;
+        }
+
         $this->dbConnections();
 
         $delimiter = "-- --------------------------------------------------------\n";
-        $fp = fopen("{$restore_dir}/db/database_backup.sql", 'r');
+        $fp = fopen($restore_db_file, 'r');
 
         $buffer = '';
 
@@ -291,8 +336,14 @@ class Synchronize {
      */
     public function restoreModules($restore_dir)
     {
+        $restore_modules_dir = "{$restore_dir}/Modules/";
+
+        if (!File::exists($restore_modules_dir)) {
+            return;
+        }
+
         File::cleanDirectory(app_path() . '/Modules/');
-        File::copyDirectory("{$restore_dir}/Modules/", app_path() . '/Modules/');
+        File::copyDirectory($restore_modules_dir, app_path() . '/Modules/');
     }
 
     /**
@@ -301,8 +352,14 @@ class Synchronize {
      */
     public function restorePublic($restore_dir)
     {
+        $restore_public_dir = "{$restore_dir}/uploads/";
+
+        if (!File::exists($restore_public_dir)) {
+            return;
+        }
+
         File::cleanDirectory(public_path() . '/uploads/');
-        File::copyDirectory("{$restore_dir}/uploads/", public_path() . '/uploads/');
+        File::copyDirectory($restore_public_dir, public_path() . '/uploads/');
     }
 
 
