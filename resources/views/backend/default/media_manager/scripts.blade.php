@@ -83,7 +83,7 @@
                 @else
                     delete_file = '';
                 @endif
-                file = '<div class="preview processing image-preview"> <div class="details"> <div class="size file-name">'+file_name+'</div> <div class="options">'+delete_file+'</div><img src="'+window.base_url+'/'+data.files[i]+'" width="64px" alt="" /> </div> </div>';
+                file = '<div class="preview processing image-preview"> <div class="details"> <div class="size file-name">'+file_name+'</div> <div class="options">'+delete_file+'</div><img src="'+data.files[i]+'" width="64px" alt="" /> </div> </div>';
                 $('ul.media-manager').append(file);
             }
             pleaseWaitDiv.modal('hide');

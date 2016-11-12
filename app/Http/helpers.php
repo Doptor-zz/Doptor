@@ -60,6 +60,15 @@ function temp_path()
 }
 
 /**
+ * Get the stored backups directory
+ * @return string
+ */
+function stored_backups_path()
+{
+    return storage_path() . '/stored_backups';
+}
+
+/**
  * Get the backup directory
  * @return string
  */

@@ -20,6 +20,7 @@ return [
     "folder" => "Folder",
     "form" => "Form",
     "image" => "Image",
+    "includes" => "Includes",
     "theme_file" => "Theme file(.zip)",
     "install_new_module" => "Install New Module",
     "installed_at" => "Installed At",
