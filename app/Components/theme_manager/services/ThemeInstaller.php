@@ -154,7 +154,7 @@ class ThemeInstaller {
         $module_installer = new ModuleInstaller;
 
         foreach ($modules as $module) {
-            $module_dir = "{$this->full_path}Modules/{$module}/";
+            $module_dir = "{$this->full_path}modules/{$module}/";
             if (file_exists($module_dir) && file_exists($module_dir . 'module.json')) {
                 $module_data = $module_installer->installModule($module_dir);
 
