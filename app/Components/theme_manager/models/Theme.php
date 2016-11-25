@@ -14,7 +14,7 @@ use Robbo\Presenter\PresentableInterface;
 class Theme extends Eloquent implements PresentableInterface {
     protected $table = 'themes';
 
-	protected $guarded = array('id');
+    protected $guarded = array('id');
     public static $rules = array();
 
     // Path in the public folder to upload image and its corresponding thumbnail
@@ -47,6 +47,15 @@ class Theme extends Eloquent implements PresentableInterface {
         $attributes['updated_by'] = current_user()->id;
 
         return parent::update($attributes);
+    }
+
+    /**
+     * Relation with the categories table
+     * A post can have many categories
+     */
+    public function settings()
+    {
+        return $this->hasMany('ThemeSetting');
     }
 
     /**

@@ -120,6 +120,7 @@ class ThemeManagerController extends BaseController {
             File::deleteDirectory(app_path() . "/../resources/views/{$theme->target}/{$theme->directory}/", false);
             File::deleteDirectory(public_path() . "/assets/{$theme->target}/{$theme->directory}/", false);
 
+            $theme->settings()->delete();
             $theme->delete();
         }
 
