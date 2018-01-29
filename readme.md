@@ -40,11 +40,7 @@ Doptor CMS is based on Laravel, which utilizes [Composer](http://getcomposer.org
 
 More about Doptor CMS
 --------------
-Visit www.doptor.org
-
-Note
---------------
-Doptor is under heavy development and major changes will be pushed from time to time. You are most welcome to test Doptor CMS, however it is strictly not recommended for use in production environment until it reaches a stable release.
+Visit www.doptor.com
 
 Contributing to Doptor CMS
 --------------
